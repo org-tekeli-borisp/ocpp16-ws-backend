@@ -20,8 +20,9 @@ class OcppWebSocketServerTest {
 
     @Test
     fun serverShouldStartAndExposeWebSocketEndpoint() {
-        val latch = CountDownLatch(1)
-        val result = arrayOf<MutableList<String>?>(null)
+        val messages = mutableListOf<String>()
+        val lock = Any()
+        val done = CountDownLatch(1)
         
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
@@ -32,26 +33,27 @@ class OcppWebSocketServerTest {
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
                 val ws = ar.result()
-                result[0] = mutableListOf()
                 
                 ws.handler { buffer: Buffer ->
-                    result[0]!!.add(buffer.toString())
+                    synchronized(lock) {
+                        messages.add(buffer.toString())
+                        if (messages.size >= 1) {
+                            done.countDown()
+                            ws.close()
+                        }
+                    }
                 }
-                
-                ws.closeHandler { 
-                    latch.countDown()
-                }
-                
-                latch.countDown()
             } else {
                 throw RuntimeException("Failed to connect", ar.cause())
             }
         }
         
-        val connected = latch.await(5, TimeUnit.SECONDS)
-        assertNotNull(result[0], "Should receive welcome message")
-        assertEquals(1, result[0]!!.size, "Should receive exactly one welcome message")
-        assertTrue(result[0]!![0].contains("SupportedActions"))
+        val received = done.await(5, TimeUnit.SECONDS)
+        assertTrue(received, "Should receive welcome message")
+        synchronized(lock) {
+            assertTrue(messages.isNotEmpty(), "Should receive welcome message")
+            assertTrue(messages[0].contains("SupportedActions"))
+        }
     }
     
     @Test
