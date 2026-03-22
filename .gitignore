@@ -1,0 +1,18 @@
+# Maven
+target/
+!.gitignore
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Quarkus
+.quarkus/
