@@ -1,20 +1,114 @@
 package org.tekeli.borisp.ocpp16
 
 import io.quarkus.test.junit.QuarkusTest
+import io.vertx.core.Vertx
+import io.vertx.core.buffer.Buffer
+import io.vertx.core.http.WebSocketConnectOptions
+import jakarta.inject.Inject
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 @QuarkusTest
 class OcppWebSocketServerTest {
 
+    @Inject
+    lateinit var vertx: Vertx
+
     @Test
     fun serverShouldStartAndExposeWebSocketEndpoint() {
-        // Test that the server starts and the WebSocket endpoint at /ocpp is registered
-        // The actual WebSocket connection test would require the Jakarta WebSocket API
-        // which is not included in quarkus-websockets-next
+        val latch = CountDownLatch(1)
+        val result = arrayOf<MutableList<String>?>(null)
+        
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+        
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                result[0] = mutableListOf()
+                
+                ws.handler { buffer: Buffer ->
+                    result[0]!!.add(buffer.toString())
+                }
+                
+                ws.closeHandler { 
+                    latch.countDown()
+                }
+                
+                latch.countDown()
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+        
+        val connected = latch.await(5, TimeUnit.SECONDS)
+        assertNotNull(result[0], "Should receive welcome message")
+        assertEquals(1, result[0]!!.size, "Should receive exactly one welcome message")
+        assertTrue(result[0]!![0].contains("SupportedActions"))
     }
     
     @Test
     fun shouldAcceptConnectionOnOcppEndpoint() {
-        // Test that the /ocpp endpoint is available for WebSocket connections
+        val latch = CountDownLatch(1)
+        
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+        
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                ar.result().close()
+                latch.countDown()
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+        
+        val connected = latch.await(5, TimeUnit.SECONDS)
+        assertTrue(connected, "Connection should be accepted on /ocpp endpoint")
+    }
+    
+    @Test
+    fun shouldEchoMessageBack() {
+        val latch = CountDownLatch(1)
+        val messages = mutableListOf<String>()
+        
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+        
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                
+                ws.handler { buffer: Buffer ->
+                    messages.add(buffer.toString())
+                    if (messages.size >= 2) {
+                        latch.countDown()
+                    }
+                }
+                
+                ws.writeTextMessage("Hello OCPP")
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+        
+        val received = latch.await(5, TimeUnit.SECONDS)
+        assertTrue(received, "Should receive echo response")
+        assertEquals(2, messages.size, "Should receive welcome + echo response")
+        assertTrue(messages[1].contains("Echo"))
+        assertTrue(messages[1].contains("Hello OCPP"))
     }
 }
