@@ -6,6 +6,8 @@ import io.quarkus.websockets.next.OnTextMessage
 import io.quarkus.websockets.next.WebSocket
 import io.quarkus.websockets.next.WebSocketConnection
 import jakarta.inject.Inject
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.util.UUID
 
 @WebSocket(path = "/ocpp")
@@ -15,23 +17,121 @@ class OcppWebSocketServer {
     lateinit var connection: WebSocketConnection
     
     private val sessionId = UUID.randomUUID().toString()
+    private val handlers = mapOf(
+        "BootNotification" to ::handleBootNotification,
+        "Heartbeat" to ::handleHeartbeat
+    )
     
     @OnOpen
     fun onOpen() {
         println("WebSocket connection opened: $sessionId")
-        
-        // Send welcome message
-        val welcome = """{"messageId":"${UUID.randomUUID()}","action":"SupportedActions","result":{"actions":["BootNotification","Heartbeat","Authorize"]}}"""
-        connection.sendTextAndAwait(welcome)
     }
     
-    @OnTextMessage
+       @OnTextMessage
     fun onTextMessage(message: String): String {
-        println("Received message: $message")
+        val response = try {
+            val ocppMessage = OcppMessage.parse(message)
+            
+            when (val parsedMessage = ocppMessage) {
+                is OcppMessage.Call -> handleCall(parsedMessage)
+                is OcppMessage.CallResult -> {
+                    OcppMessage.CallError(
+                        messageId = parsedMessage.messageId,
+                        errorCode = OcppErrorCode.PROTOCOL_ERROR,
+                        errorDescription = "CALLRESULT not expected from ChargePoint",
+                        errorDetails = null
+                    ).toJson()
+                }
+                is OcppMessage.CallError -> {
+                    OcppMessage.CallError(
+                        messageId = parsedMessage.messageId,
+                        errorCode = OcppErrorCode.PROTOCOL_ERROR,
+                        errorDescription = "CALLERROR not expected from ChargePoint",
+                        errorDetails = null
+                    ).toJson()
+                }
+            }
+        } catch (e: OcppParseException) {
+            OcppMessage.CallError(
+                messageId = generateMessageId(),
+                errorCode = OcppErrorCode.PROTOCOL_ERROR,
+                errorDescription = e.message ?: "Failed to parse message",
+                errorDetails = null
+            ).toJson()
+        }
         
-        // Echo message back for now
-        val response = """{"messageId":"${UUID.randomUUID()}","action":"Echo","result":{"echo":"$message"}}"""
         return response
+    }
+    
+    private fun handleCall(call: OcppMessage.Call): String {
+        val handler = handlers[call.action]
+        
+        if (handler == null) {
+            return OcppMessage.CallError(
+                messageId = call.messageId,
+                errorCode = OcppErrorCode.NOT_IMPLEMENTED,
+                errorDescription = "Action '${call.action}' is not implemented",
+                errorDetails = null
+            ).toJson()
+        }
+        
+        return try {
+            handler(call)
+        } catch (e: FormationViolationException) {
+            OcppMessage.CallError(
+                messageId = call.messageId,
+                errorCode = OcppErrorCode.FORMATION_VIOLATION,
+                errorDescription = e.message ?: "Payload validation failed",
+                errorDetails = null
+            ).toJson()
+        }
+    }
+    
+    private fun handleBootNotification(call: OcppMessage.Call): String {
+        val payload = call.payload ?: throw FormationViolationException("Payload is null")
+        
+        val vendor = payload["chargePointVendor"]
+        val model = payload["chargePointModel"]
+        
+        if (vendor == null || vendor.toString().isEmpty()) {
+            throw FormationViolationException("chargePointVendor is required")
+        }
+        
+        if (model == null || model.toString().isEmpty()) {
+            throw FormationViolationException("chargePointModel is required")
+        }
+        
+        val currentTime = ZonedDateTime.now(ZoneOffset.UTC)
+            .toString()
+        
+        val responsePayload = mapOf(
+            "currentTime" to currentTime,
+            "interval" to 300,
+            "status" to "Accepted"
+        )
+        
+        return OcppMessage.CallResult(
+            messageId = call.messageId,
+            payload = responsePayload
+        ).toJson()
+    }
+    
+    private fun handleHeartbeat(call: OcppMessage.Call): String {
+        val currentTime = ZonedDateTime.now(ZoneOffset.UTC)
+            .toString()
+        
+        val responsePayload = mapOf(
+            "currentTime" to currentTime
+        )
+        
+        return OcppMessage.CallResult(
+            messageId = call.messageId,
+            payload = responsePayload
+        ).toJson()
+    }
+    
+    private fun generateMessageId(): String {
+        return UUID.randomUUID().toString()
     }
     
     @OnClose
@@ -39,3 +139,5 @@ class OcppWebSocketServer {
         println("WebSocket connection closed: $sessionId")
     }
 }
+
+class FormationViolationException(message: String) : RuntimeException(message)
