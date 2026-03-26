@@ -17,6 +17,7 @@
         <quarkus.platform.version>3.32.4</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
+        <pitest.version>1.23.0</pitest.version>
     </properties>
 
     <dependencyManagement>
@@ -158,6 +159,45 @@
                         <option>all-open:annotation=jakarta.persistence.Entity</option>
                         <option>all-open:annotation=io.quarkus.test.junit.QuarkusTest</option>
                     </pluginOptions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>${pitest.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.2.3</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <targetClasses>
+                        <param>org.tekeli.borisp.ocpp16.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>org.tekeli.borisp.ocpp16.*</param>
+                    </targetTests>
+                    <mutators>
+                        <mutator>CONDITIONALS_BOUNDARY</mutator>
+                        <mutator>EMPTY_RETURNS</mutator>
+                        <mutator>INCREMENTS</mutator>
+                        <mutator>INVERT_NEGS</mutator>
+                        <mutator>NEGATE_CONDITIONALS</mutator>
+                        <mutator>NULL_RETURNS</mutator>
+                        <mutator>PRIMITIVE_RETURNS</mutator>
+                        <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                        <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                        <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
+                        <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                        <mutator>VOID_METHOD_CALLS</mutator>
+                    </mutators>
+                    <outputFormats>
+                        <param>HTML</param>
+                        <param>XML</param>
+                    </outputFormats>
+                    <verbose>false</verbose>
                 </configuration>
             </plugin>
         </plugins>

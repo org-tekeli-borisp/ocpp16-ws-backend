@@ -110,4 +110,152 @@ class OcppMessageTest {
             OcppMessage.parse(json)
         }
     }
+
+    @Test
+    fun `should accept messageId exactly 36 characters`() {
+        val exactId = "a".repeat(36)
+        val json = """[2,"$exactId","BootNotification",{}]"""
+        
+        val message = OcppMessage.parse(json) as OcppMessage.Call
+        
+        assertEquals(exactId, message.messageId)
+    }
+
+    @Test
+    fun `should parse message with exactly 2 elements and fail`() {
+        val json = """[2,"123"]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
+
+    @Test
+    fun `should parse CALL with null payload`() {
+        val json = """[2,"123","BootNotification",null]"""
+        
+        val message = OcppMessage.parse(json) as OcppMessage.Call
+        
+        assertNull(message.payload)
+    }
+
+    @Test
+    fun `should parse CALLRESULT with null payload`() {
+        val json = """[3,"123",null]"""
+        
+        val message = OcppMessage.parse(json) as OcppMessage.CallResult
+        
+        assertNull(message.payload)
+    }
+
+    @Test
+    fun `should parse CALLERROR with null errorDetails`() {
+        val json = """[4,"123","ProtocolError","Invalid message",null]"""
+        
+        val message = OcppMessage.parse(json) as OcppMessage.CallError
+        
+        assertNull(message.errorDetails)
+    }
+
+    @Test
+    fun `should create CALL with null payload`() {
+        val message = OcppMessage.Call(
+            messageId = "123",
+            action = "Heartbeat",
+            payload = null
+        )
+        
+        val json = message.toJson()
+        assertTrue(json.startsWith("[2,"))
+        assertTrue(json.contains("\"Heartbeat\""))
+    }
+
+    @Test
+    fun `should create CALLRESULT with null payload`() {
+        val message = OcppMessage.CallResult(
+            messageId = "123",
+            payload = null
+        )
+        
+        val json = message.toJson()
+        assertTrue(json.startsWith("[3,"))
+    }
+
+    @Test
+    fun `should create CALLERROR with null errorDetails`() {
+        val message = OcppMessage.CallError(
+            messageId = "123",
+            errorCode = OcppErrorCode.PROTOCOL_ERROR,
+            errorDescription = "Invalid message",
+            errorDetails = null
+        )
+        
+        val json = message.toJson()
+        assertTrue(json.startsWith("[4,"))
+        assertTrue(json.contains("ProtocolError"))
+    }
+
+    @Test
+    fun `should parse CALLERROR with errorDetails object`() {
+        val json = """[4,"123","ProtocolError","Invalid message",{"key":"value"}]"""
+        
+        val message = OcppMessage.parse(json) as OcppMessage.CallError
+        
+        assertNotNull(message.errorDetails)
+        assertEquals("value", message.errorDetails?.get("key"))
+    }
+
+    @Test
+    fun `should reject CALL with 3 elements`() {
+        val json = """[2,"123","Action"]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
+
+    @Test
+    fun `should reject CALL with 5 elements`() {
+        val json = """[2,"123","Action",{},{}]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
+
+    @Test
+    fun `should reject CALLRESULT with 2 elements`() {
+        val json = """[3,"123"]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
+
+    @Test
+    fun `should reject CALLRESULT with 4 elements`() {
+        val json = """[3,"123",{},{}]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
+
+    @Test
+    fun `should reject CALLERROR with 4 elements`() {
+        val json = """[4,"123","ProtocolError","Invalid message"]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
+
+    @Test
+    fun `should reject CALLERROR with 6 elements`() {
+        val json = """[4,"123","ProtocolError","Invalid message",{},{}]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
 }

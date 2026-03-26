@@ -20,6 +20,14 @@ private const val CALL_WITH_WRONG_ACTION = """[2,"11111","InvalidAction",{}]"""
 
 private const val BOOT_NOTIFICATION_WITH_MISSING_FIELDS = """[2,"22222","BootNotification",{"chargePointVendor":"Tesla"}]"""
 
+private const val BOOT_NOTIFICATION_WITH_EMPTY_VENDOR = """[2,"33333","BootNotification",{"chargePointVendor":"","chargePointModel":"Model3"}]"""
+
+private const val BOOT_NOTIFICATION_WITH_EMPTY_MODEL = """[2,"44444","BootNotification",{"chargePointVendor":"Tesla","chargePointModel":""}]"""
+
+private const val CALLRESULT_FROM_CHARGEPOINT = """[3,"55555",{}]"""
+
+private const val CALLERROR_FROM_CHARGEPOINT = """[4,"66666","GenericError","Error",""]"""
+
 @QuarkusTest
 class OcppWebSocketServerTest {
 
@@ -234,5 +242,153 @@ class OcppWebSocketServerTest {
         assertTrue(callResult.contains("[3"), "Should be CALLRESULT message")
         assertTrue(callResult.contains("67890"), "Should contain original messageId")
         assertTrue(callResult.contains("currentTime"), "Should contain currentTime in response")
+    }
+
+    @Test
+    fun shouldReturnCallErrorForBootNotificationWithEmptyVendor() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(BOOT_NOTIFICATION_WITH_EMPTY_VENDOR)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.contains("[4"), "Should be CALLERROR message")
+        assertTrue(callError.contains("FormationViolation"), "Should return FormationViolation for empty vendor")
+    }
+
+    @Test
+    fun shouldReturnCallErrorForBootNotificationWithEmptyModel() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(BOOT_NOTIFICATION_WITH_EMPTY_MODEL)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.contains("[4"), "Should be CALLERROR message")
+        assertTrue(callError.contains("FormationViolation"), "Should return FormationViolation for empty model")
+    }
+
+    @Test
+    fun shouldReturnCallErrorForCallResultFromChargePoint() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(CALLRESULT_FROM_CHARGEPOINT)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.contains("[4"), "Should be CALLERROR message")
+        assertTrue(callError.contains("ProtocolError"), "Should return ProtocolError for unexpected CALLRESULT")
+    }
+
+    @Test
+    fun shouldReturnCallErrorForCallErrorFromChargePoint() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(CALLERROR_FROM_CHARGEPOINT)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.contains("[4"), "Should be CALLERROR message")
+        assertTrue(callError.contains("ProtocolError"), "Should return ProtocolError for unexpected CALLERROR")
     }
 }
