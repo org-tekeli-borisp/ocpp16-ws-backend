@@ -174,7 +174,8 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>org.tekeli.borisp.ocpp16.*</param>
+                        <param>org.tekeli.borisp.ocpp16.OcppMessage</param>
+                        <param>org.tekeli.borisp.ocpp16.OcppWebSocketServer</param>
                     </targetClasses>
                     <targetTests>
                         <param>org.tekeli.borisp.ocpp16.*</param>
@@ -191,7 +192,6 @@
                         <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
                         <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                         <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
-                        <mutator>VOID_METHOD_CALLS</mutator>
                     </mutators>
                     <outputFormats>
                         <param>HTML</param>

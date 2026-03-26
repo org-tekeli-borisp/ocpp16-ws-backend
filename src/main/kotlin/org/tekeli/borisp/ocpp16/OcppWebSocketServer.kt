@@ -52,10 +52,11 @@ class OcppWebSocketServer {
                 }
             }
         } catch (e: OcppParseException) {
+            val errorMsg = e.message?.takeIf { it.isNotBlank() } ?: "Failed to parse message"
             OcppMessage.CallError(
                 messageId = generateMessageId(),
                 errorCode = OcppErrorCode.PROTOCOL_ERROR,
-                errorDescription = e.message ?: "Failed to parse message",
+                errorDescription = errorMsg,
                 errorDetails = null
             ).toJson()
         }
@@ -78,10 +79,11 @@ class OcppWebSocketServer {
         return try {
             handler(call)
         } catch (e: FormationViolationException) {
+            val errorMsg = e.message?.takeIf { it.isNotBlank() } ?: "Payload validation failed"
             OcppMessage.CallError(
                 messageId = call.messageId,
                 errorCode = OcppErrorCode.FORMATION_VIOLATION,
-                errorDescription = e.message ?: "Payload validation failed",
+                errorDescription = errorMsg,
                 errorDetails = null
             ).toJson()
         }
@@ -130,9 +132,7 @@ class OcppWebSocketServer {
         ).toJson()
     }
     
-    private fun generateMessageId(): String {
-        return UUID.randomUUID().toString()
-    }
+    private fun generateMessageId(): String = UUID.randomUUID().toString()
     
     @OnClose
     fun onClose() {
