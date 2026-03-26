@@ -28,6 +28,12 @@ private const val CALLRESULT_FROM_CHARGEPOINT = """[3,"55555",{}]"""
 
 private const val CALLERROR_FROM_CHARGEPOINT = """[4,"66666","GenericError","Error",""]"""
 
+private const val BOOT_NOTIFICATION_WITH_NULL_PAYLOAD = """[2,"77777","BootNotification",null]"""
+
+private const val INVALID_MESSAGE_TYPE_ZERO = """[0,"88888"]"""
+
+private const val INVALID_MESSAGE_TYPE_NEGATIVE = """[-1,"99999"]"""
+
 @QuarkusTest
 class OcppWebSocketServerTest {
 
@@ -390,5 +396,116 @@ class OcppWebSocketServerTest {
         val callError = responses[0]
         assertTrue(callError.contains("[4"), "Should be CALLERROR message")
         assertTrue(callError.contains("ProtocolError"), "Should return ProtocolError for unexpected CALLERROR")
+    }
+
+    @Test
+    fun shouldReturnCallErrorForBootNotificationWithNullPayload() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(BOOT_NOTIFICATION_WITH_NULL_PAYLOAD)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.contains("[4"), "Should be CALLERROR message")
+        assertTrue(callError.contains("FormationViolation"), "Should return FormationViolation for null payload")
+    }
+
+    @Test
+    fun shouldReturnCallErrorForInvalidMessageTypeZero() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(INVALID_MESSAGE_TYPE_ZERO)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.contains("[4"), "Should be CALLERROR message")
+        assertTrue(callError.contains("ProtocolError"), "Should return ProtocolError for invalid message type")
+    }
+
+    @Test
+    fun shouldReturnCallErrorForInvalidMessageTypeNegative() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(INVALID_MESSAGE_TYPE_NEGATIVE)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.contains("[4"), "Should be CALLERROR message")
+        assertTrue(callError.contains("ProtocolError"), "Should return ProtocolError for invalid message type")
     }
 }

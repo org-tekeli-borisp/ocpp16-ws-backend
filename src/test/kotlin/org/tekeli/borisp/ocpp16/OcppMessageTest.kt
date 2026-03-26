@@ -258,4 +258,117 @@ class OcppMessageTest {
             OcppMessage.parse(json)
         }
     }
+
+    @Test
+    fun `should reject message with invalid type ID 1`() {
+        val json = """[1,"123"]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
+
+    @Test
+    fun `should reject message with invalid type ID 5`() {
+        val json = """[5,"123"]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
+
+    @Test
+    fun `should reject CALLERROR with invalid error code`() {
+        val json = """[4,"123","InvalidErrorCode","Invalid message",{}]"""
+        
+        assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+    }
+
+    @Test
+    fun `should reject message with only 1 element`() {
+        val json = """[2]"""
+        
+        val exception = assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+        assertTrue(exception.message!!.contains("at least 2"))
+    }
+
+    @Test
+    fun `should throw exception with non-null message for invalid json`() {
+        val json = "not valid json at all {"
+        
+        val exception = assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+        assertNotNull(exception.message)
+    }
+
+    @Test
+    fun `should handle CALL with emptyMap payload in toJson`() {
+        val message = OcppMessage.Call(
+            messageId = "123",
+            action = "Heartbeat",
+            payload = emptyMap<String, Any>()
+        )
+        
+        val json = message.toJson()
+        assertTrue(json.contains("{}"))
+    }
+
+    @Test
+    fun `should handle CALLRESULT with emptyMap payload in toJson`() {
+        val message = OcppMessage.CallResult(
+            messageId = "123",
+            payload = emptyMap<String, Any>()
+        )
+        
+        val json = message.toJson()
+        assertTrue(json.contains("{}"))
+    }
+
+    @Test
+    fun `should handle CALLERROR with emptyMap errorDetails in toJson`() {
+        val message = OcppMessage.CallError(
+            messageId = "123",
+            errorCode = OcppErrorCode.PROTOCOL_ERROR,
+            errorDescription = "Test error",
+            errorDetails = emptyMap<String, Any>()
+        )
+        
+        val json = message.toJson()
+        assertTrue(json.contains("{}"))
+    }
+
+    @Test
+    fun `should parse CALL with empty object payload`() {
+        val json = """[2,"123","Heartbeat",{}]"""
+        
+        val message = OcppMessage.parse(json) as OcppMessage.Call
+        
+        assertNotNull(message.payload)
+        assertTrue(message.payload!!.isEmpty())
+    }
+
+    @Test
+    fun `should parse CALLRESULT with empty object payload`() {
+        val json = """[3,"123",{}]"""
+        
+        val message = OcppMessage.parse(json) as OcppMessage.CallResult
+        
+        assertNotNull(message.payload)
+        assertTrue(message.payload!!.isEmpty())
+    }
+
+    @Test
+    fun `should parse CALLERROR with empty object errorDetails`() {
+        val json = """[4,"123","ProtocolError","Test",{}]"""
+        
+        val message = OcppMessage.parse(json) as OcppMessage.CallError
+        
+        assertNotNull(message.errorDetails)
+        assertTrue(message.errorDetails!!.isEmpty())
+    }
 }
