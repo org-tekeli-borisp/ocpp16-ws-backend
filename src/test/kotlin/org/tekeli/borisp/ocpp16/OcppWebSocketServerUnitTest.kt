@@ -14,6 +14,8 @@ class OcppWebSocketServerUnitTest {
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("NotImplemented"))
         assertTrue(response.contains("UnknownAction"))
+        // Specific check to kill RemoveConditional_EQUAL_IF mutation at line 70
+        assertTrue(response.contains("'UnknownAction' is not implemented"))
     }
 
     @Test
@@ -41,6 +43,95 @@ class OcppWebSocketServerUnitTest {
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
         assertTrue(response.contains("chargePointVendor is required"))
+    }
+
+    @Test
+    fun `should handle FormationViolation with default error message`() {
+        // Create a call with null payload to trigger FormationViolationException
+        val response = server.onTextMessage("""[2,"test-id","BootNotification",null]""")
+        
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        // Specific check to kill RemoveConditional_EQUAL_ELSE mutation at line 82
+        assertTrue(response.contains("Payload validation failed") || response.contains("Payload is null"))
+    }
+
+    @Test
+    fun `should handle parse error with default error message`() {
+        val response = server.onTextMessage("not valid json")
+        
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("ProtocolError"))
+        // Specific check to kill NegateConditionals mutation at line 55 (index 111)
+        assertTrue(response.contains("Failed to parse OCPP message"))
+    }
+
+    @Test
+    fun `should handle parse error with null exception message`() {
+        // Test the ?: default value path in catch block
+        val response = server.onTextMessage("invalid")
+        
+        assertTrue(response.startsWith("[4,"))
+        // Must contain the error message to kill mutation
+        assertTrue(response.contains("Failed to parse"))
+    }
+
+    @Test
+    fun `should handle formation violation with null exception message`() {
+        // Test the ?: default value path in catch block at line 82
+        val response = server.onTextMessage("""[2,"test-id","BootNotification",null]""")
+        
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        // Must contain specific error message to kill mutation
+        assertTrue(response.contains("Payload is null"))
+    }
+
+    @Test
+    fun `should handle callerror with specific error message`() {
+        // Kill RemoveConditional_EQUAL_IF mutation at line 45 (index 64)
+        val response = server.onTextMessage("""[4,"test-id","NotImplemented","Error",{}]""")
+        
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("ProtocolError"))
+        assertTrue(response.contains("CALLERROR not expected from ChargePoint"))
+    }
+
+    @Test
+    fun `should kill all line 82 mutations with specific error messages`() {
+        // Test specific error message path to kill RemoveConditional_EQUAL_IF mutations at line 82
+        // The mutations are at indexes 65, 78, 90, 100 in the catch block
+        val response1 = server.onTextMessage("""[2,"id1","BootNotification",{"chargePointVendor":"","chargePointModel":"M"}]""")
+        assertTrue(response1.contains("chargePointVendor is required"))
+        assertTrue(response1.contains("FormationViolation"))
+        
+        val response2 = server.onTextMessage("""[2,"id2","BootNotification",{"chargePointVendor":"V","chargePointModel":""}]""")
+        assertTrue(response2.contains("chargePointModel is required"))
+        assertTrue(response2.contains("FormationViolation"))
+        
+        val response3 = server.onTextMessage("""[2,"id3","BootNotification",null]""")
+        assertTrue(response3.contains("Payload is null"))
+        assertTrue(response3.contains("FormationViolation"))
+    }
+
+    @Test
+    fun `should kill all line 55 mutations with parse error messages`() {
+        // Test multiple parse error paths to kill mutations at line 55
+        // The mutations are at indexes 111, 124, 136, 146 in the catch block
+        val response1 = server.onTextMessage("invalid json")
+        assertTrue(response1.startsWith("[4,"))
+        assertTrue(response1.contains("ProtocolError"))
+        assertTrue(response1.contains("Failed to parse OCPP message"))
+        
+        val response2 = server.onTextMessage("")
+        assertTrue(response2.startsWith("[4,"))
+        assertTrue(response2.contains("ProtocolError"))
+        assertTrue(response2.contains("Failed to parse"))
+        
+        val response3 = server.onTextMessage("   ")
+        assertTrue(response3.startsWith("[4,"))
+        assertTrue(response3.contains("ProtocolError"))
+        assertTrue(response3.contains("Failed to parse"))
     }
 
     @Test
