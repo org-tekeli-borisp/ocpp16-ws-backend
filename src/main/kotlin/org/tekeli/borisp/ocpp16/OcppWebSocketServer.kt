@@ -95,11 +95,11 @@ class OcppWebSocketServer {
         val vendor = payload["chargePointVendor"]
         val model = payload["chargePointModel"]
         
-        if (vendor == null || vendor.toString().isEmpty()) {
+        if (vendor == null || vendor.toString().isBlank()) {
             throw FormationViolationException("chargePointVendor is required")
         }
         
-        if (model == null || model.toString().isEmpty()) {
+        if (model == null || model.toString().isBlank()) {
             throw FormationViolationException("chargePointModel is required")
         }
         

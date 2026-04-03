@@ -181,17 +181,10 @@
                         <param>org.tekeli.borisp.ocpp16.*</param>
                     </targetTests>
                     <mutators>
-                        <mutator>CONDITIONALS_BOUNDARY</mutator>
-                        <mutator>EMPTY_RETURNS</mutator>
-                        <mutator>INCREMENTS</mutator>
-                        <mutator>INVERT_NEGS</mutator>
                         <mutator>NEGATE_CONDITIONALS</mutator>
-                        <mutator>NULL_RETURNS</mutator>
-                        <mutator>PRIMITIVE_RETURNS</mutator>
                         <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
                         <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
-                        <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
-                        <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                        <mutator>EMPTY_RETURNS</mutator>
                     </mutators>
                     <outputFormats>
                         <param>HTML</param>

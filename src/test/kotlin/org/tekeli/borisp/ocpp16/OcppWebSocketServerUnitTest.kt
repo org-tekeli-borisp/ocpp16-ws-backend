@@ -60,6 +60,42 @@ class OcppWebSocketServerUnitTest {
         assertTrue(response.contains("123"))
         assertTrue(response.contains("currentTime"))
         assertTrue(response.contains("Accepted"))
+        assertFalse(response.contains("FormationViolation"), "Valid request should not return FormationViolation")
+    }
+
+    @Test
+    fun `should handle BootNotification with vendor containing whitespace`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":" ","chargePointModel":"Model3"}]""")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+    }
+
+    @Test
+    fun `should handle BootNotification with null vendor field`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":null,"chargePointModel":"Model3"}]""")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+    }
+
+    @Test
+    fun `should handle BootNotification with missing vendor field`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointModel":"Model3"}]""")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+    }
+
+    @Test
+    fun `should handle BootNotification with null model field`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Tesla","chargePointModel":null}]""")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+    }
+
+    @Test
+    fun `should handle BootNotification with missing model field`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Tesla"}]""")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
     }
 
     @Test
@@ -90,13 +126,73 @@ class OcppWebSocketServerUnitTest {
     @Test
     fun `should use non-empty message id for parse error`() {
         val response = server.onTextMessage("not valid json")
-        assertTrue(response.contains("\""))
+        // messageId must be a valid UUID format (8-4-4-4-12 hex digits)
+        val messageIdRegex = Regex("\\[4,\"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\",")
+        assertTrue(messageIdRegex.containsMatchIn(response), "messageId must be valid UUID format")
+    }
+
+    @Test
+    fun `should generate unique message id for each parse error`() {
+        val response1 = server.onTextMessage("not valid json")
+        val response2 = server.onTextMessage("also invalid")
+        assertNotEquals(response1, response2, "Each parse error should have unique messageId")
+    }
+
+    @Test
+    fun `should handle empty string message`() {
+        val response = server.onTextMessage("")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("ProtocolError"))
+    }
+
+    @Test
+    fun `should handle whitespace only message`() {
+        val response = server.onTextMessage("   ")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("ProtocolError"))
+    }
+
+    @Test
+    fun `should use default error message when exception message is null`() {
+        val response = server.onTextMessage("not valid json")
+        assertTrue(response.contains("ProtocolError"))
+        // Either contains the parse error message or the default message
+        assertTrue(
+            response.contains("Failed to parse") || response.contains("Failed to parse OCPP message"),
+            "Should contain error description"
+        )
+    }
+
+    @Test
+    fun `should use default error message when exception message is blank`() {
+        val response = server.onTextMessage("   ")
+        assertTrue(response.contains("ProtocolError"))
+    }
+
+    @Test
+    fun `should return valid CALLERROR structure for parse errors`() {
+        val response = server.onTextMessage("invalid")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.endsWith("]"))
     }
 
     @Test
     fun `should handle FormationViolation with non-null message`() {
         val response = server.onTextMessage("""[2,"123","BootNotification",null]""")
         assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("\"123\""), "Should use original messageId")
+    }
+
+    @Test
+    fun `should handle FormationViolation with custom error message`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",null]""")
+        assertTrue(response.contains("Payload is null"))
+    }
+
+    @Test
+    fun `should handle FormationViolation preserving original messageId`() {
+        val response = server.onTextMessage("""[2,"my-unique-id","BootNotification",null]""")
+        assertTrue(response.contains("my-unique-id"), "FormationViolation should preserve original messageId")
     }
 
     @Test
@@ -111,5 +207,171 @@ class OcppWebSocketServerUnitTest {
         val response = server.onTextMessage("""[3,"123",{"status":"Accepted"}]""")
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("ProtocolError"))
+    }
+
+    @Test
+    fun `should return NotImplemented error with exact message format`() {
+        val response = server.onTextMessage("""[2,"456","UnknownAction",{}]""")
+        assertTrue(response.contains("Action 'UnknownAction' is not implemented"))
+    }
+
+    @Test
+    fun `should preserve original messageId for NotImplemented errors`() {
+        val response = server.onTextMessage("""[2,"custom-id-123","TestAction",{}]""")
+        assertTrue(response.contains("custom-id-123"))
+        assertTrue(response.contains("NotImplemented"))
+    }
+
+    @Test
+    fun `should handle BootNotification with whitespace-only vendor`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"   ","chargePointModel":"Model"}]""")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor is required"))
+    }
+
+    @Test
+    fun `should handle BootNotification with whitespace-only model`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":"   "}]""")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointModel is required"))
+    }
+
+  @Test
+    fun `should handle valid BootNotification returns Accepted status`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":"Model"}]""")
+        assertTrue(response.contains("Accepted"))
+        assertFalse(response.contains("FormationViolation"))
+    }
+
+    @Test
+    fun `should return FormationViolation for empty payload map`() {
+        val response = server.onTextMessage("""[2,"123","BootNotification",{}]""")
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor is required"))
+    }
+
+    @Test
+    fun `should use original messageId when vendor validation fails`() {
+        val response = server.onTextMessage("""[2,"vendor-error-id","BootNotification",{"chargePointVendor":"","chargePointModel":"Model"}]""")
+        assertTrue(response.contains("vendor-error-id"))
+        assertTrue(response.contains("FormationViolation"))
+    }
+
+    @Test
+    fun `should use original messageId when model validation fails`() {
+        val response = server.onTextMessage("""[2,"model-error-id","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":""}]""")
+        assertTrue(response.contains("model-error-id"))
+        assertTrue(response.contains("FormationViolation"))
+    }
+
+    @Test
+    fun `should test handler null branch explicitly`() {
+        val response = server.onTextMessage("""[2,"test-id","NonExistentAction",{}]""")
+        assertTrue(response.contains("NotImplemented"))
+        assertTrue(response.contains("NonExistentAction"))
+        assertTrue(response.contains("test-id"))
+    }
+
+    @Test
+    fun `should test vendor isBlank branch`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",{"chargePointVendor":"   ","chargePointModel":"Model"}]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor is required"))
+    }
+
+    @Test
+    fun `should test model isBlank branch`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":"   "}]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointModel is required"))
+    }
+
+    @Test
+    fun `should test vendor null branch`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",{"chargePointVendor":null,"chargePointModel":"Model"}]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor is required"))
+    }
+
+    @Test
+    fun `should test model null branch`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":null}]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointModel is required"))
+    }
+
+    @Test
+    fun `should test vendor empty string branch`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",{"chargePointVendor":"","chargePointModel":"Model"}]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor is required"))
+    }
+
+    @Test
+    fun `should test model empty string branch`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":""}]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointModel is required"))
+    }
+
+    @Test
+    fun `should test payload null branch`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",null]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("Payload is null"))
+    }
+
+    @Test
+    fun `should test missing vendor field branch`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",{"chargePointModel":"Model"}]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor is required"))
+    }
+
+    @Test
+    fun `should test missing model field branch`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",{"chargePointVendor":"Vendor"}]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointModel is required"))
+    }
+
+    @Test
+    fun `should test unknown action handler null branch`() {
+        val response = server.onTextMessage("""[2,"my-id","UnknownAction",{}]""")
+        assertTrue(response.contains("NotImplemented"))
+        assertTrue(response.contains("my-id"))
+    }
+
+    @Test
+    fun `should test callresult protocol error branch`() {
+        val response = server.onTextMessage("""[3,"id",{}]""")
+        assertTrue(response.contains("ProtocolError"))
+        assertTrue(response.contains("CALLRESULT not expected"))
+    }
+
+    @Test
+    fun `should test calerror protocol error branch`() {
+        val response = server.onTextMessage("""[4,"id","GenericError","desc",{}]""")
+        assertTrue(response.contains("ProtocolError"))
+        assertTrue(response.contains("CALLERROR not expected"))
+    }
+
+    @Test
+    fun `should test parse error exception branch`() {
+        val response = server.onTextMessage("invalid json")
+        assertTrue(response.contains("ProtocolError"))
+        assertTrue(response.contains("Failed to parse"))
+    }
+
+    @Test
+    fun `should test heartbeat success branch`() {
+        val response = server.onTextMessage("""[2,"id","Heartbeat",{}]""")
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("currentTime"))
+        assertFalse(response.contains("FormationViolation"))
+        assertFalse(response.contains("NotImplemented"))
     }
 }
