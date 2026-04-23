@@ -362,13 +362,124 @@ class OcppMessageTest {
         assertTrue(message.payload!!.isEmpty())
     }
 
-    @Test
+     @Test
     fun `should parse CALLERROR with empty object errorDetails`() {
         val json = """[4,"123","ProtocolError","Test",{}]"""
-        
+
         val message = OcppMessage.parse(json) as OcppMessage.CallError
-        
+
         assertNotNull(message.errorDetails)
         assertTrue(message.errorDetails!!.isEmpty())
+    }
+
+    // Tests to kill SURVIVED mutants
+
+    @Test
+    fun `should throw OcppParseException for invalid message type`() {
+        val json = """[99,"123","Action",{}]"""
+
+        val exception = assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+        assertTrue(exception.message!!.contains("Invalid message type"))
+    }
+
+    @Test
+    fun `should throw OcppParseException for invalid error code`() {
+        val json = """[4,"123","InvalidErrorCode","Description",{}]"""
+
+        val exception = assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+        assertTrue(exception.message!!.contains("Invalid error code"))
+    }
+
+    @Test
+    fun `should serialize Call with null payload to empty object`() {
+        val call = OcppMessage.Call(messageId = "123", action = "Test", payload = null)
+        val json = call.toJson()
+
+        assertTrue(json.contains("[2,\"123\",\"Test\",{}]"))
+    }
+
+    @Test
+    fun `should serialize CallResult with null payload to empty object`() {
+        val callResult = OcppMessage.CallResult(messageId = "123", payload = null)
+        val json = callResult.toJson()
+
+        assertTrue(json.contains("[3,\"123\",{}]"))
+    }
+
+    @Test
+    fun `should serialize CallError with null errorDetails to empty object`() {
+        val callError = OcppMessage.CallError(
+            messageId = "123",
+            errorCode = OcppErrorCode.PROTOCOL_ERROR,
+            errorDescription = "Test",
+            errorDetails = null
+        )
+        val json = callError.toJson()
+
+        assertTrue(json.contains("[4,\"123\",\"ProtocolError\",\"Test\",{}]"))
+    }
+
+    @Test
+    fun `should serialize Call with non-null payload preserving all fields`() {
+        val call = OcppMessage.Call(
+            messageId = "123",
+            action = "BootNotification",
+            payload = mapOf("vendor" to "Tesla", "model" to "Model3")
+        )
+        val json = call.toJson()
+
+        assertTrue(json.contains("\"vendor\""))
+        assertTrue(json.contains("\"Tesla\""))
+        assertTrue(json.contains("\"model\""))
+        assertTrue(json.contains("\"Model3\""))
+    }
+
+    @Test
+    fun `should serialize CallResult with non-null payload preserving all fields`() {
+        val callResult = OcppMessage.CallResult(
+            messageId = "123",
+            payload = mapOf("status" to "Accepted", "currentTime" to "2024-01-01T00:00:00Z")
+        )
+        val json = callResult.toJson()
+
+        assertTrue(json.contains("\"status\""))
+        assertTrue(json.contains("\"Accepted\""))
+        assertTrue(json.contains("\"currentTime\""))
+    }
+
+    @Test
+    fun `should serialize CallError with non-null errorDetails preserving all fields`() {
+        val callError = OcppMessage.CallError(
+            messageId = "123",
+            errorCode = OcppErrorCode.PROTOCOL_ERROR,
+            errorDescription = "Test",
+            errorDetails = mapOf("code" to 500, "message" to "Internal Error")
+        )
+        val json = callError.toJson()
+
+        assertTrue(json.contains("\"code\""))
+        assertTrue(json.contains("500"))
+        assertTrue(json.contains("\"message\""))
+        assertTrue(json.contains("\"Internal Error\""))
+    }
+
+    @Test
+    fun `should parse CALL with null payload and preserve null`() {
+        val json = """[2,"123","Heartbeat",null]"""
+        val message = OcppMessage.parse(json) as OcppMessage.Call
+
+        assertNull(message.payload)
+    }
+
+    @Test
+    fun `should parse CALLRESULT with null payload and preserve null`() {
+        val json = """[3,"123",null]"""
+        val message = OcppMessage.parse(json) as OcppMessage.CallResult
+
+        assertNull(message.payload)
     }
 }

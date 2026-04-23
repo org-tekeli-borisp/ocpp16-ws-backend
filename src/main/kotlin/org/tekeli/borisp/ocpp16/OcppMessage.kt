@@ -99,7 +99,7 @@ sealed class OcppMessage {
         }
 
         private fun parseJsonNode(node: JsonNode): Map<String, Any>? {
-            return if (node.isNull) null else objectMapper.convertValue(node, Map::class.java) as? Map<String, Any>
+            return objectMapper.convertValue(node, Map::class.java) as? Map<String, Any>
         }
     }
 
