@@ -34,25 +34,21 @@ class OcppWebSocketServer {
     fun onTextMessage(message: String): String {
         val response = try {
             val ocppMessage = OcppMessage.parse(message)
-            
-            when (val parsedMessage = ocppMessage) {
-                is OcppMessage.Call -> handleCall(parsedMessage)
-                is OcppMessage.CallResult -> {
-                    OcppMessage.CallError(
-                        messageId = parsedMessage.messageId,
-                        errorCode = OcppErrorCode.PROTOCOL_ERROR,
-                        errorDescription = "CALLRESULT not expected from ChargePoint",
-                        errorDetails = null
-                    ).toJson()
-                }
-                is OcppMessage.CallError -> {
-                    OcppMessage.CallError(
-                        messageId = parsedMessage.messageId,
-                        errorCode = OcppErrorCode.PROTOCOL_ERROR,
-                        errorDescription = "CALLERROR not expected from ChargePoint",
-                        errorDetails = null
-                    ).toJson()
-                }
+
+            when (ocppMessage.type) {
+                OcppMessageType.CALL -> handleCall(ocppMessage as OcppMessage.Call)
+                OcppMessageType.CALLRESULT -> OcppMessage.CallError(
+                    messageId = ocppMessage.messageId,
+                    errorCode = OcppErrorCode.PROTOCOL_ERROR,
+                    errorDescription = "CALLRESULT not expected from ChargePoint",
+                    errorDetails = null
+                ).toJson()
+                OcppMessageType.CALLERROR -> OcppMessage.CallError(
+                    messageId = ocppMessage.messageId,
+                    errorCode = OcppErrorCode.PROTOCOL_ERROR,
+                    errorDescription = "CALLERROR not expected from ChargePoint",
+                    errorDetails = null
+                ).toJson()
             }
         } catch (e: OcppParseException) {
             val errorMsg = e.message ?: "Parse error"
@@ -82,7 +78,7 @@ class OcppWebSocketServer {
         return try {
             handler(call)
         } catch (e: FormationViolationException) {
-            val errorMsg = e.message?.takeIf { it.isNotBlank() } ?: "Payload validation failed"
+            val errorMsg = e.message ?: "Payload validation failed"
             OcppMessage.CallError(
                 messageId = call.messageId,
                 errorCode = OcppErrorCode.FORMATION_VIOLATION,
