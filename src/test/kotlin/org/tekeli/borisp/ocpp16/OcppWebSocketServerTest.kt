@@ -4,8 +4,9 @@ import io.quarkus.test.junit.QuarkusTest
 import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
 import io.vertx.core.http.WebSocketConnectOptions
+import io.quarkus.websockets.next.WebSocketConnection
 import jakarta.inject.Inject
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -39,6 +40,20 @@ class OcppWebSocketServerTest {
 
     @Inject
     lateinit var vertx: Vertx
+
+    @Inject
+    lateinit var server: OcppWebSocketServer
+
+    @Inject
+    lateinit var connection: WebSocketConnection
+
+    @Test
+    fun `should access connection property`() {
+        assertDoesNotThrow {
+            val conn = server.connection
+            assertNotNull(conn)
+        }
+    }
 
     @Test
     fun shouldAcceptConnectionOnOcppEndpoint() {

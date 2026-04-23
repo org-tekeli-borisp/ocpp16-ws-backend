@@ -52,7 +52,7 @@ class OcppWebSocketServer {
                 }
             }
         } catch (e: OcppParseException) {
-            val errorMsg = e.message?.takeIf { it.isNotBlank() } ?: "Failed to parse message"
+            val errorMsg = e.message ?: "Parse error"
             OcppMessage.CallError(
                 messageId = generateMessageId(),
                 errorCode = OcppErrorCode.PROTOCOL_ERROR,

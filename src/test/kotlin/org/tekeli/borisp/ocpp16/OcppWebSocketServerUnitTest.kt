@@ -37,6 +37,25 @@ class OcppWebSocketServerUnitTest {
     }
 
     @Test
+    fun `should handle CallError branch specifically`() {
+        // This aims to kill the SURVIVED mutant at line 45
+        val response = server.onTextMessage("""[4,"test-id","GenericError","SomeError",{}]""")
+        
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("ProtocolError"))
+        assertTrue(response.contains("CALLERROR not expected from ChargePoint"))
+    }
+
+    @Test
+    fun `should handle Call branch specifically`() {
+        // This aims to kill the TIME_OUT mutants at line 36
+        val response = server.onTextMessage("""[2,"test-id","BootNotification",{"chargePointVendor":"Tesla","chargePointModel":"Model3"}]""")
+        
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("Accepted"))
+    }
+
+    @Test
     fun `should handle BootNotification with empty vendor string`() {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"","chargePointModel":"Model"}]""")
 
@@ -137,7 +156,7 @@ class OcppWebSocketServerUnitTest {
     @Test
     fun `should handle BootNotification with empty model string`() {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":""}]""")
-
+        
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
         assertTrue(response.contains("chargePointModel is required"))
@@ -146,7 +165,7 @@ class OcppWebSocketServerUnitTest {
     @Test
     fun `should handle valid BootNotification`() {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Tesla","chargePointModel":"Model3"}]""")
-
+        
         assertTrue(response.startsWith("[3,"))
         assertTrue(response.contains("123"))
         assertTrue(response.contains("currentTime"))
@@ -159,6 +178,7 @@ class OcppWebSocketServerUnitTest {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":" ","chargePointModel":"Model3"}]""")
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor is required"))
     }
 
     @Test
@@ -166,6 +186,7 @@ class OcppWebSocketServerUnitTest {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":null,"chargePointModel":"Model3"}]""")
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor is required"))
     }
 
     @Test
@@ -173,6 +194,7 @@ class OcppWebSocketServerUnitTest {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointModel":"Model3"}]""")
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor is required"))
     }
 
     @Test
@@ -180,6 +202,7 @@ class OcppWebSocketServerUnitTest {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Tesla","chargePointModel":null}]""")
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointModel is required"))
     }
 
     @Test
@@ -187,12 +210,13 @@ class OcppWebSocketServerUnitTest {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Tesla"}]""")
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointModel is required"))
     }
 
     @Test
     fun `should handle valid Heartbeat`() {
         val response = server.onTextMessage("""[2,"123","Heartbeat",{}]""")
-
+        
         assertTrue(response.startsWith("[3,"))
         assertTrue(response.contains("123"))
         assertTrue(response.contains("currentTime"))
@@ -201,7 +225,7 @@ class OcppWebSocketServerUnitTest {
     @Test
     fun `should handle BootNotification with null payload`() {
         val response = server.onTextMessage("""[2,"123","BootNotification",null]""")
-
+        
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
     }
@@ -209,7 +233,7 @@ class OcppWebSocketServerUnitTest {
     @Test
     fun `should handle invalid JSON`() {
         val response = server.onTextMessage("not valid json")
-
+        
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("ProtocolError"))
     }
@@ -329,7 +353,7 @@ class OcppWebSocketServerUnitTest {
         assertTrue(response.contains("chargePointModel is required"))
     }
 
-  @Test
+    @Test
     fun `should handle valid BootNotification returns Accepted status`() {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":"Model"}]""")
         assertTrue(response.contains("Accepted"))
@@ -464,5 +488,15 @@ class OcppWebSocketServerUnitTest {
         assertTrue(response.contains("currentTime"))
         assertFalse(response.contains("FormationViolation"))
         assertFalse(response.contains("NotImplemented"))
+    }
+
+    @Test
+    fun `should kill line 82 mutation index 100 by testing FormationViolation with default message`() {
+        val response = server.onTextMessage("""[2,"id","BootNotification",null]""")
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("Payload is null"))
+        // The mutation replaces the conditional with false, so we need to ensure the default message is NOT used
+        // This kills the mutation by testing the non-default path
+        assertTrue(response.contains("Payload is null") && !response.contains("Payload validation failed"))
     }
 }
