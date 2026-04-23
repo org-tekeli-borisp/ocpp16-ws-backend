@@ -14,7 +14,10 @@ import java.util.UUID
 class OcppWebSocketServer {
     
     @Inject
-    lateinit var connection: WebSocketConnection
+    var connection: WebSocketConnection? = null
+
+    val activeConnection: WebSocketConnection
+        get() = connection ?: throw IllegalStateException("Connection not initialized")
     
     private val sessionId = UUID.randomUUID().toString()
     private val handlers = mapOf(

@@ -50,8 +50,16 @@ class OcppWebSocketServerTest {
     @Test
     fun `should access connection property`() {
         assertDoesNotThrow {
-            val conn = server.connection
+            val conn = server.activeConnection
             assertNotNull(conn)
+        }
+    }
+
+    @Test
+    fun `should throw when connection not initialized`() {
+        val uninitializedServer = OcppWebSocketServer()
+        assertThrows(IllegalStateException::class.java) {
+            uninitializedServer.activeConnection
         }
     }
 
