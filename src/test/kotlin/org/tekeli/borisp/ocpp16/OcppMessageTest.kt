@@ -105,10 +105,12 @@ class OcppMessageTest {
     fun `should reject messageId longer than 36 characters`() {
         val longId = "a".repeat(37)
         val json = """[2,"$longId","BootNotification",{}]"""
-        
-        assertThrows(OcppParseException::class.java) {
+
+        val exception = assertThrows(OcppParseException::class.java) {
             OcppMessage.parse(json)
         }
+
+        assertTrue(exception.message!!.contains("exceeds 36 characters"))
     }
 
     @Test
@@ -267,19 +269,23 @@ class OcppMessageTest {
     @Test
     fun `should reject CALLERROR with 4 elements`() {
         val json = """[4,"123","ProtocolError","Invalid message"]"""
-        
-        assertThrows(OcppParseException::class.java) {
+
+        val exception = assertThrows(OcppParseException::class.java) {
             OcppMessage.parse(json)
         }
+
+        assertTrue(exception.message!!.contains("exactly 5"))
     }
 
     @Test
     fun `should reject CALLERROR with 6 elements`() {
         val json = """[4,"123","ProtocolError","Invalid message",{},{}]"""
-        
-        assertThrows(OcppParseException::class.java) {
+
+        val exception = assertThrows(OcppParseException::class.java) {
             OcppMessage.parse(json)
         }
+
+        assertTrue(exception.message!!.contains("exactly 5"))
     }
 
     @Test
