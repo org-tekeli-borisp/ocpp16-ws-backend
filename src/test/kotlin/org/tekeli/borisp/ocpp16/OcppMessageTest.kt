@@ -124,10 +124,33 @@ class OcppMessageTest {
     @Test
     fun `should parse message with exactly 2 elements and fail`() {
         val json = """[2,"123"]"""
-        
-        assertThrows(OcppParseException::class.java) {
+
+        val exception = assertThrows(OcppParseException::class.java) {
             OcppMessage.parse(json)
         }
+
+        assertTrue(exception.message!!.contains("exactly 4"))
+    }
+
+    @Test
+    fun `should parse CALLRESULT with exactly 3 elements successfully`() {
+        val json = """[3,"123",{"status":"Accepted"}]"""
+
+        val message = OcppMessage.parse(json) as OcppMessage.CallResult
+
+        assertEquals("123", message.messageId)
+        assertEquals(OcppMessageType.CALLRESULT, message.type)
+    }
+
+    @Test
+    fun `should reject CALLRESULT with exactly 2 elements`() {
+        val json = """[3,"123"]"""
+
+        val exception = assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse(json)
+        }
+
+        assertTrue(exception.message!!.contains("exactly 3"))
     }
 
     @Test

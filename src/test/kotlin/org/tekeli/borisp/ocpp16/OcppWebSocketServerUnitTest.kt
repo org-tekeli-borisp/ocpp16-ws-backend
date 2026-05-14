@@ -499,4 +499,12 @@ class OcppWebSocketServerUnitTest {
         // This kills the mutation by testing the non-default path
         assertTrue(response.contains("Payload is null") && !response.contains("Payload validation failed"))
     }
+
+    @Test
+    fun `should throw IllegalStateException when activeConnection is accessed without initialization`() {
+        val exception = assertThrows(IllegalStateException::class.java) {
+            server.activeConnection
+        }
+        assertEquals("Connection not initialized", exception.message)
+    }
 }

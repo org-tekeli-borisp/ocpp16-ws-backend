@@ -187,12 +187,17 @@
                     <excludedMethods>
                         <exclude>parseJsonNode</exclude>
                     </excludedMethods>
-                    <mutators>
-                        <mutator>NEGATE_CONDITIONALS</mutator>
-                        <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
-                        <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                     <mutators>
+                        <mutator>CONDITIONALS_BOUNDARY</mutator>
                         <mutator>EMPTY_RETURNS</mutator>
+                        <mutator>NEGATE_CONDITIONALS</mutator>
+                        <mutator>PRIMITIVE_RETURNS</mutator>
+                        <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                        <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                        <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                        <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                     </mutators>
+
                     <outputFormats>
                         <param>HTML</param>
                         <param>XML</param>
