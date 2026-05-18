@@ -25,6 +25,12 @@ private const val AUTHORIZE_EMPTY_IDTAG = """[2,"auth-4","Authorize",{"idTag":""
 
 private const val AUTHORIZE_LONG_IDTAG = """[2,"auth-5","Authorize",{"idTag":"AAAAAAAAAAAAAAAAAAAAA"}]"""
 
+private const val START_TRANSACTION_CALL = """[2,"st-1","StartTransaction",{"connectorId":1,"idTag":"ABC123","meterStart":1000,"timestamp":"2024-01-01T00:00:00Z"}]"""
+
+private const val START_TRANSACTION_NULL_PAYLOAD = """[2,"st-2","StartTransaction",null]"""
+
+private const val START_TRANSACTION_MISSING_IDTAG = """[2,"st-3","StartTransaction",{"connectorId":1,"meterStart":1000,"timestamp":"2024-01-01T00:00:00Z"}]"""
+
 private const val INVALID_MESSAGE_FORMAT = """not a json array"""
 
 private const val CALL_WITH_WRONG_ACTION = """[2,"11111","InvalidAction",{}]"""
@@ -641,6 +647,118 @@ class OcppWebSocketServerTest {
                 }
 
                 ws.writeTextMessage(AUTHORIZE_MISSING_IDTAG)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.startsWith("[4,"), "Should be CALLERROR message")
+        assertTrue(callError.contains("FormationViolation"), "Should return FormationViolation")
+    }
+
+    @Test
+    fun `should return Accepted with transactionId for valid StartTransaction`() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(START_TRANSACTION_CALL)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callResult = responses[0]
+        assertTrue(callResult.startsWith("[3,"), "Should be CALLRESULT message")
+        assertTrue(callResult.contains("Accepted"), "Should return Accepted status")
+        assertTrue(callResult.contains("transactionId"), "Should contain transactionId")
+    }
+
+    @Test
+    fun `should return FormationViolation for StartTransaction with null payload`() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(START_TRANSACTION_NULL_PAYLOAD)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.startsWith("[4,"), "Should be CALLERROR message")
+        assertTrue(callError.contains("FormationViolation"), "Should return FormationViolation")
+    }
+
+    @Test
+    fun `should return FormationViolation for StartTransaction with missing idTag`() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(START_TRANSACTION_MISSING_IDTAG)
             } else {
                 throw RuntimeException("Failed to connect", ar.cause())
             }
