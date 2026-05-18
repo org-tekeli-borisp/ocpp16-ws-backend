@@ -25,7 +25,8 @@ class OcppWebSocketServer {
         "Heartbeat" to ::handleHeartbeat,
         "Authorize" to ::handleAuthorize,
         "StartTransaction" to ::handleStartTransaction,
-        "StopTransaction" to ::handleStopTransaction
+        "StopTransaction" to ::handleStopTransaction,
+        "StatusNotification" to ::handleStatusNotification
     )
     
     @OnOpen
@@ -244,6 +245,55 @@ return OcppMessage.CallResult(
         return OcppMessage.CallResult(
             messageId = call.messageId,
             payload = responsePayload
+        ).toJson()
+    }
+
+    private val validErrorCodes = setOf(
+        "Accepted", "Boot", "CableWake", "LockedIn", "LockedOut", "NoError",
+        "OpenRouter", "OverCurrent", "OverVoltage", "Overheating",
+        "PermissionDenied", "ReaderBlocked", "Reset", "Unavailable",
+        "VoltageTooLow", "WeldedConnector", "WeldedMeter"
+    )
+
+    private val validConnectorStatuses = setOf("Available", "Unavailable", "Faulted")
+
+    private fun handleStatusNotification(call: OcppMessage.Call): String {
+        val payload = call.payload ?: throw FormationViolationException("Payload is null")
+
+        val connectorId = payload["connectorId"]
+        if (connectorId == null) {
+            throw FormationViolationException("connectorId is required")
+        }
+
+        val errorCode = payload["errorCode"]
+        if (errorCode == null || errorCode.toString().isBlank()) {
+            throw FormationViolationException("errorCode is required")
+        }
+
+        if (!validErrorCodes.contains(errorCode.toString())) {
+            throw FormationViolationException("Invalid errorCode: ${errorCode}")
+        }
+
+        val status = payload["status"]
+        if (status == null || status.toString().isBlank()) {
+            throw FormationViolationException("status is required")
+        }
+
+        if (!validConnectorStatuses.contains(status.toString())) {
+            throw FormationViolationException("Invalid status: ${status}")
+        }
+
+        val info = payload["info"]
+        if (info != null) {
+            val infoStr = info.toString().trim()
+            if (infoStr.length > 50) {
+                throw FormationViolationException("info must not exceed 50 characters")
+            }
+        }
+
+        return OcppMessage.CallResult(
+            messageId = call.messageId,
+            payload = null
         ).toJson()
     }
 

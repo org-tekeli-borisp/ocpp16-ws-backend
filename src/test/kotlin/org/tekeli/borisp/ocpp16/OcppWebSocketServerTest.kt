@@ -37,6 +37,12 @@ private const val STOP_TRANSACTION_NULL_PAYLOAD = """[2,"stop-2","StopTransactio
 
 private const val STOP_TRANSACTION_MISSING_REASON = """[2,"stop-3","StopTransaction",{"transactionId":1,"meterStop":5000,"timestamp":"2024-01-01T01:00:00Z"}]"""
 
+private const val STATUS_NOTIFICATION_CALL = """[2,"sn-1","StatusNotification",{"connectorId":1,"errorCode":"NoError","status":"Available"}]"""
+
+private const val STATUS_NOTIFICATION_NULL_PAYLOAD = """[2,"sn-2","StatusNotification",null]"""
+
+private const val STATUS_NOTIFICATION_INVALID_ERROR_CODE = """[2,"sn-3","StatusNotification",{"connectorId":1,"errorCode":"InvalidError","status":"Available"}]"""
+
 private const val INVALID_MESSAGE_FORMAT = """not a json array"""
 
 private const val CALL_WITH_WRONG_ACTION = """[2,"11111","InvalidAction",{}]"""
@@ -876,6 +882,116 @@ class OcppWebSocketServerTest {
                 }
 
                 ws.writeTextMessage(STOP_TRANSACTION_MISSING_REASON)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.startsWith("[4,"), "Should be CALLERROR message")
+        assertTrue(callError.contains("FormationViolation"), "Should return FormationViolation")
+    }
+
+    @Test
+    fun `should return empty CallResult for valid StatusNotification`() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(STATUS_NOTIFICATION_CALL)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callResult = responses[0]
+        assertTrue(callResult.startsWith("[3,"), "Should be CALLRESULT message")
+    }
+
+    @Test
+    fun `should return FormationViolation for StatusNotification with null payload`() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(STATUS_NOTIFICATION_NULL_PAYLOAD)
+            } else {
+                throw RuntimeException("Failed to connect", ar.cause())
+            }
+        }
+
+        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
+        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
+        val callError = responses[0]
+        assertTrue(callError.startsWith("[4,"), "Should be CALLERROR message")
+        assertTrue(callError.contains("FormationViolation"), "Should return FormationViolation")
+    }
+
+    @Test
+    fun `should return FormationViolation for StatusNotification with invalid errorCode`() {
+        val connectLatch = CountDownLatch(1)
+        val responseLatch = CountDownLatch(1)
+        val responses = mutableListOf<String>()
+
+        val client = vertx.createWebSocketClient()
+        val options = WebSocketConnectOptions()
+            .setHost("localhost")
+            .setPort(8081)
+            .setURI("/ocpp")
+
+        client.connect(options).onComplete { ar ->
+            if (ar.succeeded()) {
+                val ws = ar.result()
+                connectLatch.countDown()
+
+                ws.handler { buffer: Buffer ->
+                    responses.add(buffer.toString())
+                    if (responses.size >= 1) {
+                        responseLatch.countDown()
+                    }
+                }
+
+                ws.writeTextMessage(STATUS_NOTIFICATION_INVALID_ERROR_CODE)
             } else {
                 throw RuntimeException("Failed to connect", ar.cause())
             }
