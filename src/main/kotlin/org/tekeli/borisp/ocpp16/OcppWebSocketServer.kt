@@ -22,7 +22,8 @@ class OcppWebSocketServer {
     private val sessionId = UUID.randomUUID().toString()
     private val handlers = mapOf(
         "BootNotification" to ::handleBootNotification,
-        "Heartbeat" to ::handleHeartbeat
+        "Heartbeat" to ::handleHeartbeat,
+        "Authorize" to ::handleAuthorize
     )
     
     @OnOpen
@@ -120,11 +121,34 @@ class OcppWebSocketServer {
     private fun handleHeartbeat(call: OcppMessage.Call): String {
         val currentTime = ZonedDateTime.now(ZoneOffset.UTC)
             .toString()
-        
+
         val responsePayload = mapOf(
             "currentTime" to currentTime
         )
-        
+
+        return OcppMessage.CallResult(
+            messageId = call.messageId,
+            payload = responsePayload
+        ).toJson()
+    }
+
+    private fun handleAuthorize(call: OcppMessage.Call): String {
+        val payload = call.payload ?: throw FormationViolationException("Payload is null")
+
+        val idTag = payload["idTag"]
+
+        if (idTag == null || idTag.toString().isBlank()) {
+            throw FormationViolationException("idTag is required")
+        }
+
+        if (idTag.toString().length > 20) {
+            throw FormationViolationException("idTag must not exceed 20 characters")
+        }
+
+        val responsePayload = mapOf(
+            "idTagInfo" to mapOf("status" to "Accepted")
+        )
+
         return OcppMessage.CallResult(
             messageId = call.messageId,
             payload = responsePayload
