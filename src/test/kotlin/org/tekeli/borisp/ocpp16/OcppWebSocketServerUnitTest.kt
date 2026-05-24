@@ -898,4 +898,163 @@ class OcppWebSocketServerUnitTest {
 
         assertTrue(response.startsWith("[3,"))
     }
+
+    @Test
+    fun `should return Accepted for valid DataTransfer`() {
+        val response = server.onTextMessage("""[2,"dt-1","DataTransfer",{"vendorId":"VendorX"}]""")
+
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("dt-1"))
+        assertTrue(response.contains("Accepted"))
+    }
+
+    @Test
+    fun `should return FormationViolation for DataTransfer with null payload`() {
+        val response = server.onTextMessage("""[2,"dt-2","DataTransfer",null]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("Payload is null"))
+    }
+
+    @Test
+    fun `should return FormationViolation for DataTransfer with missing vendorId`() {
+        val response = server.onTextMessage("""[2,"dt-3","DataTransfer",{}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("vendorId is required"))
+    }
+
+    @Test
+    fun `should return FormationViolation for DataTransfer with empty vendorId`() {
+        val response = server.onTextMessage("""[2,"dt-4","DataTransfer",{"vendorId":""}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("vendorId is required"))
+    }
+
+    @Test
+    fun `should return FormationViolation for DataTransfer with vendorId exceeding 255 characters`() {
+        val longVendorId = "A".repeat(256)
+        val response = server.onTextMessage("""[2,"dt-5","DataTransfer",{"vendorId":"$longVendorId"}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("vendorId must not exceed 255 characters"))
+    }
+
+    @Test
+    fun `should return Accepted for DataTransfer with vendorId exactly 255 characters`() {
+        val maxVendorId = "A".repeat(255)
+        val response = server.onTextMessage("""[2,"dt-6","DataTransfer",{"vendorId":"$maxVendorId"}]""")
+
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("Accepted"))
+    }
+
+    @Test
+    fun `should return Accepted for DataTransfer with optional messageId and data`() {
+        val response = server.onTextMessage("""[2,"dt-7","DataTransfer",{"vendorId":"VendorX","messageId":"diagStart","data":"dGVzdA=="}]""")
+
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("Accepted"))
+    }
+
+    @Test
+    fun `should return Accepted for DataTransfer with empty messageId`() {
+        val response = server.onTextMessage("""[2,"dt-8","DataTransfer",{"vendorId":"VendorX","messageId":""}]""")
+
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("Accepted"))
+    }
+
+    @Test
+    fun `should return empty CallResult for valid FirmwareStatusNotification`() {
+        val response = server.onTextMessage("""[2,"fs-1","FirmwareStatusNotification",{"status":"Downloaded"}]""")
+
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("fs-1"))
+    }
+
+    @Test
+    fun `should return FormationViolation for FirmwareStatusNotification with null payload`() {
+        val response = server.onTextMessage("""[2,"fs-2","FirmwareStatusNotification",null]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("Payload is null"))
+    }
+
+    @Test
+    fun `should return FormationViolation for FirmwareStatusNotification with missing status`() {
+        val response = server.onTextMessage("""[2,"fs-3","FirmwareStatusNotification",{}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("status is required"))
+    }
+
+    @Test
+    fun `should return FormationViolation for FirmwareStatusNotification with empty status`() {
+        val response = server.onTextMessage("""[2,"fs-5","FirmwareStatusNotification",{"status":""}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("status is required"))
+    }
+
+    @Test
+    fun `should return FormationViolation for FirmwareStatusNotification with invalid status`() {
+        val response = server.onTextMessage("""[2,"fs-4","FirmwareStatusNotification",{"status":"InvalidStatus"}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("Invalid status"))
+    }
+
+    @Test
+    fun `should return empty CallResult for valid DiagnosticsStatusNotification`() {
+        val response = server.onTextMessage("""[2,"ds-1","DiagnosticsStatusNotification",{"status":"Uploaded"}]""")
+
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("ds-1"))
+    }
+
+    @Test
+    fun `should return FormationViolation for DiagnosticsStatusNotification with null payload`() {
+        val response = server.onTextMessage("""[2,"ds-2","DiagnosticsStatusNotification",null]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("Payload is null"))
+    }
+
+    @Test
+    fun `should return FormationViolation for DiagnosticsStatusNotification with missing status`() {
+        val response = server.onTextMessage("""[2,"ds-3","DiagnosticsStatusNotification",{}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("status is required"))
+    }
+
+    @Test
+    fun `should return FormationViolation for DiagnosticsStatusNotification with empty status`() {
+        val response = server.onTextMessage("""[2,"ds-5","DiagnosticsStatusNotification",{"status":""}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("status is required"))
+    }
+
+    @Test
+    fun `should return FormationViolation for DiagnosticsStatusNotification with invalid status`() {
+        val response = server.onTextMessage("""[2,"ds-4","DiagnosticsStatusNotification",{"status":"InvalidStatus"}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("Invalid status"))
+    }
 }
