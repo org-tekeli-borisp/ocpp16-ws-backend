@@ -180,6 +180,16 @@
                         <param>org.tekeli.borisp.ocpp16.OcppMessage$CallError</param>
                         <param>org.tekeli.borisp.ocpp16.OcppMessage$Companion</param>
                         <param>org.tekeli.borisp.ocpp16.OcppWebSocketServer</param>
+                        <param>org.tekeli.borisp.ocpp16.BootNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.HeartbeatHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.AuthorizeHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.StartTransactionHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.StopTransactionHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.StatusNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.MeterValuesHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.DataTransferHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.FirmwareStatusNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.DiagnosticsStatusNotificationHandler</param>
                     </targetClasses>
                     <targetTests>
                         <param>org.tekeli.borisp.ocpp16.*</param>

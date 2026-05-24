@@ -6,39 +6,37 @@ import io.quarkus.websockets.next.OnTextMessage
 import io.quarkus.websockets.next.WebSocket
 import io.quarkus.websockets.next.WebSocketConnection
 import jakarta.inject.Inject
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
 import java.util.UUID
 
 @WebSocket(path = "/ocpp")
 class OcppWebSocketServer {
-    
+
     @Inject
     var connection: WebSocketConnection? = null
 
     val activeConnection: WebSocketConnection
         get() = connection ?: throw IllegalStateException("Connection not initialized")
-    
+
     private val sessionId = UUID.randomUUID().toString()
-    private val handlers = mapOf(
-        "BootNotification" to ::handleBootNotification,
-        "Heartbeat" to ::handleHeartbeat,
-        "Authorize" to ::handleAuthorize,
-        "StartTransaction" to ::handleStartTransaction,
-        "StopTransaction" to ::handleStopTransaction,
-        "StatusNotification" to ::handleStatusNotification,
-        "DataTransfer" to ::handleDataTransfer,
-        "FirmwareStatusNotification" to ::handleFirmwareStatusNotification,
-        "DiagnosticsStatusNotification" to ::handleDiagnosticsStatusNotification,
-        "MeterValues" to ::handleMeterValues
+    private val handlers: Map<String, OcppActionHandler> = mapOf(
+        "BootNotification" to BootNotificationHandler(),
+        "Heartbeat" to HeartbeatHandler(),
+        "Authorize" to AuthorizeHandler(),
+        "StartTransaction" to StartTransactionHandler(),
+        "StopTransaction" to StopTransactionHandler(),
+        "StatusNotification" to StatusNotificationHandler(),
+        "DataTransfer" to DataTransferHandler(),
+        "FirmwareStatusNotification" to FirmwareStatusNotificationHandler(),
+        "DiagnosticsStatusNotification" to DiagnosticsStatusNotificationHandler(),
+        "MeterValues" to MeterValuesHandler()
     )
-    
+
     @OnOpen
     fun onOpen() {
         println("WebSocket connection opened: $sessionId")
     }
-    
-       @OnTextMessage
+
+    @OnTextMessage
     fun onTextMessage(message: String): String {
         val response = try {
             val ocppMessage = OcppMessage.parse(message)
@@ -67,13 +65,13 @@ class OcppWebSocketServer {
                 errorDetails = null
             ).toJson()
         }
-        
+
         return response
     }
-    
+
     private fun handleCall(call: OcppMessage.Call): String {
         val handler = handlers[call.action]
-        
+
         if (handler == null) {
             return OcppMessage.CallError(
                 messageId = call.messageId,
@@ -82,9 +80,9 @@ class OcppWebSocketServer {
                 errorDetails = null
             ).toJson()
         }
-        
+
         return try {
-            handler(call)
+            handler.handle(call)
         } catch (e: FormationViolationException) {
             val errorMsg = e.message ?: "Payload validation failed"
             OcppMessage.CallError(
@@ -95,382 +93,11 @@ class OcppWebSocketServer {
             ).toJson()
         }
     }
-    
-    private fun handleBootNotification(call: OcppMessage.Call): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
-        
-        val vendor = payload["chargePointVendor"]
-        val model = payload["chargePointModel"]
-        
-        if (vendor == null || vendor.toString().isBlank()) {
-            throw FormationViolationException("chargePointVendor is required")
-        }
-
-        if (vendor.toString().length > 20) {
-            throw FormationViolationException("chargePointVendor must not exceed 20 characters")
-        }
-
-        if (model == null || model.toString().isBlank()) {
-            throw FormationViolationException("chargePointModel is required")
-        }
-
-        if (model.toString().length > 20) {
-            throw FormationViolationException("chargePointModel must not exceed 20 characters")
-        }
-        
-        val currentTime = ZonedDateTime.now(ZoneOffset.UTC)
-            .toString()
-        
-        val responsePayload = mapOf(
-            "currentTime" to currentTime,
-            "interval" to 300,
-            "status" to "Accepted"
-        )
-        
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = responsePayload
-        ).toJson()
-    }
-    
-    private fun handleHeartbeat(call: OcppMessage.Call): String {
-        val currentTime = ZonedDateTime.now(ZoneOffset.UTC)
-            .toString()
-
-        val responsePayload = mapOf(
-            "currentTime" to currentTime
-        )
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = responsePayload
-        ).toJson()
-    }
-
-    private fun handleAuthorize(call: OcppMessage.Call): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
-
-        val idTag = payload["idTag"]
-
-        if (idTag == null || idTag.toString().isBlank()) {
-            throw FormationViolationException("idTag is required")
-        }
-
-        if (idTag.toString().length > 20) {
-            throw FormationViolationException("idTag must not exceed 20 characters")
-        }
-
-        val responsePayload = mapOf(
-            "idTagInfo" to mapOf("status" to "Accepted")
-        )
-
-return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = responsePayload
-        ).toJson()
-    }
-
-    private fun handleStartTransaction(call: OcppMessage.Call): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
-
-        val connectorId = payload["connectorId"]
-        if (connectorId == null) {
-            throw FormationViolationException("connectorId is required")
-        }
-
-        val connectorIdValue = (connectorId as? Number)?.toInt()
-            ?: throw FormationViolationException("connectorId must be an integer")
-
-        if (connectorIdValue <= 0) {
-            throw FormationViolationException("connectorId must be > 0")
-        }
-
-        val idTag = payload["idTag"]
-        if (idTag == null || idTag.toString().isBlank()) {
-            throw FormationViolationException("idTag is required")
-        }
-
-        if (idTag.toString().length > 20) {
-            throw FormationViolationException("idTag must not exceed 20 characters")
-        }
-
-        val meterStart = payload["meterStart"]
-        if (meterStart == null) {
-            throw FormationViolationException("meterStart is required")
-        }
-
-        val timestamp = payload["timestamp"]
-        if (timestamp == null || timestamp.toString().isBlank()) {
-            throw FormationViolationException("timestamp is required")
-        }
-
-        val responsePayload = mapOf(
-            "idTagInfo" to mapOf("status" to "Accepted"),
-            "transactionId" to 1
-        )
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = responsePayload
-        ).toJson()
-    }
-
-    private val validStopReasons = setOf(
-        "DeAuthorized", "EmergencyStop", "EVDisconnected", "HardReset",
-        "Local", "Other", "PowerLoss", "Reboot", "Remote", "SoftReset",
-        "UnlockCommand"
-    )
-
-    private fun handleStopTransaction(call: OcppMessage.Call): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
-
-        val transactionId = payload["transactionId"]
-        if (transactionId == null) {
-            throw FormationViolationException("transactionId is required")
-        }
-
-        val meterStop = payload["meterStop"]
-        if (meterStop == null) {
-            throw FormationViolationException("meterStop is required")
-        }
-
-        val timestamp = payload["timestamp"]
-        if (timestamp == null || timestamp.toString().isBlank()) {
-            throw FormationViolationException("timestamp is required")
-        }
-
-        val reason = payload["reason"]
-        if (reason != null && reason.toString().trim().isNotEmpty()) {
-            if (!validStopReasons.contains(reason.toString())) {
-                throw FormationViolationException("Invalid reason: ${reason}")
-            }
-        }
-
-        val idTag = payload["idTag"]
-        if (idTag != null) {
-            val idTagStr = idTag.toString().trim()
-            if (idTagStr.length > 20) {
-                throw FormationViolationException("idTag must not exceed 20 characters")
-            }
-        }
-
-        val responsePayload = mapOf(
-            "idTagInfo" to mapOf("status" to "Accepted")
-        )
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = responsePayload
-        ).toJson()
-    }
-
-    private val validErrorCodes = setOf(
-        "ConnectorLockFailure", "EVCommunicationError", "GroundFailure",
-        "HighTemperature", "InternalError", "LocalListConflict", "NoError",
-        "OtherError", "OverCurrentFailure", "OverVoltage", "PowerMeterFailure",
-        "PowerSwitchFailure", "ReaderFailure", "ResetFailure", "UnderVoltage",
-        "WeakSignal"
-    )
-
-    private val validConnectorStatuses = setOf(
-        "Available", "Preparing", "Charging", "SuspendedEVSE", "SuspendedEV",
-        "Finishing", "Reserved", "Unavailable", "Faulted"
-    )
-
-    private fun handleStatusNotification(call: OcppMessage.Call): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
-
-        val connectorId = payload["connectorId"]
-        if (connectorId == null) {
-            throw FormationViolationException("connectorId is required")
-        }
-
-        val connectorIdValue = (connectorId as? Number)?.toInt()
-            ?: throw FormationViolationException("connectorId must be an integer")
-
-        if (connectorIdValue < 0) {
-            throw FormationViolationException("connectorId must be >= 0")
-        }
-
-        val errorCode = payload["errorCode"]
-        if (errorCode == null || errorCode.toString().isBlank()) {
-            throw FormationViolationException("errorCode is required")
-        }
-
-        if (!validErrorCodes.contains(errorCode.toString())) {
-            throw FormationViolationException("Invalid errorCode: ${errorCode}")
-        }
-
-        val status = payload["status"]
-        if (status == null || status.toString().isBlank()) {
-            throw FormationViolationException("status is required")
-        }
-
-        if (!validConnectorStatuses.contains(status.toString())) {
-            throw FormationViolationException("Invalid status: ${status}")
-        }
-
-        val info = payload["info"]
-        if (info != null) {
-            val infoStr = info.toString().trim()
-            if (infoStr.length > 50) {
-                throw FormationViolationException("info must not exceed 50 characters")
-            }
-        }
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = null
-        ).toJson()
-    }
 
     private fun generateMessageId(): String = UUID.randomUUID().toString()
-    
+
     @OnClose
     fun onClose() {
         println("WebSocket connection closed: $sessionId")
     }
-
-    private val validFirmwareStatuses = setOf(
-        "Downloaded", "DownloadFailed", "Downloading", "Idle",
-        "InstallationFailed", "Installing", "Installed"
-    )
-
-    private val validDiagnosticsStatuses = setOf(
-        "Idle", "Uploaded", "UploadFailed", "Uploading"
-    )
-
-    private fun handleDataTransfer(call: OcppMessage.Call): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
-
-        val vendorId = payload["vendorId"]
-        if (vendorId == null || vendorId.toString().isBlank()) {
-            throw FormationViolationException("vendorId is required")
-        }
-
-        if (vendorId.toString().length > 255) {
-            throw FormationViolationException("vendorId must not exceed 255 characters")
-        }
-
-        val responsePayload = mapOf(
-            "status" to "Accepted"
-        )
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = responsePayload
-        ).toJson()
-    }
-
-    private fun handleFirmwareStatusNotification(call: OcppMessage.Call): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
-
-        val status = payload["status"]
-        if (status == null) {
-            throw FormationViolationException("status is required")
-        }
-
-        val statusStr = status.toString().trim()
-        if (statusStr.isEmpty()) {
-            throw FormationViolationException("status is required")
-        }
-
-        if (!validFirmwareStatuses.contains(statusStr)) {
-            throw FormationViolationException("Invalid status: ${status}")
-        }
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = null
-        ).toJson()
-    }
-
-    private fun handleDiagnosticsStatusNotification(call: OcppMessage.Call): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
-
-        val status = payload["status"]
-        if (status == null) {
-            throw FormationViolationException("status is required")
-        }
-
-        val statusStr = status.toString().trim()
-        if (statusStr.isEmpty()) {
-            throw FormationViolationException("status is required")
-        }
-
-        if (!validDiagnosticsStatuses.contains(statusStr)) {
-            throw FormationViolationException("Invalid status: ${status}")
-        }
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = null
-        ).toJson()
-    }
-
-    private fun handleMeterValues(call: OcppMessage.Call): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
-
-        val connectorId = payload["connectorId"]
-        if (connectorId == null) {
-            throw FormationViolationException("connectorId is required")
-        }
-
-        val connectorIdValue = (connectorId as? Number)?.toInt()
-            ?: throw FormationViolationException("connectorId must be an integer")
-
-        if (connectorIdValue < 0) {
-            throw FormationViolationException("connectorId must be >= 0")
-        }
-
-        val meterValue = payload["meterValue"]
-        if (meterValue == null) {
-            throw FormationViolationException("meterValue is required")
-        }
-
-        val meterValueList = meterValue as? List<*>
-            ?: throw FormationViolationException("meterValue must be an array")
-
-        if (meterValueList.isEmpty()) {
-            throw FormationViolationException("meterValue must contain at least 1 element")
-        }
-
-        for (mv in meterValueList) {
-            val mvMap = mv as? Map<*, *>
-                ?: throw FormationViolationException("Each meterValue must be an object")
-
-            val timestamp = mvMap["timestamp"]
-            if (timestamp == null || timestamp.toString().trim().isEmpty()) {
-                throw FormationViolationException("timestamp is required in meterValue")
-            }
-
-            val sampledValue = mvMap["sampledValue"]
-            if (sampledValue == null) {
-                throw FormationViolationException("sampledValue is required in meterValue")
-            }
-
-            val sampledValueList = sampledValue as? List<*>
-                ?: throw FormationViolationException("sampledValue must be an array")
-
-            if (sampledValueList.isEmpty()) {
-                throw FormationViolationException("sampledValue must contain at least 1 element")
-            }
-
-            for (sv in sampledValueList) {
-                val svMap = sv as? Map<*, *>
-                    ?: throw FormationViolationException("Each sampledValue must be an object")
-
-                if (svMap["value"] == null) {
-                    throw FormationViolationException("value is required in sampledValue")
-                }
-            }
-        }
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = null
-        ).toJson()
-    }
 }
-
-class FormationViolationException(message: String) : RuntimeException(message)

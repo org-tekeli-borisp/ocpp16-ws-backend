@@ -156,10 +156,46 @@ class OcppWebSocketServerUnitTest {
     @Test
     fun `should handle BootNotification with empty model string`() {
         val response = server.onTextMessage("""[2,"123","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":""}]""")
-        
+
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
         assertTrue(response.contains("chargePointModel is required"))
+    }
+
+    @Test
+    fun `should return FormationViolation for BootNotification with vendor exceeding 20 characters`() {
+        val longVendor = "A".repeat(21)
+        val response = server.onTextMessage("""[2,"bn-1","BootNotification",{"chargePointVendor":"$longVendor","chargePointModel":"Model3"}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointVendor must not exceed 20 characters"))
+    }
+
+    @Test
+    fun `should accept BootNotification with vendor exactly 20 characters`() {
+        val maxVendor = "A".repeat(20)
+        val response = server.onTextMessage("""[2,"bn-2","BootNotification",{"chargePointVendor":"$maxVendor","chargePointModel":"Model3"}]""")
+
+        assertTrue(response.startsWith("[3,"))
+    }
+
+    @Test
+    fun `should return FormationViolation for BootNotification with model exceeding 20 characters`() {
+        val longModel = "A".repeat(21)
+        val response = server.onTextMessage("""[2,"bn-3","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":"$longModel"}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("chargePointModel must not exceed 20 characters"))
+    }
+
+    @Test
+    fun `should accept BootNotification with model exactly 20 characters`() {
+        val maxModel = "A".repeat(20)
+        val response = server.onTextMessage("""[2,"bn-4","BootNotification",{"chargePointVendor":"Vendor","chargePointModel":"$maxModel"}]""")
+
+        assertTrue(response.startsWith("[3,"))
     }
 
     @Test
