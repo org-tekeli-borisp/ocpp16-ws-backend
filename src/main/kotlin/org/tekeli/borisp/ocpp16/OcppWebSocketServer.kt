@@ -105,9 +105,17 @@ class OcppWebSocketServer {
         if (vendor == null || vendor.toString().isBlank()) {
             throw FormationViolationException("chargePointVendor is required")
         }
-        
+
+        if (vendor.toString().length > 20) {
+            throw FormationViolationException("chargePointVendor must not exceed 20 characters")
+        }
+
         if (model == null || model.toString().isBlank()) {
             throw FormationViolationException("chargePointModel is required")
+        }
+
+        if (model.toString().length > 20) {
+            throw FormationViolationException("chargePointModel must not exceed 20 characters")
         }
         
         val currentTime = ZonedDateTime.now(ZoneOffset.UTC)
@@ -170,6 +178,13 @@ return OcppMessage.CallResult(
             throw FormationViolationException("connectorId is required")
         }
 
+        val connectorIdValue = (connectorId as? Number)?.toInt()
+            ?: throw FormationViolationException("connectorId must be an integer")
+
+        if (connectorIdValue <= 0) {
+            throw FormationViolationException("connectorId must be > 0")
+        }
+
         val idTag = payload["idTag"]
         if (idTag == null || idTag.toString().isBlank()) {
             throw FormationViolationException("idTag is required")
@@ -201,10 +216,9 @@ return OcppMessage.CallResult(
     }
 
     private val validStopReasons = setOf(
-        "Emergency", "EnergyAsymmetric", "EmergencyExt", "EVDisconnected",
-        "HardReset", "Local", "LossOfAsset", "LossOfPower", "Other",
-        "PowerQuality", "Reboot", "SoftReset", "UnlockCommand",
-        "UploadDiagnostics", "OtherExt", "OutOfCredit", "Overcurrentsign"
+        "DeAuthorized", "EmergencyStop", "EVDisconnected", "HardReset",
+        "Local", "Other", "PowerLoss", "Reboot", "Remote", "SoftReset",
+        "UnlockCommand"
     )
 
     private fun handleStopTransaction(call: OcppMessage.Call): String {
@@ -226,12 +240,10 @@ return OcppMessage.CallResult(
         }
 
         val reason = payload["reason"]
-        if (reason == null || reason.toString().isBlank()) {
-            throw FormationViolationException("reason is required")
-        }
-
-        if (!validStopReasons.contains(reason.toString())) {
-            throw FormationViolationException("Invalid reason: ${reason}")
+        if (reason != null && reason.toString().trim().isNotEmpty()) {
+            if (!validStopReasons.contains(reason.toString())) {
+                throw FormationViolationException("Invalid reason: ${reason}")
+            }
         }
 
         val idTag = payload["idTag"]
@@ -253,13 +265,17 @@ return OcppMessage.CallResult(
     }
 
     private val validErrorCodes = setOf(
-        "Accepted", "Boot", "CableWake", "LockedIn", "LockedOut", "NoError",
-        "OpenRouter", "OverCurrent", "OverVoltage", "Overheating",
-        "PermissionDenied", "ReaderBlocked", "Reset", "Unavailable",
-        "VoltageTooLow", "WeldedConnector", "WeldedMeter"
+        "ConnectorLockFailure", "EVCommunicationError", "GroundFailure",
+        "HighTemperature", "InternalError", "LocalListConflict", "NoError",
+        "OtherError", "OverCurrentFailure", "OverVoltage", "PowerMeterFailure",
+        "PowerSwitchFailure", "ReaderFailure", "ResetFailure", "UnderVoltage",
+        "WeakSignal"
     )
 
-    private val validConnectorStatuses = setOf("Available", "Unavailable", "Faulted")
+    private val validConnectorStatuses = setOf(
+        "Available", "Preparing", "Charging", "SuspendedEVSE", "SuspendedEV",
+        "Finishing", "Reserved", "Unavailable", "Faulted"
+    )
 
     private fun handleStatusNotification(call: OcppMessage.Call): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
@@ -267,6 +283,13 @@ return OcppMessage.CallResult(
         val connectorId = payload["connectorId"]
         if (connectorId == null) {
             throw FormationViolationException("connectorId is required")
+        }
+
+        val connectorIdValue = (connectorId as? Number)?.toInt()
+            ?: throw FormationViolationException("connectorId must be an integer")
+
+        if (connectorIdValue < 0) {
+            throw FormationViolationException("connectorId must be >= 0")
         }
 
         val errorCode = payload["errorCode"]
@@ -309,13 +332,12 @@ return OcppMessage.CallResult(
     }
 
     private val validFirmwareStatuses = setOf(
-        "Downloaded", "Download", "Installation", "Installing",
-        "Finished", "Failed", "Empty", "NotAvailable",
-        "Dirty", "ChecksFailed", "Canceling", "Canceled"
+        "Downloaded", "DownloadFailed", "Downloading", "Idle",
+        "InstallationFailed", "Installing", "Installed"
     )
 
     private val validDiagnosticsStatuses = setOf(
-        "Uploaded", "Upload", "Idle", "Invalid", "Empty"
+        "Idle", "Uploaded", "UploadFailed", "Uploading"
     )
 
     private fun handleDataTransfer(call: OcppMessage.Call): String {

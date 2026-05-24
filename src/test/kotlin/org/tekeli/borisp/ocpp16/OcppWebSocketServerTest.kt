@@ -866,7 +866,7 @@ class OcppWebSocketServerTest {
     }
 
     @Test
-    fun `should return FormationViolation for StopTransaction with missing reason`() {
+    fun `should return Accepted for StopTransaction with missing reason (optional per spec)`() {
         val connectLatch = CountDownLatch(1)
         val responseLatch = CountDownLatch(1)
         val responses = mutableListOf<String>()
@@ -897,9 +897,9 @@ class OcppWebSocketServerTest {
 
         assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
         assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
-        val callError = responses[0]
-        assertTrue(callError.startsWith("[4,"), "Should be CALLERROR message")
-        assertTrue(callError.contains("FormationViolation"), "Should return FormationViolation")
+        val callResult = responses[0]
+        assertTrue(callResult.startsWith("[3,"), "Should be CALLRESULT message")
+        assertTrue(callResult.contains("Accepted"), "Should return Accepted status")
     }
 
     @Test

@@ -732,21 +732,19 @@ class OcppWebSocketServerUnitTest {
     }
 
     @Test
-    fun `should return FormationViolation for StopTransaction with missing reason`() {
+    fun `should return Accepted for StopTransaction with missing reason (optional per spec)`() {
         val response = server.onTextMessage("""[2,"stop-7","StopTransaction",{"transactionId":1,"meterStop":5000,"timestamp":"2024-01-01T01:00:00Z"}]""")
 
-        assertTrue(response.startsWith("[4,"))
-        assertTrue(response.contains("FormationViolation"))
-        assertTrue(response.contains("reason is required"))
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("Accepted"))
     }
 
     @Test
-    fun `should return FormationViolation for StopTransaction with empty reason`() {
+    fun `should return Accepted for StopTransaction with empty reason (optional per spec)`() {
         val response = server.onTextMessage("""[2,"stop-8","StopTransaction",{"transactionId":1,"meterStop":5000,"timestamp":"2024-01-01T01:00:00Z","reason":""}]""")
 
-        assertTrue(response.startsWith("[4,"))
-        assertTrue(response.contains("FormationViolation"))
-        assertTrue(response.contains("reason is required"))
+        assertTrue(response.startsWith("[3,"))
+        assertTrue(response.contains("Accepted"))
     }
 
     @Test
