@@ -83,6 +83,8 @@ class OcppWebSocketServerTest {
     @Inject
     lateinit var connection: WebSocketConnection
 
+    private fun testPort(): Int = System.getProperty("quarkus.http.port", "8081").toInt()
+
     @Test
     fun `should access connection property`() {
         assertDoesNotThrow {
@@ -106,7 +108,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
         
         client.connect(options).onComplete { ar ->
@@ -131,7 +133,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -168,7 +170,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -205,7 +207,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -242,7 +244,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -280,7 +282,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -318,7 +320,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -355,7 +357,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -392,7 +394,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -429,7 +431,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -466,7 +468,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -503,7 +505,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -540,7 +542,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -577,7 +579,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -614,7 +616,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -651,7 +653,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -688,7 +690,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -726,7 +728,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -763,7 +765,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -800,7 +802,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -837,7 +839,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -874,7 +876,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -911,7 +913,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -947,7 +949,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -984,7 +986,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -1021,7 +1023,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -1058,7 +1060,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -1095,7 +1097,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
@@ -1131,7 +1133,7 @@ class OcppWebSocketServerTest {
         val client = vertx.createWebSocketClient()
         val options = WebSocketConnectOptions()
             .setHost("localhost")
-            .setPort(8081)
+            .setPort(testPort())
             .setURI("/ocpp")
 
         client.connect(options).onComplete { ar ->
