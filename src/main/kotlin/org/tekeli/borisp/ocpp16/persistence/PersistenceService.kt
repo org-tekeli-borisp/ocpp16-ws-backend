@@ -95,6 +95,10 @@ class PersistenceService {
         em.createQuery("SELECT c FROM ChargePoint c ORDER BY c.lastSeenAt DESC", ChargePoint::class.java)
             .resultList as List<ChargePoint>
 
+    fun findByStatus(status: ChargePointStatus): List<ChargePoint> =
+        em.createQuery("SELECT c FROM ChargePoint c WHERE c.status = :status", ChargePoint::class.java)
+            .setParameter("status", status).resultList as List<ChargePoint>
+
     fun findOnlineChargePoints(): List<ChargePoint> =
         em.createQuery("SELECT c FROM ChargePoint c WHERE c.status = :status", ChargePoint::class.java)
             .setParameter("status", ChargePointStatus.ONLINE).resultList as List<ChargePoint>
