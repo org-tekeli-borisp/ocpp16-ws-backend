@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16
 
+import io.quarkus.test.common.http.TestHTTPResource
 import io.quarkus.test.junit.QuarkusTest
 import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
@@ -8,6 +9,7 @@ import io.quarkus.websockets.next.WebSocketConnection
 import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import java.net.URI
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -74,6 +76,9 @@ private const val INVALID_MESSAGE_TYPE_NEGATIVE = """[-1,"99999"]"""
 @QuarkusTest
 class OcppWebSocketServerTest {
 
+    @TestHTTPResource
+    lateinit var ocppUri: URI
+
     @Inject
     lateinit var vertx: Vertx
 
@@ -83,7 +88,7 @@ class OcppWebSocketServerTest {
     @Inject
     lateinit var connection: WebSocketConnection
 
-    private fun testPort(): Int = System.getProperty("quarkus.http.port", "8081").toInt()
+    private fun testPort(): Int = ocppUri.port
 
     @Test
     fun `should access connection property`() {
