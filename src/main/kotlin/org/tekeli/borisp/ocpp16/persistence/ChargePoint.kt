@@ -14,9 +14,9 @@ import java.time.Instant
     Index(name = "idx_chargepoint_id", columnList = "chargePointId"),
     Index(name = "idx_status", columnList = "status")
 ])
-class ChargePoint(
-    @Column(length = 255, nullable = false)
-    val chargePointId: String,
+class ChargePoint @JvmOverloads constructor(
+    @Column(length = 255)
+    var chargePointId: String = "",
 
     @Column(length = 20)
     var vendor: String? = null,
@@ -28,10 +28,10 @@ class ChargePoint(
     var firmwareVersion: String? = null,
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     var status: ChargePointStatus = ChargePointStatus.OFFLINE,
 
-    @Column(nullable = false)
+    @Column
     var sessionId: String = "",
 
     var lastSeenAt: Instant = Instant.now(),

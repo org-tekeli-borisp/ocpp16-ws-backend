@@ -15,27 +15,27 @@ import java.time.Instant
     Index(name = "idx_txn_idtag", columnList = "idTag"),
     Index(name = "idx_txn_started", columnList = "startTime")
 ])
-class Transaction(
+class Transaction @JvmOverloads constructor(
     @Id
     @GeneratedValue
     val id: Long? = null,
 
-    @Column(length = 255, nullable = false)
-    val chargePointId: String,
+    @Column(length = 255)
+    var chargePointId: String = "",
 
-    @Column(nullable = false)
-    val connectorId: Int,
+    @Column
+    var connectorId: Int = 0,
 
-    @Column(length = 20, nullable = false)
-    val idTag: String,
+    @Column(length = 20)
+    var idTag: String = "",
 
-    @Column(nullable = false)
-    val meterStart: Int,
+    @Column
+    var meterStart: Int = 0,
 
-    @Column(nullable = false)
-    val startTime: Instant,
+    @Column
+    var startTime: Instant = Instant.EPOCH,
 
-    @Column(nullable = false)
+    @Column
     var stopTime: Instant? = null,
 
     var meterStop: Int? = null,
