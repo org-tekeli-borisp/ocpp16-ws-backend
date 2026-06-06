@@ -114,7 +114,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
         
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -139,7 +139,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -176,7 +176,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -213,7 +213,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -250,7 +250,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -288,7 +288,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -326,7 +326,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -363,7 +363,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -400,7 +400,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -437,7 +437,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -474,7 +474,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -511,7 +511,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -548,7 +548,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -585,7 +585,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -622,7 +622,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -659,7 +659,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -696,7 +696,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -734,7 +734,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -771,7 +771,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -808,7 +808,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -845,7 +845,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -882,7 +882,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -919,7 +919,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -955,7 +955,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -992,7 +992,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -1029,7 +1029,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -1066,7 +1066,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -1103,7 +1103,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -1139,7 +1139,7 @@ class OcppWebSocketServerTest {
         val options = WebSocketConnectOptions()
             .setHost("localhost")
             .setPort(testPort())
-            .setURI("/ocpp")
+            .setURI("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
