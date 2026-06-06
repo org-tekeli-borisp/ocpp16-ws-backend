@@ -14,7 +14,7 @@ class StatusNotificationHandler : OcppActionHandler {
         "Finishing", "Reserved", "Unavailable", "Faulted"
     )
 
-    override fun handle(call: OcppMessage.Call): String {
+    override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
 
         val connectorId = payload["connectorId"]

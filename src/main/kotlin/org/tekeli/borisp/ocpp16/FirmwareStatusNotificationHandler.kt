@@ -6,7 +6,7 @@ class FirmwareStatusNotificationHandler : OcppActionHandler {
         "InstallationFailed", "Installing", "Installed"
     )
 
-    override fun handle(call: OcppMessage.Call): String {
+    override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
 
         val status = payload["status"]

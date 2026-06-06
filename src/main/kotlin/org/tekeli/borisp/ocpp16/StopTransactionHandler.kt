@@ -7,7 +7,7 @@ class StopTransactionHandler : OcppActionHandler {
         "UnlockCommand"
     )
 
-    override fun handle(call: OcppMessage.Call): String {
+    override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
 
         val transactionId = payload["transactionId"]

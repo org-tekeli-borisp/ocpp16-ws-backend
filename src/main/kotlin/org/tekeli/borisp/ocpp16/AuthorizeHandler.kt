@@ -1,7 +1,7 @@
 package org.tekeli.borisp.ocpp16
 
 class AuthorizeHandler : OcppActionHandler {
-    override fun handle(call: OcppMessage.Call): String {
+    override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
 
         val idTag = payload["idTag"]

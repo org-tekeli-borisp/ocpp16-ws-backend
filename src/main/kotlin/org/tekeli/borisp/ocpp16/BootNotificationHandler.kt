@@ -4,7 +4,7 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
 class BootNotificationHandler : OcppActionHandler {
-    override fun handle(call: OcppMessage.Call): String {
+    override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
 
         val vendor = payload["chargePointVendor"]
@@ -24,6 +24,15 @@ class BootNotificationHandler : OcppActionHandler {
         if (model.toString().length > 20) {
             throw FormationViolationException("chargePointModel must not exceed 20 characters")
         }
+
+        val firmwareVersion = payload["firmwareVersion"]?.toString()
+        val chargePointId = "${vendor.toString()}-${model.toString()}-${firmwareVersion ?: "unknown"}"
+        server.chargePointRegistry?.updateChargePointInfo(
+            server.getSessionId(),
+            chargePointId,
+            vendor.toString(),
+            model.toString()
+        )
 
         val currentTime = ZonedDateTime.now(ZoneOffset.UTC).toString()
         val responsePayload = mapOf(

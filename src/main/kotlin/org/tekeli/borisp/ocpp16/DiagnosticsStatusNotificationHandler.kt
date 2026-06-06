@@ -5,7 +5,7 @@ class DiagnosticsStatusNotificationHandler : OcppActionHandler {
         "Idle", "Uploaded", "UploadFailed", "Uploading"
     )
 
-    override fun handle(call: OcppMessage.Call): String {
+    override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
 
         val status = payload["status"]
