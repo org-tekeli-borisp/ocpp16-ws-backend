@@ -192,12 +192,14 @@
                         <param>org.tekeli.borisp.ocpp16.DiagnosticsStatusNotificationHandler</param>
                         <param>org.tekeli.borisp.ocpp16.ResponseAwaiter</param>
                         <param>org.tekeli.borisp.ocpp16.OutboundCallDispatcher</param>
+                        <param>org.tekeli.borisp.ocpp16.ChargePointRegistry</param>
                     </targetClasses>
                     <targetTests>
                         <param>org.tekeli.borisp.ocpp16.OcppMessageTest</param>
                         <param>org.tekeli.borisp.ocpp16.OcppWebSocketServerUnitTest</param>
                         <param>org.tekeli.borisp.ocpp16.ResponseAwaiterTest</param>
                         <param>org.tekeli.borisp.ocpp16.OutboundCallDispatcherTest</param>
+                        <param>org.tekeli.borisp.ocpp16.ChargePointRegistryTest</param>
                     </targetTests>
                     <excludedMethods>
                         <exclude>parseJsonNode</exclude>
