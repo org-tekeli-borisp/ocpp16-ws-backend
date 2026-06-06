@@ -3,6 +3,7 @@ import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @QuarkusTest
@@ -11,6 +12,12 @@ class ChargePointRepositoryTest {
 
     @Inject
     lateinit var em: EntityManager
+
+    @BeforeEach
+    fun cleanup() {
+        em.createNativeQuery("DELETE FROM charge_points").executeUpdate()
+        em.flush()
+    }
 
     private fun persistAndFlush(cp: ChargePoint) {
         em.persist(cp)
@@ -84,11 +91,11 @@ class ChargePointRepositoryTest {
     fun `should find by sessionId`() {
         persistAndFlush(ChargePoint(chargePointId = "CP-1", vendor = "V1", model = "M1", sessionId = "my-session"))
 
-        val found = em.createQuery("SELECT c FROM ChargePoint c WHERE c.sessionId = :sid", ChargePoint::class.java)
+        val found: ChargePoint? = em.createQuery("SELECT c FROM ChargePoint c WHERE c.sessionId = :sid", ChargePoint::class.java)
             .setParameter("sid", "my-session")
-            .singleResult
+            .resultList.firstOrNull() as ChargePoint?
 
         assertNotNull(found)
-        assertEquals("CP-1", found.chargePointId)
+        assertEquals("CP-1", found!!.chargePointId)
     }
 }

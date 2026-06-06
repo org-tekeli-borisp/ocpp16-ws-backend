@@ -34,6 +34,14 @@ class BootNotificationHandler : OcppActionHandler {
             model.toString()
         )
 
+        server.persistenceService?.upsertChargePoint(
+            sessionId = server.getSessionId(),
+            chargePointId = chargePointId,
+            vendor = vendor.toString(),
+            model = model.toString(),
+            firmwareVersion = firmwareVersion
+        )
+
         val currentTime = ZonedDateTime.now(ZoneOffset.UTC).toString()
         val responsePayload = mapOf(
             "currentTime" to currentTime,

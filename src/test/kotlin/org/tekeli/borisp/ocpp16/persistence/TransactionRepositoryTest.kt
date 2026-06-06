@@ -4,6 +4,7 @@ import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.Instant
 
@@ -13,6 +14,12 @@ class TransactionRepositoryTest {
 
     @Inject
     lateinit var em: EntityManager
+
+    @BeforeEach
+    fun cleanup() {
+        em.createNativeQuery("DELETE FROM transactions").executeUpdate()
+        em.flush()
+    }
 
     private fun persistAndFlush(txn: Transaction) {
         em.persist(txn)

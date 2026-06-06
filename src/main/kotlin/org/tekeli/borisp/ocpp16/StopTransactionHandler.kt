@@ -1,5 +1,7 @@
 package org.tekeli.borisp.ocpp16
 
+import java.time.Instant
+
 class StopTransactionHandler : OcppActionHandler {
     private val validStopReasons = setOf(
         "DeAuthorized", "EmergencyStop", "EVDisconnected", "HardReset",
@@ -15,14 +17,26 @@ class StopTransactionHandler : OcppActionHandler {
             throw FormationViolationException("transactionId is required")
         }
 
+        val transactionIdValue = (transactionId as? Number)?.toLong()
+            ?: throw FormationViolationException("transactionId must be an integer")
+
         val meterStop = payload["meterStop"]
         if (meterStop == null) {
             throw FormationViolationException("meterStop is required")
         }
 
+        val meterStopValue = (meterStop as? Number)?.toInt()
+            ?: throw FormationViolationException("meterStop must be an integer")
+
         val timestamp = payload["timestamp"]
         if (timestamp == null || timestamp.toString().isBlank()) {
             throw FormationViolationException("timestamp is required")
+        }
+
+        val stopTime = try {
+            Instant.parse(timestamp.toString())
+        } catch (e: Exception) {
+            throw FormationViolationException("Invalid timestamp format")
         }
 
         val reason = payload["reason"]
@@ -39,6 +53,14 @@ class StopTransactionHandler : OcppActionHandler {
                 throw FormationViolationException("idTag must not exceed 20 characters")
             }
         }
+
+        server.persistenceService?.stopTransaction(
+            transactionId = transactionIdValue,
+            meterStop = meterStopValue,
+            stopTime = stopTime,
+            reason = reason?.toString(),
+            idTagEnd = idTag?.toString()?.trim()
+        )
 
         val responsePayload = mapOf(
             "idTagInfo" to mapOf("status" to "Accepted")

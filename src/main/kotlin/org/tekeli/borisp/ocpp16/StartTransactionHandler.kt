@@ -1,5 +1,7 @@
 package org.tekeli.borisp.ocpp16
 
+import java.time.Instant
+
 class StartTransactionHandler : OcppActionHandler {
     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
@@ -30,14 +32,39 @@ class StartTransactionHandler : OcppActionHandler {
             throw FormationViolationException("meterStart is required")
         }
 
+        val meterStartValue = (meterStart as? Number)?.toInt()
+            ?: throw FormationViolationException("meterStart must be an integer")
+
         val timestamp = payload["timestamp"]
         if (timestamp == null || timestamp.toString().isBlank()) {
             throw FormationViolationException("timestamp is required")
         }
 
+        val startTime = try {
+            Instant.parse(timestamp.toString())
+        } catch (e: Exception) {
+            throw FormationViolationException("Invalid timestamp format")
+        }
+
+        val sessionId = server.getSessionId()
+        val ps = server.persistenceService
+
+        var transactionId: Long = 1
+        val chargePoint = ps?.findChargePointBySessionId(sessionId)
+        if (chargePoint != null && ps != null) {
+            val txn = ps.createTransaction(
+                chargePointId = chargePoint.chargePointId,
+                connectorId = connectorIdValue,
+                idTag = idTag.toString(),
+                meterStart = meterStartValue,
+                startTime = startTime
+            )
+            transactionId = txn.id ?: 1
+        }
+
         val responsePayload = mapOf(
             "idTagInfo" to mapOf("status" to "Accepted"),
-            "transactionId" to 1
+            "transactionId" to transactionId
         )
 
         return OcppMessage.CallResult(

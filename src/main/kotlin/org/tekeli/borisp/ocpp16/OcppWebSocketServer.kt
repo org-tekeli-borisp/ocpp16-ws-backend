@@ -3,6 +3,7 @@ package org.tekeli.borisp.ocpp16
 import io.quarkus.websockets.next.*
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
@@ -15,6 +16,9 @@ class OcppWebSocketServer : ChargePointConnection {
 
     @Inject
     var chargePointRegistry: ChargePointRegistry? = null
+
+    @Inject
+    var persistenceService: PersistenceService? = null
 
     val activeConnection: WebSocketConnection
         get() = connection ?: throw IllegalStateException("Connection not initialized")
@@ -255,6 +259,7 @@ class OcppWebSocketServer : ChargePointConnection {
     @OnClose
     fun onClose() {
         chargePointRegistry?.unregister(sessionId)
+        persistenceService?.setChargePointOffline(sessionId)
         println("WebSocket connection closed: $sessionId")
     }
 }
