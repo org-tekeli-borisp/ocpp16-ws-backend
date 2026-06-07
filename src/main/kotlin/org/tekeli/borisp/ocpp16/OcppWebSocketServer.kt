@@ -260,8 +260,12 @@ class OcppWebSocketServer : ChargePointConnection {
 
     @OnClose
     fun onClose() {
-        chargePointRegistry?.unregister(sessionId)
-        persistenceService?.setChargePointOffline(sessionId)
+        try {
+            chargePointRegistry?.unregister(sessionId)
+            persistenceService?.setChargePointOffline(sessionId)
+        } catch (e: Exception) {
+            // Suppress errors during shutdown (EntityManagerFactory closed, etc.)
+        }
         println("WebSocket connection closed: $sessionId")
     }
 }
