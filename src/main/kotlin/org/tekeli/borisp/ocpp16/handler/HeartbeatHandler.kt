@@ -8,7 +8,7 @@ import java.time.ZonedDateTime
 class HeartbeatHandler : OcppActionHandler {
     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
         try {
-            server.persistenceService?.setChargePointOnline(server.getSessionId())
+            server.persistenceService?.setChargePointOnline(server.sessionId)
         } catch (e: Exception) {
             // Ignore persistence errors on heartbeat
         }

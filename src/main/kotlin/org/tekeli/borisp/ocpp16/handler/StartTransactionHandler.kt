@@ -49,7 +49,7 @@ class StartTransactionHandler : OcppActionHandler {
             throw FormationViolationException("Invalid timestamp format")
         }
 
-        val sessionId = server.getSessionId()
+        val sessionId = server.sessionId
         val ps = server.persistenceService
 
         var transactionId: Long = 1

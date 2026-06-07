@@ -14,8 +14,6 @@ import org.tekeli.borisp.ocpp16.handler.OcppActionHandler
 import org.tekeli.borisp.ocpp16.handler.StartTransactionHandler
 import org.tekeli.borisp.ocpp16.handler.StatusNotificationHandler
 import org.tekeli.borisp.ocpp16.handler.StopTransactionHandler
-import org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher
-import org.tekeli.borisp.ocpp16.outbound.WsSender
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
@@ -24,7 +22,6 @@ import org.tekeli.borisp.ocpp16.protocol.OcppParseException
 import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 @WebSocket(path = "/ocpp/{chargePointId}")
 @ApplicationScoped
@@ -32,9 +29,6 @@ class OcppWebSocketServer : ChargePointConnection {
 
     @Inject
     var connection: WebSocketConnection? = null
-
-    @Inject
-    var openConnections: OpenConnections? = null
 
     @Inject
     var chargePointRegistry: ChargePointRegistry? = null
@@ -46,7 +40,7 @@ class OcppWebSocketServer : ChargePointConnection {
         get() = connection ?: throw IllegalStateException("Connection not initialized")
 
     override val responseAwaiter = ResponseAwaiter()
-    private var sessionId: String = ""
+    var sessionId: String = ""
     var chargePointId: String? = null
     private val handlers: Map<String, OcppActionHandler> = mapOf(
         "BootNotification" to BootNotificationHandler(),
@@ -60,14 +54,6 @@ class OcppWebSocketServer : ChargePointConnection {
         "DiagnosticsStatusNotification" to DiagnosticsStatusNotificationHandler(),
         "MeterValues" to MeterValuesHandler()
     )
-
-    private val dispatcher: OutboundCallDispatcher by lazy {
-        val connId = connection?.id()
-            ?: throw IllegalStateException("WebSocket connection id not available")
-        val conns = openConnections
-            ?: throw IllegalStateException("OpenConnections not initialized")
-        OutboundCallDispatcher(WsSender(conns, connId), responseAwaiter)
-    }
 
     @OnOpen
     fun onOpen() {
@@ -158,130 +144,6 @@ class OcppWebSocketServer : ChargePointConnection {
     override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> {
         return connection?.sendText(text) ?: io.smallrye.mutiny.Uni.createFrom().voidItem()
     }
-
-    fun sendReset(type: String): CompletableFuture<OcppMessage> = dispatcher.sendCall("Reset", mapOf("type" to type))
-    fun sendClearCache(): CompletableFuture<OcppMessage> = dispatcher.sendCall("ClearCache", null)
-    fun sendChangeConfiguration(key: String, value: String): CompletableFuture<OcppMessage> =
-        dispatcher.sendCall("ChangeConfiguration", mapOf("key" to key, "value" to value))
-
-    fun sendChangeAvailability(connectorId: Int, type: String): CompletableFuture<OcppMessage> =
-        dispatcher.sendCall("ChangeAvailability", mapOf("connectorId" to connectorId, "type" to type))
-
-    fun sendGetConfiguration(keys: List<String>? = null): CompletableFuture<OcppMessage> =
-        dispatcher.sendCall("GetConfiguration", keys?.let { mapOf("key" to it) })
-
-    fun sendGetDiagnostics(
-        location: String,
-        retries: Int? = null,
-        retryInterval: Int? = null,
-        startTime: String? = null,
-        stopTime: String? = null
-    ): CompletableFuture<OcppMessage> {
-        val payload = mutableMapOf<String, Any>("location" to location)
-        retries?.let { payload["retries"] = it }
-        retryInterval?.let { payload["retryInterval"] = it }
-        startTime?.let { payload["startTime"] = it }
-        stopTime?.let { payload["stopTime"] = it }
-        return dispatcher.sendCall("GetDiagnostics", payload)
-    }
-
-    fun sendGetLocalListVersion(): CompletableFuture<OcppMessage> = dispatcher.sendCall("GetLocalListVersion", null)
-    fun sendGetCompositeSchedule(
-        connectorId: Int,
-        duration: Int,
-        chargingRateUnit: String? = null
-    ): CompletableFuture<OcppMessage> {
-        val payload = mutableMapOf<String, Any>("connectorId" to connectorId, "duration" to duration)
-        chargingRateUnit?.let { payload["chargingRateUnit"] = it }
-        return dispatcher.sendCall("GetCompositeSchedule", payload)
-    }
-
-    fun sendRemoteStartTransaction(
-        idTag: String,
-        connectorId: Int? = null,
-        chargingProfile: Map<String, Any>? = null
-    ): CompletableFuture<OcppMessage> {
-        val payload = mutableMapOf<String, Any>("idTag" to idTag)
-        connectorId?.let { payload["connectorId"] = it }
-        chargingProfile?.let { payload["chargingProfile"] = it }
-        return dispatcher.sendCall("RemoteStartTransaction", payload)
-    }
-
-    fun sendRemoteStopTransaction(transactionId: Int): CompletableFuture<OcppMessage> =
-        dispatcher.sendCall("RemoteStopTransaction", mapOf("transactionId" to transactionId))
-
-    fun sendReserveNow(
-        connectorId: Int,
-        expiryDate: String,
-        idTag: String,
-        reservationId: Int,
-        parentIdTag: String? = null
-    ): CompletableFuture<OcppMessage> {
-        val payload = mutableMapOf<String, Any>(
-            "connectorId" to connectorId,
-            "expiryDate" to expiryDate,
-            "idTag" to idTag,
-            "reservationId" to reservationId
-        )
-        parentIdTag?.let { payload["parentIdTag"] = it }
-        return dispatcher.sendCall("ReserveNow", payload)
-    }
-
-    fun sendCancelReservation(reservationId: Int): CompletableFuture<OcppMessage> =
-        dispatcher.sendCall("CancelReservation", mapOf("reservationId" to reservationId))
-
-    fun sendSendLocalList(
-        listVersion: Int,
-        updateType: String,
-        localAuthorizationList: List<Map<String, Any>>? = null
-    ): CompletableFuture<OcppMessage> {
-        val payload = mutableMapOf<String, Any>("listVersion" to listVersion, "updateType" to updateType)
-        localAuthorizationList?.let { payload["localAuthorizationList"] = it }
-        return dispatcher.sendCall("SendLocalList", payload)
-    }
-
-    fun sendSetChargingProfile(connectorId: Int, csChargingProfiles: Map<String, Any>): CompletableFuture<OcppMessage> =
-        dispatcher.sendCall(
-            "SetChargingProfile",
-            mapOf("connectorId" to connectorId, "csChargingProfiles" to csChargingProfiles)
-        )
-
-    fun sendClearChargingProfile(
-        id: Int? = null,
-        connectorId: Int? = null,
-        chargingProfilePurpose: String? = null,
-        stackLevel: Int? = null
-    ): CompletableFuture<OcppMessage> {
-        val payload = mutableMapOf<String, Any>()
-        id?.let { payload["id"] = it }
-        connectorId?.let { payload["connectorId"] = it }
-        chargingProfilePurpose?.let { payload["chargingProfilePurpose"] = it }
-        stackLevel?.let { payload["stackLevel"] = it }
-        return dispatcher.sendCall("ClearChargingProfile", payload)
-    }
-
-    fun sendTriggerMessage(requestedMessage: String, connectorId: Int? = null): CompletableFuture<OcppMessage> {
-        val payload = mutableMapOf<String, Any>("requestedMessage" to requestedMessage)
-        connectorId?.let { payload["connectorId"] = it }
-        return dispatcher.sendCall("TriggerMessage", payload)
-    }
-
-    fun sendUnlockConnector(connectorId: Int): CompletableFuture<OcppMessage> =
-        dispatcher.sendCall("UnlockConnector", mapOf("connectorId" to connectorId))
-
-    fun sendUpdateFirmware(
-        location: String,
-        retrieveDate: String,
-        retries: Int? = null,
-        retryInterval: Int? = null
-    ): CompletableFuture<OcppMessage> {
-        val payload = mutableMapOf<String, Any>("location" to location, "retrieveDate" to retrieveDate)
-        retries?.let { payload["retries"] = it }
-        retryInterval?.let { payload["retryInterval"] = it }
-        return dispatcher.sendCall("UpdateFirmware", payload)
-    }
-
-    fun getSessionId(): String = sessionId
 
     private fun generateMessageId(): String = UUID.randomUUID().toString()
 

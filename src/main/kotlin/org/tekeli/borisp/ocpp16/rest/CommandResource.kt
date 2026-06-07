@@ -5,10 +5,9 @@ import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.outbound.OcppOutboundService
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
-import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
-import java.time.Instant
 
 @Path("/api/chargepoints/{chargePointId}/commands")
 @Produces(MediaType.APPLICATION_JSON)
@@ -16,7 +15,7 @@ import java.time.Instant
 class CommandResource {
 
     @Inject
-    lateinit var chargePointRegistry: ChargePointRegistry
+    lateinit var outboundService: OcppOutboundService
 
     @Inject
     lateinit var persistenceService: PersistenceService
@@ -76,11 +75,7 @@ class CommandResource {
                 .build()
         }
 
-        val result = chargePointRegistry.sendCall(chargePointId, "RemoteStartTransaction", mapOf<String, Any>(
-            "connectorId" to connectorId,
-            "idTag" to idTag,
-            "startTime" to Instant.now().toString()
-        ))
+        val result = outboundService.sendRemoteStartTransaction(chargePointId, idTag, connectorId)
 
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
         return if (response is OcppMessage.CallResult) {
@@ -96,7 +91,7 @@ class CommandResource {
 
     private fun handleRemoteStopTransaction(chargePointId: String, body: String): Response {
         val payload = objectMapper.readValue(body, Map::class.java)
-        val transactionId = (payload["transactionId"] as? Number)?.toLong()
+        val transactionId = (payload["transactionId"] as? Number)?.toInt()
 
         if (transactionId == null) {
             return Response.status(Response.Status.BAD_REQUEST)
@@ -104,9 +99,7 @@ class CommandResource {
                 .build()
         }
 
-        val result = chargePointRegistry.sendCall(chargePointId, "RemoteStopTransaction", mapOf<String, Any>(
-            "transactionId" to transactionId
-        ))
+        val result = outboundService.sendRemoteStopTransaction(chargePointId, transactionId)
 
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
         return if (response is OcppMessage.CallResult) {
@@ -130,9 +123,7 @@ class CommandResource {
                 .build()
         }
 
-        val result = chargePointRegistry.sendCall(chargePointId, "Reset", mapOf<String, Any>(
-            "type" to type
-        ))
+        val result = outboundService.sendReset(chargePointId, type)
 
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
         return if (response is OcppMessage.CallResult) {
@@ -156,9 +147,7 @@ class CommandResource {
                 .build()
         }
 
-        val result = chargePointRegistry.sendCall(chargePointId, "UnlockConnector", mapOf<String, Any>(
-            "connectorId" to connectorId
-        ))
+        val result = outboundService.sendUnlockConnector(chargePointId, connectorId)
 
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
         return if (response is OcppMessage.CallResult) {

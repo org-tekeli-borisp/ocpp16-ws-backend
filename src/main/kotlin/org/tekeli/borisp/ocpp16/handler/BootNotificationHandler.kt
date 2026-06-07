@@ -31,14 +31,14 @@ class BootNotificationHandler : OcppActionHandler {
         val firmwareVersion = payload["firmwareVersion"]?.toString()
         val chargePointId = server.chargePointId ?: throw FormationViolationException("No chargePointId from connection")
         server.chargePointRegistry?.updateChargePointInfo(
-            server.getSessionId(),
+            server.sessionId,
             chargePointId,
             vendor.toString(),
             model.toString()
         )
 
         server.persistenceService?.upsertChargePoint(
-            sessionId = server.getSessionId(),
+            sessionId = server.sessionId,
             chargePointId = chargePointId,
             vendor = vendor.toString(),
             model = model.toString(),
