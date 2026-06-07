@@ -91,9 +91,8 @@ class ChargePointRepositoryTest {
     fun `should find by sessionId`() {
         persistAndFlush(ChargePoint(chargePointId = "CP-1", vendor = "V1", model = "M1", sessionId = "my-session"))
 
-        val found: ChargePoint? = em.createQuery("SELECT c FROM ChargePoint c WHERE c.sessionId = :sid", ChargePoint::class.java)
-            .setParameter("sid", "my-session")
-            .resultList.firstOrNull() as ChargePoint?
+        val found = em.createQuery("SELECT c FROM ChargePoint c WHERE c.sessionId = :sid", ChargePoint::class.java)
+            .setParameter("sid", "my-session").resultList.firstOrNull()
 
         assertNotNull(found)
         assertEquals("CP-1", found!!.chargePointId)

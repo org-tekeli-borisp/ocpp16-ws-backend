@@ -60,7 +60,7 @@ class CommandResource {
             }
         } catch (e: IllegalStateException) {
             Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                .entity(mapOf<String, Any>("error" to (e.message?.toString() ?: "ChargePoint not connected")))
+                .entity(mapOf<String, Any>("error" to (e.message ?: "ChargePoint not connected")))
                 .build()
         }
     }

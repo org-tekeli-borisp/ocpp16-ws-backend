@@ -50,16 +50,18 @@ class StartTransactionHandler : OcppActionHandler {
         val ps = server.persistenceService
 
         var transactionId: Long = 1
-        val chargePoint = ps?.findChargePointBySessionId(sessionId)
-        if (chargePoint != null && ps != null) {
-            val txn = ps.createTransaction(
-                chargePointId = chargePoint.chargePointId,
-                connectorId = connectorIdValue,
-                idTag = idTag.toString(),
-                meterStart = meterStartValue,
-                startTime = startTime
-            )
-            transactionId = txn.id ?: 1
+        if (ps != null) {
+            val chargePoint = ps.findChargePointBySessionId(sessionId)
+            if (chargePoint != null) {
+                val txn = ps.createTransaction(
+                    chargePointId = chargePoint.chargePointId,
+                    connectorId = connectorIdValue,
+                    idTag = idTag.toString(),
+                    meterStart = meterStartValue,
+                    startTime = startTime
+                )
+                transactionId = txn.id ?: 1
+            }
         }
 
         val responsePayload = mapOf(

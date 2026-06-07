@@ -107,11 +107,8 @@ class FullFlowIntegrationTest {
         if (payloadNode == null || !payloadNode.isObject) return emptyMap()
 
         val result = mutableMapOf<String, Any?>()
-        val it = payloadNode.fields()
-        while (it.hasNext()) {
-            val field = it.next()
-            val valueNode = field.value
-            result[field.key] = when {
+        for ((key, valueNode) in payloadNode.properties()) {
+            result[key] = when {
                 valueNode.isTextual -> valueNode.asText()
                 valueNode.isNumber -> valueNode.asLong()
                 valueNode.isBoolean -> valueNode.asBoolean()

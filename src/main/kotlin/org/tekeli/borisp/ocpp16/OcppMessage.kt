@@ -98,6 +98,7 @@ sealed class OcppMessage {
             }
         }
 
+        @Suppress("UNCHECKED_CAST")
         private fun parseJsonNode(node: JsonNode): Map<String, Any>? {
             return objectMapper.convertValue(node, Map::class.java) as? Map<String, Any>
         }

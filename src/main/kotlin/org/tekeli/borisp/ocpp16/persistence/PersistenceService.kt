@@ -76,13 +76,17 @@ class PersistenceService {
         ).setParameter("status", ChargePointStatus.ONLINE).setParameter("now", Instant.now()).setParameter("sid", sessionId).executeUpdate()
     }
 
-    fun findChargePointBySessionId(sessionId: String): ChargePoint? =
-        em.createQuery("SELECT c FROM ChargePoint c WHERE c.sessionId = :sid", ChargePoint::class.java)
-            .setParameter("sid", sessionId).resultList.firstOrNull() as ChargePoint?
+    fun findChargePointBySessionId(sessionId: String): ChargePoint? {
+        val result = em.createQuery("SELECT c FROM ChargePoint c WHERE c.sessionId = :sid", ChargePoint::class.java)
+            .setParameter("sid", sessionId).resultList
+        return if (result.isEmpty()) null else result[0] as ChargePoint
+    }
 
-    fun findChargePointById(chargePointId: String): ChargePoint? =
-        em.createQuery("SELECT c FROM ChargePoint c WHERE c.chargePointId = :cpId", ChargePoint::class.java)
-            .setParameter("cpId", chargePointId).resultList.firstOrNull() as ChargePoint?
+    fun findChargePointById(chargePointId: String): ChargePoint? {
+        val result = em.createQuery("SELECT c FROM ChargePoint c WHERE c.chargePointId = :cpId", ChargePoint::class.java)
+            .setParameter("cpId", chargePointId).resultList
+        return if (result.isEmpty()) null else result[0] as ChargePoint
+    }
 
     fun findTransaction(id: Long): Transaction? =
         em.find(Transaction::class.java, id)
