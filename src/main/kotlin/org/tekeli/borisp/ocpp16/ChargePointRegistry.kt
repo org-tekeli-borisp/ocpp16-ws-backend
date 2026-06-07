@@ -23,8 +23,7 @@ class ChargePointRegistry {
     }
 
     fun unregister(sessionId: String) {
-        val info = sessionInfos.remove(sessionId)
-            ?: throw IllegalStateException("Session not found: $sessionId")
+        sessionInfos.remove(sessionId)
         sessionConnections.remove(sessionId)
         chargePointIdIndex.entries.removeAll { it.value == sessionId }
     }

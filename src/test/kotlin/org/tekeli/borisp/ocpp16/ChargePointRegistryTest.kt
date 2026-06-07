@@ -31,10 +31,11 @@ class ChargePointRegistryTest {
     }
 
     @Test
-    fun `should throw when unregistering unknown session`() {
+    fun `should be idempotent when unregistering unknown session`() {
         val registry = ChargePointRegistry()
 
-        assertThrows(IllegalStateException::class.java) {
+        assertDoesNotThrow {
+            registry.unregister("unknown")
             registry.unregister("unknown")
         }
     }
