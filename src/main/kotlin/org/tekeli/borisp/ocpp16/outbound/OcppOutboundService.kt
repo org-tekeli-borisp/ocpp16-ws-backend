@@ -1,7 +1,9 @@
-package org.tekeli.borisp.ocpp16
+package org.tekeli.borisp.ocpp16.outbound
 
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
 import java.util.concurrent.CompletableFuture
 
 @ApplicationScoped

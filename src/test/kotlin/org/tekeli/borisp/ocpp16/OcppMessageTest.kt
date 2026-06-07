@@ -4,6 +4,10 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.OcppMessageType
+import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
+import org.tekeli.borisp.ocpp16.protocol.OcppParseException
 
 class OcppMessageTest {
 

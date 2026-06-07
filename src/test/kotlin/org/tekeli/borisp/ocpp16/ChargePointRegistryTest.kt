@@ -2,6 +2,11 @@ package org.tekeli.borisp.ocpp16
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.tekeli.borisp.ocpp16.outbound.TextSender
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
+import org.tekeli.borisp.ocpp16.websocket.ChargePointConnection
+import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
 
 class ChargePointRegistryTest {
 

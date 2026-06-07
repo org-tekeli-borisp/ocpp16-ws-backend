@@ -2,6 +2,9 @@ package org.tekeli.borisp.ocpp16
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
+import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit

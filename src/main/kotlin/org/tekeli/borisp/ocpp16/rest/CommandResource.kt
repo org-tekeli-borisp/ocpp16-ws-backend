@@ -5,9 +5,9 @@ import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
-import org.tekeli.borisp.ocpp16.ChargePointRegistry
-import org.tekeli.borisp.ocpp16.OcppMessage
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
 import java.time.Instant
 
 @Path("/api/chargepoints/{chargePointId}/commands")

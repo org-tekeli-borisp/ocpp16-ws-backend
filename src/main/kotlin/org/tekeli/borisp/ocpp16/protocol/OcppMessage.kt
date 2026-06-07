@@ -1,4 +1,4 @@
-package org.tekeli.borisp.ocpp16
+package org.tekeli.borisp.ocpp16.protocol
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper

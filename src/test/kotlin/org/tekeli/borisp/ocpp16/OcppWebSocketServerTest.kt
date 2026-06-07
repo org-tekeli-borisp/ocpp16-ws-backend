@@ -9,6 +9,7 @@ import io.quarkus.websockets.next.WebSocketConnection
 import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.net.URI
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit

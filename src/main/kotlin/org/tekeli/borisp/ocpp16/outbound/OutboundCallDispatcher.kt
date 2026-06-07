@@ -1,7 +1,9 @@
-package org.tekeli.borisp.ocpp16
+package org.tekeli.borisp.ocpp16.outbound
 
 import io.quarkus.websockets.next.OpenConnections
 import io.smallrye.mutiny.Uni
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 

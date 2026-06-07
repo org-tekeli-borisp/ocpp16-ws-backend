@@ -1,9 +1,28 @@
-package org.tekeli.borisp.ocpp16
+package org.tekeli.borisp.ocpp16.websocket
 
 import io.quarkus.websockets.next.*
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.tekeli.borisp.ocpp16.handler.AuthorizeHandler
+import org.tekeli.borisp.ocpp16.handler.BootNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.DataTransferHandler
+import org.tekeli.borisp.ocpp16.handler.DiagnosticsStatusNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.FirmwareStatusNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.HeartbeatHandler
+import org.tekeli.borisp.ocpp16.handler.MeterValuesHandler
+import org.tekeli.borisp.ocpp16.handler.OcppActionHandler
+import org.tekeli.borisp.ocpp16.handler.StartTransactionHandler
+import org.tekeli.borisp.ocpp16.handler.StatusNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.StopTransactionHandler
+import org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher
+import org.tekeli.borisp.ocpp16.outbound.WsSender
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.OcppMessageType
+import org.tekeli.borisp.ocpp16.protocol.OcppParseException
+import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
+import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import java.util.*
 import java.util.concurrent.CompletableFuture
 

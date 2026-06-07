@@ -1,9 +1,12 @@
-package org.tekeli.borisp.ocpp16
+package org.tekeli.borisp.ocpp16.handler
 
-class FirmwareStatusNotificationHandler : OcppActionHandler {
-    private val validFirmwareStatuses = setOf(
-        "Downloaded", "DownloadFailed", "Downloading", "Idle",
-        "InstallationFailed", "Installing", "Installed"
+import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
+
+class DiagnosticsStatusNotificationHandler : OcppActionHandler {
+    private val validDiagnosticsStatuses = setOf(
+        "Idle", "Uploaded", "UploadFailed", "Uploading"
     )
 
     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
@@ -19,7 +22,7 @@ class FirmwareStatusNotificationHandler : OcppActionHandler {
             throw FormationViolationException("status is required")
         }
 
-        if (!validFirmwareStatuses.contains(statusStr)) {
+        if (!validDiagnosticsStatuses.contains(statusStr)) {
             throw FormationViolationException("Invalid status: ${status}")
         }
 

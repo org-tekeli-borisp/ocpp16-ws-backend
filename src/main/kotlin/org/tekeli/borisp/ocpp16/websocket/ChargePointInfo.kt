@@ -1,4 +1,4 @@
-package org.tekeli.borisp.ocpp16
+package org.tekeli.borisp.ocpp16.websocket
 
 import java.time.Instant
 

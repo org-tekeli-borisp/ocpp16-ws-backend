@@ -1,4 +1,4 @@
-package org.tekeli.borisp.ocpp16
+package org.tekeli.borisp.ocpp16.protocol
 
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap

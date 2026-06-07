@@ -1,8 +1,13 @@
-package org.tekeli.borisp.ocpp16
+package org.tekeli.borisp.ocpp16.websocket
 
 import io.quarkus.websockets.next.OpenConnections
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher
+import org.tekeli.borisp.ocpp16.outbound.TextSender
+import org.tekeli.borisp.ocpp16.outbound.WsSender
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import java.util.concurrent.ConcurrentHashMap
 
 interface ChargePointConnection : TextSender {

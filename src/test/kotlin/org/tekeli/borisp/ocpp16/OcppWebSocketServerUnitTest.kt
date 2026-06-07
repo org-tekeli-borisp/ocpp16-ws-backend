@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 
 class OcppWebSocketServerUnitTest {
 
