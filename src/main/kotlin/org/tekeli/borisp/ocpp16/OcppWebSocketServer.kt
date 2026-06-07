@@ -27,7 +27,8 @@ class OcppWebSocketServer : ChargePointConnection {
         get() = connection ?: throw IllegalStateException("Connection not initialized")
 
     override val responseAwaiter = ResponseAwaiter()
-    private var sessionId: String = ""
+    private val activeConnections = java.util.concurrent.ConcurrentHashMap<String, String>()
+    private var currentSessionId: String = ""
     var chargePointId: String? = null
     private val handlers: Map<String, OcppActionHandler> = mapOf(
         "BootNotification" to BootNotificationHandler(),
@@ -55,9 +56,10 @@ class OcppWebSocketServer : ChargePointConnection {
         chargePointId = connection?.pathParam("chargePointId")
         val connectionId = connection?.id()
             ?: throw IllegalStateException("WebSocket connection id not available")
-        sessionId = connectionId
-        chargePointRegistry?.register(sessionId, connectionId, this)
-        println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId")
+        currentSessionId = connectionId
+        activeConnections[connectionId] = connectionId
+        chargePointRegistry?.register(connectionId, connectionId, this)
+        println("WebSocket connection opened: $connectionId, chargePointId=$chargePointId")
     }
 
     @OnTextMessage
@@ -262,17 +264,21 @@ class OcppWebSocketServer : ChargePointConnection {
         return dispatcher.sendCall("UpdateFirmware", payload)
     }
 
-    fun getSessionId(): String = sessionId
+    fun getSessionId(): String = currentSessionId
 
     private fun generateMessageId(): String = UUID.randomUUID().toString()
 
     @OnClose
     fun onClose() {
+        val connectionId = currentSessionId
+        if (activeConnections.remove(connectionId) == null) {
+            return
+        }
         try {
-            chargePointRegistry?.unregister(sessionId)
-            persistenceService?.setChargePointOffline(sessionId)
+            chargePointRegistry?.unregister(connectionId)
+            persistenceService?.setChargePointOffline(connectionId)
         } catch (e: Exception) {
         }
-        println("WebSocket connection closed: $sessionId")
+        println("WebSocket connection closed: $connectionId")
     }
 }
