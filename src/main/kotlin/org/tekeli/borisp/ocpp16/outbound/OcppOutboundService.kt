@@ -7,12 +7,12 @@ import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
 import java.util.concurrent.CompletableFuture
 
 @ApplicationScoped
-class OcppOutboundService {
+class OcppOutboundService : ChargePointGateway {
 
     @Inject
     lateinit var chargePointRegistry: ChargePointRegistry
 
-    fun sendReset(chargePointId: String, type: String): CompletableFuture<OcppMessage> =
+    override fun sendReset(chargePointId: String, type: String): CompletableFuture<OcppMessage> =
         chargePointRegistry.sendCall(chargePointId, "Reset", mapOf("type" to type))
 
     fun sendClearCache(chargePointId: String): CompletableFuture<OcppMessage> =
@@ -27,7 +27,7 @@ class OcppOutboundService {
     fun sendGetConfiguration(chargePointId: String, keys: List<String>? = null): CompletableFuture<OcppMessage> =
         chargePointRegistry.sendCall(chargePointId, "GetConfiguration", keys?.let { mapOf("key" to it) })
 
-    fun sendRemoteStopTransaction(chargePointId: String, transactionId: Int): CompletableFuture<OcppMessage> =
+    override fun sendRemoteStopTransaction(chargePointId: String, transactionId: Int): CompletableFuture<OcppMessage> =
         chargePointRegistry.sendCall(chargePointId, "RemoteStopTransaction", mapOf("transactionId" to transactionId))
 
     fun sendTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int? = null): CompletableFuture<OcppMessage> {
@@ -36,7 +36,7 @@ class OcppOutboundService {
         return chargePointRegistry.sendCall(chargePointId, "TriggerMessage", payload)
     }
 
-    fun sendUnlockConnector(chargePointId: String, connectorId: Int): CompletableFuture<OcppMessage> =
+    override fun sendUnlockConnector(chargePointId: String, connectorId: Int): CompletableFuture<OcppMessage> =
         chargePointRegistry.sendCall(chargePointId, "UnlockConnector", mapOf("connectorId" to connectorId))
 
     fun sendUpdateFirmware(chargePointId: String, location: String, retrieveDate: String, retries: Int? = null, retryInterval: Int? = null): CompletableFuture<OcppMessage> {
@@ -56,7 +56,7 @@ class OcppOutboundService {
     fun sendGetLocalListVersion(chargePointId: String): CompletableFuture<OcppMessage> =
         chargePointRegistry.sendCall(chargePointId, "GetLocalListVersion", null)
 
-    fun sendRemoteStartTransaction(chargePointId: String, idTag: String, connectorId: Int? = null): CompletableFuture<OcppMessage> {
+    override fun sendRemoteStartTransaction(chargePointId: String, idTag: String, connectorId: Int?): CompletableFuture<OcppMessage> {
         val payload = mutableMapOf<String, Any>("idTag" to idTag)
         connectorId?.let { payload["connectorId"] = it }
         return chargePointRegistry.sendCall(chargePointId, "RemoteStartTransaction", payload)
