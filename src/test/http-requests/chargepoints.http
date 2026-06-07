@@ -1,0 +1,27 @@
+### Health / sanity check - list all charge points
+GET {{baseUrl}}/api/chargepoints
+Accept: application/json
+
+### List online charge points
+GET {{baseUrl}}/api/chargepoints?status=ONLINE
+Accept: application/json
+
+
+### List offline charge points
+GET {{baseUrl}}/api/chargepoints?status=OFFLINE
+Accept: application/json
+
+
+### List charge points with invalid status - expected empty list
+GET {{baseUrl}}/api/chargepoints?status=INVALID_STATUS
+Accept: application/json
+
+
+### Get charge point by id
+GET {{baseUrl}}/api/chargepoints/{{chargePointId}}
+Accept: application/json
+
+
+### Get missing charge point by id - expected 404
+GET {{baseUrl}}/api/chargepoints/{{missingChargePointId}}
+Accept: application/json

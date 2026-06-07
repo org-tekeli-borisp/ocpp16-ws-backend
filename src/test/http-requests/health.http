@@ -1,0 +1,8 @@
+### Health - basic application health
+GET {{baseUrl}}/health
+Accept: application/json
+
+
+### Status - application, websocket and charge point status
+GET {{baseUrl}}/api/status
+Accept: application/json

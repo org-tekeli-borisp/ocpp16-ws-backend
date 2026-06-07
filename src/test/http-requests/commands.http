@@ -1,0 +1,344 @@
+### List available commands
+GET {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands
+Accept: application/json
+
+<> 2026-06-07T225025.200.json
+
+
+### Reset - Hard
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/reset
+Content-Type: application/json
+Accept: application/json
+
+{
+  "type": "Hard"
+}
+
+
+### Reset - Soft
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/reset
+Content-Type: application/json
+Accept: application/json
+
+{
+  "type": "Soft"
+}
+
+
+### ClearCache
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/clear-cache
+Content-Type: application/json
+Accept: application/json
+
+{}
+
+<> 2026-06-07T225030.202.json
+
+
+### ChangeConfiguration
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/change-configuration
+Content-Type: application/json
+Accept: application/json
+
+{
+  "key": "HeartbeatInterval",
+  "value": "300"
+}
+
+
+### ChangeAvailability - Operative
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/change-availability
+Content-Type: application/json
+Accept: application/json
+
+{
+  "connectorId": 1,
+  "type": "Operative"
+}
+
+<> 2026-06-07T225042.202.json
+<> 2026-06-07T223407.202.json
+
+
+### ChangeAvailability - Inoperative
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/change-availability
+Content-Type: application/json
+Accept: application/json
+
+{
+  "connectorId": 1,
+  "type": "Inoperative"
+}
+
+<> 2026-06-07T225038.202.json
+<> 2026-06-07T223349.202.json
+
+
+### GetConfiguration - all keys
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/get-configuration
+Content-Type: application/json
+Accept: application/json
+
+{}
+
+<> 2026-06-07T223544.202.json
+
+
+### GetConfiguration - selected keys
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/get-configuration
+Content-Type: application/json
+Accept: application/json
+
+{
+  "key": [
+    "HeartbeatInterval",
+    "MeterValueSampleInterval"
+  ]
+}
+
+
+### RemoteStartTransaction
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/remote-start-transaction
+Content-Type: application/json
+Accept: application/json
+
+{
+  "idTag": "ABC123",
+  "connectorId": 1
+}
+
+<> 2026-06-07T223614.202.json
+
+
+### RemoteStopTransaction
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/remote-stop-transaction
+Content-Type: application/json
+Accept: application/json
+
+{
+  "transactionId": 1
+}
+
+<> 2026-06-07T223745.202.json
+
+
+### TriggerMessage - BootNotification
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/trigger-message
+Content-Type: application/json
+Accept: application/json
+
+{
+  "requestedMessage": "BootNotification"
+}
+
+<> 2026-06-07T225048.202.json
+<> 2026-06-07T223858.202.json
+
+
+### TriggerMessage - StatusNotification with connectorId
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/trigger-message
+Content-Type: application/json
+Accept: application/json
+
+{
+  "requestedMessage": "StatusNotification",
+  "connectorId": 1
+}
+
+<> 2026-06-07T225051.202.json
+<> 2026-06-07T224234.202.json
+
+
+### UnlockConnector
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/unlock-connector
+Content-Type: application/json
+Accept: application/json
+
+{
+  "connectorId": 1
+}
+
+
+### UpdateFirmware
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/update-firmware
+Content-Type: application/json
+Accept: application/json
+
+{
+  "location": "https://example.com/firmware.bin",
+  "retrieveDate": "2026-06-07T10:00:00Z",
+  "retries": 3,
+  "retryInterval": 120
+}
+
+<> 2026-06-07T225056.202.json
+
+
+### UpdateFirmware - minimal
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/update-firmware
+Content-Type: application/json
+Accept: application/json
+
+{
+  "location": "https://example.com/firmware.bin",
+  "retrieveDate": "2026-06-07T10:00:00Z"
+}
+
+
+### GetDiagnostics
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/get-diagnostics
+Content-Type: application/json
+Accept: application/json
+
+{
+  "location": "https://example.com/diagnostics",
+  "retries": 3,
+  "retryInterval": 120
+}
+
+
+### GetDiagnostics - minimal
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/get-diagnostics
+Content-Type: application/json
+Accept: application/json
+
+{
+  "location": "https://example.com/diagnostics"
+}
+
+
+### GetLocalListVersion
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/get-local-list-version
+Content-Type: application/json
+Accept: application/json
+
+{}
+
+<> 2026-06-07T224211.202.json
+
+
+### ReserveNow
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/reserve-now
+Content-Type: application/json
+Accept: application/json
+
+{
+  "connectorId": 1,
+  "expiryDate": "2026-06-07T12:00:00Z",
+  "idTag": "ABC123",
+  "reservationId": 1001
+}
+
+<> 2026-06-07T224039.202.json
+
+
+### CancelReservation
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/cancel-reservation
+Content-Type: application/json
+Accept: application/json
+
+{
+  "reservationId": 1001
+}
+
+<> 2026-06-07T224106.202.json
+
+
+### SendLocalList
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/send-local-list
+Content-Type: application/json
+Accept: application/json
+
+{
+  "listVersion": 1,
+  "updateType": "Full"
+}
+
+
+### SendLocalList - Differential
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/send-local-list
+Content-Type: application/json
+Accept: application/json
+
+{
+  "listVersion": 2,
+  "updateType": "Differential"
+}
+
+
+### SetChargingProfile
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/set-charging-profile
+Content-Type: application/json
+Accept: application/json
+
+{
+  "connectorId": 1,
+  "csChargingProfiles": {
+    "chargingProfileId": 1,
+    "stackLevel": 0,
+    "chargingProfilePurpose": "TxDefaultProfile",
+    "chargingProfileKind": "Absolute",
+    "chargingSchedule": {
+      "duration": 3600,
+      "startSchedule": "2026-06-07T10:00:00Z",
+      "chargingRateUnit": "A",
+      "chargingSchedulePeriod": [
+        {
+          "startPeriod": 0,
+          "limit": 16.0,
+          "numberPhases": 3
+        }
+      ]
+    }
+  }
+}
+
+<> 2026-06-07T224148.202.json
+
+
+### ClearChargingProfile - all
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/clear-charging-profile
+Content-Type: application/json
+Accept: application/json
+
+{}
+
+<> 2026-06-07T224152.202.json
+
+
+### ClearChargingProfile - by connectorId
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/clear-charging-profile
+Content-Type: application/json
+Accept: application/json
+
+{
+  "connectorId": 1
+}
+
+<> 2026-06-07T224142.202.json
+
+
+### ClearChargingProfile - by connectorId and stackLevel
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/clear-charging-profile
+Content-Type: application/json
+Accept: application/json
+
+{
+  "connectorId": 1,
+  "stackLevel": 0
+}
+
+<> 2026-06-07T224136.202.json
+
+
+### GetCompositeSchedule
+POST {{baseUrl}}/api/chargepoints/{{chargePointId}}/commands/get-composite-schedule
+Content-Type: application/json
+Accept: application/json
+
+{
+  "connectorId": 1,
+  "duration": 3600
+}
+
+<> 2026-06-07T224124.502.json

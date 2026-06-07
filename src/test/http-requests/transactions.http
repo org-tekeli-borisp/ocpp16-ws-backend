@@ -1,0 +1,13 @@
+### List all transactions for charge point
+GET {{baseUrl}}/api/chargepoints/{{chargePointId}}/transactions
+Accept: application/json
+
+
+### List only running transactions for charge point
+GET {{baseUrl}}/api/chargepoints/{{chargePointId}}/transactions?running=true
+Accept: application/json
+
+
+### List transactions with running=false
+GET {{baseUrl}}/api/chargepoints/{{chargePointId}}/transactions?running=false
+Accept: application/json
