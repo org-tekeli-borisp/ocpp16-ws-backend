@@ -27,8 +27,7 @@ class OcppWebSocketServer : ChargePointConnection {
         get() = connection ?: throw IllegalStateException("Connection not initialized")
 
     override val responseAwaiter = ResponseAwaiter()
-    private val activeConnections = java.util.concurrent.ConcurrentHashMap<String, String>()
-    private var currentSessionId: String = ""
+    private var sessionId: String = ""
     var chargePointId: String? = null
     private val handlers: Map<String, OcppActionHandler> = mapOf(
         "BootNotification" to BootNotificationHandler(),
@@ -56,10 +55,9 @@ class OcppWebSocketServer : ChargePointConnection {
         chargePointId = connection?.pathParam("chargePointId")
         val connectionId = connection?.id()
             ?: throw IllegalStateException("WebSocket connection id not available")
-        currentSessionId = connectionId
-        activeConnections[connectionId] = connectionId
-        chargePointRegistry?.register(connectionId, connectionId, this)
-        println("WebSocket connection opened: $connectionId, chargePointId=$chargePointId")
+        sessionId = connectionId
+        chargePointRegistry?.register(sessionId, connectionId, this)
+        println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId")
     }
 
     @OnTextMessage
@@ -264,14 +262,14 @@ class OcppWebSocketServer : ChargePointConnection {
         return dispatcher.sendCall("UpdateFirmware", payload)
     }
 
-    fun getSessionId(): String = currentSessionId
+    fun getSessionId(): String = sessionId
 
     private fun generateMessageId(): String = UUID.randomUUID().toString()
 
     @OnClose
     fun onClose() {
-        val connectionId = currentSessionId
-        if (activeConnections.remove(connectionId) == null) {
+        val connectionId = sessionId
+        if ((chargePointRegistry?.isConnected(connectionId) ?: false).not()) {
             return
         }
         try {
