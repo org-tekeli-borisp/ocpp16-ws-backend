@@ -15,6 +15,9 @@ class OcppWebSocketServer : ChargePointConnection {
     var connection: WebSocketConnection? = null
 
     @Inject
+    var openConnections: OpenConnections? = null
+
+    @Inject
     var chargePointRegistry: ChargePointRegistry? = null
 
     @Inject
@@ -24,8 +27,8 @@ class OcppWebSocketServer : ChargePointConnection {
         get() = connection ?: throw IllegalStateException("Connection not initialized")
 
     override val responseAwaiter = ResponseAwaiter()
-    private val sessionId = UUID.randomUUID().toString()
-     var chargePointId: String? = null
+    private var sessionId: String = ""
+    var chargePointId: String? = null
     private val handlers: Map<String, OcppActionHandler> = mapOf(
         "BootNotification" to BootNotificationHandler(),
         "Heartbeat" to HeartbeatHandler(),
@@ -40,37 +43,21 @@ class OcppWebSocketServer : ChargePointConnection {
     )
 
     private val dispatcher: OutboundCallDispatcher by lazy {
-        OutboundCallDispatcher(this, responseAwaiter)
+        val connId = connection?.id()
+            ?: throw IllegalStateException("WebSocket connection id not available")
+        val conns = openConnections
+            ?: throw IllegalStateException("OpenConnections not initialized")
+        OutboundCallDispatcher(WsSender(conns, connId), responseAwaiter)
     }
 
     @OnOpen
     fun onOpen() {
         chargePointId = connection?.pathParam("chargePointId")
-        val wsConn = connection
-        chargePointRegistry?.register(sessionId, this)
-        if (wsConn != null) {
-            // Get underlying connection to avoid SessionScoped proxy issue
-            val rawConn = unwrapConnection(wsConn)
-            chargePointRegistry?.setSender(sessionId, WsSender(rawConn))
-        }
+        val connectionId = connection?.id()
+            ?: throw IllegalStateException("WebSocket connection id not available")
+        sessionId = connectionId
+        chargePointRegistry?.register(sessionId, connectionId, this)
         println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId")
-    }
-
-    private fun unwrapConnection(conn: WebSocketConnection): WebSocketConnection {
-        // Unwrap CDI proxy to get actual implementation
-        val actual = conn::class.java
-        return if (actual.name.contains("Synthetic_ClientProxy") || actual.name.contains("\$Proxy")) {
-            // Try to get actual delegate via reflection
-            try {
-                val delegateField = actual.getDeclaredField("delegate")
-                delegateField.isAccessible = true
-                delegateField.get(conn) as WebSocketConnection
-            } catch (e: Exception) {
-                conn
-            }
-        } else {
-            conn
-        }
     }
 
     @OnTextMessage
@@ -149,12 +136,10 @@ class OcppWebSocketServer : ChargePointConnection {
         }
     }
 
-    // ChargePointConnection interface
     override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> {
         return connection?.sendText(text) ?: io.smallrye.mutiny.Uni.createFrom().voidItem()
     }
 
-    // Outbound S->C methods
     fun sendReset(type: String): CompletableFuture<OcppMessage> = dispatcher.sendCall("Reset", mapOf("type" to type))
     fun sendClearCache(): CompletableFuture<OcppMessage> = dispatcher.sendCall("ClearCache", null)
     fun sendChangeConfiguration(key: String, value: String): CompletableFuture<OcppMessage> =
@@ -287,7 +272,6 @@ class OcppWebSocketServer : ChargePointConnection {
             chargePointRegistry?.unregister(sessionId)
             persistenceService?.setChargePointOffline(sessionId)
         } catch (e: Exception) {
-            // Suppress errors during shutdown (EntityManagerFactory closed, etc.)
         }
         println("WebSocket connection closed: $sessionId")
     }

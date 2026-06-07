@@ -10,7 +10,7 @@ class ChargePointRegistryTest {
         val registry = ChargePointRegistry()
         val connection = mockChargePointConnection()
 
-        registry.register("session-1", connection)
+        registry.register("session-1", "conn-1", connection)
 
         assertTrue(registry.isConnected("session-1"))
         assertNotNull(registry.getInfo("session-1"))
@@ -22,7 +22,7 @@ class ChargePointRegistryTest {
         val registry = ChargePointRegistry()
         val connection = mockChargePointConnection()
 
-        registry.register("session-1", connection)
+        registry.register("session-1", "conn-1", connection)
         registry.unregister("session-1")
 
         assertFalse(registry.isConnected("session-1"))
@@ -45,7 +45,7 @@ class ChargePointRegistryTest {
         val registry = ChargePointRegistry()
         val connection = mockChargePointConnection()
 
-        registry.register("session-1", connection)
+        registry.register("session-1", "conn-1", connection)
         registry.updateChargePointInfo("session-1", "CP-001", "Tesla", "Model3")
 
         val info = registry.getInfo("session-1")
@@ -70,8 +70,8 @@ class ChargePointRegistryTest {
         val connection1 = mockChargePointConnection()
         val connection2 = mockChargePointConnection()
 
-        registry.register("session-1", connection1)
-        registry.register("session-2", connection2)
+        registry.register("session-1", "conn-1", connection1)
+        registry.register("session-2", "conn-2", connection2)
         registry.updateChargePointInfo("session-1", "CP-001", "Tesla", "Model3")
         registry.updateChargePointInfo("session-2", "CP-002", "ABB", "Terra")
 
@@ -97,7 +97,7 @@ class ChargePointRegistryTest {
         val registry = ChargePointRegistry()
 
         repeat(5) { i ->
-            registry.register("session-$i", mockChargePointConnection())
+            registry.register("session-$i", "conn-$i", mockChargePointConnection())
             registry.updateChargePointInfo("session-$i", "CP-$i", "Vendor$i", "Model$i")
         }
 
@@ -115,7 +115,7 @@ class ChargePointRegistryTest {
         val registry = ChargePointRegistry()
         val connection = mockChargePointConnection()
 
-        registry.register("session-1", connection)
+        registry.register("session-1", "conn-1", connection)
         registry.updateChargePointInfo("session-1", "CP-001", "Tesla", "Model3")
         registry.unregister("session-1")
 
@@ -127,9 +127,9 @@ class ChargePointRegistryTest {
     fun `should return all connected session IDs`() {
         val registry = ChargePointRegistry()
 
-        registry.register("session-1", mockChargePointConnection())
-        registry.register("session-2", mockChargePointConnection())
-        registry.register("session-3", mockChargePointConnection())
+        registry.register("session-1", "conn-1", mockChargePointConnection())
+        registry.register("session-2", "conn-2", mockChargePointConnection())
+        registry.register("session-3", "conn-3", mockChargePointConnection())
 
         val ids = registry.connectedSessionIds
 
@@ -143,9 +143,9 @@ class ChargePointRegistryTest {
     fun `should return all connected chargePoint IDs`() {
         val registry = ChargePointRegistry()
 
-        registry.register("session-1", mockChargePointConnection())
-        registry.register("session-2", mockChargePointConnection())
-        registry.register("session-3", mockChargePointConnection())
+        registry.register("session-1", "conn-1", mockChargePointConnection())
+        registry.register("session-2", "conn-2", mockChargePointConnection())
+        registry.register("session-3", "conn-3", mockChargePointConnection())
         registry.updateChargePointInfo("session-1", "CP-001", "Tesla", "Model3")
         registry.updateChargePointInfo("session-2", "CP-002", "ABB", "Terra")
 
@@ -161,8 +161,8 @@ class ChargePointRegistryTest {
         val registry = ChargePointRegistry()
         val connection = mockChargePointConnection()
 
-        registry.register("session-1", connection)
-        registry.setSender("session-1", connection)
+        registry.register("session-1", "conn-1", connection)
+        registry.setTestSender("session-1", connection)
         registry.updateChargePointInfo("session-1", "CP-001", "Tesla", "Model3")
 
         val future = registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))
@@ -195,7 +195,7 @@ class ChargePointRegistryTest {
         repeat(10) { i ->
             threads.add(Thread {
                 val sessionId = "session-$i"
-                registry.register(sessionId, mockChargePointConnection())
+                registry.register(sessionId, "conn-$i", mockChargePointConnection())
                 Thread.sleep(10)
                 registry.unregister(sessionId)
             })

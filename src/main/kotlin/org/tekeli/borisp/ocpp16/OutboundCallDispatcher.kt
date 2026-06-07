@@ -1,13 +1,20 @@
 package org.tekeli.borisp.ocpp16
 
-import io.quarkus.websockets.next.WebSocketConnection
+import io.quarkus.websockets.next.OpenConnections
 import io.smallrye.mutiny.Uni
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
-@JvmInline
-value class WsSender(val delegate: WebSocketConnection) : TextSender {
-    override fun sendText(text: String): Uni<Void> = delegate.sendText(text)
+class WsSender(
+    private val openConnections: OpenConnections,
+    private val connectionId: String
+) : TextSender {
+    override fun sendText(text: String): Uni<Void> {
+        return openConnections.findByConnectionId(connectionId)
+            .orElse(null)
+            ?.sendText(text)
+            ?: Uni.createFrom().failure(IllegalStateException("WebSocket connection not found: $connectionId"))
+    }
 }
 
 @FunctionalInterface
@@ -27,7 +34,14 @@ class OutboundCallDispatcher(
             payload = payload
         )
         val future = responseAwaiter.pending(messageId)
+
         sender.sendText(call.toJson())
+            .subscribe()
+            .with(
+                { },
+                { error -> future.completeExceptionally(error) }
+            )
+
         return future
     }
 }
