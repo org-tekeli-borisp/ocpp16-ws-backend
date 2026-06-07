@@ -49,9 +49,28 @@ class OcppWebSocketServer : ChargePointConnection {
         val wsConn = connection
         chargePointRegistry?.register(sessionId, this)
         if (wsConn != null) {
-            chargePointRegistry?.setSender(sessionId, WsSender(wsConn))
+            // Get underlying connection to avoid SessionScoped proxy issue
+            val rawConn = unwrapConnection(wsConn)
+            chargePointRegistry?.setSender(sessionId, WsSender(rawConn))
         }
         println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId")
+    }
+
+    private fun unwrapConnection(conn: WebSocketConnection): WebSocketConnection {
+        // Unwrap CDI proxy to get actual implementation
+        val actual = conn::class.java
+        return if (actual.name.contains("Synthetic_ClientProxy") || actual.name.contains("\$Proxy")) {
+            // Try to get actual delegate via reflection
+            try {
+                val delegateField = actual.getDeclaredField("delegate")
+                delegateField.isAccessible = true
+                delegateField.get(conn) as WebSocketConnection
+            } catch (e: Exception) {
+                conn
+            }
+        } else {
+            conn
+        }
     }
 
     @OnTextMessage
