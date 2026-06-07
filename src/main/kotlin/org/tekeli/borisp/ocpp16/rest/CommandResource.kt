@@ -5,13 +5,18 @@ import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
-import org.tekeli.borisp.ocpp16.persistence.ChargePointStatus
+import org.tekeli.borisp.ocpp16.ChargePointRegistry
+import org.tekeli.borisp.ocpp16.OcppMessage
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import java.time.Instant
 
 @Path("/api/chargepoints/{chargePointId}/commands")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 class CommandResource {
+
+    @Inject
+    lateinit var chargePointRegistry: ChargePointRegistry
 
     @Inject
     lateinit var persistenceService: PersistenceService
@@ -40,16 +45,22 @@ class CommandResource {
     ): Response {
         val cp = persistenceService.findChargePointById(chargePointId)
             ?: return Response.status(Response.Status.NOT_FOUND)
-                .entity(mapOf("error" to "ChargePoint not found: $chargePointId"))
+                .entity(mapOf<String, Any>("error" to "ChargePoint not found: $chargePointId"))
                 .build()
 
-        return when (command) {
-            "remote-start-transaction" -> handleRemoteStartTransaction(chargePointId, body)
-            "remote-stop-transaction" -> handleRemoteStopTransaction(chargePointId, body)
-            "reset" -> handleReset(chargePointId, body)
-            "unlock-connector" -> handleUnlockConnector(chargePointId, body)
-            else -> Response.status(Response.Status.NOT_FOUND)
-                .entity(mapOf("error" to "Unknown command: $command"))
+        return try {
+            when (command) {
+                "remote-start-transaction" -> handleRemoteStartTransaction(chargePointId, body)
+                "remote-stop-transaction" -> handleRemoteStopTransaction(chargePointId, body)
+                "reset" -> handleReset(chargePointId, body)
+                "unlock-connector" -> handleUnlockConnector(chargePointId, body)
+                else -> Response.status(Response.Status.NOT_FOUND)
+                    .entity(mapOf<String, Any>("error" to "Unknown command: $command"))
+                    .build()
+            }
+        } catch (e: IllegalStateException) {
+            Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                .entity(mapOf<String, Any>("error" to (e.message?.toString() ?: "ChargePoint not connected")))
                 .build()
         }
     }
@@ -57,17 +68,30 @@ class CommandResource {
     private fun handleRemoteStartTransaction(chargePointId: String, body: String): Response {
         val payload = objectMapper.readValue(body, Map::class.java)
         val idTag = payload["idTag"] as String?
-        val connectorId = payload["connectorId"] as Int?
+        val connectorId = (payload["connectorId"] as? Number)?.toInt()
 
         if (idTag.isNullOrEmpty() || connectorId == null) {
             return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf("error" to "idTag and connectorId are required"))
+                .entity(mapOf<String, Any>("error" to "idTag and connectorId are required"))
                 .build()
         }
 
-        return Response.status(Response.Status.ACCEPTED)
-            .entity(mapOf("status" to "accepted", "command" to "remote-start-transaction"))
-            .build()
+        val result = chargePointRegistry.sendCall(chargePointId, "RemoteStartTransaction", mapOf<String, Any>(
+            "connectorId" to connectorId,
+            "idTag" to idTag,
+            "startTime" to Instant.now().toString()
+        ))
+
+        val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
+        return if (response is OcppMessage.CallResult) {
+            Response.status(Response.Status.ACCEPTED)
+                .entity(mapOf<String, Any>("status" to "sent", "command" to "remote-start-transaction"))
+                .build()
+        } else {
+            Response.status(Response.Status.BAD_GATEWAY)
+                .entity(mapOf<String, Any>("status" to "rejected", "error" to "ChargePoint rejected command"))
+                .build()
+        }
     }
 
     private fun handleRemoteStopTransaction(chargePointId: String, body: String): Response {
@@ -76,13 +100,24 @@ class CommandResource {
 
         if (transactionId == null) {
             return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf("error" to "transactionId is required"))
+                .entity(mapOf<String, Any>("error" to "transactionId is required"))
                 .build()
         }
 
-        return Response.status(Response.Status.ACCEPTED)
-            .entity(mapOf("status" to "accepted", "command" to "remote-stop-transaction"))
-            .build()
+        val result = chargePointRegistry.sendCall(chargePointId, "RemoteStopTransaction", mapOf<String, Any>(
+            "transactionId" to transactionId
+        ))
+
+        val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
+        return if (response is OcppMessage.CallResult) {
+            Response.status(Response.Status.ACCEPTED)
+                .entity(mapOf<String, Any>("status" to "sent", "command" to "remote-stop-transaction"))
+                .build()
+        } else {
+            Response.status(Response.Status.BAD_GATEWAY)
+                .entity(mapOf<String, Any>("status" to "rejected", "error" to "ChargePoint rejected command"))
+                .build()
+        }
     }
 
     private fun handleReset(chargePointId: String, body: String): Response {
@@ -91,27 +126,49 @@ class CommandResource {
 
         if (type == null || type !in validResetTypes) {
             return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf("error" to "type must be 'Hard' or 'Soft'"))
+                .entity(mapOf<String, Any>("error" to "type must be 'Hard' or 'Soft'"))
                 .build()
         }
 
-        return Response.status(Response.Status.ACCEPTED)
-            .entity(mapOf("status" to "accepted", "command" to "reset", "type" to type))
-            .build()
+        val result = chargePointRegistry.sendCall(chargePointId, "Reset", mapOf<String, Any>(
+            "type" to type
+        ))
+
+        val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
+        return if (response is OcppMessage.CallResult) {
+            Response.status(Response.Status.ACCEPTED)
+                .entity(mapOf<String, Any>("status" to "sent", "command" to "reset", "type" to type))
+                .build()
+        } else {
+            Response.status(Response.Status.BAD_GATEWAY)
+                .entity(mapOf<String, Any>("status" to "rejected", "error" to "ChargePoint rejected command"))
+                .build()
+        }
     }
 
     private fun handleUnlockConnector(chargePointId: String, body: String): Response {
         val payload = objectMapper.readValue(body, Map::class.java)
-        val connectorId = payload["connectorId"] as Int?
+        val connectorId = (payload["connectorId"] as? Number)?.toInt()
 
         if (connectorId == null) {
             return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf("error" to "connectorId is required"))
+                .entity(mapOf<String, Any>("error" to "connectorId is required"))
                 .build()
         }
 
-        return Response.status(Response.Status.ACCEPTED)
-            .entity(mapOf("status" to "accepted", "command" to "unlock-connector"))
-            .build()
+        val result = chargePointRegistry.sendCall(chargePointId, "UnlockConnector", mapOf<String, Any>(
+            "connectorId" to connectorId
+        ))
+
+        val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
+        return if (response is OcppMessage.CallResult) {
+            Response.status(Response.Status.ACCEPTED)
+                .entity(mapOf<String, Any>("status" to "sent", "command" to "unlock-connector"))
+                .build()
+        } else {
+            Response.status(Response.Status.BAD_GATEWAY)
+                .entity(mapOf<String, Any>("status" to "rejected", "error" to "ChargePoint rejected command"))
+                .build()
+        }
     }
 }

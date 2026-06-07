@@ -53,36 +53,36 @@ class CommandResourceTest {
     }
 
     @Test
-    fun `should accept remote-start-transaction command`() {
+    fun `should return 503 for remote-start-transaction when chargePoint not connected`() {
         RestAssured.given()
             .contentType("application/json")
             .body("""{"idTag": "CARD123", "connectorId": 1}""")
             .`when`().post("/api/chargepoints/$chargePointId/commands/remote-start-transaction")
             .then()
-            .statusCode(202)
-            .body("status", org.hamcrest.Matchers.equalTo("accepted"))
+            .statusCode(503)
+            .body("error", org.hamcrest.Matchers.containsString("not connected"))
     }
 
     @Test
-    fun `should accept remote-stop-transaction command`() {
+    fun `should return 503 for remote-stop-transaction when chargePoint not connected`() {
         RestAssured.given()
             .contentType("application/json")
             .body("""{"transactionId": 1}""")
             .`when`().post("/api/chargepoints/$chargePointId/commands/remote-stop-transaction")
             .then()
-            .statusCode(202)
-            .body("status", org.hamcrest.Matchers.equalTo("accepted"))
+            .statusCode(503)
+            .body("error", org.hamcrest.Matchers.containsString("not connected"))
     }
 
     @Test
-    fun `should accept reset command`() {
+    fun `should return 503 for reset when chargePoint not connected`() {
         RestAssured.given()
             .contentType("application/json")
             .body("""{"type": "Hard"}""")
             .`when`().post("/api/chargepoints/$chargePointId/commands/reset")
             .then()
-            .statusCode(202)
-            .body("status", org.hamcrest.Matchers.equalTo("accepted"))
+            .statusCode(503)
+            .body("error", org.hamcrest.Matchers.containsString("not connected"))
     }
 
     @Test
@@ -96,14 +96,14 @@ class CommandResourceTest {
     }
 
     @Test
-    fun `should accept unlock-connector command`() {
+    fun `should return 503 for unlock-connector when chargePoint not connected`() {
         RestAssured.given()
             .contentType("application/json")
             .body("""{"connectorId": 1}""")
             .`when`().post("/api/chargepoints/$chargePointId/commands/unlock-connector")
             .then()
-            .statusCode(202)
-            .body("status", org.hamcrest.Matchers.equalTo("accepted"))
+            .statusCode(503)
+            .body("error", org.hamcrest.Matchers.containsString("not connected"))
     }
 
     @Test
