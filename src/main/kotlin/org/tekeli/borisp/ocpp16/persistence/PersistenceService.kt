@@ -65,14 +65,14 @@ class PersistenceService {
     @Transactional
     fun setChargePointOffline(sessionId: String) {
         em.createQuery(
-            "UPDATE ChargePoint c SET c.status = :status WHERE c.sessionId = :sid", ChargePoint::class.java
+            "UPDATE ChargePoint c SET c.status = :status WHERE c.sessionId = :sid"
         ).setParameter("status", ChargePointStatus.OFFLINE).setParameter("sid", sessionId).executeUpdate()
     }
 
     @Transactional
     fun setChargePointOnline(sessionId: String) {
         em.createQuery(
-            "UPDATE ChargePoint c SET c.status = :status, c.lastSeenAt = :now WHERE c.sessionId = :sid", ChargePoint::class.java
+            "UPDATE ChargePoint c SET c.status = :status, c.lastSeenAt = :now WHERE c.sessionId = :sid"
         ).setParameter("status", ChargePointStatus.ONLINE).setParameter("now", Instant.now()).setParameter("sid", sessionId).executeUpdate()
     }
 
