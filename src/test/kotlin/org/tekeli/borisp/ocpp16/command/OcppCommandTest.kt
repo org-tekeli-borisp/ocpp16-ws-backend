@@ -284,6 +284,1083 @@ class OcppCommandTest {
         assertEquals(5, service.lastConnectorId)
     }
 
+    // ---- CancelReservationCommand ----
+
+    @Test
+    fun `CancelReservationCommand has correct name`() {
+        val cmd = CancelReservationCommand(TestOutboundService())
+
+        assertEquals("cancel-reservation", cmd.name)
+    }
+
+    @Test
+    fun `CancelReservationCommand rejects missing reservationId`() {
+        val cmd = CancelReservationCommand(TestOutboundService())
+
+        val result = cmd.validate(emptyMap<String, Any>())
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `CancelReservationCommand accepts valid payload`() {
+        val cmd = CancelReservationCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("reservationId" to 42)
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `CancelReservationCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = CancelReservationCommand(service)
+        val payload = mapOf<String, Any>("reservationId" to 42)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `CancelReservationCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = CancelReservationCommand(service)
+        val payload = mapOf<String, Any>("reservationId" to 42)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `CancelReservationCommand execute uses correct reservationId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = CancelReservationCommand(service)
+        val payload = mapOf<String, Any>("reservationId" to 99)
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals(99, service.lastReservationId)
+    }
+
+    // ---- ChangeAvailabilityCommand ----
+
+    @Test
+    fun `ChangeAvailabilityCommand has correct name`() {
+        val cmd = ChangeAvailabilityCommand(TestOutboundService())
+
+        assertEquals("change-availability", cmd.name)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand rejects missing connectorId`() {
+        val cmd = ChangeAvailabilityCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("type" to "Inoperative")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand rejects missing type`() {
+        val cmd = ChangeAvailabilityCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 1)
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand rejects invalid type`() {
+        val cmd = ChangeAvailabilityCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 1, "type" to "Invalid")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand accepts Inoperative type`() {
+        val cmd = ChangeAvailabilityCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 1, "type" to "Inoperative")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand accepts Operative type`() {
+        val cmd = ChangeAvailabilityCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 1, "type" to "Operative")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ChangeAvailabilityCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 1, "type" to "Inoperative")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = ChangeAvailabilityCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 1, "type" to "Inoperative")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand execute uses correct params`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ChangeAvailabilityCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 3, "type" to "Operative")
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals(3, service.lastChangeAvailabilityConnectorId)
+        assertEquals("Operative", service.lastChangeAvailabilityType)
+    }
+
+    // ---- ChangeConfigurationCommand ----
+
+    @Test
+    fun `ChangeConfigurationCommand has correct name`() {
+        val cmd = ChangeConfigurationCommand(TestOutboundService())
+
+        assertEquals("change-configuration", cmd.name)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand rejects missing key`() {
+        val cmd = ChangeConfigurationCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("value" to "val1")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand rejects missing value`() {
+        val cmd = ChangeConfigurationCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("key" to "MyKey")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand accepts valid payload`() {
+        val cmd = ChangeConfigurationCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("key" to "MyKey", "value" to "MyValue")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ChangeConfigurationCommand(service)
+        val payload = mapOf<String, Any>("key" to "MyKey", "value" to "MyValue")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = ChangeConfigurationCommand(service)
+        val payload = mapOf<String, Any>("key" to "MyKey", "value" to "MyValue")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand execute uses correct params`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ChangeConfigurationCommand(service)
+        val payload = mapOf<String, Any>("key" to "Key1", "value" to "Val1")
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals("Key1", service.lastConfigurationKey)
+        assertEquals("Val1", service.lastConfigurationValue)
+    }
+
+    // ---- ClearCacheCommand ----
+
+    @Test
+    fun `ClearCacheCommand has correct name`() {
+        val cmd = ClearCacheCommand(TestOutboundService())
+
+        assertEquals("clear-cache", cmd.name)
+    }
+
+    @Test
+    fun `ClearCacheCommand accepts empty payload`() {
+        val cmd = ClearCacheCommand(TestOutboundService())
+
+        val result = cmd.validate(emptyMap<String, Any>())
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `ClearCacheCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ClearCacheCommand(service)
+
+        val result = cmd.execute("CP-001", emptyMap<String, Any>())
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `ClearCacheCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = ClearCacheCommand(service)
+
+        val result = cmd.execute("CP-001", emptyMap<String, Any>())
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    // ---- ClearChargingProfileCommand ----
+
+    @Test
+    fun `ClearChargingProfileCommand has correct name`() {
+        val cmd = ClearChargingProfileCommand(TestOutboundService())
+
+        assertEquals("clear-charging-profile", cmd.name)
+    }
+
+    @Test
+    fun `ClearChargingProfileCommand accepts empty payload`() {
+        val cmd = ClearChargingProfileCommand(TestOutboundService())
+
+        val result = cmd.validate(emptyMap<String, Any>())
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `ClearChargingProfileCommand accepts payload with optional fields`() {
+        val cmd = ClearChargingProfileCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 1, "stackLevel" to 5)
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `ClearChargingProfileCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ClearChargingProfileCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 1, "stackLevel" to 5)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `ClearChargingProfileCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = ClearChargingProfileCommand(service)
+
+        val result = cmd.execute("CP-001", emptyMap<String, Any>())
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `ClearChargingProfileCommand execute uses correct params`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ClearChargingProfileCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 2, "stackLevel" to 3)
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals(2, service.lastClearChargingProfileConnectorId)
+        assertEquals(3, service.lastClearChargingProfileStackLevel)
+    }
+
+    // ---- GetCompositeScheduleCommand ----
+
+    @Test
+    fun `GetCompositeScheduleCommand has correct name`() {
+        val cmd = GetCompositeScheduleCommand(TestOutboundService())
+
+        assertEquals("get-composite-schedule", cmd.name)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand rejects missing connectorId`() {
+        val cmd = GetCompositeScheduleCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("duration" to 3600)
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand rejects missing duration`() {
+        val cmd = GetCompositeScheduleCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 1)
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand accepts valid payload`() {
+        val cmd = GetCompositeScheduleCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 1, "duration" to 3600)
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetCompositeScheduleCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 1, "duration" to 3600)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = GetCompositeScheduleCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 1, "duration" to 3600)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand execute uses correct params`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetCompositeScheduleCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 2, "duration" to 7200)
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals(2, service.lastCompositeScheduleConnectorId)
+        assertEquals(7200, service.lastCompositeScheduleDuration)
+    }
+
+    // ---- GetConfigurationCommand ----
+
+    @Test
+    fun `GetConfigurationCommand has correct name`() {
+        val cmd = GetConfigurationCommand(TestOutboundService())
+
+        assertEquals("get-configuration", cmd.name)
+    }
+
+    @Test
+    fun `GetConfigurationCommand accepts empty payload`() {
+        val cmd = GetConfigurationCommand(TestOutboundService())
+
+        val result = cmd.validate(emptyMap<String, Any>())
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `GetConfigurationCommand accepts payload with key`() {
+        val cmd = GetConfigurationCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("key" to listOf("key1", "key2"))
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `GetConfigurationCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetConfigurationCommand(service)
+        val payload = mapOf<String, Any>("key" to listOf("key1"))
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `GetConfigurationCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = GetConfigurationCommand(service)
+
+        val result = cmd.execute("CP-001", emptyMap<String, Any>())
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `GetConfigurationCommand execute uses correct keys`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetConfigurationCommand(service)
+        val payload = mapOf<String, Any>("key" to listOf("k1", "k2"))
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals(listOf("k1", "k2"), service.lastGetConfigurationKeys)
+    }
+
+    // ---- GetDiagnosticsCommand ----
+
+    @Test
+    fun `GetDiagnosticsCommand has correct name`() {
+        val cmd = GetDiagnosticsCommand(TestOutboundService())
+
+        assertEquals("get-diagnostics", cmd.name)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand rejects missing location`() {
+        val cmd = GetDiagnosticsCommand(TestOutboundService())
+
+        val result = cmd.validate(emptyMap<String, Any>())
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand accepts valid payload`() {
+        val cmd = GetDiagnosticsCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("location" to "http://example.com/diag")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetDiagnosticsCommand(service)
+        val payload = mapOf<String, Any>("location" to "http://example.com/diag")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = GetDiagnosticsCommand(service)
+        val payload = mapOf<String, Any>("location" to "http://example.com/diag")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand execute uses correct location`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetDiagnosticsCommand(service)
+        val payload = mapOf<String, Any>("location" to "http://diag.url")
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals("http://diag.url", service.lastDiagnosticsLocation)
+    }
+
+    // ---- GetLocalListVersionCommand ----
+
+    @Test
+    fun `GetLocalListVersionCommand has correct name`() {
+        val cmd = GetLocalListVersionCommand(TestOutboundService())
+
+        assertEquals("get-local-list-version", cmd.name)
+    }
+
+    @Test
+    fun `GetLocalListVersionCommand accepts empty payload`() {
+        val cmd = GetLocalListVersionCommand(TestOutboundService())
+
+        val result = cmd.validate(emptyMap<String, Any>())
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `GetLocalListVersionCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetLocalListVersionCommand(service)
+
+        val result = cmd.execute("CP-001", emptyMap<String, Any>())
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `GetLocalListVersionCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = GetLocalListVersionCommand(service)
+
+        val result = cmd.execute("CP-001", emptyMap<String, Any>())
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    // ---- ReserveNowCommand ----
+
+    @Test
+    fun `ReserveNowCommand has correct name`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+
+        assertEquals("reserve-now", cmd.name)
+    }
+
+    @Test
+    fun `ReserveNowCommand rejects missing connectorId`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "expiryDate" to "2024-01-01T00:00:00Z",
+            "idTag" to "CARD1",
+            "reservationId" to 1
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand rejects missing expiryDate`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "idTag" to "CARD1",
+            "reservationId" to 1
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand rejects missing idTag`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "expiryDate" to "2024-01-01T00:00:00Z",
+            "reservationId" to 1
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand rejects missing reservationId`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "expiryDate" to "2024-01-01T00:00:00Z",
+            "idTag" to "CARD1"
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand accepts valid payload`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "expiryDate" to "2024-01-01T00:00:00Z",
+            "idTag" to "CARD1",
+            "reservationId" to 42
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `ReserveNowCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ReserveNowCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "expiryDate" to "2024-01-01T00:00:00Z",
+            "idTag" to "CARD1",
+            "reservationId" to 42
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = ReserveNowCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "expiryDate" to "2024-01-01T00:00:00Z",
+            "idTag" to "CARD1",
+            "reservationId" to 42
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand execute uses correct params`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ReserveNowCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 3,
+            "expiryDate" to "2025-06-01T12:00:00Z",
+            "idTag" to "MYCARD",
+            "reservationId" to 77
+        )
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals(3, service.lastReserveNowConnectorId)
+        assertEquals("2025-06-01T12:00:00Z", service.lastReserveNowExpiryDate)
+        assertEquals("MYCARD", service.lastReserveNowIdTag)
+        assertEquals(77, service.lastReserveNowReservationId)
+    }
+
+    // ---- SendLocalListCommand ----
+
+    @Test
+    fun `SendLocalListCommand has correct name`() {
+        val cmd = SendLocalListCommand(TestOutboundService())
+
+        assertEquals("send-local-list", cmd.name)
+    }
+
+    @Test
+    fun `SendLocalListCommand rejects missing listVersion`() {
+        val cmd = SendLocalListCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("updateType" to "Full")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `SendLocalListCommand rejects missing updateType`() {
+        val cmd = SendLocalListCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("listVersion" to 1)
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `SendLocalListCommand rejects invalid updateType`() {
+        val cmd = SendLocalListCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("listVersion" to 1, "updateType" to "Invalid")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `SendLocalListCommand accepts Differential updateType`() {
+        val cmd = SendLocalListCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("listVersion" to 1, "updateType" to "Differential")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `SendLocalListCommand accepts Full updateType`() {
+        val cmd = SendLocalListCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("listVersion" to 1, "updateType" to "Full")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `SendLocalListCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = SendLocalListCommand(service)
+        val payload = mapOf<String, Any>("listVersion" to 5, "updateType" to "Full")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `SendLocalListCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = SendLocalListCommand(service)
+        val payload = mapOf<String, Any>("listVersion" to 5, "updateType" to "Full")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `SendLocalListCommand execute uses correct params`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = SendLocalListCommand(service)
+        val payload = mapOf<String, Any>("listVersion" to 10, "updateType" to "Differential")
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals(10, service.lastSendLocalListVersion)
+        assertEquals("Differential", service.lastSendLocalListUpdateType)
+    }
+
+    // ---- SetChargingProfileCommand ----
+
+    @Test
+    fun `SetChargingProfileCommand has correct name`() {
+        val cmd = SetChargingProfileCommand(TestOutboundService())
+
+        assertEquals("set-charging-profile", cmd.name)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand rejects missing connectorId`() {
+        val cmd = SetChargingProfileCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("csChargingProfiles" to mapOf<String, Any>())
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand rejects missing csChargingProfiles`() {
+        val cmd = SetChargingProfileCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 1)
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand accepts valid payload`() {
+        val cmd = SetChargingProfileCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "csChargingProfiles" to mapOf<String, Any>("chargingProfileId" to 1)
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = SetChargingProfileCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "csChargingProfiles" to mapOf<String, Any>("chargingProfileId" to 1)
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = SetChargingProfileCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "csChargingProfiles" to mapOf<String, Any>("chargingProfileId" to 1)
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand execute uses correct params`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = SetChargingProfileCommand(service)
+        val profiles = mapOf<String, Any>("chargingProfileId" to 5)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 2,
+            "csChargingProfiles" to profiles
+        )
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals(2, service.lastSetChargingProfileConnectorId)
+        assertEquals(profiles, service.lastSetChargingProfiles)
+    }
+
+    // ---- TriggerMessageCommand ----
+
+    @Test
+    fun `TriggerMessageCommand has correct name`() {
+        val cmd = TriggerMessageCommand(TestOutboundService())
+
+        assertEquals("trigger-message", cmd.name)
+    }
+
+    @Test
+    fun `TriggerMessageCommand rejects missing requestedMessage`() {
+        val cmd = TriggerMessageCommand(TestOutboundService())
+
+        val result = cmd.validate(emptyMap<String, Any>())
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `TriggerMessageCommand rejects invalid requestedMessage`() {
+        val cmd = TriggerMessageCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("requestedMessage" to "InvalidMessage")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `TriggerMessageCommand accepts BootNotification`() {
+        val cmd = TriggerMessageCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("requestedMessage" to "BootNotification")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `TriggerMessageCommand accepts Heartbeat`() {
+        val cmd = TriggerMessageCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("requestedMessage" to "Heartbeat")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `TriggerMessageCommand accepts StatusNotification`() {
+        val cmd = TriggerMessageCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("requestedMessage" to "StatusNotification")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `TriggerMessageCommand accepts MeterValues`() {
+        val cmd = TriggerMessageCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("requestedMessage" to "MeterValues")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `TriggerMessageCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = TriggerMessageCommand(service)
+        val payload = mapOf<String, Any>("requestedMessage" to "Heartbeat", "connectorId" to 1)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `TriggerMessageCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = TriggerMessageCommand(service)
+        val payload = mapOf<String, Any>("requestedMessage" to "Heartbeat")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `TriggerMessageCommand execute uses correct params`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = TriggerMessageCommand(service)
+        val payload = mapOf<String, Any>("requestedMessage" to "BootNotification", "connectorId" to 3)
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals("BootNotification", service.lastTriggerMessage)
+        assertEquals(3, service.lastTriggerMessageConnectorId)
+    }
+
+    // ---- UpdateFirmwareCommand ----
+
+    @Test
+    fun `UpdateFirmwareCommand has correct name`() {
+        val cmd = UpdateFirmwareCommand(TestOutboundService())
+
+        assertEquals("update-firmware", cmd.name)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand rejects missing location`() {
+        val cmd = UpdateFirmwareCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("retrieveDate" to "2024-01-01T00:00:00Z")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand rejects missing retrieveDate`() {
+        val cmd = UpdateFirmwareCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("location" to "http://example.com/firmware.bin")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand accepts valid payload`() {
+        val cmd = UpdateFirmwareCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "location" to "http://example.com/firmware.bin",
+            "retrieveDate" to "2024-01-01T00:00:00Z"
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = UpdateFirmwareCommand(service)
+        val payload = mapOf<String, Any>(
+            "location" to "http://example.com/firmware.bin",
+            "retrieveDate" to "2024-01-01T00:00:00Z"
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = UpdateFirmwareCommand(service)
+        val payload = mapOf<String, Any>(
+            "location" to "http://example.com/firmware.bin",
+            "retrieveDate" to "2024-01-01T00:00:00Z"
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand execute uses correct params`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = UpdateFirmwareCommand(service)
+        val payload = mapOf<String, Any>(
+            "location" to "http://firmware.url/v2.bin",
+            "retrieveDate" to "2025-01-01T00:00:00Z"
+        )
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals("http://firmware.url/v2.bin", service.lastFirmwareLocation)
+        assertEquals("2025-01-01T00:00:00Z", service.lastFirmwareRetrieveDate)
+    }
+
     // ---- Mock ----
 
     private class TestOutboundService(
@@ -293,38 +1370,132 @@ class OcppCommandTest {
         var lastConnectorId: Int? = null
         var lastTransactionId: Int? = null
         var lastResetType: String? = null
+        var lastReservationId: Int? = null
+        var lastChangeAvailabilityConnectorId: Int? = null
+        var lastChangeAvailabilityType: String? = null
+        var lastConfigurationKey: String? = null
+        var lastConfigurationValue: String? = null
+        var lastClearChargingProfileConnectorId: Int? = null
+        var lastClearChargingProfileStackLevel: Int? = null
+        var lastCompositeScheduleConnectorId: Int? = null
+        var lastCompositeScheduleDuration: Int? = null
+        var lastGetConfigurationKeys: List<String>? = null
+        var lastDiagnosticsLocation: String? = null
+        var lastReserveNowConnectorId: Int? = null
+        var lastReserveNowExpiryDate: String? = null
+        var lastReserveNowIdTag: String? = null
+        var lastReserveNowReservationId: Int? = null
+        var lastSendLocalListVersion: Int? = null
+        var lastSendLocalListUpdateType: String? = null
+        var lastSetChargingProfileConnectorId: Int? = null
+        var lastSetChargingProfiles: Map<String, Any>? = null
+        var lastTriggerMessage: String? = null
+        var lastTriggerMessageConnectorId: Int? = null
+        var lastFirmwareLocation: String? = null
+        var lastFirmwareRetrieveDate: String? = null
+
+        private fun makeResponse(): org.tekeli.borisp.ocpp16.protocol.OcppMessage =
+            if (callResult) org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallResult("id", mapOf())
+            else org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
 
         override fun sendRemoteStartTransaction(chargePointId: String, idTag: String, connectorId: Int?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
             lastIdTag = idTag
             lastConnectorId = connectorId
-            return java.util.concurrent.CompletableFuture.completedFuture(
-                if (callResult) org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallResult("id", mapOf())
-                else org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
-            )
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
         }
 
         override fun sendRemoteStopTransaction(chargePointId: String, transactionId: Int): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
             lastTransactionId = transactionId
-            return java.util.concurrent.CompletableFuture.completedFuture(
-                if (callResult) org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallResult("id", mapOf())
-                else org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
-            )
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
         }
 
         override fun sendReset(chargePointId: String, type: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
             lastResetType = type
-            return java.util.concurrent.CompletableFuture.completedFuture(
-                if (callResult) org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallResult("id", mapOf())
-                else org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
-            )
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
         }
 
         override fun sendUnlockConnector(chargePointId: String, connectorId: Int): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
             lastConnectorId = connectorId
-            return java.util.concurrent.CompletableFuture.completedFuture(
-                if (callResult) org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallResult("id", mapOf())
-                else org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
-            )
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendCancelReservation(chargePointId: String, reservationId: Int): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastReservationId = reservationId
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendChangeAvailability(chargePointId: String, connectorId: Int, type: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastChangeAvailabilityConnectorId = connectorId
+            lastChangeAvailabilityType = type
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendChangeConfiguration(chargePointId: String, key: String, value: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastConfigurationKey = key
+            lastConfigurationValue = value
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendClearCache(chargePointId: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendClearChargingProfile(chargePointId: String, connectorId: Int?, stackLevel: Int?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastClearChargingProfileConnectorId = connectorId
+            lastClearChargingProfileStackLevel = stackLevel
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendGetCompositeSchedule(chargePointId: String, connectorId: Int, duration: Int): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastCompositeScheduleConnectorId = connectorId
+            lastCompositeScheduleDuration = duration
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendGetConfiguration(chargePointId: String, keys: List<String>?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastGetConfigurationKeys = keys
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastDiagnosticsLocation = location
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendGetLocalListVersion(chargePointId: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendReserveNow(chargePointId: String, connectorId: Int, expiryDate: String, idTag: String, reservationId: Int): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastReserveNowConnectorId = connectorId
+            lastReserveNowExpiryDate = expiryDate
+            lastReserveNowIdTag = idTag
+            lastReserveNowReservationId = reservationId
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendSendLocalList(chargePointId: String, listVersion: Int, updateType: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastSendLocalListVersion = listVersion
+            lastSendLocalListUpdateType = updateType
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendSetChargingProfile(chargePointId: String, connectorId: Int, csChargingProfiles: Map<String, Any>): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastSetChargingProfileConnectorId = connectorId
+            lastSetChargingProfiles = csChargingProfiles
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastTriggerMessage = requestedMessage
+            lastTriggerMessageConnectorId = connectorId
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
+
+        override fun sendUpdateFirmware(chargePointId: String, location: String, retrieveDate: String, retries: Int?, retryInterval: Int?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastFirmwareLocation = location
+            lastFirmwareRetrieveDate = retrieveDate
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
         }
     }
 }

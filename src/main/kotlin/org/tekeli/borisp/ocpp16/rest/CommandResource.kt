@@ -5,11 +5,7 @@ import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
-import org.tekeli.borisp.ocpp16.command.OcppCommand
-import org.tekeli.borisp.ocpp16.command.RemoteStartTransactionCommand
-import org.tekeli.borisp.ocpp16.command.RemoteStopTransactionCommand
-import org.tekeli.borisp.ocpp16.command.ResetCommand
-import org.tekeli.borisp.ocpp16.command.UnlockConnectorCommand
+import org.tekeli.borisp.ocpp16.command.*
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 
 @Path("/api/chargepoints/{chargePointId}/commands")
@@ -35,12 +31,68 @@ class CommandResource {
     @Inject
     lateinit var unlockConnectorCommand: UnlockConnectorCommand
 
+    @Inject
+    lateinit var cancelReservationCommand: CancelReservationCommand
+
+    @Inject
+    lateinit var changeAvailabilityCommand: ChangeAvailabilityCommand
+
+    @Inject
+    lateinit var changeConfigurationCommand: ChangeConfigurationCommand
+
+    @Inject
+    lateinit var clearCacheCommand: ClearCacheCommand
+
+    @Inject
+    lateinit var clearChargingProfileCommand: ClearChargingProfileCommand
+
+    @Inject
+    lateinit var getCompositeScheduleCommand: GetCompositeScheduleCommand
+
+    @Inject
+    lateinit var getConfigurationCommand: GetConfigurationCommand
+
+    @Inject
+    lateinit var getDiagnosticsCommand: GetDiagnosticsCommand
+
+    @Inject
+    lateinit var getLocalListVersionCommand: GetLocalListVersionCommand
+
+    @Inject
+    lateinit var reserveNowCommand: ReserveNowCommand
+
+    @Inject
+    lateinit var sendLocalListCommand: SendLocalListCommand
+
+    @Inject
+    lateinit var setChargingProfileCommand: SetChargingProfileCommand
+
+    @Inject
+    lateinit var triggerMessageCommand: TriggerMessageCommand
+
+    @Inject
+    lateinit var updateFirmwareCommand: UpdateFirmwareCommand
+
     private val commandMap: Map<String, OcppCommand> by lazy {
         mapOf(
             remoteStartTransactionCommand.name to remoteStartTransactionCommand,
             remoteStopTransactionCommand.name to remoteStopTransactionCommand,
             resetCommand.name to resetCommand,
-            unlockConnectorCommand.name to unlockConnectorCommand
+            unlockConnectorCommand.name to unlockConnectorCommand,
+            cancelReservationCommand.name to cancelReservationCommand,
+            changeAvailabilityCommand.name to changeAvailabilityCommand,
+            changeConfigurationCommand.name to changeConfigurationCommand,
+            clearCacheCommand.name to clearCacheCommand,
+            clearChargingProfileCommand.name to clearChargingProfileCommand,
+            getCompositeScheduleCommand.name to getCompositeScheduleCommand,
+            getConfigurationCommand.name to getConfigurationCommand,
+            getDiagnosticsCommand.name to getDiagnosticsCommand,
+            getLocalListVersionCommand.name to getLocalListVersionCommand,
+            reserveNowCommand.name to reserveNowCommand,
+            sendLocalListCommand.name to sendLocalListCommand,
+            setChargingProfileCommand.name to setChargingProfileCommand,
+            triggerMessageCommand.name to triggerMessageCommand,
+            updateFirmwareCommand.name to updateFirmwareCommand
         )
     }
 

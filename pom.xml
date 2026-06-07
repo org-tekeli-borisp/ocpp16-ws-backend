@@ -215,6 +215,20 @@
                         <param>org.tekeli.borisp.ocpp16.command.RemoteStopTransactionCommand</param>
                         <param>org.tekeli.borisp.ocpp16.command.ResetCommand</param>
                         <param>org.tekeli.borisp.ocpp16.command.UnlockConnectorCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.CancelReservationCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.ChangeAvailabilityCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.ChangeConfigurationCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.ClearCacheCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.ClearChargingProfileCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.GetCompositeScheduleCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.GetConfigurationCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.GetLocalListVersionCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.ReserveNowCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.SendLocalListCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.SetChargingProfileCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.TriggerMessageCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.UpdateFirmwareCommand</param>
                     </targetClasses>
                     <targetTests>
                         <param>org.tekeli.borisp.ocpp16.OcppMessageTest</param>
