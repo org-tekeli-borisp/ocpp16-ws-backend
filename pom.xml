@@ -192,25 +192,29 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>org.tekeli.borisp.ocpp16.OcppMessage</param>
-                        <param>org.tekeli.borisp.ocpp16.OcppMessage$Call</param>
-                        <param>org.tekeli.borisp.ocpp16.OcppMessage$CallResult</param>
-                        <param>org.tekeli.borisp.ocpp16.OcppMessage$CallError</param>
-                        <param>org.tekeli.borisp.ocpp16.OcppMessage$Companion</param>
-                        <param>org.tekeli.borisp.ocpp16.OcppWebSocketServer</param>
-                        <param>org.tekeli.borisp.ocpp16.BootNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.HeartbeatHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.AuthorizeHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.StartTransactionHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.StopTransactionHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.StatusNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.MeterValuesHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.DataTransferHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.FirmwareStatusNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.DiagnosticsStatusNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.ResponseAwaiter</param>
-                        <param>org.tekeli.borisp.ocpp16.OutboundCallDispatcher</param>
-                        <param>org.tekeli.borisp.ocpp16.ChargePointRegistry</param>
+                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage</param>
+                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$Call</param>
+                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$CallResult</param>
+                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$CallError</param>
+                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$Companion</param>
+                        <param>org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter</param>
+                        <param>org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer</param>
+                        <param>org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.BootNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.HeartbeatHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.AuthorizeHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.StartTransactionHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.StopTransactionHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.MeterValuesHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.DataTransferHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.FirmwareStatusNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.DiagnosticsStatusNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher</param>
+                        <param>org.tekeli.borisp.ocpp16.command.RemoteStartTransactionCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.RemoteStopTransactionCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.ResetCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.UnlockConnectorCommand</param>
                     </targetClasses>
                     <targetTests>
                         <param>org.tekeli.borisp.ocpp16.OcppMessageTest</param>
@@ -218,6 +222,7 @@
                         <param>org.tekeli.borisp.ocpp16.ResponseAwaiterTest</param>
                         <param>org.tekeli.borisp.ocpp16.OutboundCallDispatcherTest</param>
                         <param>org.tekeli.borisp.ocpp16.ChargePointRegistryTest</param>
+                        <param>org.tekeli.borisp.ocpp16.command.OcppCommandTest</param>
                     </targetTests>
                     <excludedMethods>
                         <exclude>parseJsonNode</exclude>
