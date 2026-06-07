@@ -234,9 +234,10 @@ class OutboundCallDispatcherTest {
 
     private class TestWebSocketConnection(
         private val sentMessages: MutableList<String>
-    ) : WebSocketSend {
-        override fun sendText(text: String) {
+    ) : TextSender {
+        override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> {
             sentMessages.add(text)
+            return io.smallrye.mutiny.Uni.createFrom().voidItem()
         }
     }
 }

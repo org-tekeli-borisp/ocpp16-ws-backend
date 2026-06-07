@@ -162,6 +162,7 @@ class ChargePointRegistryTest {
         val connection = mockChargePointConnection()
 
         registry.register("session-1", connection)
+        registry.setSender("session-1", connection)
         registry.updateChargePointInfo("session-1", "CP-001", "Tesla", "Model3")
 
         val future = registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))
@@ -213,8 +214,9 @@ class ChargePointRegistryTest {
     ) : ChargePointConnection {
         override val responseAwaiter = ResponseAwaiter()
 
-        override fun sendText(text: String) {
+        override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> {
             sentMessages.add(text)
+            return io.smallrye.mutiny.Uni.createFrom().voidItem()
         }
 
         fun simulateCallResult(messageId: String, payload: Map<String, Any>) {

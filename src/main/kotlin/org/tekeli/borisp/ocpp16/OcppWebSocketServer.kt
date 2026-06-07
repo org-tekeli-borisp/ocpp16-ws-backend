@@ -46,7 +46,11 @@ class OcppWebSocketServer : ChargePointConnection {
     @OnOpen
     fun onOpen() {
         chargePointId = connection?.pathParam("chargePointId")
+        val wsConn = connection
         chargePointRegistry?.register(sessionId, this)
+        if (wsConn != null) {
+            chargePointRegistry?.setSender(sessionId, WsSender(wsConn))
+        }
         println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId")
     }
 
@@ -127,8 +131,8 @@ class OcppWebSocketServer : ChargePointConnection {
     }
 
     // ChargePointConnection interface
-    override fun sendText(text: String) {
-        connection?.sendText(text)
+    override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> {
+        return connection?.sendText(text) ?: io.smallrye.mutiny.Uni.createFrom().voidItem()
     }
 
     // Outbound S->C methods
