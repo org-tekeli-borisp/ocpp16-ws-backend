@@ -7,7 +7,7 @@ import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-@WebSocket(path = "/ocpp/{chargeBoxIdentity}")
+@WebSocket(path = "/ocpp/{chargePointId}")
 @ApplicationScoped
 class OcppWebSocketServer : ChargePointConnection {
 
@@ -45,7 +45,7 @@ class OcppWebSocketServer : ChargePointConnection {
     @OnOpen
     fun onOpen() {
         chargePointRegistry?.register(sessionId, this)
-        println("WebSocket connection opened: $sessionId, ${connection?.pathParam("chargeBoxIdentity")}")
+        println("WebSocket connection opened: $sessionId, ${connection?.pathParam("chargePointId")}")
     }
 
     @OnTextMessage
