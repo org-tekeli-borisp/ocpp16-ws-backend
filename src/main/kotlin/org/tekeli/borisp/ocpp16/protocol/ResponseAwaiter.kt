@@ -29,4 +29,12 @@ class ResponseAwaiter {
             ?: throw IllegalStateException("No pending response for messageId: $messageId")
         future.completeExceptionally(cause)
     }
+
+    fun rejectAll(reason: String) {
+        val exception = IllegalStateException(reason)
+        pendingResponses.forEach { (_, future) ->
+            future.completeExceptionally(exception)
+        }
+        pendingResponses.clear()
+    }
 }

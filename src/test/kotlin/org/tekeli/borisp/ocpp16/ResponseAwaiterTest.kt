@@ -262,4 +262,105 @@ class ResponseAwaiterTest {
         assertNotSame(future1, future2)
         assertFalse(future2.isDone)
     }
+
+    // --- rejectAll() tests ---
+
+    @Test
+    fun `rejectAll completes all pending futures exceptionally`() {
+        val awaiter = ResponseAwaiter()
+        val latch = CountDownLatch(3)
+
+        val future1 = awaiter.pending("msg-1")
+        val future2 = awaiter.pending("msg-2")
+        val future3 = awaiter.pending("msg-3")
+
+        future1.whenComplete { _, _ -> latch.countDown() }
+        future2.whenComplete { _, _ -> latch.countDown() }
+        future3.whenComplete { _, _ -> latch.countDown() }
+
+        awaiter.rejectAll("Connection closed")
+
+        assertTrue(latch.await(1, TimeUnit.SECONDS), "All pending futures should complete")
+        assertTrue(future1.isDone)
+        assertTrue(future2.isDone)
+        assertTrue(future3.isDone)
+    }
+
+    @Test
+    fun `rejectAll completes futures with IllegalStateException`() {
+        val awaiter = ResponseAwaiter()
+
+        val future = awaiter.pending("msg-1")
+        awaiter.rejectAll("Connection lost")
+
+        val ex = assertThrows(ExecutionException::class.java) { future.get() }
+        assertTrue(ex.cause is IllegalStateException)
+        assertTrue(ex.cause!!.message!!.contains("Connection lost"))
+    }
+
+    @Test
+    fun `rejectAll only affects currently pending futures`() {
+        val awaiter = ResponseAwaiter()
+
+        val future1 = awaiter.pending("msg-1")
+        awaiter.rejectAll("first")
+        assertTrue(future1.isDone)
+
+        val future2 = awaiter.pending("msg-2")
+        assertFalse(future2.isDone, "newly created pending should not be completed by previous rejectAll")
+    }
+
+    @Test
+    fun `rejectAll on empty awaiter does not throw`() {
+        val awaiter = ResponseAwaiter()
+
+        assertDoesNotThrow { awaiter.rejectAll("closed") }
+    }
+
+    @Test
+    fun `rejectAll clears all pending entries`() {
+        val awaiter = ResponseAwaiter()
+
+        awaiter.pending("msg-1")
+        awaiter.pending("msg-2")
+
+        awaiter.rejectAll("closed")
+
+        assertThrows(IllegalStateException::class.java) {
+            awaiter.resolve("msg-1", OcppMessage.CallResult("msg-1", null))
+        }
+    }
+
+    @Test
+    fun `rejectAll does not affect already resolved futures`() {
+        val awaiter = ResponseAwaiter()
+
+        val future1 = awaiter.pending("msg-1")
+        val future2 = awaiter.pending("msg-2")
+
+        awaiter.resolve("msg-1", OcppMessage.CallResult("msg-1", mapOf("status" to "Accepted")))
+
+        awaiter.rejectAll("closed")
+
+        assertTrue(future1.isDone)
+        assertEquals("Accepted", (future1.get() as OcppMessage.CallResult).payload?.get("status"))
+        assertTrue(future2.isDone)
+        assertThrows(ExecutionException::class.java) { future2.get() }
+    }
+
+    @Test
+    fun `rejectAll handles many pending futures concurrently`() {
+        val awaiter = ResponseAwaiter()
+        val latch = CountDownLatch(50)
+        val futures = List(50) { i ->
+            val f = awaiter.pending("msg-$i")
+            f.whenComplete { _, _ -> latch.countDown() }
+            f
+        }
+
+        awaiter.rejectAll("disconnected")
+
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "All 50 futures should complete")
+        futures.forEach { assertTrue(it.isDone) }
+    }
 }

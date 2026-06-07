@@ -153,6 +153,7 @@ class OcppWebSocketServer : ChargePointConnection {
         if ((chargePointRegistry?.isConnected(connectionId) ?: false).not()) {
             return
         }
+        responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
         try {
             chargePointRegistry?.unregister(connectionId)
             persistenceService?.setChargePointOffline(connectionId)
