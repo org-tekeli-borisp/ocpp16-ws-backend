@@ -25,6 +25,7 @@ class OcppWebSocketServer : ChargePointConnection {
 
     override val responseAwaiter = ResponseAwaiter()
     private val sessionId = UUID.randomUUID().toString()
+     var chargePointId: String? = null
     private val handlers: Map<String, OcppActionHandler> = mapOf(
         "BootNotification" to BootNotificationHandler(),
         "Heartbeat" to HeartbeatHandler(),
@@ -44,8 +45,9 @@ class OcppWebSocketServer : ChargePointConnection {
 
     @OnOpen
     fun onOpen() {
+        chargePointId = connection?.pathParam("chargePointId")
         chargePointRegistry?.register(sessionId, this)
-        println("WebSocket connection opened: $sessionId, ${connection?.pathParam("chargePointId")}")
+        println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId")
     }
 
     @OnTextMessage

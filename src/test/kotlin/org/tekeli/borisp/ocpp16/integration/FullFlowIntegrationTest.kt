@@ -147,7 +147,7 @@ class FullFlowIntegrationTest {
         Thread.sleep(1000)
 
         // Verify persistence
-        val cp = waitForChargePoint("Tesla-Model3-1.0")
+        val cp = waitForChargePoint("integration-cp")
         assertNotNull(cp)
         assertEquals("Tesla", cp!!.vendor)
         assertEquals("Model3", cp.model)
@@ -178,13 +178,13 @@ class FullFlowIntegrationTest {
         assertEquals("Accepted", getIdTagInfoStatus(responses[2]))
 
         // Verify chargePoint was created and is ONLINE
-        val cp = persistenceService.findChargePointById("ABB-Terra-2.1")
+        val cp = persistenceService.findChargePointById("integration-cp")
         assertNotNull(cp)
         assertEquals(ChargePointStatus.ONLINE, cp!!.status)
 
         // Verify all chargePoints
         val allCps = persistenceService.findAllChargePoints()
-        assertTrue(allCps.any { it.chargePointId == "ABB-Terra-2.1" })
+        assertTrue(allCps.any { it.chargePointId == "integration-cp" })
 
         ws.close()
     }

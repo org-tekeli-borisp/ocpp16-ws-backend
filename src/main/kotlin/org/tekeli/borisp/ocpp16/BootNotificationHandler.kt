@@ -26,7 +26,7 @@ class BootNotificationHandler : OcppActionHandler {
         }
 
         val firmwareVersion = payload["firmwareVersion"]?.toString()
-        val chargePointId = "${vendor.toString()}-${model.toString()}-${firmwareVersion ?: "unknown"}"
+        val chargePointId = server.chargePointId ?: throw FormationViolationException("No chargePointId from connection")
         server.chargePointRegistry?.updateChargePointInfo(
             server.getSessionId(),
             chargePointId,

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class OcppWebSocketServerUnitTest {
 
-    private val server = OcppWebSocketServer()
+    private val server = OcppWebSocketServer().apply { chargePointId = "SNH764" }
 
     @Test
     fun `should return error for unknown action`() {
