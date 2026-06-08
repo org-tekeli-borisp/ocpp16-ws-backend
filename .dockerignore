@@ -1,0 +1,10 @@
+.git
+.gitignore
+docker-compose.yml
+.env
+.m2
+!src/main/docker/Dockerfile.jvm
+target/classes
+*.md
+.idea
+.vscode

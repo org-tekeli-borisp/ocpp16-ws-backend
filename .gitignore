@@ -16,3 +16,7 @@ Thumbs.db
 
 # Quarkus
 .quarkus/
+
+# Docker
+.env
+.env.local
