@@ -11,39 +11,40 @@ import java.time.Instant
 
 @Entity
 @Table(name = "transactions", indexes = [
-    Index(name = "idx_txn_chargepoint", columnList = "chargePointId"),
-    Index(name = "idx_txn_idtag", columnList = "idTag"),
-    Index(name = "idx_txn_started", columnList = "startTime")
+    Index(name = "idx_txn_chargepoint", columnList = "charge_point_id"),
+    Index(name = "idx_txn_idtag", columnList = "id_tag"),
+    Index(name = "idx_txn_started", columnList = "start_time")
 ])
 class Transaction @JvmOverloads constructor(
     @Id
     @GeneratedValue
     val id: Long? = null,
 
-    @Column(length = 255)
+    @Column(name = "charge_point_id", length = 255)
     var chargePointId: String = "",
 
-    @Column
+    @Column(name = "connector_id")
     var connectorId: Int = 0,
 
-    @Column(length = 20)
+    @Column(name = "id_tag", length = 20)
     var idTag: String = "",
 
-    @Column
+    @Column(name = "meter_start")
     var meterStart: Int = 0,
 
-    @Column
+    @Column(name = "start_time")
     var startTime: Instant = Instant.EPOCH,
 
-    @Column
+    @Column(name = "stop_time")
     var stopTime: Instant? = null,
 
+    @Column(name = "meter_stop")
     var meterStop: Int? = null,
 
-    @Column(length = 20)
+    @Column(name = "stop_reason", length = 20)
     var stopReason: String? = null,
 
-    @Column(length = 20)
+    @Column(name = "id_tag_end", length = 20)
     var idTagEnd: String? = null
 ) : PanacheEntityBase() {
 

@@ -11,31 +11,33 @@ import java.time.Instant
 
 @Entity
 @Table(name = "charge_points", indexes = [
-    Index(name = "idx_chargepoint_id", columnList = "chargePointId"),
+    Index(name = "idx_chargepoint_id", columnList = "charge_point_id"),
     Index(name = "idx_status", columnList = "status")
 ])
 class ChargePoint @JvmOverloads constructor(
-    @Column(length = 255)
+    @Column(name = "charge_point_id", length = 255)
     var chargePointId: String = "",
 
-    @Column(length = 20)
+    @Column(name = "vendor", length = 20)
     var vendor: String? = null,
 
-    @Column(length = 20)
+    @Column(name = "model", length = 20)
     var model: String? = null,
 
-    @Column(length = 50)
+    @Column(name = "firmware_version", length = 50)
     var firmwareVersion: String? = null,
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(name = "status", length = 20)
     var status: ChargePointStatus = ChargePointStatus.OFFLINE,
 
-    @Column
+    @Column(name = "session_id")
     var sessionId: String = "",
 
+    @Column(name = "last_seen_at")
     var lastSeenAt: Instant = Instant.now(),
 
+    @Column(name = "created_at")
     var createdAt: Instant = Instant.now()
 ) : PanacheEntity() {
 
