@@ -7,10 +7,11 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **OCPP 1.6J compliant** – all Client→Server and Server→Call messages
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
 - **18 Remote Commands** – full Server→Client control via REST API
-- **Persistent storage** – H2 database (configurable for PostgreSQL, MySQL, etc.)
+- **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (79%+ mutation score)
 - **430+ Unit & Integration Tests**
+- **Docker Compose** – ready for production deployment
 
 ## Architecture
 
@@ -27,7 +28,8 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 │  OcppWebSocketServer → Handlers (BootNotification,          │
 │   StartTransaction, StopTransaction, Authorize, etc.)       │
 ├─────────────────────────────────────────────────────────────┤
-│  Persistence (ChargePoint, Transaction → H2/SQL)            │
+│  Persistence (ChargePoint, Transaction → PostgreSQL)        │
+│  Liquibase migrations in db/changelog/                      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -37,14 +39,15 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 
 - JDK 21+
 - Maven 3.8+
+- Docker (for PostgreSQL via Quarkus Dev Services)
 
 ### Run in Dev Mode
 
 ```bash
-./mvnw quarkus:dev
+mvn quarkus:dev
 ```
 
-The server starts on `http://localhost:8080`.
+Quarkus Dev Services automatically starts a PostgreSQL container. The server starts on `http://localhost:8080`.
 
 ### Connect a Charge Point
 
@@ -58,11 +61,36 @@ Example BootNotification:
 [2,"1","BootNotification",{"chargePointVendor":"Tesla","chargePointModel":"Model3","firmwareVersion":"1.0"}]
 ```
 
-### Package & Run
+## Production Deployment
+
+### Docker Compose
 
 ```bash
-./mvnw package
-java -jar target/quarkus-app/quarkus-run.jar
+# Optional: configure database credentials
+cp .env.example .env
+
+# Start the stack (app + PostgreSQL 18)
+docker compose up -d
+
+# Check health
+curl http://localhost:8080/health
+
+# Stop
+docker compose down
+```
+
+The stack includes:
+- **PostgreSQL 18** on port `5432` with persistent volume
+- **Application** on port `8080` with Liquibase auto-migration
+
+### Build & Run Standalone
+
+```bash
+mvn package
+java -jar target/quarkus-app/quarkus-run.jar \
+  -Dquarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/ocpp \
+  -Dquarkus.datasource.username=postgres \
+  -Dquarkus.datasource.password=postgres
 ```
 
 ## REST API
@@ -146,6 +174,18 @@ curl -X POST http://localhost:8080/api/chargepoints/CP-001/commands/reset \
 
 All 18 OCPP 1.6J remote calls implemented (see table above).
 
+## Database Migrations
+
+Liquibase manages the database schema via SQL changelogs in `src/main/resources/db/changelog/`.
+
+```
+db/changelog/
+├── changelog-master.yaml   # Master changelog
+└── 001-init.sql            # Initial schema (tables, sequences, indexes)
+```
+
+New migrations: add `00X-name.sql` to `db/changelog/` and include it in `changelog-master.yaml`.
+
 ## Project Structure
 
 ```
@@ -162,11 +202,11 @@ src/main/kotlin/org/tekeli/borisp/ocpp16/
 ## Testing
 
 ```bash
-# Run all tests
-./mvnw verify
+# Run all tests (Dev Services provides PostgreSQL automatically)
+mvn test
 
 # Mutation testing (PITest)
-./mvnw org.pitest:pitest-maven:mutationCoverage
+mvn org.pitest:pitest-maven:mutationCoverage
 ```
 
 ## Configuration
@@ -176,15 +216,20 @@ Key properties in `application.properties`:
 | Property | Default  | Description |
 |----------|----------|-------------|
 | `quarkus.http.port` | `8080`   | HTTP/WS port |
-| `quarkus.datasource.db-kind` | `h2`     | Database type |
-| `quarkus.hibernate-orm.database.generation` | `update` | Schema generation |
+| `quarkus.datasource.db-kind` | `postgresql` | Database type |
+| `quarkus.liquibase.migrate-at-start` | `true` | Run migrations on startup |
+| `quarkus.liquibase.change-log` | `db/changelog/changelog-master.yaml` | Master changelog |
+
+> **Dev & Test:** Quarkus Dev Services automatically provisions a PostgreSQL container – no manual configuration needed.
 
 ## Tech Stack
 
 - **Kotlin** 2.3 – primary language
 - **Quarkus** 3.36 – application framework
+- **PostgreSQL** 18 – production database (Dev Services for dev/test)
+- **Liquibase** – database migrations
 - **WebSocket Next** – server-sent WebSocket API
 - **Hibernate ORM + Panache** – persistence
-- **H2** – embedded database
 - **Jackson** – JSON serialization
 - **PITest** – mutation testing
+- **Docker Compose** – production deployment
