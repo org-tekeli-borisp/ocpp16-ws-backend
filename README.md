@@ -5,7 +5,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 ## Features
 
 - **OCPP 1.6J compliant** – all Client→Server and Server→Call messages
-- **WebSocket transport** – `ws://localhost:8181/ocpp/{chargePointId}`
+- **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
 - **18 Remote Commands** – full Server→Client control via REST API
 - **Persistent storage** – H2 database (configurable for PostgreSQL, MySQL, etc.)
 - **REST API** – charge points, transactions, commands, health & status
@@ -44,12 +44,12 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 ./mvnw quarkus:dev
 ```
 
-The server starts on `http://localhost:8181`.
+The server starts on `http://localhost:8080`.
 
 ### Connect a Charge Point
 
 ```
-ws://localhost:8181/ocpp/{chargePointId}
+ws://localhost:8080/ocpp/{chargePointId}
 ```
 
 Example BootNotification:
@@ -120,7 +120,7 @@ java -jar target/quarkus-app/quarkus-run.jar
 **Example – Reset:**
 
 ```bash
-curl -X POST http://localhost:8181/api/chargepoints/CP-001/commands/reset \
+curl -X POST http://localhost:8080/api/chargepoints/CP-001/commands/reset \
   -H "Content-Type: application/json" \
   -d '{"type": "Soft"}'
 ```
@@ -173,10 +173,10 @@ src/main/kotlin/org/tekeli/borisp/ocpp16/
 
 Key properties in `application.properties`:
 
-| Property | Default | Description |
-|----------|---------|-------------|
-| `quarkus.http.port` | `8181` | HTTP/WS port |
-| `quarkus.datasource.db-kind` | `h2` | Database type |
+| Property | Default  | Description |
+|----------|----------|-------------|
+| `quarkus.http.port` | `8080`   | HTTP/WS port |
+| `quarkus.datasource.db-kind` | `h2`     | Database type |
 | `quarkus.hibernate-orm.database.generation` | `update` | Schema generation |
 
 ## Tech Stack
