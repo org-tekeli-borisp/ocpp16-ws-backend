@@ -1,11 +1,14 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
 
-class StopTransactionHandler : OcppActionHandler {
+class StopTransactionHandler(
+    private val metricsService: MetricsService? = null
+) : OcppActionHandler {
     private val validStopReasons = setOf(
         "DeAuthorized", "EmergencyStop", "EVDisconnected", "HardReset",
         "Local", "Other", "PowerLoss", "Reboot", "Remote", "SoftReset",
@@ -57,13 +60,22 @@ class StopTransactionHandler : OcppActionHandler {
             }
         }
 
-        server.persistenceService?.stopTransaction(
+        val ps = server.persistenceService
+        val transaction = ps?.findTransaction(transactionIdValue)
+        val energyWh = (meterStopValue - (transaction?.meterStart ?: 0)).toDouble()
+        val durationSeconds = transaction?.startTime?.let { stopTime.epochSecond - it.epochSecond } ?: 0
+
+        ps?.stopTransaction(
             transactionId = transactionIdValue,
             meterStop = meterStopValue,
             stopTime = stopTime,
             reason = reason?.toString(),
             idTagEnd = idTag?.toString()?.trim()
         )
+
+        metricsService?.onTransactionStopped()
+        metricsService?.energyDeliveredWh?.increment(energyWh)
+        metricsService?.transactionDuration?.record(durationSeconds, java.util.concurrent.TimeUnit.SECONDS)
 
         val responsePayload = mapOf(
             "idTagInfo" to mapOf("status" to "Accepted")

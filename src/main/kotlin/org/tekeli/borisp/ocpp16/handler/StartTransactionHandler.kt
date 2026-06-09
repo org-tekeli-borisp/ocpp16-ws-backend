@@ -1,11 +1,14 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
 
-class StartTransactionHandler : OcppActionHandler {
+class StartTransactionHandler(
+    private val metricsService: MetricsService? = null
+) : OcppActionHandler {
     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
 
@@ -64,6 +67,7 @@ class StartTransactionHandler : OcppActionHandler {
                     startTime = startTime
                 )
                 transactionId = txn.id ?: 1
+                metricsService?.onTransactionStarted()
             }
         }
 

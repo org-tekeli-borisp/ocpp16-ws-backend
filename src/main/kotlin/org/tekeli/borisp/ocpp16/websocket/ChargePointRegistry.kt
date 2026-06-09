@@ -3,6 +3,7 @@ package org.tekeli.borisp.ocpp16.websocket
 import io.quarkus.websockets.next.OpenConnections
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher
 import org.tekeli.borisp.ocpp16.outbound.TextSender
 import org.tekeli.borisp.ocpp16.outbound.WsSender
@@ -20,6 +21,9 @@ class ChargePointRegistry {
     @Inject
     lateinit var openConnections: OpenConnections
 
+    @Inject
+    var metricsService: MetricsService? = null
+
     private val sessionInfos = ConcurrentHashMap<String, ChargePointInfo>()
     private val sessionConnections = ConcurrentHashMap<String, ChargePointConnection>()
     private val chargePointIdIndex = ConcurrentHashMap<String, String>()
@@ -35,6 +39,7 @@ class ChargePointRegistry {
             connectionId = connectionId
         )
         sessionConnections[sessionId] = connection
+        metricsService?.onChargePointConnected()
     }
 
     fun setTestSender(sessionId: String, sender: TextSender) {
@@ -46,6 +51,7 @@ class ChargePointRegistry {
         sessionConnections.remove(sessionId)
         testSenders.remove(sessionId)
         chargePointIdIndex.entries.removeAll { it.value == sessionId }
+        metricsService?.onChargePointDisconnected()
     }
 
     fun updateChargePointInfo(sessionId: String, chargePointId: String, vendor: String, model: String) {
@@ -78,6 +84,7 @@ class ChargePointRegistry {
             ?: throw IllegalStateException("ChargePoint connection not available for session: ${info.sessionId}")
         val sender = testSenders[info.sessionId] ?: WsSender(openConnections, info.connectionId)
         val dispatcher = OutboundCallDispatcher(sender, connection.responseAwaiter)
+        metricsService?.messagesSent?.increment()
         return dispatcher.sendCall(action, payload)
     }
 }

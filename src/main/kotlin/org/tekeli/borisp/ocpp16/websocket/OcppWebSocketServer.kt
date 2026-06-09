@@ -14,6 +14,7 @@ import org.tekeli.borisp.ocpp16.handler.OcppActionHandler
 import org.tekeli.borisp.ocpp16.handler.StartTransactionHandler
 import org.tekeli.borisp.ocpp16.handler.StatusNotificationHandler
 import org.tekeli.borisp.ocpp16.handler.StopTransactionHandler
+import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
@@ -36,6 +37,9 @@ class OcppWebSocketServer : ChargePointConnection {
     @Inject
     var persistenceService: PersistenceService? = null
 
+    @Inject
+    var metricsService: MetricsService? = null
+
     val activeConnection: WebSocketConnection
         get() = connection ?: throw IllegalStateException("Connection not initialized")
 
@@ -46,8 +50,8 @@ class OcppWebSocketServer : ChargePointConnection {
         "BootNotification" to BootNotificationHandler(),
         "Heartbeat" to HeartbeatHandler(),
         "Authorize" to AuthorizeHandler(),
-        "StartTransaction" to StartTransactionHandler(),
-        "StopTransaction" to StopTransactionHandler(),
+        "StartTransaction" to StartTransactionHandler(metricsService),
+        "StopTransaction" to StopTransactionHandler(metricsService),
         "StatusNotification" to StatusNotificationHandler(),
         "DataTransfer" to DataTransferHandler(),
         "FirmwareStatusNotification" to FirmwareStatusNotificationHandler(),
@@ -71,7 +75,10 @@ class OcppWebSocketServer : ChargePointConnection {
             val ocppMessage = OcppMessage.parse(message)
 
             when (ocppMessage.type) {
-                OcppMessageType.CALL -> handleCall(ocppMessage as OcppMessage.Call)
+                OcppMessageType.CALL -> {
+                    metricsService?.messagesReceived?.increment()
+                    handleCall(ocppMessage as OcppMessage.Call)
+                }
                 OcppMessageType.CALLRESULT -> handleCallResult(ocppMessage as OcppMessage.CallResult)
                 OcppMessageType.CALLERROR -> handleCallError(ocppMessage as OcppMessage.CallError)
             }

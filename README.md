@@ -230,6 +230,27 @@ docker pull ghcr.io/org-tekeli-borisp/ocpp16-ws-backend:latest
 docker pull ghcr.io/org-tekeli-borisp/ocpp16-ws-backend:latest-native
 ```
 
+## Prometheus Metrics
+
+Quarkus Micrometer mit Prometheus Registry. Metriken verfügbar unter `/q/metrics`:
+
+```bash
+curl http://localhost:8080/q/metrics
+```
+
+### OCP-spezifische Metriken:
+
+| Metrik | Typ | Beschreibung |
+|--------|-----|-------------|
+| `ocpp_transactions_started_total` | Counter | Gestartete Ladetransaktionen |
+| `ocpp_transactions_stopped_total` | Counter | Beendete Transaktionen |
+| `ocpp_energy_delivered_wh` | Counter | Gelieferte Energie (Wh) |
+| `ocpp_messages_received_total` | Counter | C→S Messages |
+| `ocpp_messages_sent_total` | Counter | S→C Commands |
+| `ocpp_charge_points_connected` | Gauge | Aktive WS-Verbindungen |
+| `ocpp_transactions_active` | Gauge | Laufende Transaktionen |
+| `ocpp_transaction_duration_seconds` | Timer | Dauer der Transaktionen |
+
 ## Configuration
 
 Key properties in `application.properties`:
