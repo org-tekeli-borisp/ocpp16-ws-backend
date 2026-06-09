@@ -5,6 +5,7 @@ import io.micrometer.core.instrument.Gauge
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Timer
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry
+import jakarta.annotation.PostConstruct
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
@@ -62,7 +63,8 @@ class MetricsService {
             .register(meterRegistry)
     }
 
-    init {
+    @PostConstruct
+    fun initGauges() {
         Gauge.builder("ocpp.charge.points.connected", ::getConnectionCount)
             .description("Number of currently connected charge points")
             .register(meterRegistry)
@@ -82,10 +84,12 @@ class MetricsService {
 
     fun onTransactionStarted() {
         activeTransactionCount++
+        transactionsStarted.increment()
     }
 
     fun onTransactionStopped() {
         activeTransactionCount--
+        transactionsStopped.increment()
     }
 
     private fun getConnectionCount(): Double = connectionCount.toDouble()
