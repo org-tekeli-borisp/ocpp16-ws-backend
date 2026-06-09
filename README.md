@@ -95,12 +95,19 @@ java -jar target/quarkus-app/quarkus-run.jar \
 
 ## REST API
 
-### Health & Status
+### Health Checks (SmallRye Health)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/health` | Health check (status, uptime, connected) |
-| `GET` | `/api/status` | Detailed system status |
+| `GET` | `/health` | Overall health (liveness + readiness) |
+| `GET` | `/health/live` | Liveness probe (always UP if running) |
+| `GET` | `/health/ready` | Readiness probe (DB connectivity) |
+
+### Prometheus Metrics
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/metrics` | Prometheus metrics |
 
 ### Charge Points
 
@@ -232,10 +239,10 @@ docker pull ghcr.io/org-tekeli-borisp/ocpp16-ws-backend:latest-native
 
 ## Prometheus Metrics
 
-Quarkus Micrometer mit Prometheus Registry. Metriken verfügbar unter `/q/metrics`:
+Quarkus Micrometer mit Prometheus Registry. Metriken verfügbar unter `/metrics`:
 
 ```bash
-curl http://localhost:8080/q/metrics
+curl http://localhost:8080/metrics
 ```
 
 ### OCP-spezifische Metriken:
