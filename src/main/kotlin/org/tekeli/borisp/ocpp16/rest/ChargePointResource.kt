@@ -20,7 +20,7 @@ class ChargePointResource {
     lateinit var persistenceService: PersistenceService
 
     @GET
-    fun getAll(@QueryParam("status") status: String?): List<ChargePointDto> {
+    fun getAll(@QueryParam("status") status: String? = null): List<ChargePointDto> {
         return if (status != null) {
             try {
                 persistenceService.findByStatus(ChargePointStatus.valueOf(status)).map { toDto(it) }

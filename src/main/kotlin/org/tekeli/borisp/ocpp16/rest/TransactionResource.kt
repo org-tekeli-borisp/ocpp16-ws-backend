@@ -19,7 +19,7 @@ class TransactionResource {
     @GET
     fun getTransactions(
         @PathParam("chargePointId") chargePointId: String,
-        @QueryParam("running") running: Boolean?
+        @QueryParam("running") running: Boolean? = null
     ): List<TransactionDto> {
         return if (running == true) {
             persistenceService.findRunningTransactions(chargePointId)
