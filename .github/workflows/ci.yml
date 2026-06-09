@@ -51,14 +51,6 @@ jobs:
           path: target/pit-reports/
           retention-days: 14
 
-      - name: Deploy mutation report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/pit-reports
-          publish_branch: gh-pages
-          force_orphan: true
-
   docker-jvm:
     name: Docker JVM
     runs-on: ubuntu-latest
