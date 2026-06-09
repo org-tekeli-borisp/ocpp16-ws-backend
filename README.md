@@ -65,11 +65,13 @@ Example BootNotification:
 
 ### Docker Compose
 
+#### JVM Mode (lokales Bauen, Dev/Test)
+
 ```bash
 # Optional: configure database credentials
 cp .env.example .env
 
-# Start the stack (app + PostgreSQL 18)
+# Start the stack (builds JVM image + PostgreSQL 18)
 docker compose up -d
 
 # Check health
@@ -79,9 +81,27 @@ curl http://localhost:8080/health
 docker compose down
 ```
 
+#### Native Mode (fertiges Image von GHCR, Production)
+
+```bash
+# Start with native image (pulled from GHCR)
+docker compose --env-file .env.native up -d
+
+# Stop
+docker compose down
+```
+
+#### Custom GHCR Image
+
+```bash
+# Use specific image tag
+APP_IMAGE=ghcr.io/org-tekeli-borisp/ocpp16-ws-backend:sha-abcdef docker compose up -d
+```
+
 The stack includes:
 - **PostgreSQL 18** on port `5432` with persistent volume
 - **Application** on port `8080` with Liquibase auto-migration
+- **Health checks** for both services
 
 ### Build & Run Standalone
 
