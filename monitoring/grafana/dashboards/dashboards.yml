@@ -1,0 +1,15 @@
+{
+  "apiVersion": 1,
+  "providers": [
+    {
+      "name": "OCPP Dashboards",
+      "orgId": 1,
+      "folder": "OCPP",
+      "type": "file",
+      "options": {
+        "path": "/etc/grafana/provisioning/dashboards",
+        "foldersFromFiles": false
+      }
+    }
+  ]
+}

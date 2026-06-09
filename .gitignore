@@ -20,3 +20,7 @@ Thumbs.db
 # Docker
 .env
 .env.local
+
+# Monitoring volumes (mounted by docker-compose.monitoring.yml)
+prometheus_data/
+grafana_data/
