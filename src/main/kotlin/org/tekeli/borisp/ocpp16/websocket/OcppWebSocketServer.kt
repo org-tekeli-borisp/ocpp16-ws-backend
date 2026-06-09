@@ -46,18 +46,20 @@ class OcppWebSocketServer : ChargePointConnection {
     override val responseAwaiter = ResponseAwaiter()
     var sessionId: String = ""
     var chargePointId: String? = null
-    private val handlers: Map<String, OcppActionHandler> = mapOf(
-        "BootNotification" to BootNotificationHandler(),
-        "Heartbeat" to HeartbeatHandler(),
-        "Authorize" to AuthorizeHandler(),
-        "StartTransaction" to StartTransactionHandler(metricsService),
-        "StopTransaction" to StopTransactionHandler(metricsService),
-        "StatusNotification" to StatusNotificationHandler(),
-        "DataTransfer" to DataTransferHandler(),
-        "FirmwareStatusNotification" to FirmwareStatusNotificationHandler(),
-        "DiagnosticsStatusNotification" to DiagnosticsStatusNotificationHandler(),
-        "MeterValues" to MeterValuesHandler()
-    )
+    private val handlers: Map<String, OcppActionHandler> by lazy {
+        mapOf(
+            "BootNotification" to BootNotificationHandler(),
+            "Heartbeat" to HeartbeatHandler(),
+            "Authorize" to AuthorizeHandler(),
+            "StartTransaction" to StartTransactionHandler(metricsService),
+            "StopTransaction" to StopTransactionHandler(metricsService),
+            "StatusNotification" to StatusNotificationHandler(),
+            "DataTransfer" to DataTransferHandler(),
+            "FirmwareStatusNotification" to FirmwareStatusNotificationHandler(),
+            "DiagnosticsStatusNotification" to DiagnosticsStatusNotificationHandler(),
+            "MeterValues" to MeterValuesHandler()
+        )
+    }
 
     @OnOpen
     fun onOpen() {
