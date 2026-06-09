@@ -209,6 +209,27 @@ mvn test
 mvn org.pitest:pitest-maven:mutationCoverage
 ```
 
+## CI/CD Pipeline
+
+GitHub Actions automatisch bei jedem Push und Pull Request:
+
+| Job | Trigger | Beschreibung |
+|-----|---------|-------------|
+| **Test** | push + PR | `mvn verify` mit PostgreSQL (Dev Services) |
+| **Mutation Test** | push | PITest + HTML Report als Artifact |
+| **Docker JVM** | push | JVM Image → GHCR (`latest`, `sha-xxx`) |
+| **Docker Native** | push | GraalVM Native Image → GHCR (`latest-native`, `sha-xxx-native`) |
+
+### Docker Images von GHCR
+
+```bash
+# JVM Image (empfohlen für Dev/Test)
+docker pull ghcr.io/org-tekeli-borisp/ocpp16-ws-backend:latest
+
+# Native Image (minimaler Footprint, schnellster Start)
+docker pull ghcr.io/org-tekeli-borisp/ocpp16-ws-backend:latest-native
+```
+
 ## Configuration
 
 Key properties in `application.properties`:
@@ -233,3 +254,5 @@ Key properties in `application.properties`:
 - **Jackson** – JSON serialization
 - **PITest** – mutation testing
 - **Docker Compose** – production deployment
+- **GitHub Actions** – CI/CD Pipeline
+- **GHCR** – Container Registry
