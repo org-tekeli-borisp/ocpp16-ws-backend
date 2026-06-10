@@ -5,12 +5,17 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.tekeli.borisp.ocpp16.handler.AuthorizeHandler
 import org.tekeli.borisp.ocpp16.handler.BootNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.CertificateSignedHandler
 import org.tekeli.borisp.ocpp16.handler.DataTransferHandler
 import org.tekeli.borisp.ocpp16.handler.DiagnosticsStatusNotificationHandler
 import org.tekeli.borisp.ocpp16.handler.FirmwareStatusNotificationHandler
 import org.tekeli.borisp.ocpp16.handler.HeartbeatHandler
+import org.tekeli.borisp.ocpp16.handler.LogStatusNotificationHandler
 import org.tekeli.borisp.ocpp16.handler.MeterValuesHandler
 import org.tekeli.borisp.ocpp16.handler.OcppActionHandler
+import org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.SignCertificateHandler
+import org.tekeli.borisp.ocpp16.handler.SignedFirmwareStatusNotificationHandler
 import org.tekeli.borisp.ocpp16.handler.StartTransactionHandler
 import org.tekeli.borisp.ocpp16.handler.StatusNotificationHandler
 import org.tekeli.borisp.ocpp16.handler.StopTransactionHandler
@@ -57,7 +62,12 @@ class OcppWebSocketServer : ChargePointConnection {
             "DataTransfer" to DataTransferHandler(),
             "FirmwareStatusNotification" to FirmwareStatusNotificationHandler(),
             "DiagnosticsStatusNotification" to DiagnosticsStatusNotificationHandler(),
-            "MeterValues" to MeterValuesHandler()
+            "MeterValues" to MeterValuesHandler(),
+            "SecurityEventNotification" to SecurityEventNotificationHandler(persistenceService),
+            "SignedFirmwareStatusNotification" to SignedFirmwareStatusNotificationHandler(),
+            "LogStatusNotification" to LogStatusNotificationHandler(),
+            "SignCertificate" to SignCertificateHandler(),
+            "CertificateSigned" to CertificateSignedHandler()
         )
     }
 

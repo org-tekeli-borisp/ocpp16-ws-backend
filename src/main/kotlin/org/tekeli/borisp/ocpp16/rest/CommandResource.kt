@@ -73,6 +73,24 @@ class CommandResource {
     @Inject
     lateinit var updateFirmwareCommand: UpdateFirmwareCommand
 
+    @Inject
+    lateinit var extendedTriggerMessageCommand: ExtendedTriggerMessageCommand
+
+    @Inject
+    lateinit var installCertificateCommand: InstallCertificateCommand
+
+    @Inject
+    lateinit var getInstalledCertificateIdsCommand: GetInstalledCertificateIdsCommand
+
+    @Inject
+    lateinit var deleteCertificateCommand: DeleteCertificateCommand
+
+    @Inject
+    lateinit var getLogCommand: GetLogCommand
+
+    @Inject
+    lateinit var signedUpdateFirmwareCommand: SignedUpdateFirmwareCommand
+
     private val commandMap: Map<String, OcppCommand> by lazy {
         mapOf(
             remoteStartTransactionCommand.name to remoteStartTransactionCommand,
@@ -92,7 +110,13 @@ class CommandResource {
             sendLocalListCommand.name to sendLocalListCommand,
             setChargingProfileCommand.name to setChargingProfileCommand,
             triggerMessageCommand.name to triggerMessageCommand,
-            updateFirmwareCommand.name to updateFirmwareCommand
+            updateFirmwareCommand.name to updateFirmwareCommand,
+            extendedTriggerMessageCommand.name to extendedTriggerMessageCommand,
+            installCertificateCommand.name to installCertificateCommand,
+            getInstalledCertificateIdsCommand.name to getInstalledCertificateIdsCommand,
+            deleteCertificateCommand.name to deleteCertificateCommand,
+            getLogCommand.name to getLogCommand,
+            signedUpdateFirmwareCommand.name to signedUpdateFirmwareCommand
         )
     }
 

@@ -17,7 +17,9 @@ class TriggerMessageCommand @Inject constructor(
         "FirmwareStatusNotification",
         "Heartbeat",
         "MeterValues",
-        "StatusNotification"
+        "StatusNotification",
+        "LogStatusNotification",
+        "SignChargePointCertificate"
     )
 
     override fun validate(payload: Map<String, Any>): Response? {
