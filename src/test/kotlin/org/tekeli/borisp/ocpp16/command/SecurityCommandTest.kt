@@ -465,6 +465,214 @@ class SecurityCommandTest {
         assertNull(response)
     }
 
+    // Execute tests for all commands
+    @Test
+    fun `ExtendedTriggerMessage - execute should return accepted`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = ExtendedTriggerMessageCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `ExtendedTriggerMessage - execute should handle rejected response`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
+        val cmd = ExtendedTriggerMessageCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
+
+        assertEquals(502, response.status)
+    }
+
+    @Test
+    fun `ExtendedTriggerMessage - execute should accept with connectorId`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = ExtendedTriggerMessageCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf("requestedMessage" to "LogStatusNotification", "connectorId" to 1))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `ExtendedTriggerMessage - execute should accept without connectorId`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = ExtendedTriggerMessageCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `InstallCertificate - execute should return accepted`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = InstallCertificateCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf(
+            "certificateType" to "CentralSystemRootCertificate",
+            "certificate" to "cert"
+        ))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `InstallCertificate - execute should handle rejected response`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
+        val cmd = InstallCertificateCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf(
+            "certificateType" to "CentralSystemRootCertificate",
+            "certificate" to "cert"
+        ))
+
+        assertEquals(502, response.status)
+    }
+
+    @Test
+    fun `GetInstalledCertificateIds - execute should return accepted`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = GetInstalledCertificateIdsCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf("certificateType" to "CentralSystemRootCertificate"))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `GetInstalledCertificateIds - execute should handle rejected response`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
+        val cmd = GetInstalledCertificateIdsCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf("certificateType" to "CentralSystemRootCertificate"))
+
+        assertEquals(502, response.status)
+    }
+
+    @Test
+    fun `DeleteCertificate - execute should return accepted`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = DeleteCertificateCommand(gateway)
+        val hashData = mapOf(
+            "hashAlgorithm" to "SHA256",
+            "issuerNameHash" to "abc",
+            "issuerKeyHash" to "def",
+            "serialNumber" to "123"
+        )
+        val response = cmd.execute("CP-001", mapOf("certificateHashData" to hashData))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `DeleteCertificate - execute should handle rejected response`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
+        val cmd = DeleteCertificateCommand(gateway)
+        val hashData = mapOf(
+            "hashAlgorithm" to "SHA256",
+            "issuerNameHash" to "abc",
+            "issuerKeyHash" to "def",
+            "serialNumber" to "123"
+        )
+        val response = cmd.execute("CP-001", mapOf("certificateHashData" to hashData))
+
+        assertEquals(502, response.status)
+    }
+
+    @Test
+    fun `GetLog - execute should return accepted`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = GetLogCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf(
+            "logType" to "SecurityLog",
+            "requestId" to 123,
+            "log" to mapOf("remoteLocation" to "https://example.com/logs")
+        ))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `GetLog - execute should handle rejected response`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
+        val cmd = GetLogCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf(
+            "logType" to "SecurityLog",
+            "requestId" to 123,
+            "log" to mapOf("remoteLocation" to "https://example.com/logs")
+        ))
+
+        assertEquals(502, response.status)
+    }
+
+    @Test
+    fun `GetLog - execute should accept with retries and retryInterval`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = GetLogCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf(
+            "logType" to "SecurityLog",
+            "requestId" to 123,
+            "log" to mapOf("remoteLocation" to "https://example.com/logs"),
+            "retries" to 3,
+            "retryInterval" to 60
+        ))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `GetLog - execute should accept without retries and retryInterval`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = GetLogCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf(
+            "logType" to "SecurityLog",
+            "requestId" to 123,
+            "log" to mapOf("remoteLocation" to "https://example.com/logs")
+        ))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `SignedUpdateFirmware - execute should return accepted`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val firmware = mapOf(
+            "location" to "https://example.com/fw.bin",
+            "retrieveDateTime" to "2024-01-01T00:00:00Z",
+            "signingCertificate" to "cert",
+            "signature" to "sig"
+        )
+        val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
+
+        assertEquals(202, response.status)
+    }
+
+    @Test
+    fun `SignedUpdateFirmware - execute should handle rejected response`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.PROTOCOL_ERROR, "err", null)
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val firmware = mapOf(
+            "location" to "https://example.com/fw.bin",
+            "retrieveDateTime" to "2024-01-01T00:00:00Z",
+            "signingCertificate" to "cert",
+            "signature" to "sig"
+        )
+        val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
+
+        assertEquals(502, response.status)
+    }
+
+    @Test
+    fun `SignedUpdateFirmware - execute should accept with retries and retryInterval`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val firmware = mapOf(
+            "location" to "https://example.com/fw.bin",
+            "retrieveDateTime" to "2024-01-01T00:00:00Z",
+            "signingCertificate" to "cert",
+            "signature" to "sig"
+        )
+        val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware, "retries" to 3, "retryInterval" to 60))
+
+        assertEquals(202, response.status)
+    }
+
     // Test doubles
     private class TestSecurityGateway : ChargePointGateway {
         var lastResponse: OcppMessage? = OcppMessage.CallResult("id", mapOf())

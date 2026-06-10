@@ -226,6 +226,11 @@
                         <param>org.tekeli.borisp.ocpp16.handler.DataTransferHandler</param>
                         <param>org.tekeli.borisp.ocpp16.handler.FirmwareStatusNotificationHandler</param>
                         <param>org.tekeli.borisp.ocpp16.handler.DiagnosticsStatusNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.SignedFirmwareStatusNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.LogStatusNotificationHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.SignCertificateHandler</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.CertificateSignedHandler</param>
                         <param>org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher</param>
                         <param>org.tekeli.borisp.ocpp16.command.RemoteStartTransactionCommand</param>
                         <param>org.tekeli.borisp.ocpp16.command.RemoteStopTransactionCommand</param>
@@ -245,6 +250,12 @@
                         <param>org.tekeli.borisp.ocpp16.command.SetChargingProfileCommand</param>
                         <param>org.tekeli.borisp.ocpp16.command.TriggerMessageCommand</param>
                         <param>org.tekeli.borisp.ocpp16.command.UpdateFirmwareCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.ExtendedTriggerMessageCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.InstallCertificateCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.GetInstalledCertificateIdsCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.DeleteCertificateCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.GetLogCommand</param>
+                        <param>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommand</param>
                     </targetClasses>
                     <targetTests>
                         <param>org.tekeli.borisp.ocpp16.OcppMessageTest</param>
@@ -253,6 +264,12 @@
                         <param>org.tekeli.borisp.ocpp16.OutboundCallDispatcherTest</param>
                         <param>org.tekeli.borisp.ocpp16.ChargePointRegistryTest</param>
                         <param>org.tekeli.borisp.ocpp16.command.OcppCommandTest</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerTest</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.SignedFirmwareStatusNotificationHandlerTest</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.LogStatusNotificationHandlerTest</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.SignCertificateHandlerTest</param>
+                        <param>org.tekeli.borisp.ocpp16.handler.CertificateSignedHandlerTest</param>
+                        <param>org.tekeli.borisp.ocpp16.command.SecurityCommandTest</param>
                     </targetTests>
                     <excludedMethods>
                         <exclude>parseJsonNode</exclude>
