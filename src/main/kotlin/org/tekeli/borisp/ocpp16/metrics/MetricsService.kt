@@ -56,6 +56,13 @@ class MetricsService {
             .register(meterRegistry)
     }
 
+    val securityEventsReceived: Counter by lazy {
+        Counter.builder("ocpp.security.events.received")
+            .description("Total security events received from charge points")
+            .tag("version", "1.6")
+            .register(meterRegistry)
+    }
+
     val transactionDuration: Timer by lazy {
         Timer.builder("ocpp.transaction.duration.seconds")
             .description("Duration of charging transactions")
