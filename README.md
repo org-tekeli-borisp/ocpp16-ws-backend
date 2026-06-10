@@ -5,13 +5,14 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 ## Features
 
 - **OCPP 1.6J compliant** – all Client→Server and Server→Call messages
+- **OCPP 1.6 Security Edition 4** – 11 Security Messages (Certificate Management, Security Events, Signed Firmware)
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
-- **18 Remote Commands** – full Server→Client control via REST API
+- **24 Remote Commands** – 18 OCPP 1.6J + 6 Security Commands via REST API
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
-- **Mutation Testing** – PITest integration (79%+ mutation score)
-- **430+ Unit & Integration Tests**
-- **Docker Compose** – ready for production deployment
+- **Mutation Testing** – PITest integration (72% mutation score)
+- **554 Unit & Integration Tests**
+- **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
 
@@ -20,15 +21,23 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 │  REST API (ChargePointResource, CommandResource,            │
 │   TransactionResource, HealthResource)                      │
 ├─────────────────────────────────────────────────────────────┤
-│  Command Pattern (18 OcppCommand implementations)           │
+│  Command Pattern (24 OcppCommand implementations)           │
+│  ├─ 18 standard OCPP 1.6J commands                          │
+│  └─ 6 security commands (SignedUpdateFirmware, GetLog,      │
+│     ExtendedTriggerMessage, InstallCertificate,              │
+│     GetInstalledCertificateIds, DeleteCertificate)           │
 ├─────────────────────────────────────────────────────────────┤
 │  OcppOutboundService → ChargePointRegistry                  │
 │  → OpenConnections → WebSocket                              │
 ├─────────────────────────────────────────────────────────────┤
-│  OcppWebSocketServer → Handlers (BootNotification,          │
-│   StartTransaction, StopTransaction, Authorize, etc.)       │
+│  OcppWebSocketServer → Handlers (15 total)                  │
+│  ├─ 10 standard OCPP 1.6J handlers                          │
+│  └─ 5 security handlers (SecurityEventNotification,         │
+│     SignedFirmwareStatusNotification, LogStatusNotification,│
+│     SignCertificate, CertificateSigned)                      │
 ├─────────────────────────────────────────────────────────────┤
-│  Persistence (ChargePoint, Transaction → PostgreSQL)        │
+│  Persistence (ChargePoint, Transaction, SecurityLog,        │
+│   SignedFirmware → PostgreSQL)                               │
 │  Liquibase migrations in db/changelog/                      │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -81,6 +90,21 @@ curl http://localhost:8080/health
 docker compose down
 ```
 
+#### Mit Prometheus + Grafana Monitoring
+
+```bash
+# Start full stack (App + PostgreSQL + Prometheus + Grafana)
+docker compose -f docker-compose.monitoring.yml up -d --build
+
+# Services available:
+# - App:       http://localhost:8080
+# - Prometheus: http://localhost:9090
+# - Grafana:   http://localhost:3000 (admin/admin)
+
+# Stop
+docker compose -f docker-compose.monitoring.yml down
+```
+
 #### Native Mode (fertiges Image von GHCR, Production)
 
 ```bash
@@ -101,7 +125,9 @@ APP_IMAGE=ghcr.io/org-tekeli-borisp/ocpp16-ws-backend:sha-abcdef docker compose 
 The stack includes:
 - **PostgreSQL 18** on port `5432` with persistent volume
 - **Application** on port `8080` with Liquibase auto-migration
-- **Health checks** for both services
+- **Prometheus** on port `9090` for metrics collection (monitoring stack)
+- **Grafana** on port `3000` for visualization (monitoring stack)
+- **Health checks** for all services
 
 ### Build & Run Standalone
 
@@ -149,7 +175,7 @@ java -jar target/quarkus-app/quarkus-run.jar \
 | `GET` | `/api/chargepoints/{id}/commands` | List available commands |
 | `POST` | `/api/chargepoints/{id}/commands/{command}` | Execute remote command |
 
-**Available Commands (18):**
+**Available Commands (24):**
 
 | Command | Payload | Description |
 |---------|---------|-------------|
@@ -172,6 +198,17 @@ java -jar target/quarkus-app/quarkus-run.jar \
 | `unlock-connector` | `{"connectorId": 1}` | Unlock connector |
 | `update-firmware` | `{"location": "https://...", "retrieveDate": "..."}` | Update firmware |
 
+**Security Commands (OCPP 1.6 Security Edition 4):**
+
+| Command | Payload | Description |
+|---------|---------|-------------|
+| `extended-trigger-message` | `{"requestedMessage": "SignChargePointCertificate"}` | Extended trigger (Security) |
+| `install-certificate` | `{"certificateType": "CentralSystemRootCertificate", "certificate": "..."}` | Install CA certificate |
+| `get-installed-certificate-ids` | `{"certificateType": "CentralSystemRootCertificate"}` | List installed certificates |
+| `delete-certificate` | `{"certificateHashData": {...}}` | Delete certificate by hash |
+| `get-log` | `{"logType": "SecurityLog", "requestId": 1, "log": {...}}` | Request log upload |
+| `signed-update-firmware` | `{"requestId": 1, "firmware": {...}}` | Signed firmware update |
+
 **Example – Reset:**
 
 ```bash
@@ -182,7 +219,7 @@ curl -X POST http://localhost:8080/api/chargepoints/CP-001/commands/reset \
 
 ## OCPP 1.6J Messages
 
-### Client → Server (implemented)
+### Client → Server (standard, 10 messages)
 
 | Action | Description |
 |--------|-------------|
@@ -197,9 +234,47 @@ curl -X POST http://localhost:8080/api/chargepoints/CP-001/commands/reset \
 | `StatusNotification` | Connector status change |
 | `StopTransaction` | Charging session end |
 
-### Server → Client (18 commands)
+### Client → Server (Security Edition 4, 5 messages)
 
-All 18 OCPP 1.6J remote calls implemented (see table above).
+| Action | Description |
+|--------|-------------|
+| `SecurityEventNotification` | Critical security events |
+| `SignedFirmwareStatusNotification` | Signed firmware update progress |
+| `LogStatusNotification` | Log upload status |
+| `SignCertificate` | CSR for ChargePoint certificate |
+| `CertificateSigned` | Signed certificate response |
+
+### Server → Client (24 commands)
+
+18 standard OCPP 1.6J remote calls + 6 Security Commands (see tables above).
+
+## OCPP 1.6 Security (Edition 4)
+
+Implementiert nach OCA White Paper "Improved security for OCPP 1.6-J" Edition 4.
+
+**Zertifikats-Management:**
+
+| Message | Beschreibung |
+|---------|-------------|
+| `InstallCertificate` | CA-Zertifikat auf ChargePoint installieren |
+| `GetInstalledCertificateIds` | Installierte Zertifikate abfragen |
+| `DeleteCertificate` | Zertifikat löschen (per Hash) |
+| `SignCertificate` → `CertificateSigned` | ChargePoint Zertifikat erneuern |
+
+**Sichere Firmware-Updates:**
+
+| Message | Beschreibung |
+|---------|-------------|
+| `SignedUpdateFirmware` | Firmware mit Signatur + Zertifikat |
+| `SignedFirmwareStatusNotification` | Status-Updates (14 Statuswerte) |
+
+**Security Events & Logging:**
+
+| Message | Beschreibung |
+|---------|-------------|
+| `SecurityEventNotification` | 15 Security-Event-Typen (z.B. Tampering, InvalidTLSVersion) |
+| `GetLog` → `LogStatusNotification` | Diagnostics/Security Log Upload |
+| `ExtendedTriggerMessage` | Erweiterte Trigger (SignChargePointCertificate, LogStatusNotification) |
 
 ## Database Migrations
 
@@ -208,7 +283,8 @@ Liquibase manages the database schema via SQL changelogs in `src/main/resources/
 ```
 db/changelog/
 ├── changelog-master.yaml   # Master changelog
-└── 001-init.sql            # Initial schema (tables, sequences, indexes)
+├── 001-init.sql            # Initial schema (charge_points, transactions)
+└── 002-security.sql        # Security schema (security_logs, signed_firmware)
 ```
 
 New migrations: add `00X-name.sql` to `db/changelog/` and include it in `changelog-master.yaml`.
@@ -217,10 +293,10 @@ New migrations: add `00X-name.sql` to `db/changelog/` and include it in `changel
 
 ```
 src/main/kotlin/org/tekeli/borisp/ocpp16/
-├── command/            # 18 OcppCommand implementations
-├── handler/            # C→P message handlers (10)
+├── command/            # 24 OcppCommand implementations (18 standard + 6 security)
+├── handler/            # 15 C→P message handlers (10 standard + 5 security)
 ├── outbound/           # S→C service layer
-├── persistence/        # Entities & repository
+├── persistence/        # Entities (ChargePoint, Transaction, SecurityLog, SignedFirmware)
 ├── protocol/           # OCPP message types, ResponseAwaiter
 ├── rest/               # REST API resources
 └── websocket/          # WebSocket server & registry
@@ -235,6 +311,19 @@ mvn test
 # Mutation testing (PITest)
 mvn org.pitest:pitest-maven:mutationCoverage
 ```
+
+**Test Coverage:**
+
+| Bereich | Tests | Beschreibung |
+|---------|-------|-------------|
+| OCPP Messages | 49 | Parse, Serialize, Error Handling |
+| WebSocket Server | 141 | Integration, Handler Dispatch, Error Paths |
+| Commands | 179 | 18 Standard + 6 Security Commands |
+| Security Handlers | 49 | 5 Handler × ~10 Tests each |
+| Persistence | 30 | ChargePoint, Transaction, SecurityLog, SignedFirmware |
+| REST API | 19 | ChargePoints, Commands, Transactions |
+| Other | 87 | Registry, Dispatcher, Awaiter, Message Types |
+| **Total** | **554** | |
 
 ## CI/CD Pipeline
 
@@ -265,7 +354,7 @@ Quarkus Micrometer mit Prometheus Registry. Metriken verfügbar unter `/metrics`
 curl http://localhost:8080/metrics
 ```
 
-### OCP-spezifische Metriken:
+### OCPP-spezifische Metriken:
 
 | Metrik | Typ | Beschreibung |
 |--------|-----|-------------|
@@ -274,6 +363,7 @@ curl http://localhost:8080/metrics
 | `ocpp_energy_delivered_wh` | Counter | Gelieferte Energie (Wh) |
 | `ocpp_messages_received_total` | Counter | C→S Messages |
 | `ocpp_messages_sent_total` | Counter | S→C Commands |
+| `ocpp_security_events_received_total` | Counter | Security Events von ChargePoints |
 | `ocpp_charge_points_connected` | Gauge | Aktive WS-Verbindungen |
 | `ocpp_transactions_active` | Gauge | Laufende Transaktionen |
 | `ocpp_transaction_duration_seconds` | Timer | Dauer der Transaktionen |
