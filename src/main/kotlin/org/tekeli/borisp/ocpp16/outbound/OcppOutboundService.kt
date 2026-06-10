@@ -83,4 +83,44 @@ class OcppOutboundService : ChargePointGateway {
 
     override fun sendGetCompositeSchedule(chargePointId: String, connectorId: Int, duration: Int): CompletableFuture<OcppMessage> =
         chargePointRegistry.sendCall(chargePointId, "GetCompositeSchedule", mapOf("connectorId" to connectorId, "duration" to duration))
+
+    // Security messages
+    override fun sendExtendedTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): CompletableFuture<OcppMessage> {
+        val payload = mutableMapOf<String, Any>("requestedMessage" to requestedMessage)
+        connectorId?.let { payload["connectorId"] = it }
+        return chargePointRegistry.sendCall(chargePointId, "ExtendedTriggerMessage", payload)
+    }
+
+    override fun sendInstallCertificate(chargePointId: String, certificateType: String, certificate: String): CompletableFuture<OcppMessage> =
+        chargePointRegistry.sendCall(chargePointId, "InstallCertificate", mapOf("certificateType" to certificateType, "certificate" to certificate))
+
+    override fun sendGetInstalledCertificateIds(chargePointId: String, certificateType: String): CompletableFuture<OcppMessage> =
+        chargePointRegistry.sendCall(chargePointId, "GetInstalledCertificateIds", mapOf("certificateType" to certificateType))
+
+    override fun sendDeleteCertificate(chargePointId: String, certificateHashData: Map<String, Any>): CompletableFuture<OcppMessage> =
+        chargePointRegistry.sendCall(chargePointId, "DeleteCertificate", mapOf("certificateHashData" to certificateHashData))
+
+    override fun sendGetLog(chargePointId: String, logType: String, requestId: Int, log: Map<String, Any>, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> {
+        val payload = mutableMapOf<String, Any>(
+            "logType" to logType,
+            "requestId" to requestId,
+            "log" to log
+        )
+        retries?.let { payload["retries"] = it }
+        retryInterval?.let { payload["retryInterval"] = it }
+        return chargePointRegistry.sendCall(chargePointId, "GetLog", payload)
+    }
+
+    override fun sendSignedUpdateFirmware(chargePointId: String, requestId: Int, firmware: Map<String, Any>, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> {
+        val payload = mutableMapOf<String, Any>(
+            "requestId" to requestId,
+            "firmware" to firmware
+        )
+        retries?.let { payload["retries"] = it }
+        retryInterval?.let { payload["retryInterval"] = it }
+        return chargePointRegistry.sendCall(chargePointId, "SignedUpdateFirmware", payload)
+    }
+
+    override fun sendCertificateSigned(chargePointId: String, certificateChain: String): CompletableFuture<OcppMessage> =
+        chargePointRegistry.sendCall(chargePointId, "CertificateSigned", mapOf("certificateChain" to certificateChain))
 }

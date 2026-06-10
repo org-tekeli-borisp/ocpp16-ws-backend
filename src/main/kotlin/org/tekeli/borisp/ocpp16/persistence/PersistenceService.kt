@@ -110,4 +110,80 @@ class PersistenceService {
     fun findAllTransactions(chargePointId: String): List<Transaction> =
         em.createQuery("SELECT t FROM Transaction t WHERE t.chargePointId = :cpId ORDER BY t.startTime DESC", Transaction::class.java)
             .setParameter("cpId", chargePointId).resultList as List<Transaction>
+
+    // Security: SecurityLog
+    @Transactional
+    fun createSecurityLog(chargePointId: String, type: String, timestamp: Instant, techInfo: String?): SecurityLog {
+        val log = SecurityLog(
+            chargePointId = chargePointId,
+            type = type,
+            timestamp = timestamp,
+            techInfo = techInfo
+        )
+        em.persist(log)
+        em.flush()
+        return log
+    }
+
+    fun findSecurityLogsByChargePointId(chargePointId: String): List<SecurityLog> =
+        em.createQuery("SELECT l FROM SecurityLog l WHERE l.chargePointId = :cpId ORDER BY l.timestamp DESC", SecurityLog::class.java)
+            .setParameter("cpId", chargePointId).resultList as List<SecurityLog>
+
+    fun findSecurityLogsByType(type: String): List<SecurityLog> =
+        em.createQuery("SELECT l FROM SecurityLog l WHERE l.type = :type ORDER BY l.timestamp DESC", SecurityLog::class.java)
+            .setParameter("type", type).resultList as List<SecurityLog>
+
+    fun findRecentSecurityLogs(limit: Int): List<SecurityLog> {
+        val query = em.createQuery("SELECT l FROM SecurityLog l ORDER BY l.timestamp DESC", SecurityLog::class.java)
+        query.maxResults = limit
+        return query.resultList as List<SecurityLog>
+    }
+
+    // Security: SignedFirmware
+    @Transactional
+    fun createSignedFirmware(
+        chargePointId: String,
+        requestId: Int,
+        location: String,
+        retrieveDateTime: Instant,
+        installDateTime: Instant?,
+        signingCertificate: String,
+        signature: String
+    ): SignedFirmware {
+        val firmware = SignedFirmware(
+            chargePointId = chargePointId,
+            requestId = requestId,
+            location = location,
+            retrieveDateTime = retrieveDateTime,
+            installDateTime = installDateTime,
+            signingCertificate = signingCertificate,
+            signature = signature,
+            status = "Accepted"
+        )
+        em.persist(firmware)
+        em.flush()
+        return firmware
+    }
+
+    fun findSignedFirmwareByRequestId(chargePointId: String, requestId: Int): SignedFirmware? {
+        val result = em.createQuery(
+            "SELECT f FROM SignedFirmware f WHERE f.chargePointId = :cpId AND f.requestId = :reqId", SignedFirmware::class.java
+        ).setParameter("cpId", chargePointId).setParameter("reqId", requestId).resultList
+        return if (result.isEmpty()) null else result[0] as SignedFirmware
+    }
+
+    fun findSignedFirmwareById(id: Long): SignedFirmware? =
+        em.find(SignedFirmware::class.java, id)
+
+    fun findAllSignedFirmware(chargePointId: String): List<SignedFirmware> =
+        em.createQuery("SELECT f FROM SignedFirmware f WHERE f.chargePointId = :cpId ORDER BY f.createdAt DESC", SignedFirmware::class.java)
+            .setParameter("cpId", chargePointId).resultList as List<SignedFirmware>
+
+    @Transactional
+    fun updateSignedFirmwareStatus(chargePointId: String, requestId: Int, status: String): Boolean {
+        val firmware = findSignedFirmwareByRequestId(chargePointId, requestId) ?: return false
+        firmware.status = status
+        em.flush()
+        return true
+    }
 }

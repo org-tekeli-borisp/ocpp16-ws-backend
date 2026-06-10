@@ -1497,5 +1497,26 @@ class OcppCommandTest {
             lastFirmwareRetrieveDate = retrieveDate
             return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
         }
+
+        override fun sendExtendedTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> =
+            java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+
+        override fun sendInstallCertificate(chargePointId: String, certificateType: String, certificate: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> =
+            java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+
+        override fun sendGetInstalledCertificateIds(chargePointId: String, certificateType: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> =
+            java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+
+        override fun sendDeleteCertificate(chargePointId: String, certificateHashData: Map<String, Any>): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> =
+            java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+
+        override fun sendGetLog(chargePointId: String, logType: String, requestId: Int, log: Map<String, Any>, retries: Int?, retryInterval: Int?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> =
+            java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+
+        override fun sendSignedUpdateFirmware(chargePointId: String, requestId: Int, firmware: Map<String, Any>, retries: Int?, retryInterval: Int?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> =
+            java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+
+        override fun sendCertificateSigned(chargePointId: String, certificateChain: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> =
+            java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
     }
 }
