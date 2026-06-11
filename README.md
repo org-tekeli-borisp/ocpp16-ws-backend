@@ -74,7 +74,7 @@ Example BootNotification:
 
 ### Docker Compose
 
-#### JVM Mode (lokales Bauen, Dev/Test)
+#### JVM Mode (local build, Dev/Test)
 
 ```bash
 # Optional: configure database credentials
@@ -90,7 +90,7 @@ curl http://localhost:8080/health
 docker compose down
 ```
 
-#### Mit Prometheus + Grafana Monitoring
+#### With Prometheus + Grafana Monitoring
 
 ```bash
 # Start full stack (App + PostgreSQL + Prometheus + Grafana)
@@ -105,7 +105,7 @@ docker compose -f docker-compose.monitoring.yml up -d --build
 docker compose -f docker-compose.monitoring.yml down
 ```
 
-#### Native Mode (fertiges Image von GHCR, Production)
+#### Native Mode (pre-built image from GHCR, Production)
 
 ```bash
 # Start with native image (pulled from GHCR)
@@ -250,31 +250,31 @@ curl -X POST http://localhost:8080/api/chargepoints/CP-001/commands/reset \
 
 ## OCPP 1.6 Security (Edition 4)
 
-Implementiert nach OCA White Paper "Improved security for OCPP 1.6-J" Edition 4.
+Implemented according to OCA White Paper "Improved security for OCPP 1.6-J" Edition 4.
 
-**Zertifikats-Management:**
+**Certificate Management:**
 
-| Message | Beschreibung |
+| Message | Description |
 |---------|-------------|
-| `InstallCertificate` | CA-Zertifikat auf ChargePoint installieren |
-| `GetInstalledCertificateIds` | Installierte Zertifikate abfragen |
-| `DeleteCertificate` | Zertifikat löschen (per Hash) |
-| `SignCertificate` → `CertificateSigned` | ChargePoint Zertifikat erneuern |
+| `InstallCertificate` | Install CA certificate on ChargePoint |
+| `GetInstalledCertificateIds` | Query installed certificates |
+| `DeleteCertificate` | Delete certificate by hash |
+| `SignCertificate` → `CertificateSigned` | Renew ChargePoint certificate |
 
-**Sichere Firmware-Updates:**
+**Secure Firmware Updates:**
 
-| Message | Beschreibung |
+| Message | Description |
 |---------|-------------|
-| `SignedUpdateFirmware` | Firmware mit Signatur + Zertifikat |
-| `SignedFirmwareStatusNotification` | Status-Updates (14 Statuswerte) |
+| `SignedUpdateFirmware` | Firmware with signature + certificate |
+| `SignedFirmwareStatusNotification` | Status updates (14 status values) |
 
 **Security Events & Logging:**
 
-| Message | Beschreibung |
+| Message | Description |
 |---------|-------------|
-| `SecurityEventNotification` | 15 Security-Event-Typen (z.B. Tampering, InvalidTLSVersion) |
-| `GetLog` → `LogStatusNotification` | Diagnostics/Security Log Upload |
-| `ExtendedTriggerMessage` | Erweiterte Trigger (SignChargePointCertificate, LogStatusNotification) |
+| `SecurityEventNotification` | 15 security event types (e.g. Tampering, InvalidTLSVersion) |
+| `GetLog` → `LogStatusNotification` | Diagnostics/Security log upload |
+| `ExtendedTriggerMessage` | Extended triggers (SignChargePointCertificate, LogStatusNotification) |
 
 ## Database Migrations
 
@@ -314,7 +314,7 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 **Test Coverage:**
 
-| Bereich | Tests | Beschreibung |
+| Category | Tests | Description |
 |---------|-------|-------------|
 | OCPP Messages | 49 | Parse, Serialize, Error Handling |
 | WebSocket Server | 141 | Integration, Handler Dispatch, Error Paths |
@@ -327,46 +327,46 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 ## CI/CD Pipeline
 
-GitHub Actions automatisch bei jedem Push und Pull Request:
+GitHub Actions triggered automatically on every push and pull request:
 
-| Job | Trigger | Beschreibung |
+| Job | Trigger | Description |
 |-----|---------|-------------|
-| **Test** | push + PR | `mvn verify` mit PostgreSQL (Dev Services) |
-| **Mutation Test** | push | PITest + HTML Report als Artifact |
+| **Test** | push + PR | `mvn verify` with PostgreSQL (Dev Services) |
+| **Mutation Test** | push | PITest + HTML report as artifact |
 | **Docker JVM** | push | JVM Image → GHCR (`latest`, `sha-xxx`) |
 | **Docker Native** | push | GraalVM Native Image → GHCR (`latest-native`, `sha-xxx-native`) |
 
 ### Docker Images von GHCR
 
 ```bash
-# JVM Image (empfohlen für Dev/Test)
+# JVM Image (recommended for Dev/Test)
 docker pull ghcr.io/org-tekeli-borisp/ocpp16-ws-backend:latest
 
-# Native Image (minimaler Footprint, schnellster Start)
+# Native Image (minimal footprint, fastest startup)
 docker pull ghcr.io/org-tekeli-borisp/ocpp16-ws-backend:latest-native
 ```
 
 ## Prometheus Metrics
 
-Quarkus Micrometer mit Prometheus Registry. Metriken verfügbar unter `/metrics`:
+Quarkus Micrometer with Prometheus registry. Metrics available at `/metrics`:
 
 ```bash
 curl http://localhost:8080/metrics
 ```
 
-### OCPP-spezifische Metriken:
+### OCPP-specific metrics:
 
-| Metrik | Typ | Beschreibung |
+| Metric | Type | Description |
 |--------|-----|-------------|
-| `ocpp_transactions_started_total` | Counter | Gestartete Ladetransaktionen |
-| `ocpp_transactions_stopped_total` | Counter | Beendete Transaktionen |
-| `ocpp_energy_delivered_wh` | Counter | Gelieferte Energie (Wh) |
-| `ocpp_messages_received_total` | Counter | C→S Messages |
-| `ocpp_messages_sent_total` | Counter | S→C Commands |
-| `ocpp_security_events_received_total` | Counter | Security Events von ChargePoints |
-| `ocpp_charge_points_connected` | Gauge | Aktive WS-Verbindungen |
-| `ocpp_transactions_active` | Gauge | Laufende Transaktionen |
-| `ocpp_transaction_duration_seconds` | Timer | Dauer der Transaktionen |
+| `ocpp_transactions_started_total` | Counter | Started charging transactions |
+| `ocpp_transactions_stopped_total` | Counter | Stopped transactions |
+| `ocpp_energy_delivered_wh` | Counter | Delivered energy (Wh) |
+| `ocpp_messages_received_total` | Counter | C→S messages |
+| `ocpp_messages_sent_total` | Counter | S→C commands |
+| `ocpp_security_events_received_total` | Counter | Security events from charge points |
+| `ocpp_charge_points_connected` | Gauge | Active WebSocket connections |
+| `ocpp_transactions_active` | Gauge | Running transactions |
+| `ocpp_transaction_duration_seconds` | Timer | Transaction duration |
 
 ## Configuration
 
