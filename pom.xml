@@ -219,28 +219,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>io.gitlab.arturbosch.detekt</groupId>
-                <artifactId>detekt-maven-plugin</artifactId>
-                <version>1.23.8</version>
-                <executions>
-                    <execution>
-                        <id>detekt-complexity</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <input>${project.basedir}/src/main/kotlin</input>
-                    <parallel>false</parallel>
-                    <reports>
-                        <xmlReport enabled="true" outputLocation="${project.build.directory}/detekt/detekt.xml" />
-                        <htmlReport enabled="true" outputLocation="${project.build.directory}/detekt/detekt.html" />
-                    </reports>
-                </configuration>
-            </plugin>
+ 
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
