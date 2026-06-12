@@ -33,10 +33,11 @@ class ChargePointRegistry {
     val connectedSessionIds: Set<String> get() = sessionInfos.keys.toSet()
     val connectedChargePointIds: Set<String> get() = chargePointIdIndex.keys.toSet()
 
-    fun register(sessionId: String, connectionId: String, connection: ChargePointConnection) {
+    fun register(sessionId: String, connectionId: String, connection: ChargePointConnection, certFingerprint: String? = null) {
         sessionInfos[sessionId] = ChargePointInfo(
             sessionId = sessionId,
-            connectionId = connectionId
+            connectionId = connectionId,
+            certFingerprint = certFingerprint
         )
         sessionConnections[sessionId] = connection
         metricsService?.onChargePointConnected()

@@ -81,6 +81,7 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-websockets-next-kotlin</artifactId>
         </dependency>
+    
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit</artifactId>

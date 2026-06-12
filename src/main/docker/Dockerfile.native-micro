@@ -26,7 +26,13 @@ RUN chown 1001 /work \
     && chown 1001:root /work
 COPY --chown=1001:root --chmod=0755 target/*-runner /work/application
 
-EXPOSE 8080
+EXPOSE 8080 8443
+USER 1001
+
+# TLS certificates directory (mounted at runtime)
+USER root
+RUN mkdir -p /certs && chmod 755 /certs
+VOLUME ["/certs"]
 USER 1001
 
 ENTRYPOINT ["./application", "-Dquarkus.http.host=0.0.0.0"]

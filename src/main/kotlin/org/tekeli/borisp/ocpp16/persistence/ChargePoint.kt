@@ -34,6 +34,9 @@ class ChargePoint @JvmOverloads constructor(
     @Column(name = "session_id")
     var sessionId: String = "",
 
+    @Column(name = "cert_fingerprint", length = 128)
+    var certFingerprint: String? = null,
+
     @Column(name = "last_seen_at")
     var lastSeenAt: Instant = Instant.now(),
 

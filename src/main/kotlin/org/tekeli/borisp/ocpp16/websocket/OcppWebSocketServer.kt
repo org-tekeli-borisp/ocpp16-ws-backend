@@ -27,6 +27,8 @@ import org.tekeli.borisp.ocpp16.protocol.OcppMessageType
 import org.tekeli.borisp.ocpp16.protocol.OcppParseException
 import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
+import org.tekeli.borisp.ocpp16.tls.ClientCertificateService
+import java.security.cert.X509Certificate
 import java.util.*
 
 @WebSocket(path = "/ocpp/{chargePointId}")
@@ -44,6 +46,11 @@ class OcppWebSocketServer : ChargePointConnection {
 
     @Inject
     var metricsService: MetricsService? = null
+
+    @Inject
+    var clientCertService: ClientCertificateService? = null
+
+    var clientCertificate: X509Certificate? = null
 
     val activeConnection: WebSocketConnection
         get() = connection ?: throw IllegalStateException("Connection not initialized")
@@ -71,14 +78,40 @@ class OcppWebSocketServer : ChargePointConnection {
         )
     }
 
-    @OnOpen
+   @OnOpen
     fun onOpen() {
         chargePointId = connection?.pathParam("chargePointId")
         val connectionId = connection?.id()
             ?: throw IllegalStateException("WebSocket connection id not available")
         sessionId = connectionId
-        chargePointRegistry?.register(sessionId, connectionId, this)
-        println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId")
+
+        // mTLS validation:
+        // 1. Transport-level (HTTP layer): When QUARKUS_HTTP_SSL_ENABLED=true and
+        //    QUARKUS_HTTP_SSL_CLIENT_CERT=REQUIRED, Quarkus rejects connections
+        //    without a valid client certificate signed by a trusted CA.
+        // 2. Application-level: Quarkus websockets-next doesn't expose the client
+        //    certificate from the SSL session. To validate at the application level,
+        //    use a reverse proxy (nginx/Traefik) with mTLS and forward the cert
+        //    fingerprint via a query parameter (e.g., ?cert_fp=abc123) or implement
+        //    a custom Quarkus extension with an Undertow HttpHandler.
+        //
+        // The ClientCertificateService.validate() method is available for
+        // integration when the certificate becomes accessible.
+
+        clientCertificate = null // Set via custom extension or query parameter
+        val cert = clientCertificate
+
+        if (chargePointId != null && clientCertService != null) {
+            if (!clientCertService!!.validate(chargePointId!!, cert)) {
+                println("[mTLS] Rejecting WebSocket connection for $chargePointId")
+                activeConnection.close(CloseReason(1008, "Policy violation: client certificate not accepted"))
+                return
+            }
+        }
+
+        val fp = clientCertService?.fingerprint(cert)
+        chargePointRegistry?.register(sessionId, connectionId, this, fp)
+        println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId, certFingerprint=$fp")
     }
 
     @OnTextMessage

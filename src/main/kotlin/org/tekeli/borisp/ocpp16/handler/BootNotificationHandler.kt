@@ -42,7 +42,8 @@ class BootNotificationHandler : OcppActionHandler {
             chargePointId = chargePointId,
             vendor = vendor.toString(),
             model = model.toString(),
-            firmwareVersion = firmwareVersion
+            firmwareVersion = firmwareVersion,
+            certFingerprint = server.clientCertService?.fingerprint(server.clientCertificate)
         )
 
         val currentTime = ZonedDateTime.now(ZoneOffset.UTC).toString()

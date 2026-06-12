@@ -13,7 +13,7 @@ class PersistenceService {
     lateinit var em: EntityManager
 
     @Transactional
-    fun upsertChargePoint(sessionId: String, chargePointId: String, vendor: String, model: String, firmwareVersion: String?) {
+    fun upsertChargePoint(sessionId: String, chargePointId: String, vendor: String, model: String, firmwareVersion: String?, certFingerprint: String? = null) {
         val existing = em.createQuery(
             "SELECT c FROM ChargePoint c WHERE c.chargePointId = :cpId", ChargePoint::class.java
         ).setParameter("cpId", chargePointId).resultList
@@ -22,6 +22,7 @@ class PersistenceService {
             val cp = existing[0] as ChargePoint
             cp.status = ChargePointStatus.ONLINE
             cp.sessionId = sessionId
+            cp.certFingerprint = certFingerprint ?: cp.certFingerprint
             cp.touch()
             em.flush()
         } else {
@@ -31,10 +32,18 @@ class PersistenceService {
                 model = model,
                 firmwareVersion = firmwareVersion,
                 status = ChargePointStatus.ONLINE,
-                sessionId = sessionId
+                sessionId = sessionId,
+                certFingerprint = certFingerprint
             ))
             em.flush()
         }
+    }
+
+    @Transactional
+    fun updateChargePointCertFingerprint(chargePointId: String, certFingerprint: String) {
+        em.createQuery(
+            "UPDATE ChargePoint c SET c.certFingerprint = :fp WHERE c.chargePointId = :cpId"
+        ).setParameter("fp", certFingerprint).setParameter("cpId", chargePointId).executeUpdate()
     }
 
     @Transactional
