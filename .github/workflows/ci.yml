@@ -27,6 +27,31 @@ jobs:
       - name: Run tests with PostgreSQL (Dev Services)
         run: mvn -B verify
 
+  crap-analysis:
+    name: CRAP Analysis
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run CRAP metrics analysis
+        run: mvn -B verify -Pcrap
+
+      - name: Upload JaCoCo report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: crap-jacoco-report
+          path: target/site/jacoco/
+          retention-days: 14
+
   mutation-test:
     name: Mutation Test
     runs-on: ubuntu-latest
