@@ -41,66 +41,85 @@ sealed class OcppMessage {
         private val objectMapper = ObjectMapper()
 
         fun parse(json: String): OcppMessage {
-            try {
-                val nodes = objectMapper.readValue(json, Array<JsonNode>::class.java)
-                
-                if (nodes.size < 2) {
-                    throw OcppParseException("Invalid OCPP message: must have at least 2 elements")
-                }
-
-                val messageTypeId = nodes[0].asInt()
-                val messageId = nodes[1].asText()
-
-                if (messageId.length > 36) {
-                    throw OcppParseException("messageId exceeds 36 characters")
-                }
-
-                val messageType = OcppMessageType.fromValue(messageTypeId)
-                    ?: throw OcppParseException("Invalid message type: $messageTypeId")
-
-                return when (messageType) {
-                    OcppMessageType.CALL -> {
-                        if (nodes.size != 4) {
-                            throw OcppParseException("CALL message must have exactly 4 elements")
-                        }
-                        Call(
-                            messageId = messageId,
-                            action = nodes[2].asText(),
-                            payload = parseJsonNode(nodes[3])
-                        )
-                    }
-                    OcppMessageType.CALLRESULT -> {
-                        if (nodes.size != 3) {
-                            throw OcppParseException("CALLRESULT message must have exactly 3 elements")
-                        }
-                        CallResult(
-                            messageId = messageId,
-                            payload = parseJsonNode(nodes[2])
-                        )
-                    }
-                    OcppMessageType.CALLERROR -> {
-                        if (nodes.size != 5) {
-                            throw OcppParseException("CALLERROR message must have exactly 5 elements")
-                        }
-                        val errorCodeStr = nodes[2].asText()
-                        val errorCode = OcppErrorCode.fromValue(errorCodeStr)
-                            ?: throw OcppParseException("Invalid error code: $errorCodeStr")
-                        CallError(
-                            messageId = messageId,
-                            errorCode = errorCode,
-                            errorDescription = nodes[3].asText(),
-                            errorDetails = parseJsonNode(nodes[4])
-                        )
-                    }
-                }
+            return try {
+                parseMessageInternal(json)
+            } catch (e: OcppParseException) {
+                throw e
             } catch (e: Exception) {
                 throw OcppParseException("Failed to parse OCPP message: ${e.message}", e)
             }
         }
 
+        private fun parseMessageInternal(json: String): OcppMessage {
+            val nodes = objectMapper.readValue(json, Array<JsonNode>::class.java)
+                .also {
+                    if (it.size < 2) {
+                        throw OcppParseException("Invalid OCPP message: must have at least 2 elements")
+                    }
+                }
+
+            val messageTypeId = nodes[0].asInt()
+            val messageId = nodes[1].asText()
+                .also {
+                    if (it.length > 36) {
+                        throw OcppParseException("messageId exceeds 36 characters")
+                    }
+                }
+
+            val messageType = OcppMessageType.fromValue(messageTypeId)
+                ?: throw OcppParseException("Invalid message type: $messageTypeId")
+
+            return messageType.parseMessage(nodes, messageId)
+        }
+
         @Suppress("UNCHECKED_CAST")
         private fun parseJsonNode(node: JsonNode): Map<String, Any>? {
             return objectMapper.convertValue(node, Map::class.java) as? Map<String, Any>
+        }
+
+        private fun OcppMessageType.parseMessage(
+            nodes: Array<JsonNode>,
+            messageId: String
+        ): OcppMessage = when (this) {
+            OcppMessageType.CALL -> parseCall(nodes, messageId)
+            OcppMessageType.CALLRESULT -> parseCallResult(nodes, messageId)
+            OcppMessageType.CALLERROR -> parseCallError(nodes, messageId)
+        }
+
+        private fun parseCall(nodes: Array<JsonNode>, messageId: String): Call {
+            if (nodes.size != 4) {
+                throw OcppParseException("CALL message must have exactly 4 elements")
+            }
+            return Call(
+                messageId = messageId,
+                action = nodes[2].asText(),
+                payload = parseJsonNode(nodes[3])
+            )
+        }
+
+        private fun parseCallResult(nodes: Array<JsonNode>, messageId: String): CallResult {
+            if (nodes.size != 3) {
+                throw OcppParseException("CALLRESULT message must have exactly 3 elements")
+            }
+            return CallResult(
+                messageId = messageId,
+                payload = parseJsonNode(nodes[2])
+            )
+        }
+
+        private fun parseCallError(nodes: Array<JsonNode>, messageId: String): CallError {
+            if (nodes.size != 5) {
+                throw OcppParseException("CALLERROR message must have exactly 5 elements")
+            }
+            val errorCodeStr = nodes[2].asText()
+            val errorCode = OcppErrorCode.fromValue(errorCodeStr)
+                ?: throw OcppParseException("Invalid error code: $errorCodeStr")
+            return CallError(
+                messageId = messageId,
+                errorCode = errorCode,
+                errorDescription = nodes[3].asText(),
+                errorDetails = parseJsonNode(nodes[4])
+            )
         }
     }
 
