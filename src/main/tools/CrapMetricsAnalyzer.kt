@@ -161,7 +161,7 @@ object CrapMetricsAnalyzer {
         printTable(sortedMetrics, threshold)
 
         if (failingMetrics.isNotEmpty()) {
-            printFailures(failingMetrics)
+            printFailures(failingMetrics, threshold)
             exitProcess(1)
         }
 
@@ -197,7 +197,7 @@ object CrapMetricsAnalyzer {
         println("Threshold: %.2f".format(threshold))
     }
 
-    private fun printFailures(failingMetrics: List<MethodCrapMetric>) {
+    private fun printFailures(failingMetrics: List<MethodCrapMetric>, threshold: Double) {
         println()
         println("Result: FAILED")
         println("Methods exceeding threshold: ${failingMetrics.size}")
@@ -205,7 +205,7 @@ object CrapMetricsAnalyzer {
         println()
         println("Top failing methods:")
         failingMetrics
-            .take(10)
+            .filter { it.crap >= threshold }
             .forEach {
                 println(
                     "  %.2f - %s.%s%s".format(
