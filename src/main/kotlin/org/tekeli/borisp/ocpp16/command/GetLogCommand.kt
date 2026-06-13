@@ -15,41 +15,29 @@ class GetLogCommand @Inject constructor(
     private val validLogTypes = setOf("DiagnosticsLog", "SecurityLog")
 
     override fun validate(payload: Map<String, Any>): Response? {
-        val logType = payload["logType"] as String?
-        if (logType == null || logType !in validLogTypes) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "logType must be one of: DiagnosticsLog, SecurityLog"))
+        val error = validateTopLevel(payload)
+            ?: validateNestedLog(payload)
+        return error?.let {
+            Response.status(Response.Status.BAD_REQUEST)
+                .entity(mapOf<String, Any>("error" to it))
                 .build()
         }
+    }
 
-        val requestId = payload["requestId"] as Number?
-        if (requestId == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "requestId is required"))
-                .build()
-        }
+    private fun validateTopLevel(payload: Map<String, Any>): String? {
+        val logType = payload["logType"] as? String
+        if (logType == null || logType !in validLogTypes)
+            return "logType must be one of: DiagnosticsLog, SecurityLog"
+        if (payload["requestId"] !is Number)
+            return "requestId is required"
+        return if (payload["log"] is Map<*, *>) null else "log is required"
+    }
 
-        val log = payload["log"] as? Map<*, *>
-        if (log == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "log is required"))
-                .build()
-        }
-
-        val remoteLocation = log["remoteLocation"] as String?
-        if (remoteLocation.isNullOrEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "log.remoteLocation is required"))
-                .build()
-        }
-
-        if (remoteLocation.length > 512) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "log.remoteLocation must not exceed 512 characters"))
-                .build()
-        }
-
-        return null
+    private fun validateNestedLog(payload: Map<String, Any>): String? {
+        val remoteLocation = (payload["log"] as Map<*, *>).get("remoteLocation") as? String
+            ?: return "log.remoteLocation is required"
+        return if (remoteLocation.isEmpty() || remoteLocation.length > 512)
+            "log.remoteLocation must not exceed 512 characters" else null
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
