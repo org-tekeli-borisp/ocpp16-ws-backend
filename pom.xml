@@ -18,6 +18,8 @@
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
         <pitest.version>1.23.0</pitest.version>
+        <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
+        <crap.threshold>8</crap.threshold>
     </properties>
 
     <dependencyManagement>
@@ -173,6 +175,20 @@
                             <goal>test-compile</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>compile-crap-metrics</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/tools</sourceDir>
+                            </sourceDirs>
+                            <output>${project.build.directory}/crap-metrics-classes</output>
+                            <jvmTarget>25</jvmTarget>
+                        </configuration>
+                    </execution>
                 </executions>
                 <dependencies>
                     <dependency>
@@ -327,6 +343,31 @@
                     </outputFormats>
                     <verbose>false</verbose>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>crap-metrics</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>org.tekeli.borisp.ocpp16.tools.CrapMetricsAnalyzer</mainClass>
+                            <includeProjectDependencies>true</includeProjectDependencies>
+                            <additionalClasspathElements>
+                                <additionalClasspathElement>${project.build.directory}/crap-metrics-classes</additionalClasspathElement>
+                            </additionalClasspathElements>
+                            <arguments>
+                                <argument>${project.reporting.outputDirectory}/jacoco/jacoco.xml</argument>
+                                <argument>${crap.threshold}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
