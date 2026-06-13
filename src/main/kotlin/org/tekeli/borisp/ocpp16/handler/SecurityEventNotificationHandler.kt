@@ -7,65 +7,89 @@ import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
 
 class SecurityEventNotificationHandler(
-    private val persistenceService: PersistenceService? = null
-) : OcppActionHandler {
+     private val persistenceService: PersistenceService? = null
+ ) : OcppActionHandler {
 
-    private val validSecurityEvents = setOf(
-        "FirmwareUpdated",
-        "FirmwareVerificationFailed",
-        "InvalidChargePointCertificate",
-        "InvalidCentralSystemCertificate",
-        "InvalidTLSCipherSuite",
-        "InvalidTLSVersion",
-        "LocalAccess",
-        "ResetFailed",
-        "Reset",
-        "Tampering",
-        "TransactionInfoNotStored",
-        "InvalidFirmwareSigningCertificate",
-        "InvalidFirmwareSignature",
-        "DiscardedRenewedClientCertificate",
-        "UnauthorizedAccess"
-    )
+     private val validSecurityEvents = setOf(
+         "FirmwareUpdated",
+         "FirmwareVerificationFailed",
+         "InvalidChargePointCertificate",
+         "InvalidCentralSystemCertificate",
+         "InvalidTLSCipherSuite",
+         "InvalidTLSVersion",
+         "LocalAccess",
+         "ResetFailed",
+         "Reset",
+         "Tampering",
+         "TransactionInfoNotStored",
+         "InvalidFirmwareSigningCertificate",
+         "InvalidFirmwareSignature",
+         "DiscardedRenewedClientCertificate",
+         "UnauthorizedAccess"
+     )
 
-    override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
+     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
+         val payload = call.payload ?: throw FormationViolationException("Payload is null")
+         val (type, timestamp, techInfo) = validatePayload(payload)
+         val chargePointId = server.chargePointId
+             ?: throw FormationViolationException("No chargePointId from connection")
 
-        val type = payload["type"]
-        if (type == null || type.toString().isBlank()) {
-            throw FormationViolationException("type is required")
-        }
+         processSecurityEvent(server, chargePointId, type, timestamp, techInfo)
 
-        if (type.toString().length > 50) {
-            throw FormationViolationException("type must not exceed 50 characters")
-        }
+         return OcppMessage.CallResult(
+             messageId = call.messageId,
+             payload = emptyMap<String, Any>()
+         ).toJson()
+     }
 
-        val timestamp = payload["timestamp"]
-        if (timestamp == null || timestamp.toString().isBlank()) {
-            throw FormationViolationException("timestamp is required")
-        }
+     private fun processSecurityEvent(
+         server: OcppWebSocketServer,
+         chargePointId: String,
+         type: String,
+         timestamp: Instant,
+         techInfo: String?
+     ) {
+         persistenceService?.createSecurityLog(chargePointId, type, timestamp, techInfo)
+         server.metricsService?.securityEventsReceived?.increment()
+     }
 
-        val techInfo = payload["techInfo"]?.toString()
+     private data class ParsedSecurityEvent(
+         val type: String,
+         val timestamp: Instant,
+         val techInfo: String?
+     )
 
-        if (techInfo != null && techInfo.length > 255) {
-            throw FormationViolationException("techInfo must not exceed 255 characters")
-        }
+     private fun validatePayload(payload: Map<String, Any>): ParsedSecurityEvent {
+         val type = extractType(payload)
+         val timestamp = extractTimestamp(payload)
+         val techInfo = extractTechInfo(payload)
+         return ParsedSecurityEvent(type, timestamp, techInfo)
+     }
 
-        val chargePointId = server.chargePointId
-            ?: throw FormationViolationException("No chargePointId from connection")
+     private fun extractType(payload: Map<String, Any>): String {
+         val type = payload["type"]
+         if (type == null || type.toString().isBlank()) {
+             throw FormationViolationException("type is required")
+         }
+         if (type.toString().length > 50) {
+             throw FormationViolationException("type must not exceed 50 characters")
+         }
+         return type.toString()
+     }
 
-        persistenceService?.createSecurityLog(
-            chargePointId = chargePointId,
-            type = type.toString(),
-            timestamp = Instant.parse(timestamp.toString()),
-            techInfo = techInfo
-        )
+     private fun extractTimestamp(payload: Map<String, Any>): Instant {
+         val timestamp = payload["timestamp"]
+         if (timestamp == null || timestamp.toString().isBlank()) {
+             throw FormationViolationException("timestamp is required")
+         }
+         return Instant.parse(timestamp.toString())
+     }
 
-        server.metricsService?.securityEventsReceived?.increment()
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = emptyMap<String, Any>()
-        ).toJson()
-    }
-}
+     private fun extractTechInfo(payload: Map<String, Any>): String? {
+         val techInfo = payload["techInfo"]?.toString() ?: return null
+         if (techInfo.length > 255) {
+             throw FormationViolationException("techInfo must not exceed 255 characters")
+         }
+         return techInfo
+     }
+ }

@@ -12,10 +12,9 @@ class WsSender(
     private val connectionId: String
 ) : TextSender {
     override fun sendText(text: String): Uni<Void> {
-        return openConnections.findByConnectionId(connectionId)
-            .orElse(null)
-            ?.sendText(text)
-            ?: Uni.createFrom().failure(IllegalStateException("WebSocket connection not found: $connectionId"))
+        val conn = openConnections.findByConnectionId(connectionId).orElse(null)
+        if (conn != null) return conn.sendText(text)
+        return Uni.createFrom().failure(IllegalStateException("WebSocket connection not found: $connectionId"))
     }
 }
 

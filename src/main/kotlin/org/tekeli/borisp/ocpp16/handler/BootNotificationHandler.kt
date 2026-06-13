@@ -7,54 +7,64 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
 class BootNotificationHandler : OcppActionHandler {
-    override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
+     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
+         val payload = call.payload ?: throw FormationViolationException("Payload is null")
+         val (vendor, model, firmwareVersion) = validatePayload(payload)
+         val chargePointId = server.chargePointId
+             ?: throw FormationViolationException("No chargePointId from connection")
 
-        val vendor = payload["chargePointVendor"]
-        if (vendor == null || vendor.toString().isBlank()) {
-            throw FormationViolationException("chargePointVendor is required")
-        }
+         processBootNotification(server, chargePointId, vendor, model, firmwareVersion)
 
-        if (vendor.toString().length > 20) {
-            throw FormationViolationException("chargePointVendor must not exceed 20 characters")
-        }
+         return OcppMessage.CallResult(
+             messageId = call.messageId,
+             payload = mapOf(
+                 "currentTime" to ZonedDateTime.now(ZoneOffset.UTC).toString(),
+                 "interval" to 300,
+                 "status" to "Accepted"
+             )
+         ).toJson()
+     }
 
-        val model = payload["chargePointModel"]
-        if (model == null || model.toString().isBlank()) {
-            throw FormationViolationException("chargePointModel is required")
-        }
+     private fun processBootNotification(
+         server: OcppWebSocketServer,
+         chargePointId: String,
+         vendor: String,
+         model: String,
+         firmwareVersion: String?
+     ) {
+         server.chargePointRegistry?.updateChargePointInfo(
+             server.sessionId, chargePointId, vendor, model
+         )
+         server.persistenceService?.upsertChargePoint(
+             sessionId = server.sessionId,
+             chargePointId = chargePointId,
+             vendor = vendor,
+             model = model,
+             firmwareVersion = firmwareVersion
+         )
+     }
 
-        if (model.toString().length > 20) {
-            throw FormationViolationException("chargePointModel must not exceed 20 characters")
-        }
+     private data class ParsedBootNotification(
+         val vendor: String,
+         val model: String,
+         val firmwareVersion: String?
+     )
 
-        val firmwareVersion = payload["firmwareVersion"]?.toString()
-        val chargePointId = server.chargePointId ?: throw FormationViolationException("No chargePointId from connection")
-        server.chargePointRegistry?.updateChargePointInfo(
-            server.sessionId,
-            chargePointId,
-            vendor.toString(),
-            model.toString()
-        )
+     private fun validatePayload(payload: Map<String, Any>): ParsedBootNotification {
+         val vendor = extractStringField(payload, "chargePointVendor", 20)
+         val model = extractStringField(payload, "chargePointModel", 20)
+         val firmwareVersion = payload["firmwareVersion"]?.toString()
+         return ParsedBootNotification(vendor, model, firmwareVersion)
+     }
 
-        server.persistenceService?.upsertChargePoint(
-            sessionId = server.sessionId,
-            chargePointId = chargePointId,
-            vendor = vendor.toString(),
-            model = model.toString(),
-            firmwareVersion = firmwareVersion
-        )
-
-        val currentTime = ZonedDateTime.now(ZoneOffset.UTC).toString()
-        val responsePayload = mapOf(
-            "currentTime" to currentTime,
-            "interval" to 300,
-            "status" to "Accepted"
-        )
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = responsePayload
-        ).toJson()
-    }
-}
+     private fun extractStringField(payload: Map<String, Any>, fieldName: String, maxLength: Int): String {
+         val value = payload[fieldName]
+         if (value == null || value.toString().isBlank()) {
+             throw FormationViolationException("$fieldName is required")
+         }
+         if (value.toString().length > maxLength) {
+             throw FormationViolationException("$fieldName must not exceed $maxLength characters")
+         }
+         return value.toString()
+     }
+ }

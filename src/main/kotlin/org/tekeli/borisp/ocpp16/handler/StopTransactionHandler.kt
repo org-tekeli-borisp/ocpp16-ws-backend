@@ -7,83 +7,109 @@ import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
 
 class StopTransactionHandler(
-    private val metricsService: MetricsService? = null
-) : OcppActionHandler {
-    private val validStopReasons = setOf(
-        "DeAuthorized", "EmergencyStop", "EVDisconnected", "HardReset",
-        "Local", "Other", "PowerLoss", "Reboot", "Remote", "SoftReset",
-        "UnlockCommand"
-    )
+     private val metricsService: MetricsService? = null
+ ) : OcppActionHandler {
+     private val validStopReasons = setOf(
+         "DeAuthorized", "EmergencyStop", "EVDisconnected", "HardReset",
+         "Local", "Other", "PowerLoss", "Reboot", "Remote", "SoftReset",
+         "UnlockCommand"
+     )
 
-    override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
-        val payload = call.payload ?: throw FormationViolationException("Payload is null")
+     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
+         val payload = call.payload ?: throw FormationViolationException("Payload is null")
+         val (transactionId, meterStop, stopTime, reason, idTagEnd) = validatePayload(payload)
 
-        val transactionId = payload["transactionId"]
-        if (transactionId == null) {
-            throw FormationViolationException("transactionId is required")
-        }
+         processStopTransaction(server, call.messageId, transactionId, meterStop, stopTime, reason, idTagEnd)
 
-        val transactionIdValue = (transactionId as? Number)?.toLong()
-            ?: throw FormationViolationException("transactionId must be an integer")
+         return OcppMessage.CallResult(
+             messageId = call.messageId,
+             payload = mapOf("idTagInfo" to mapOf("status" to "Accepted"))
+         ).toJson()
+     }
 
-        val meterStop = payload["meterStop"]
-        if (meterStop == null) {
-            throw FormationViolationException("meterStop is required")
-        }
+     private fun processStopTransaction(
+         server: OcppWebSocketServer,
+         messageId: String,
+         transactionId: Long,
+         meterStop: Int,
+         stopTime: Instant,
+         reason: String?,
+         idTagEnd: String?
+     ) {
+         val ps = server.persistenceService
+         val transaction = ps?.findTransaction(transactionId)
+         val energyWh = (meterStop - (transaction?.meterStart ?: 0)).toDouble()
+         val durationSeconds = transaction?.startTime?.let { stopTime.epochSecond - it.epochSecond } ?: 0
 
-        val meterStopValue = (meterStop as? Number)?.toInt()
-            ?: throw FormationViolationException("meterStop must be an integer")
+         ps?.stopTransaction(transactionId, meterStop, stopTime, reason, idTagEnd)
+         recordMetrics(energyWh, durationSeconds)
+     }
 
-        val timestamp = payload["timestamp"]
-        if (timestamp == null || timestamp.toString().isBlank()) {
-            throw FormationViolationException("timestamp is required")
-        }
+     private fun recordMetrics(energyWh: Double, durationSeconds: Long) {
+         metricsService?.onTransactionStopped()
+         metricsService?.energyDeliveredWh?.increment(energyWh)
+         metricsService?.transactionDuration?.record(durationSeconds, java.util.concurrent.TimeUnit.SECONDS)
+     }
 
-        val stopTime = try {
-            Instant.parse(timestamp.toString())
-        } catch (e: Exception) {
-            throw FormationViolationException("Invalid timestamp format")
-        }
+     private data class ParsedStopTransaction(
+         val transactionId: Long,
+         val meterStop: Int,
+         val stopTime: Instant,
+         val reason: String?,
+         val idTagEnd: String?
+     )
 
-        val reason = payload["reason"]
-        if (reason != null && reason.toString().trim().isNotEmpty()) {
-            if (!validStopReasons.contains(reason.toString())) {
-                throw FormationViolationException("Invalid reason: ${reason}")
-            }
-        }
+     private fun validatePayload(payload: Map<String, Any>): ParsedStopTransaction {
+         val transactionId = extractTransactionId(payload)
+         val meterStop = extractMeterStop(payload)
+         val stopTime = extractStopTime(payload)
+         val reason = extractReason(payload)
+         val idTagEnd = extractIdTagEnd(payload)
+         return ParsedStopTransaction(transactionId, meterStop, stopTime, reason, idTagEnd)
+     }
 
-        val idTag = payload["idTag"]
-        if (idTag != null) {
-            val idTagStr = idTag.toString().trim()
-            if (idTagStr.length > 20) {
-                throw FormationViolationException("idTag must not exceed 20 characters")
-            }
-        }
+     private fun extractTransactionId(payload: Map<String, Any>): Long {
+         val value = payload["transactionId"]
+         if (value == null) throw FormationViolationException("transactionId is required")
+         return (value as? Number)?.toLong()
+             ?: throw FormationViolationException("transactionId must be an integer")
+     }
 
-        val ps = server.persistenceService
-        val transaction = ps?.findTransaction(transactionIdValue)
-        val energyWh = (meterStopValue - (transaction?.meterStart ?: 0)).toDouble()
-        val durationSeconds = transaction?.startTime?.let { stopTime.epochSecond - it.epochSecond } ?: 0
+     private fun extractMeterStop(payload: Map<String, Any>): Int {
+         val value = payload["meterStop"]
+         if (value == null) throw FormationViolationException("meterStop is required")
+         return (value as? Number)?.toInt()
+             ?: throw FormationViolationException("meterStop must be an integer")
+     }
 
-        ps?.stopTransaction(
-            transactionId = transactionIdValue,
-            meterStop = meterStopValue,
-            stopTime = stopTime,
-            reason = reason?.toString(),
-            idTagEnd = idTag?.toString()?.trim()
-        )
+     private fun extractStopTime(payload: Map<String, Any>): Instant {
+         val timestamp = payload["timestamp"]
+         if (timestamp == null || timestamp.toString().isBlank()) {
+             throw FormationViolationException("timestamp is required")
+         }
+         return try {
+             Instant.parse(timestamp.toString())
+         } catch (e: Exception) {
+             throw FormationViolationException("Invalid timestamp format")
+         }
+     }
 
-        metricsService?.onTransactionStopped()
-        metricsService?.energyDeliveredWh?.increment(energyWh)
-        metricsService?.transactionDuration?.record(durationSeconds, java.util.concurrent.TimeUnit.SECONDS)
+     private fun extractReason(payload: Map<String, Any>): String? {
+         val reason = payload["reason"] ?: return null
+         val reasonStr = reason.toString().trim()
+         if (reasonStr.isEmpty()) return null
+         if (!validStopReasons.contains(reasonStr)) {
+             throw FormationViolationException("Invalid reason: ${reason}")
+         }
+         return reasonStr
+     }
 
-        val responsePayload = mapOf(
-            "idTagInfo" to mapOf("status" to "Accepted")
-        )
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = responsePayload
-        ).toJson()
-    }
-}
+     private fun extractIdTagEnd(payload: Map<String, Any>): String? {
+         val idTag = payload["idTag"] ?: return null
+         val idTagStr = idTag.toString().trim()
+         if (idTagStr.length > 20) {
+             throw FormationViolationException("idTag must not exceed 20 characters")
+         }
+         return if (idTagStr.isEmpty()) null else idTagStr
+     }
+ }

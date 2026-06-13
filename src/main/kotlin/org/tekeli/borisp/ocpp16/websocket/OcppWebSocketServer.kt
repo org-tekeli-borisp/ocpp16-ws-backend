@@ -48,6 +48,12 @@ class OcppWebSocketServer : ChargePointConnection {
     val activeConnection: WebSocketConnection
         get() = connection ?: throw IllegalStateException("Connection not initialized")
 
+    private val activeRegistry: ChargePointRegistry
+        get() = chargePointRegistry ?: throw IllegalStateException("Registry not initialized")
+
+    private val activePersistence: PersistenceService
+        get() = persistenceService ?: throw IllegalStateException("Persistence not initialized")
+
     override val responseAwaiter = ResponseAwaiter()
     var sessionId: String = ""
     var chargePointId: String? = null
@@ -73,11 +79,9 @@ class OcppWebSocketServer : ChargePointConnection {
 
     @OnOpen
     fun onOpen() {
-        chargePointId = connection?.pathParam("chargePointId")
-        val connectionId = connection?.id()
-            ?: throw IllegalStateException("WebSocket connection id not available")
-        sessionId = connectionId
-        chargePointRegistry?.register(sessionId, connectionId, this)
+        chargePointId = activeConnection.pathParam("chargePointId")
+        sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
+        activeRegistry.register(sessionId, sessionId, this)
         println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId")
     }
 
@@ -161,7 +165,9 @@ class OcppWebSocketServer : ChargePointConnection {
     }
 
     override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> {
-        return connection?.sendText(text) ?: io.smallrye.mutiny.Uni.createFrom().voidItem()
+        val conn = connection
+        if (conn != null) return conn.sendText(text)
+        return io.smallrye.mutiny.Uni.createFrom().voidItem()
     }
 
     private fun generateMessageId(): String = UUID.randomUUID().toString()
@@ -169,14 +175,10 @@ class OcppWebSocketServer : ChargePointConnection {
     @OnClose
     fun onClose() {
         val connectionId = sessionId
-        if ((chargePointRegistry?.isConnected(connectionId) ?: false).not()) {
-            return
-        }
-        responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
-        try {
-            chargePointRegistry?.unregister(connectionId)
-            persistenceService?.setChargePointOffline(connectionId)
-        } catch (e: Exception) {
+        if (activeRegistry.isConnected(connectionId)) {
+            responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
+            activeRegistry.unregister(connectionId)
+            activePersistence.setChargePointOffline(connectionId)
         }
         println("WebSocket connection closed: $connectionId")
     }

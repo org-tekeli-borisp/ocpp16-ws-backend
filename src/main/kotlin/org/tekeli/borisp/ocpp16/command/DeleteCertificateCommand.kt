@@ -14,42 +14,27 @@ class DeleteCertificateCommand @Inject constructor(
 
     private val validHashAlgorithms = setOf("SHA256", "SHA384", "SHA512")
 
-    override fun validate(payload: Map<String, Any>): Response? {
-        val certificateHashData = payload["certificateHashData"] as? Map<*, *>
-            ?: return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "certificateHashData is required"))
-                .build()
-
-        val hashAlgorithm = certificateHashData["hashAlgorithm"] as String?
+ override fun validate(payload: Map<String, Any>): Response? {
+        val certData = payload["certificateHashData"] as? Map<*, *>
+            ?: return badRequest("certificateHashData is required")
+        val hashAlgorithm = certData["hashAlgorithm"] as String?
         if (hashAlgorithm == null || hashAlgorithm !in validHashAlgorithms) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "hashAlgorithm must be one of: SHA256, SHA384, SHA512"))
-                .build()
+            return badRequest("hashAlgorithm must be one of: SHA256, SHA384, SHA512")
         }
+        return checkRequiredStringFields(certData, "issuerNameHash", "issuerKeyHash", "serialNumber")
+            ?.let { badRequest("$it is required") }
+    }
 
-        val issuerNameHash = certificateHashData["issuerNameHash"] as String?
-        if (issuerNameHash.isNullOrEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "issuerNameHash is required"))
-                .build()
+    private fun checkRequiredStringFields(map: Map<*, *>, vararg fields: String): String? {
+        for (field in fields) {
+            val value = map[field] as String?
+            if (value.isNullOrEmpty()) return field
         }
-
-        val issuerKeyHash = certificateHashData["issuerKeyHash"] as String?
-        if (issuerKeyHash.isNullOrEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "issuerKeyHash is required"))
-                .build()
-        }
-
-        val serialNumber = certificateHashData["serialNumber"] as String?
-        if (serialNumber.isNullOrEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "serialNumber is required"))
-                .build()
-        }
-
         return null
     }
+
+    private fun badRequest(error: String) = Response.status(Response.Status.BAD_REQUEST)
+        .entity(mapOf<String, Any>("error" to error)).build()
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
         val certificateHashData = payload["certificateHashData"] as Map<String, Any>

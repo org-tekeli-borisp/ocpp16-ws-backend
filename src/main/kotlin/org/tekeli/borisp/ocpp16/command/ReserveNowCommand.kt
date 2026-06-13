@@ -13,33 +13,28 @@ class ReserveNowCommand @Inject constructor(
     override val name = "reserve-now"
 
     override fun validate(payload: Map<String, Any>): Response? {
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()
-        val expiryDate = payload["expiryDate"] as String?
-        val idTag = payload["idTag"] as String?
-        val reservationId = (payload["reservationId"] as? Number)?.toInt()
-
-        if (connectorId == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "connectorId is required"))
-                .build()
-        }
-        if (expiryDate.isNullOrEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "expiryDate is required"))
-                .build()
-        }
-        if (idTag.isNullOrEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "idTag is required"))
-                .build()
-        }
-        if (reservationId == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "reservationId is required"))
-                .build()
-        }
-        return null
+        val error = validateRequiredIds(payload)
+            ?: validateStringFields(payload)
+        return error?.let { badRequest(it) }
     }
+
+    private fun validateRequiredIds(payload: Map<String, Any>): String? {
+        if ((payload["connectorId"] as? Number)?.toInt() == null) {
+            return "connectorId is required"
+        }
+        return if ((payload["reservationId"] as? Number)?.toInt() != null) null
+            else "reservationId is required"
+    }
+
+    private fun validateStringFields(payload: Map<String, Any>): String? {
+        if ((payload["expiryDate"] as String?).isNullOrEmpty()) {
+            return "expiryDate is required"
+        }
+        return if ((payload["idTag"] as String?).isNullOrEmpty()) "idTag is required" else null
+    }
+
+    private fun badRequest(error: String) = Response.status(Response.Status.BAD_REQUEST)
+        .entity(mapOf<String, Any>("error" to error)).build()
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
         val connectorId = (payload["connectorId"] as? Number)?.toInt()!!
