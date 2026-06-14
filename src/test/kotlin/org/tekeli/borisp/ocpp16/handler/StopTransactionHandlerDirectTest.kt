@@ -2,7 +2,10 @@ package org.tekeli.borisp.ocpp16.handler
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
 
 class StopTransactionHandlerDirectTest {
@@ -357,5 +360,45 @@ class StopTransactionHandlerDirectTest {
         val parsed = handler.validatePayload(payload)
 
         assertEquals(0, parsed.meterStop)
+    }
+
+    @Test
+    fun `validatePayload throws for meterStop as String`() {
+        val payload = mapOf<String, Any>(
+            "transactionId" to 1L,
+            "meterStop" to "not-a-number",
+            "timestamp" to "2024-01-01T00:00:00Z"
+        )
+
+        val ex = assertThrows(FormationViolationException::class.java) {
+            handler.validatePayload(payload)
+        }
+        assertTrue(ex.message!!.contains("meterStop must be an integer"))
+    }
+
+    @Test
+    fun `handle with MetricsService records metrics`() {
+        val metrics = MetricsService()
+        val handlerWithMetrics = StopTransactionHandler(metrics)
+        val server = OcppWebSocketServer().apply {
+            chargePointId = "CP-001"
+            sessionId = "test-session"
+        }
+
+        val call = OcppMessage.Call(
+            messageId = "test-msg",
+            action = "StopTransaction",
+            payload = mapOf<String, Any>(
+                "transactionId" to 1L,
+                "meterStop" to 5000,
+                "timestamp" to "2024-01-01T01:00:00Z",
+                "reason" to "Local"
+            )
+        )
+
+        val response = handlerWithMetrics.handle(call, server)
+
+        assertTrue(response.contains("Accepted"))
+        assertTrue(response.contains("test-msg"))
     }
 }

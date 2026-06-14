@@ -820,6 +820,22 @@ class OcppWebSocketServerUnitTest {
     }
 
     @Test
+    fun `should preserve messageId in StopTransaction response`() {
+        val response = server.onTextMessage("""[2,"stop-msg-id","StopTransaction",{"transactionId":1,"meterStop":5000,"timestamp":"2024-01-01T01:00:00Z","reason":"Local"}]""")
+
+        assertTrue(response.contains("stop-msg-id"), "Response must preserve original messageId")
+    }
+
+    @Test
+    fun `should return FormationViolation for StopTransaction with meterStop as String`() {
+        val response = server.onTextMessage("""[2,"stop-14","StopTransaction",{"transactionId":1,"meterStop":"not-a-number","timestamp":"2024-01-01T01:00:00Z"}]""")
+
+        assertTrue(response.startsWith("[4,"))
+        assertTrue(response.contains("FormationViolation"))
+        assertTrue(response.contains("meterStop must be an integer"))
+    }
+
+    @Test
     fun `should return Accepted for StopTransaction with idTag exactly 20 characters`() {
         val maxIdTag = "A".repeat(20)
         val response = server.onTextMessage("""[2,"stop-12","StopTransaction",{"transactionId":1,"meterStop":5000,"timestamp":"2024-01-01T01:00:00Z","reason":"Local","idTag":"$maxIdTag"}]""")

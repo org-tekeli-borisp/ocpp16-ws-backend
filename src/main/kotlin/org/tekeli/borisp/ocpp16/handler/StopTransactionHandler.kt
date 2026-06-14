@@ -15,37 +15,26 @@ class StopTransactionHandler(
          "UnlockCommand"
      )
 
-     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
-         val payload = call.payload ?: throw FormationViolationException("Payload is null")
-         val (transactionId, meterStop, stopTime, reason, idTagEnd) = validatePayload(payload)
+ override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
+          val payload = call.payload ?: throw FormationViolationException("Payload is null")
+          val parsed = validatePayload(payload)
+          processStopTransaction(server, parsed)
+          return OcppMessage.CallResult(
+              messageId = call.messageId,
+              payload = mapOf("idTagInfo" to mapOf("status" to "Accepted"))
+          ).toJson()
+      }
 
-         processStopTransaction(server, call.messageId, transactionId, meterStop, stopTime, reason, idTagEnd)
+      internal fun processStopTransaction(server: OcppWebSocketServer, parsed: ParsedStopTransaction) {
+          val ps = server.persistenceService
+          val transaction = ps?.findTransaction(parsed.transactionId)
+          val energyWh = (parsed.meterStop - (transaction?.meterStart ?: 0)).toDouble()
+          val durationSeconds = transaction?.startTime?.let { parsed.stopTime.epochSecond - it.epochSecond } ?: 0
+          ps?.stopTransaction(parsed.transactionId, parsed.meterStop, parsed.stopTime, parsed.reason, parsed.idTagEnd)
+          recordMetrics(energyWh, durationSeconds)
+      }
 
-         return OcppMessage.CallResult(
-             messageId = call.messageId,
-             payload = mapOf("idTagInfo" to mapOf("status" to "Accepted"))
-         ).toJson()
-     }
-
-     private fun processStopTransaction(
-         server: OcppWebSocketServer,
-         messageId: String,
-         transactionId: Long,
-         meterStop: Int,
-         stopTime: Instant,
-         reason: String?,
-         idTagEnd: String?
-     ) {
-         val ps = server.persistenceService
-         val transaction = ps?.findTransaction(transactionId)
-         val energyWh = (meterStop - (transaction?.meterStart ?: 0)).toDouble()
-         val durationSeconds = transaction?.startTime?.let { stopTime.epochSecond - it.epochSecond } ?: 0
-
-         ps?.stopTransaction(transactionId, meterStop, stopTime, reason, idTagEnd)
-         recordMetrics(energyWh, durationSeconds)
-     }
-
-     private fun recordMetrics(energyWh: Double, durationSeconds: Long) {
+     internal fun recordMetrics(energyWh: Double, durationSeconds: Long) {
          metricsService?.onTransactionStopped()
          metricsService?.energyDeliveredWh?.increment(energyWh)
          metricsService?.transactionDuration?.record(durationSeconds, java.util.concurrent.TimeUnit.SECONDS)
