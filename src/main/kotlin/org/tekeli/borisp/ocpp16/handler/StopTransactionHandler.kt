@@ -51,7 +51,7 @@ class StopTransactionHandler(
          metricsService?.transactionDuration?.record(durationSeconds, java.util.concurrent.TimeUnit.SECONDS)
      }
 
-     private data class ParsedStopTransaction(
+     internal data class ParsedStopTransaction(
          val transactionId: Long,
          val meterStop: Int,
          val stopTime: Instant,
@@ -59,7 +59,7 @@ class StopTransactionHandler(
          val idTagEnd: String?
      )
 
-     private fun validatePayload(payload: Map<String, Any>): ParsedStopTransaction {
+     internal fun validatePayload(payload: Map<String, Any>): ParsedStopTransaction {
          val transactionId = extractTransactionId(payload)
          val meterStop = extractMeterStop(payload)
          val stopTime = extractStopTime(payload)

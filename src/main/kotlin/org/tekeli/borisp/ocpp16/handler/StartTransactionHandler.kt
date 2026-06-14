@@ -44,14 +44,14 @@ class StartTransactionHandler(
          return txn.id ?: 1
      }
 
-     private data class ParsedStartTransaction(
+     internal data class ParsedStartTransaction(
          val connectorId: Int,
          val idTag: String,
          val meterStart: Int,
          val startTime: Instant
      )
 
-     private fun validatePayload(payload: Map<String, Any>): ParsedStartTransaction {
+     internal fun validatePayload(payload: Map<String, Any>): ParsedStartTransaction {
          val connectorId = extractConnectorId(payload)
          val idTag = extractIdTag(payload)
          val meterStart = extractMeterStart(payload)

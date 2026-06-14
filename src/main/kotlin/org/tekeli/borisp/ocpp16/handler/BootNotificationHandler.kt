@@ -44,20 +44,20 @@ class BootNotificationHandler : OcppActionHandler {
          )
      }
 
-     private data class ParsedBootNotification(
+     internal data class ParsedBootNotification(
          val vendor: String,
          val model: String,
          val firmwareVersion: String?
      )
 
-     private fun validatePayload(payload: Map<String, Any>): ParsedBootNotification {
+     internal fun validatePayload(payload: Map<String, Any>): ParsedBootNotification {
          val vendor = extractStringField(payload, "chargePointVendor", 20)
          val model = extractStringField(payload, "chargePointModel", 20)
          val firmwareVersion = payload["firmwareVersion"]?.toString()
          return ParsedBootNotification(vendor, model, firmwareVersion)
      }
 
-     private fun extractStringField(payload: Map<String, Any>, fieldName: String, maxLength: Int): String {
+     internal fun extractStringField(payload: Map<String, Any>, fieldName: String, maxLength: Int): String {
          val value = payload[fieldName]
          if (value == null || value.toString().isBlank()) {
              throw FormationViolationException("$fieldName is required")

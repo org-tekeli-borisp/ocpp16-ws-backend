@@ -5,8 +5,12 @@ import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.outbound.TextSender
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry
+import io.quarkus.websockets.next.OpenConnections
+import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.websocket.ChargePointConnection
 import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
+import java.util.stream.Stream
 
 class ChargePointRegistryTest {
 
@@ -210,6 +214,331 @@ class ChargePointRegistryTest {
         threads.forEach { it.join(5000) }
 
         assertEquals(0, registry.connectionCount)
+    }
+
+    @Test
+    fun `register properly stores session info and connection`() {
+        val registry = ChargePointRegistry()
+        val connection = mockChargePointConnection()
+
+        registry.register("session-1", "conn-1", connection)
+
+        val info = registry.getInfo("session-1")
+        assertNotNull(info)
+        assertEquals("session-1", info!!.sessionId)
+        assertEquals("conn-1", info.connectionId)
+        assertNull(info.chargePointId)
+        assertNull(info.vendor)
+        assertNull(info.model)
+
+        val conn = registry.getConnection("session-1")
+        assertNotNull(conn)
+        assertSame(connection, conn)
+    }
+
+    @Test
+    fun `unregister removes from all data structures`() {
+        val registry = ChargePointRegistry()
+        val connection = mockChargePointConnection()
+
+        registry.register("session-1", "conn-1", connection)
+        registry.updateChargePointInfo("session-1", "CP-001", "Tesla", "Model3")
+        registry.unregister("session-1")
+
+        assertNull(registry.getConnection("session-1"))
+        assertNull(registry.getInfo("session-1"))
+        assertNull(registry.getByChargePointId("CP-001"))
+        assertFalse(registry.isConnected("session-1"))
+        assertEquals(0, registry.connectionCount)
+    }
+
+    @Test
+    fun `getByChargePointId returns correct info after update`() {
+        val registry = ChargePointRegistry()
+        registry.register("session-1", "conn-1", mockChargePointConnection())
+        registry.updateChargePointInfo("session-1", "CP-001", "VendorA", "ModelX")
+
+        val info = registry.getByChargePointId("CP-001")
+        assertNotNull(info)
+        assertEquals("CP-001", info!!.chargePointId)
+        assertEquals("session-1", info.sessionId)
+        assertEquals("conn-1", info.connectionId)
+        assertEquals("VendorA", info.vendor)
+        assertEquals("ModelX", info.model)
+    }
+
+    @Test
+    fun `isConnected returns true for registered and false for unregistered`() {
+        val registry = ChargePointRegistry()
+
+        assertFalse(registry.isConnected("nonexistent"))
+        registry.register("session-1", "conn-1", mockChargePointConnection())
+        assertTrue(registry.isConnected("session-1"))
+        assertFalse(registry.isConnected("other"))
+        registry.unregister("session-1")
+        assertFalse(registry.isConnected("session-1"))
+    }
+
+    @Test
+    fun `connectedSessionIds and connectedChargePointIds are accurate after operations`() {
+        val registry = ChargePointRegistry()
+
+        registry.register("s1", "c1", mockChargePointConnection())
+        registry.register("s2", "c2", mockChargePointConnection())
+        registry.register("s3", "c3", mockChargePointConnection())
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+        registry.updateChargePointInfo("s2", "CP-002", "V2", "M2")
+
+        assertEquals(setOf("s1", "s2", "s3"), registry.connectedSessionIds)
+        assertEquals(setOf("CP-001", "CP-002"), registry.connectedChargePointIds)
+
+        registry.unregister("s2")
+
+        assertEquals(setOf("s1", "s3"), registry.connectedSessionIds)
+        assertEquals(setOf("CP-001"), registry.connectedChargePointIds)
+        assertFalse(registry.connectedSessionIds.contains("s2"))
+        assertFalse(registry.connectedChargePointIds.contains("CP-002"))
+    }
+
+    @Test
+    fun `sendCall with unknown chargePointId throws IllegalStateException`() {
+        val registry = ChargePointRegistry()
+
+        val ex = assertThrows(IllegalStateException::class.java) {
+            registry.sendCall("UNKNOWN", "Reset", mapOf("type" to "Hard"))
+        }
+        assertEquals("ChargePoint not connected: UNKNOWN", ex.message)
+    }
+
+    @Test
+    fun `updateChargePointInfo updates all fields correctly`() {
+        val registry = ChargePointRegistry()
+        registry.register("session-1", "conn-1", mockChargePointConnection())
+
+        registry.updateChargePointInfo("session-1", "CP-001", "Siemens", "VersiCharge")
+
+        val info = registry.getInfo("session-1")
+        assertNotNull(info)
+        assertEquals("CP-001", info!!.chargePointId)
+        assertEquals("Siemens", info.vendor)
+        assertEquals("VersiCharge", info.model)
+        assertEquals("session-1", info.sessionId)
+        assertEquals("conn-1", info.connectionId)
+
+        val cpInfo = registry.getByChargePointId("CP-001")
+        assertNotNull(cpInfo)
+        assertEquals("session-1", cpInfo!!.sessionId)
+    }
+
+    @Test
+    fun `registering same session twice overwrites correctly`() {
+        val registry = ChargePointRegistry()
+        val connection1 = mockChargePointConnection()
+        val connection2 = mockChargePointConnection()
+
+        registry.register("session-1", "conn-1", connection1)
+        registry.updateChargePointInfo("session-1", "CP-001", "V1", "M1")
+        registry.register("session-1", "conn-2", connection2)
+
+        assertEquals(1, registry.connectionCount)
+
+        val info = registry.getInfo("session-1")
+        assertNotNull(info)
+        assertEquals("session-1", info!!.sessionId)
+        assertEquals("conn-2", info.connectionId)
+
+        val conn = registry.getConnection("session-1")
+        assertNotNull(conn)
+        assertSame(connection2, conn)
+
+        val cpInfo = registry.getByChargePointId("CP-001")
+        assertNotNull(cpInfo)
+        assertEquals("session-1", cpInfo!!.sessionId)
+    }
+
+    @Test
+    fun `unregister only removes entries for the unregistered session`() {
+        val registry = ChargePointRegistry()
+
+        registry.register("s1", "c1", mockChargePointConnection())
+        registry.register("s2", "c2", mockChargePointConnection())
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+        registry.updateChargePointInfo("s2", "CP-002", "V2", "M2")
+
+        registry.unregister("s1")
+
+        assertNull(registry.getByChargePointId("CP-001"))
+
+        val info2 = registry.getByChargePointId("CP-002")
+        assertNotNull(info2)
+        assertEquals("s2", info2!!.sessionId)
+        assertEquals("CP-002", info2.chargePointId)
+        assertEquals("V2", info2.vendor)
+        assertEquals("M2", info2.model)
+
+        assertTrue(registry.isConnected("s2"))
+        assertNotNull(registry.getConnection("s2"))
+        assertNotNull(registry.getInfo("s2"))
+        assertEquals(1, registry.connectionCount)
+        assertEquals(setOf("s2"), registry.connectedSessionIds)
+        assertEquals(setOf("CP-002"), registry.connectedChargePointIds)
+    }
+
+    @Test
+    fun `sendCall sends correct action and payload`() {
+        val registry = ChargePointRegistry()
+        val connection = mockChargePointConnection()
+
+        registry.register("session-1", "conn-1", connection)
+        registry.setTestSender("session-1", connection)
+        registry.updateChargePointInfo("session-1", "CP-001", "Tesla", "Model3")
+
+        val future = registry.sendCall("CP-001", "StartTransaction", mapOf("connectorId" to 1, "idTag" to "TAG123"))
+
+        assertNotNull(future)
+
+        val sentMessages = connection.sentMessages
+        assertEquals(1, sentMessages.size)
+        val call = OcppMessage.parse(sentMessages[0]) as OcppMessage.Call
+
+        assertEquals("StartTransaction", call.action)
+        val payload = call.payload as Map<String, Any>
+        assertEquals(1, payload["connectorId"])
+        assertEquals("TAG123", payload["idTag"])
+    }
+
+    @Test
+    fun `register increments metrics when metricsService is set`() {
+        val meterRegistry = SimpleMeterRegistry()
+        val metricsService = MetricsService().apply {
+            injectedMeterRegistry = meterRegistry
+            initGauges()
+        }
+        val registry = ChargePointRegistry()
+        registry.metricsService = metricsService
+
+        registry.register("s1", "c1", mockChargePointConnection())
+
+        val gauge = meterRegistry.find("ocpp.charge.points.connected").gauge()
+        assertNotNull(gauge)
+        assertEquals(1.0, gauge!!.value())
+    }
+
+    @Test
+    fun `unregister decrements metrics when metricsService is set`() {
+        val meterRegistry = SimpleMeterRegistry()
+        val metricsService = MetricsService().apply {
+            injectedMeterRegistry = meterRegistry
+            initGauges()
+        }
+        val registry = ChargePointRegistry()
+        registry.metricsService = metricsService
+
+        registry.register("s1", "c1", mockChargePointConnection())
+        assertEquals(1.0, meterRegistry.find("ocpp.charge.points.connected").gauge()!!.value())
+
+        registry.unregister("s1")
+        assertEquals(0.0, meterRegistry.find("ocpp.charge.points.connected").gauge()!!.value())
+    }
+
+    @Test
+    fun `sendCall increments messagesSent metric when metricsService is set`() {
+        val meterRegistry = SimpleMeterRegistry()
+        val metricsService = MetricsService().apply {
+            injectedMeterRegistry = meterRegistry
+        }
+        val registry = ChargePointRegistry()
+        registry.metricsService = metricsService
+
+        val connection = mockChargePointConnection()
+        registry.register("s1", "c1", connection)
+        registry.setTestSender("s1", connection)
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+
+        val beforeCount = meterRegistry.find("ocpp.messages.sent").counter()?.count() ?: 0.0
+        registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))
+        val afterCount = meterRegistry.find("ocpp.messages.sent").counter()?.count() ?: 0.0
+
+        assertEquals(beforeCount + 1.0, afterCount)
+    }
+
+    @Test
+    fun `unregister cleans testSenders so stale sender is not reused`() {
+        val registry = ChargePointRegistry()
+        val oldConnection = mockChargePointConnection()
+        val newConnection = mockChargePointConnection()
+
+        registry.register("s1", "c1", oldConnection)
+        registry.setTestSender("s1", oldConnection)
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+        registry.unregister("s1")
+
+        // Re-register without setting a test sender
+        registry.register("s1", "c2", newConnection)
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+
+        // sendCall should throw because openConnections is not initialized
+        // and testSenders should have been cleared (so it falls back to WsSender)
+        assertThrows(kotlin.UninitializedPropertyAccessException::class.java) {
+            registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))
+        }
+    }
+
+    @Test
+    fun `sendCall throws IllegalStateException with correct sessionId when sessionConnection is missing`() {
+        val registry = ChargePointRegistry()
+        val connection = mockChargePointConnection()
+
+        registry.register("s1", "c1", connection)
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+
+        // Remove the connection from sessionConnections while keeping sessionInfo
+        val sessionConnectionsField = registry::class.java.getDeclaredField("sessionConnections")
+        sessionConnectionsField.isAccessible = true
+        val sessionConnections = sessionConnectionsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, ChargePointConnection>
+        sessionConnections.remove("s1")
+
+        val ex = assertThrows(IllegalStateException::class.java) {
+            registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))
+        }
+        // Assert the error message contains the actual sessionId, not "null"
+        assertTrue(ex.message!!.contains("s1"), "Error message should contain sessionId: ${ex.message}")
+    }
+
+    @Test
+    fun `sendCall falls back to WsSender when testSender is not set`() {
+        val registry = ChargePointRegistry()
+        val connection = mockChargePointConnection()
+
+        registry.register("s1", "c1", connection)
+        // Intentionally NOT setting test sender
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+
+        // Should throw because openConnections is not initialized
+        assertThrows(kotlin.UninitializedPropertyAccessException::class.java) {
+            registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))
+        }
+    }
+
+    @Test
+    fun `sendCall works with initialized openConnections without testSender`() {
+        val mockOpenConnections = object : OpenConnections {
+            override fun stream() = Stream.empty<io.quarkus.websockets.next.WebSocketConnection>()
+            override fun iterator() = mutableListOf<io.quarkus.websockets.next.WebSocketConnection>().iterator()
+        }
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+
+        val connection = mockChargePointConnection()
+        registry.register("s1", "c1", connection)
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+        // Intentionally NOT setting test sender - forces WsSender path
+
+        // With original code: sendCall returns CompletableFuture without throwing
+        // With mutation (getOpenConnections EQUAL_ELSE): getter throws UninitializedPropertyAccessException
+        assertDoesNotThrow {
+            registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))
+        }
     }
 
     private fun mockChargePointConnection(): TestChargePointConnection = TestChargePointConnection()

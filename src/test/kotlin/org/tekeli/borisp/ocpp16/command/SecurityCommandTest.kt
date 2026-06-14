@@ -22,6 +22,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("extended-trigger-message", entity["command"])
         assertEquals("SignChargePointCertificate", gateway.lastExtendedTriggerMessage)
     }
 
@@ -32,6 +35,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "LogStatusNotification", "connectorId" to 1))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("extended-trigger-message", entity["command"])
         assertEquals(1, gateway.lastExtendedTriggerConnectorId)
     }
 
@@ -43,6 +49,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("requestedMessage"))
     }
 
     @Test
@@ -53,6 +61,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("requestedMessage"))
     }
 
     @Test
@@ -80,6 +90,9 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("install-certificate", entity["command"])
         assertEquals("CentralSystemRootCertificate", gateway.lastCertificateType)
     }
 
@@ -91,6 +104,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("certificateType"))
     }
 
     @Test
@@ -101,6 +116,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("certificate"))
     }
 
     @Test
@@ -114,6 +131,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("certificate"))
     }
 
     @Test
@@ -135,6 +154,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateType" to "CentralSystemRootCertificate"))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("get-installed-certificate-ids", entity["command"])
     }
 
     @Test
@@ -145,6 +167,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("certificateType"))
     }
 
     @Test
@@ -155,6 +179,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("certificateType"))
     }
 
     // DeleteCertificateCommand tests
@@ -171,6 +197,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateHashData" to hashData))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("delete-certificate", entity["command"])
     }
 
     @Test
@@ -181,6 +210,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("certificateHashData"))
     }
 
     @Test
@@ -193,6 +224,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("hashAlgorithm"))
     }
 
     @Test
@@ -205,6 +238,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("issuerNameHash"))
     }
 
     @Test
@@ -236,6 +271,9 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("get-log", entity["command"])
     }
 
     @Test
@@ -249,6 +287,9 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("get-log", entity["command"])
     }
 
     @Test
@@ -259,6 +300,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("logType"))
     }
 
     @Test
@@ -269,6 +312,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("requestId"))
     }
 
     @Test
@@ -279,6 +324,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("log"))
     }
 
     @Test
@@ -289,6 +336,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("remoteLocation"))
     }
 
     @Test
@@ -303,6 +352,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("remoteLocation"))
     }
 
     // SignedUpdateFirmwareCommand tests
@@ -328,6 +379,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("requestId"))
     }
 
     @Test
@@ -338,6 +391,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("firmware"))
     }
 
     @Test
@@ -351,6 +406,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertNotNull(entity["error"])
     }
 
     @Test
@@ -364,6 +421,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertNotNull(entity["error"])
     }
 
     @Test
@@ -377,6 +436,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertNotNull(entity["error"])
     }
 
     @Test
@@ -394,6 +455,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertNotNull(entity["error"])
     }
 
     @Test
@@ -412,6 +475,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("signingCertificate"))
     }
 
     @Test
@@ -430,6 +495,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("signature"))
     }
 
     @Test
@@ -448,6 +515,8 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = response.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("location"))
     }
 
     @Test
@@ -473,6 +542,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("extended-trigger-message", entity["command"])
     }
 
     @Test
@@ -482,6 +554,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
 
         assertEquals(502, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("rejected", entity["status"])
+        assertEquals("ChargePoint rejected command", entity["error"])
     }
 
     @Test
@@ -491,6 +566,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "LogStatusNotification", "connectorId" to 1))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("extended-trigger-message", entity["command"])
     }
 
     @Test
@@ -500,6 +578,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("extended-trigger-message", entity["command"])
     }
 
     @Test
@@ -512,6 +593,9 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("install-certificate", entity["command"])
     }
 
     @Test
@@ -524,6 +608,9 @@ class SecurityCommandTest {
         ))
 
         assertEquals(502, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("rejected", entity["status"])
+        assertEquals("ChargePoint rejected command", entity["error"])
     }
 
     @Test
@@ -533,6 +620,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateType" to "CentralSystemRootCertificate"))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("get-installed-certificate-ids", entity["command"])
     }
 
     @Test
@@ -542,6 +632,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateType" to "CentralSystemRootCertificate"))
 
         assertEquals(502, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("rejected", entity["status"])
+        assertEquals("ChargePoint rejected command", entity["error"])
     }
 
     @Test
@@ -557,6 +650,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateHashData" to hashData))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("delete-certificate", entity["command"])
     }
 
     @Test
@@ -572,6 +668,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateHashData" to hashData))
 
         assertEquals(502, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("rejected", entity["status"])
+        assertEquals("ChargePoint rejected command", entity["error"])
     }
 
     @Test
@@ -585,6 +684,9 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("get-log", entity["command"])
     }
 
     @Test
@@ -598,6 +700,9 @@ class SecurityCommandTest {
         ))
 
         assertEquals(502, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("rejected", entity["status"])
+        assertEquals("ChargePoint rejected command", entity["error"])
     }
 
     @Test
@@ -613,6 +718,9 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("get-log", entity["command"])
     }
 
     @Test
@@ -626,6 +734,9 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("get-log", entity["command"])
     }
 
     @Test
@@ -641,6 +752,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("signed-update-firmware", entity["command"])
     }
 
     @Test
@@ -656,6 +770,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
 
         assertEquals(502, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("rejected", entity["status"])
+        assertEquals("ChargePoint rejected command", entity["error"])
     }
 
     @Test
@@ -671,6 +788,9 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware, "retries" to 3, "retryInterval" to 60))
 
         assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+        assertEquals("signed-update-firmware", entity["command"])
     }
 
     // Test doubles
