@@ -66,16 +66,20 @@ class SecurityEventNotificationHandler(
          return ParsedSecurityEvent(type, timestamp, techInfo)
      }
 
-     private fun extractType(payload: Map<String, Any>): String {
-         val type = payload["type"]
-         if (type == null || type.toString().isBlank()) {
-             throw FormationViolationException("type is required")
-         }
-         if (type.toString().length > 50) {
-             throw FormationViolationException("type must not exceed 50 characters")
-         }
-         return type.toString()
-     }
+   private fun extractType(payload: Map<String, Any>): String {
+        val type = payload["type"]
+        if (type == null || type.toString().isBlank()) {
+            throw FormationViolationException("type is required")
+        }
+        val typeStr = type.toString()
+        if (typeStr.length > 50) {
+            throw FormationViolationException("type must not exceed 50 characters")
+        }
+        if (typeStr !in validSecurityEvents) {
+            throw FormationViolationException("Invalid security event type: $typeStr")
+        }
+        return typeStr
+    }
 
      private fun extractTimestamp(payload: Map<String, Any>): Instant {
          val timestamp = payload["timestamp"]

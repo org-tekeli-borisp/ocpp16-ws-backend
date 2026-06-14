@@ -107,16 +107,15 @@ class SecurityEventNotificationHandlerTest {
     }
 
     @Test
-    fun `should accept type with exactly 50 characters`() {
-        val maxType = "A".repeat(50)
+    fun `should reject invalid security event type`() {
         val call = makeCall("SecurityEventNotification", mapOf(
-            "type" to maxType,
+            "type" to "InvalidEventType",
             "timestamp" to "2024-01-01T00:00:00Z"
         ))
 
-        val response = handler.handle(call, mockServer())
-
-        assertTrue(response.startsWith("[3,"))
+        assertThrows(FormationViolationException::class.java) {
+            handler.handle(call, mockServer())
+        }
     }
 
     @Test
