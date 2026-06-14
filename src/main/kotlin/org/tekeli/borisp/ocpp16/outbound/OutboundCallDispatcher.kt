@@ -37,11 +37,10 @@ class OutboundCallDispatcher(
         val future = responseAwaiter.pending(messageId)
 
         sender.sendText(call.toJson())
+            .onFailure()
+            .invoke { error -> future.completeExceptionally(error) }
             .subscribe()
-            .with(
-                { },
-                { error -> future.completeExceptionally(error) }
-            )
+            .asCompletionStage()
 
         return future
     }

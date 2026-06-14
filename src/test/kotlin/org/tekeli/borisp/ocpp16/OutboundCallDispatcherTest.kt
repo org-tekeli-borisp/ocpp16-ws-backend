@@ -238,6 +238,47 @@ class OutboundCallDispatcherTest {
         return msg.messageId
     }
 
+    @Test
+    fun `should complete exceptionally when sender fails`() {
+        val latch = CountDownLatch(1)
+        val awaiter = ResponseAwaiter()
+        val failingSender = object : TextSender {
+            override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> =
+                io.smallrye.mutiny.Uni.createFrom().failure(RuntimeException("send failed"))
+        }
+        val dispatcher = OutboundCallDispatcher(failingSender, awaiter)
+
+        val future = dispatcher.sendCall("Reset", mapOf("type" to "Hard"))
+        future.whenComplete { _, _ -> latch.countDown() }
+
+        assertTrue(latch.await(1, TimeUnit.SECONDS))
+        assertTrue(future.isDone)
+        val ex = assertThrows(java.util.concurrent.ExecutionException::class.java) { future.get() }
+        assertEquals("send failed", ex.cause?.message)
+    }
+
+    @Test
+    fun `should invoke error handler when sender throws`() {
+        val latch = CountDownLatch(1)
+        val awaiter = ResponseAwaiter()
+        val expectedError = RuntimeException("connection lost")
+        val failingSender = object : TextSender {
+            override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> =
+                io.smallrye.mutiny.Uni.createFrom().failure(expectedError)
+        }
+        val dispatcher = OutboundCallDispatcher(failingSender, awaiter)
+
+        val future = dispatcher.sendCall("Reset", mapOf("type" to "Hard"))
+        future.whenComplete { _, error ->
+            assertNotNull(error)
+            assertEquals("connection lost", error?.message)
+            latch.countDown()
+        }
+
+        assertTrue(latch.await(1, TimeUnit.SECONDS))
+        assertThrows(java.util.concurrent.ExecutionException::class.java) { future.get() }
+    }
+
     private class TestWebSocketConnection(
         private val sentMessages: MutableList<String>
     ) : TextSender {
