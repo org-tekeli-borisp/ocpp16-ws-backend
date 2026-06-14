@@ -4,8 +4,11 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
+import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.persistence.SignedFirmware
 import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import java.time.Instant
 import java.util.concurrent.CompletableFuture
 
 class SignedUpdateFirmwareCommandMutationTest {
@@ -445,6 +448,199 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNull(gateway.lastRetries)
         assertNull(gateway.lastRetryInterval)
+    }
+
+    // ===== MUTATION KILLING TESTS =====
+
+    // Kill Line 48 SURVIVED: execute RemoveConditionalMutator_EQUAL_IF on retries
+    // When retries is a non-Number, original returns null (safe cast fails), mutant crashes
+    @Test
+    fun `execute - retries as String still executes and returns accepted`() {
+        gateway.lastResponse = makeCallResult()
+        val firmware = makeValidFirmware()
+        val response = cmd.execute("CP-001", mapOf(
+            "requestId" to 123,
+            "firmware" to firmware,
+            "retries" to "notANumber"
+        ))
+
+        assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+    }
+
+    // Kill Line 49 SURVIVED: execute RemoveConditionalMutator_EQUAL_IF on retryInterval
+    // When retryInterval is a non-Number, original returns null, mutant crashes
+    @Test
+    fun `execute - retryInterval as String still executes and returns accepted`() {
+        gateway.lastResponse = makeCallResult()
+        val firmware = makeValidFirmware()
+        val response = cmd.execute("CP-001", mapOf(
+            "requestId" to 123,
+            "firmware" to firmware,
+            "retryInterval" to "badValue"
+        ))
+
+        assertEquals(202, response.status)
+        val entity = response.entity as Map<String, Any>
+        assertEquals("sent", entity["status"])
+    }
+
+    // Kill Line 57 SURVIVED mutants (NegateConditionals, NonVoidMethodCall, RemoveConditional)
+    // and Line 58 SURVIVED (RemoveConditionalMutator_EQUAL_ELSE on persistenceService?.)
+    // by using installDateTime with a spy PersistenceService to capture the parsed value
+    @Test
+    fun `execute - with installDateTime and persistenceService captures correct parsed instant`() {
+        val expectedInstant = Instant.parse("2024-06-15T10:30:00Z")
+        val capturedInstallDateTime = mutableListOf<Instant?>()
+        val spyPersistenceService = object : PersistenceService() {
+            override fun createSignedFirmware(
+                chargePointId: String, requestId: Int, location: String,
+                retrieveDateTime: Instant, installDateTime: Instant?,
+                signingCertificate: String, signature: String
+            ): SignedFirmware {
+                capturedInstallDateTime.add(installDateTime)
+                return SignedFirmware(
+                    chargePointId = chargePointId,
+                    requestId = requestId,
+                    location = location,
+                    retrieveDateTime = retrieveDateTime,
+                    installDateTime = installDateTime,
+                    signingCertificate = signingCertificate,
+                    signature = signature,
+                    status = "Accepted"
+                )
+            }
+        }
+
+        val gw = object : ChargePointGateway {
+            override fun sendSignedUpdateFirmware(
+                chargePointId: String, requestId: Int,
+                firmware: Map<String, Any>, retries: Int?, retryInterval: Int?
+            ): CompletableFuture<OcppMessage> =
+                CompletableFuture.completedFuture(OcppMessage.CallResult("id", mapOf()))
+            override fun sendExtendedTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendInstallCertificate(chargePointId: String, certificateType: String, certificate: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetInstalledCertificateIds(chargePointId: String, certificateType: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendDeleteCertificate(chargePointId: String, certificateHashData: Map<String, Any>): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetLog(chargePointId: String, logType: String, requestId: Int, log: Map<String, Any>, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendCertificateSigned(chargePointId: String, certificateChain: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendReset(chargePointId: String, type: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendRemoteStartTransaction(chargePointId: String, idTag: String, connectorId: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendRemoteStopTransaction(chargePointId: String, transactionId: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendUnlockConnector(chargePointId: String, connectorId: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendCancelReservation(chargePointId: String, reservationId: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendChangeAvailability(chargePointId: String, connectorId: Int, type: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendChangeConfiguration(chargePointId: String, key: String, value: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendClearCache(chargePointId: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendClearChargingProfile(chargePointId: String, connectorId: Int?, stackLevel: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetCompositeSchedule(chargePointId: String, connectorId: Int, duration: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetConfiguration(chargePointId: String, keys: List<String>?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetLocalListVersion(chargePointId: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendReserveNow(chargePointId: String, connectorId: Int, expiryDate: String, idTag: String, reservationId: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendSendLocalList(chargePointId: String, listVersion: Int, updateType: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendSetChargingProfile(chargePointId: String, connectorId: Int, csChargingProfiles: Map<String, Any>): CompletableFuture<OcppMessage> = TODO()
+            override fun sendTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendUpdateFirmware(chargePointId: String, location: String, retrieveDate: String, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> = TODO()
+        }
+
+        val cmdWithPersistence = SignedUpdateFirmwareCommand(gw, spyPersistenceService)
+        val firmware = makeValidFirmware() + ("installDateTime" to "2024-06-15T10:30:00Z")
+        val response = cmdWithPersistence.execute("CP-001", mapOf("requestId" to 456, "firmware" to firmware))
+
+        assertEquals(202, response.status)
+        assertEquals(1, capturedInstallDateTime.size)
+        assertEquals(expectedInstant, capturedInstallDateTime[0])
+    }
+
+    // Additional test: installDateTime missing should result in null installDateTime in persistence
+    // This helps kill RemoveConditionalMutator_EQUAL_IF on line 57 when persistenceService is present
+    @Test
+    fun `execute - without installDateTime and persistenceService captures null installDateTime`() {
+        val capturedInstallDateTime = mutableListOf<Instant?>()
+        val spyPersistenceService = object : PersistenceService() {
+            override fun createSignedFirmware(
+                chargePointId: String, requestId: Int, location: String,
+                retrieveDateTime: Instant, installDateTime: Instant?,
+                signingCertificate: String, signature: String
+            ): SignedFirmware {
+                capturedInstallDateTime.add(installDateTime)
+                return SignedFirmware(
+                    chargePointId = chargePointId,
+                    requestId = requestId,
+                    location = location,
+                    retrieveDateTime = retrieveDateTime,
+                    installDateTime = installDateTime,
+                    signingCertificate = signingCertificate,
+                    signature = signature,
+                    status = "Accepted"
+                )
+            }
+        }
+
+        val gw = object : ChargePointGateway {
+            override fun sendSignedUpdateFirmware(
+                chargePointId: String, requestId: Int,
+                firmware: Map<String, Any>, retries: Int?, retryInterval: Int?
+            ): CompletableFuture<OcppMessage> =
+                CompletableFuture.completedFuture(OcppMessage.CallResult("id", mapOf()))
+            override fun sendExtendedTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendInstallCertificate(chargePointId: String, certificateType: String, certificate: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetInstalledCertificateIds(chargePointId: String, certificateType: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendDeleteCertificate(chargePointId: String, certificateHashData: Map<String, Any>): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetLog(chargePointId: String, logType: String, requestId: Int, log: Map<String, Any>, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendCertificateSigned(chargePointId: String, certificateChain: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendReset(chargePointId: String, type: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendRemoteStartTransaction(chargePointId: String, idTag: String, connectorId: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendRemoteStopTransaction(chargePointId: String, transactionId: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendUnlockConnector(chargePointId: String, connectorId: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendCancelReservation(chargePointId: String, reservationId: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendChangeAvailability(chargePointId: String, connectorId: Int, type: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendChangeConfiguration(chargePointId: String, key: String, value: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendClearCache(chargePointId: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendClearChargingProfile(chargePointId: String, connectorId: Int?, stackLevel: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetCompositeSchedule(chargePointId: String, connectorId: Int, duration: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetConfiguration(chargePointId: String, keys: List<String>?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendGetLocalListVersion(chargePointId: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendReserveNow(chargePointId: String, connectorId: Int, expiryDate: String, idTag: String, reservationId: Int): CompletableFuture<OcppMessage> = TODO()
+            override fun sendSendLocalList(chargePointId: String, listVersion: Int, updateType: String): CompletableFuture<OcppMessage> = TODO()
+            override fun sendSetChargingProfile(chargePointId: String, connectorId: Int, csChargingProfiles: Map<String, Any>): CompletableFuture<OcppMessage> = TODO()
+            override fun sendTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): CompletableFuture<OcppMessage> = TODO()
+            override fun sendUpdateFirmware(chargePointId: String, location: String, retrieveDate: String, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> = TODO()
+        }
+
+        val cmdWithPersistence = SignedUpdateFirmwareCommand(gw, spyPersistenceService)
+        val firmware = makeValidFirmware()
+        val response = cmdWithPersistence.execute("CP-001", mapOf("requestId" to 456, "firmware" to firmware))
+
+        assertEquals(202, response.status)
+        assertEquals(1, capturedInstallDateTime.size)
+        assertNull(capturedInstallDateTime[0])
+    }
+
+    // Kill Line 28 SURVIVED: validateFirmwareFields removed call to Result::constructor-impl
+    // When runCatching succeeds, removing the constructor means the lambda result isn't wrapped.
+    // We test a valid firmware that passes all validation to exercise the success path.
+    @Test
+    fun `validate - all fields valid returns null (no error)`() {
+        val firmware = makeValidFirmware()
+        val response = cmd.validate(mapOf("requestId" to 1, "firmware" to firmware))
+        assertNull(response)
+    }
+
+    // Kill Line 33 SURVIVED: validateFirmwareFields RemoveConditionalMutator_EQUAL_ELSE
+    // on exceptionOrNull()?.let - when no exception, the .let block should not execute.
+    // When mutant replaces conditional with false, the .let block always executes.
+    // With valid firmware, exceptionOrNull() returns null, and the let block should NOT run.
+    // With the mutant, the let block runs on null, causing badRequest(null).
+    @Test
+    fun `validate - valid firmware does not produce error response`() {
+        val firmware = makeValidFirmware()
+        val response = cmd.validate(mapOf("requestId" to 1, "firmware" to firmware))
+        assertNull(response)
+        // If the mutant is active, response would be non-null with null entity
     }
 
     // Test double
