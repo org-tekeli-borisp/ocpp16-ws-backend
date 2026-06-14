@@ -1811,4 +1811,98 @@ class MutationKillTest2 {
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
+    // =====================================================
+    // SecurityEventNotificationHandler - exact error messages
+    // =====================================================
+
+    @Test
+    fun `SecurityEventNotificationHandler rejects whitespace-only type with correct message`() {
+        val handler = SecurityEventNotificationHandler()
+        val call = OcppMessage.Call("id", "SecurityEventNotification", mapOf(
+            "type" to "   ",
+            "timestamp" to "2024-01-01T00:00:00Z"
+        ))
+        val ex = assertThrows(FormationViolationException::class.java) {
+            handler.handle(call, OcppWebSocketServer())
+        }
+        assertEquals("type is required", ex.message)
+    }
+
+    @Test
+    fun `SecurityEventNotificationHandler rejects blank timestamp with correct message`() {
+        val handler = SecurityEventNotificationHandler()
+        val call = OcppMessage.Call("id", "SecurityEventNotification", mapOf(
+            "type" to "FirmwareUpdated",
+            "timestamp" to "   "
+        ))
+        val ex = assertThrows(FormationViolationException::class.java) {
+            handler.handle(call, OcppWebSocketServer())
+        }
+        assertEquals("timestamp is required", ex.message)
+    }
+
+    @Test
+    fun `SecurityEventNotificationHandler handles null techInfo gracefully`() {
+        val handler = SecurityEventNotificationHandler()
+        val call = OcppMessage.Call("id", "SecurityEventNotification", mapOf<String, Any>(
+            "type" to "FirmwareUpdated",
+            "timestamp" to "2024-01-01T00:00:00Z"
+            // techInfo intentionally missing
+        ))
+        val server = OcppWebSocketServer().apply {
+            chargePointId = "CP-SEC"
+        }
+        val response = handler.handle(call, server)
+        assertTrue(response.startsWith("[3,"))
+    }
+
+    // =====================================================
+    // LogStatusNotificationHandler - all valid statuses
+    // =====================================================
+
+    @Test
+    fun `LogStatusNotificationHandler accepts all 7 valid statuses`() {
+        val handler = LogStatusNotificationHandler()
+        for (status in listOf("BadMessage", "Idle", "NotSupportedOperation",
+            "PermissionDenied", "Uploaded", "UploadFailure", "Uploading")) {
+            val call = OcppMessage.Call("id", "LogStatusNotification", mapOf("status" to status))
+            val response = handler.handle(call, OcppWebSocketServer())
+            assertTrue(response.startsWith("[3,"), "Should accept status: $status")
+        }
+    }
+
+    @Test
+    fun `LogStatusNotificationHandler rejects invalid status`() {
+        val handler = LogStatusNotificationHandler()
+        val call = OcppMessage.Call("id", "LogStatusNotification", mapOf("status" to "FakeStatus"))
+        assertThrows(FormationViolationException::class.java) {
+            handler.handle(call, OcppWebSocketServer())
+        }
+    }
+
+    // =====================================================
+    // SignedFirmwareStatusNotificationHandler - all valid statuses
+    // =====================================================
+
+    @Test
+    fun `SignedFirmwareStatusNotificationHandler accepts all 14 valid statuses`() {
+        val handler = SignedFirmwareStatusNotificationHandler()
+        for (status in listOf("Downloaded", "DownloadFailed", "Downloading", "DownloadScheduled",
+            "DownloadPaused", "Idle", "InstallationFailed", "Installing",
+            "Installed", "InstallRebooting", "InstallScheduled",
+            "InstallVerificationFailed", "InvalidSignature", "SignatureVerified")) {
+            val call = OcppMessage.Call("id", "SignedFirmwareStatusNotification", mapOf("status" to status))
+            val response = handler.handle(call, OcppWebSocketServer())
+            assertTrue(response.startsWith("[3,"), "Should accept status: $status")
+        }
+    }
+
+    @Test
+    fun `SignedFirmwareStatusNotificationHandler rejects invalid status`() {
+        val handler = SignedFirmwareStatusNotificationHandler()
+        val call = OcppMessage.Call("id", "SignedFirmwareStatusNotification", mapOf("status" to "FakeStatus"))
+        assertThrows(FormationViolationException::class.java) {
+            handler.handle(call, OcppWebSocketServer())
+        }
+    }
 }
