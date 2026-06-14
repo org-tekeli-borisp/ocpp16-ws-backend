@@ -42,31 +42,31 @@ class SecurityEventNotificationHandler(
          ).toJson()
      }
 
-     private fun processSecurityEvent(
-         server: OcppWebSocketServer,
-         chargePointId: String,
-         type: String,
-         timestamp: Instant,
-         techInfo: String?
-     ) {
-         persistenceService?.createSecurityLog(chargePointId, type, timestamp, techInfo)
-         server.metricsService?.securityEventsReceived?.increment()
-     }
+  internal fun processSecurityEvent(
+        server: OcppWebSocketServer,
+        chargePointId: String,
+        type: String,
+        timestamp: Instant,
+        techInfo: String?
+    ) {
+        persistenceService?.createSecurityLog(chargePointId, type, timestamp, techInfo)
+        server.metricsService?.securityEventsReceived?.increment()
+    }
 
-     private data class ParsedSecurityEvent(
-         val type: String,
-         val timestamp: Instant,
-         val techInfo: String?
-     )
+    internal data class ParsedSecurityEvent(
+        val type: String,
+        val timestamp: Instant,
+        val techInfo: String?
+    )
 
-     private fun validatePayload(payload: Map<String, Any>): ParsedSecurityEvent {
-         val type = extractType(payload)
-         val timestamp = extractTimestamp(payload)
-         val techInfo = extractTechInfo(payload)
-         return ParsedSecurityEvent(type, timestamp, techInfo)
-     }
+    internal fun validatePayload(payload: Map<String, Any>): ParsedSecurityEvent {
+        val type = extractType(payload)
+        val timestamp = extractTimestamp(payload)
+        val techInfo = extractTechInfo(payload)
+        return ParsedSecurityEvent(type, timestamp, techInfo)
+    }
 
-   private fun extractType(payload: Map<String, Any>): String {
+    internal fun extractType(payload: Map<String, Any>): String {
         val type = payload["type"]
         if (type == null || type.toString().isBlank()) {
             throw FormationViolationException("type is required")
@@ -81,7 +81,7 @@ class SecurityEventNotificationHandler(
         return typeStr
     }
 
-     private fun extractTimestamp(payload: Map<String, Any>): Instant {
+     internal fun extractTimestamp(payload: Map<String, Any>): Instant {
          val timestamp = payload["timestamp"]
          if (timestamp == null || timestamp.toString().isBlank()) {
              throw FormationViolationException("timestamp is required")
@@ -89,7 +89,7 @@ class SecurityEventNotificationHandler(
          return Instant.parse(timestamp.toString())
      }
 
-     private fun extractTechInfo(payload: Map<String, Any>): String? {
+     internal fun extractTechInfo(payload: Map<String, Any>): String? {
          val techInfo = payload["techInfo"]?.toString() ?: return null
          if (techInfo.length > 255) {
              throw FormationViolationException("techInfo must not exceed 255 characters")
