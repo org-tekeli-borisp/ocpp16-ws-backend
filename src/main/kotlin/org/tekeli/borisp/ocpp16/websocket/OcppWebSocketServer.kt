@@ -31,16 +31,16 @@ import java.util.*
 
 @WebSocket(path = "/ocpp/{chargePointId}")
 @ApplicationScoped
-class OcppWebSocketServer : ChargePointConnection {
+open class OcppWebSocketServer : ChargePointConnection {
 
     @Inject
     var connection: WebSocketConnection? = null
 
     @Inject
-    var chargePointRegistry: ChargePointRegistry? = null
+    open var chargePointRegistry: ChargePointRegistry? = null
 
     @Inject
-    var persistenceService: PersistenceService? = null
+    open var persistenceService: PersistenceService? = null
 
     @Inject
     var metricsService: MetricsService? = null

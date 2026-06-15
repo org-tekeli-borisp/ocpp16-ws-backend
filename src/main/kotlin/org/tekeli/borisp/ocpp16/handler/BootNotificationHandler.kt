@@ -25,7 +25,7 @@ class BootNotificationHandler : OcppActionHandler {
          ).toJson()
      }
 
-     private fun processBootNotification(
+     internal fun processBootNotification(
          server: OcppWebSocketServer,
          chargePointId: String,
          vendor: String,
