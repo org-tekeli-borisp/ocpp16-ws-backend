@@ -25,11 +25,9 @@ class SignedFirmwareStatusNotificationHandler : OcppActionHandler {
             throw FormationViolationException("Invalid status: ${status}")
         }
 
-        val requestId = payload["requestId"] as Int?
-
         return OcppMessage.CallResult(
             messageId = call.messageId,
-            payload = emptyMap<String, Any>()
+            payload = null as Map<String, Any>?
         ).toJson()
     }
 }

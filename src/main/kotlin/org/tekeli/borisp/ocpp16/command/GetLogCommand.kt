@@ -24,8 +24,9 @@ class GetLogCommand @Inject constructor(
         }
     }
 
-    private fun validateTopLevel(payload: Map<String, Any>): String? {
-        val logType = payload["logType"] as? String
+    internal fun validateTopLevel(payload: Map<String, Any>): String? {
+        val raw = payload["logType"]
+        val logType = raw?.toString()
         if (logType == null || logType !in validLogTypes)
             return "logType must be one of: DiagnosticsLog, SecurityLog"
         if (payload["requestId"] !is Number)
@@ -33,7 +34,7 @@ class GetLogCommand @Inject constructor(
         return if (payload["log"] is Map<*, *>) null else "log is required"
     }
 
-    private fun validateNestedLog(payload: Map<String, Any>): String? {
+    internal fun validateNestedLog(payload: Map<String, Any>): String? {
         val remoteLocation = (payload["log"] as Map<*, *>).get("remoteLocation") as? String
             ?: return "log.remoteLocation is required"
         return if (remoteLocation.isEmpty() || remoteLocation.length > 512)

@@ -508,6 +508,92 @@ class GetLogCommandMutationTest {
         assertEquals(0, gateway.capturedRetries)
     }
 
+    // == MUTATION KILL TESTS for surviving mutants ==
+
+    // Kill L37 validateNestedLog EQUAL_IF: remoteLocation as? String replaced with true
+    // When remoteLocation is not a String (e.g., an Int), the original safely returns error.
+    // The mutant skips the null-safe cast, causing ClassCastException downstream.
+    @Test
+    fun `validateNestedLog rejects remoteLocation as non-String type - kills as? String EQUAL_IF`() {
+        val cmd = GetLogCommand(gateway)
+        val error = cmd.validateNestedLog(mapOf(
+            "log" to mapOf("remoteLocation" to 42)
+        ))
+        assertNotNull(error)
+        assertEquals("log.remoteLocation is required", error)
+    }
+
+    // Kill L28 validateTopLevel EQUAL_IF: logType as? String replaced with true
+    // When logType is missing (null), original returns error.
+    // Mutant: logType becomes null, then `null !in validLogTypes` = true, returns error.
+    // To distinguish: when logType is a non-String type (like Integer), original casts to null,
+    // mutant passes it through and crashes on `!in` comparison or returns wrong error.
+    @Test
+    fun `validateTopLevel rejects logType as non-String type - kills as? String EQUAL_IF`() {
+        val cmd = GetLogCommand(gateway)
+        val error = cmd.validateTopLevel(mapOf(
+            "logType" to 123,
+            "requestId" to 1,
+            "log" to mapOf("remoteLocation" to "https://example.com")
+        ))
+        assertNotNull(error)
+        assertEquals("logType must be one of: DiagnosticsLog, SecurityLog", error)
+    }
+
+    // Kill L29 validateTopLevel EQUAL_IF: logType !in validLogTypes replaced with true
+    // When logType is valid but requestId is missing, original returns requestId error.
+    // Mutant returns logType error (because condition always true).
+    @Test
+    fun `validateTopLevel with valid logType but missing requestId returns requestId error - kills !in EQUAL_IF`() {
+        val cmd = GetLogCommand(gateway)
+        val error = cmd.validateTopLevel(mapOf(
+            "logType" to "DiagnosticsLog",
+            "log" to mapOf("remoteLocation" to "https://example.com")
+        ))
+        // Original: logType is valid, so skips to requestId check -> returns requestId error
+        // Mutant: !in replaced with true -> returns logType error
+        assertNotNull(error)
+        assertTrue(
+            error!!.contains("requestId"),
+            "Should return requestId error, not logType error. Got: $error"
+        )
+    }
+
+    // Kill L47 execute EQUAL_IF: retries as? Number replaced with true
+    // When retries is present as a String, original safely gets null.
+    // Mutant: the safe cast becomes unconditional, tries to cast String to Number -> fails
+    // We test by passing retries as String value - original ignores it (null), mutant crashes
+    @Test
+    fun `execute handles retries as non-Number gracefully - kills retries EQUAL_IF`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = GetLogCommand(gateway)
+        // retries as String should be ignored (treated as null)
+        val response = cmd.execute("CP-001", mapOf(
+            "logType" to "SecurityLog",
+            "requestId" to 1,
+            "log" to mapOf("remoteLocation" to "https://example.com"),
+            "retries" to "not-a-number"
+        ))
+        assertEquals(202, response.status)
+        assertNull(gateway.capturedRetries)
+    }
+
+    // Kill L48 execute EQUAL_IF: retryInterval as? Number replaced with true
+    // Same pattern: retryInterval as String should be ignored
+    @Test
+    fun `execute handles retryInterval as non-Number gracefully - kills retryInterval EQUAL_IF`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = GetLogCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf(
+            "logType" to "SecurityLog",
+            "requestId" to 1,
+            "log" to mapOf("remoteLocation" to "https://example.com"),
+            "retryInterval" to "not-a-number"
+        ))
+        assertEquals(202, response.status)
+        assertNull(gateway.capturedRetryInterval)
+    }
+
     // Test double that captures all parameters sent to sendGetLog
     private class TestGetLogGateway : ChargePointGateway {
         var lastResponse: OcppMessage? = OcppMessage.CallResult("id", mapOf())

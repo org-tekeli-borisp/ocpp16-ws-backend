@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.handler.LogStatusNotificationHandler
@@ -100,6 +101,69 @@ class LogStatusNotificationHandlerTest {
         val response = handler.handle(call, mockServer())
 
         assertTrue(response.contains("test-id"))
+    }
+
+    // == MUTATION KILL TESTS ==
+
+    @Test
+    fun `should throw FormationViolation for whitespace-only status - kills isBlank mutant`() {
+        // When isBlank() call is removed, whitespace passes the blank check
+        val call = makeCall("LogStatusNotification", mapOf("status" to "\t "))
+
+        val ex = assertThrows(FormationViolationException::class.java) {
+            handler.handle(call, mockServer())
+        }
+        assertEquals("status is required", ex.message)
+    }
+
+    @Test
+    fun `response payload is an empty object - kills emptyMap and requestId mutants`() {
+        // When emptyMap() call is removed, payload serializes as null instead of {}
+        val call = makeCall("LogStatusNotification", mapOf(
+            "status" to "Uploaded",
+            "requestId" to 99
+        ))
+
+        val response = handler.handle(call, mockServer())
+
+        val mapper = ObjectMapper()
+        val jsonNodes = mapper.readValue(response, Array<Any>::class.java)
+        assertEquals(3, jsonNodes[0], "Message type should be 3 (CallResult)")
+        assertEquals("test-id", jsonNodes[1], "MessageId should be preserved")
+        val payload = jsonNodes[2] as Map<String, *>
+        assertTrue(payload.isEmpty(), "Response payload should be an empty map, got: $payload")
+    }
+
+    @Test
+    fun `response messageId matches call messageId exactly - kills messageId mutants`() {
+        val uniqueId = "unique-log-status-msg-id"
+        val call = OcppMessage.Call(uniqueId, "LogStatusNotification", mapOf("status" to "Uploading"))
+
+        val response = handler.handle(call, mockServer())
+
+        val mapper = ObjectMapper()
+        val jsonNodes = mapper.readValue(response, Array<Any>::class.java)
+        assertEquals(uniqueId, jsonNodes[1], "Response messageId must match call messageId exactly")
+    }
+
+    @Test
+    fun `throw FormationViolation with exact message for null payload - kills EQUAL_ELSE on payload null`() {
+        val call = makeCall("LogStatusNotification", null)
+
+        val ex = assertThrows(FormationViolationException::class.java) {
+            handler.handle(call, mockServer())
+        }
+        assertEquals("Payload is null", ex.message)
+    }
+
+    @Test
+    fun `throw FormationViolation with exact message for blank status - kills EQUAL_ELSE on blank`() {
+        val call = makeCall("LogStatusNotification", mapOf("status" to ""))
+
+        val ex = assertThrows(FormationViolationException::class.java) {
+            handler.handle(call, mockServer())
+        }
+        assertEquals("status is required", ex.message)
     }
 
     private fun mockServer(): org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer =

@@ -299,8 +299,8 @@
                          <param>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest</param>
                          <param>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest</param>
                          <param>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.SignedFirmwareStatusNotificationHandlerTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.LogStatusNotificationHandlerTest</param>
+                         <param>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest</param>
+                          <param>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest</param>
                          <param>org.tekeli.borisp.ocpp16.handler.SignCertificateHandlerTest</param>
                          <param>org.tekeli.borisp.ocpp16.handler.CertificateSignedHandlerTest</param>
                          <param>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest</param>
