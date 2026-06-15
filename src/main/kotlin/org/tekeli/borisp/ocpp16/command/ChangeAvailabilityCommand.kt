@@ -14,15 +14,15 @@ class ChangeAvailabilityCommand @Inject constructor(
     private val validTypes = setOf("Inoperative", "Operative")
 
     override fun validate(payload: Map<String, Any>): Response? {
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()
-        val type = payload["type"] as String?
+        val connectorIdRaw = payload["connectorId"]
+        val type = payload["type"]
 
-        if (connectorId == null) {
+        if (!PayloadValidators.isNumber(connectorIdRaw)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "connectorId is required"))
                 .build()
         }
-        if (type == null || type !in validTypes) {
+        if (!PayloadValidators.isValidOneOf(type, validTypes)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "type must be 'Inoperative' or 'Operative'"))
                 .build()
@@ -31,7 +31,7 @@ class ChangeAvailabilityCommand @Inject constructor(
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()!!
+        val connectorId = (payload["connectorId"] as Number).toInt()
         val type = payload["type"] as String
 
         val result = gateway.sendChangeAvailability(chargePointId, connectorId, type)

@@ -35,7 +35,7 @@ class ExtendedTriggerMessageCommand @Inject constructor(
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
         val requestedMessage = payload["requestedMessage"] as String
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()
+        val connectorId = if (payload["connectorId"] is Number) (payload["connectorId"] as Number).toInt() else null
 
         val result = gateway.sendExtendedTriggerMessage(chargePointId, requestedMessage, connectorId)
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)

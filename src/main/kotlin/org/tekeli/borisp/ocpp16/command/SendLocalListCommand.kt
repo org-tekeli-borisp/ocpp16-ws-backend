@@ -14,15 +14,15 @@ class SendLocalListCommand @Inject constructor(
     private val validUpdateTypes = setOf("Differential", "Full")
 
     override fun validate(payload: Map<String, Any>): Response? {
-        val listVersion = (payload["listVersion"] as? Number)?.toInt()
-        val updateType = payload["updateType"] as String?
+        val listVersionRaw = payload["listVersion"]
+        val updateType = payload["updateType"]
 
-        if (listVersion == null) {
+        if (!PayloadValidators.isNumber(listVersionRaw)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "listVersion is required"))
                 .build()
         }
-        if (updateType == null || updateType !in validUpdateTypes) {
+        if (!PayloadValidators.isValidOneOf(updateType, validUpdateTypes)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "updateType must be 'Differential' or 'Full'"))
                 .build()
@@ -31,7 +31,7 @@ class SendLocalListCommand @Inject constructor(
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val listVersion = (payload["listVersion"] as? Number)?.toInt()!!
+        val listVersion = (payload["listVersion"] as Number).toInt()
         val updateType = payload["updateType"] as String
 
         val result = gateway.sendSendLocalList(chargePointId, listVersion, updateType)

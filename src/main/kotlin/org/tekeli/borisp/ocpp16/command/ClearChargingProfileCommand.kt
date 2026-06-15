@@ -17,8 +17,8 @@ class ClearChargingProfileCommand @Inject constructor(
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()
-        val stackLevel = (payload["stackLevel"] as? Number)?.toInt()
+        val connectorId = if (payload["connectorId"] is Number) (payload["connectorId"] as Number).toInt() else null
+        val stackLevel = if (payload["stackLevel"] is Number) (payload["stackLevel"] as Number).toInt() else null
 
         val result = gateway.sendClearChargingProfile(chargePointId, connectorId, stackLevel)
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)

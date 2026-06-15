@@ -23,9 +23,9 @@ class TriggerMessageCommand @Inject constructor(
     )
 
     override fun validate(payload: Map<String, Any>): Response? {
-        val requestedMessage = payload["requestedMessage"] as String?
+        val requestedMessage = payload["requestedMessage"]
 
-        if (requestedMessage == null || requestedMessage !in validMessages) {
+        if (!PayloadValidators.isValidOneOf(requestedMessage, validMessages)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "requestedMessage must be one of: BootNotification, DiagnosticsStatusNotification, FirmwareStatusNotification, Heartbeat, MeterValues, StatusNotification"))
                 .build()
@@ -35,7 +35,7 @@ class TriggerMessageCommand @Inject constructor(
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
         val requestedMessage = payload["requestedMessage"] as String
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()
+        val connectorId = if (payload["connectorId"] is Number) (payload["connectorId"] as Number).toInt() else null
 
         val result = gateway.sendTriggerMessage(chargePointId, requestedMessage, connectorId)
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)

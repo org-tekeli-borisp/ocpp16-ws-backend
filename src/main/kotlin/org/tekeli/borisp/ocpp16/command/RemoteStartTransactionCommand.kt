@@ -13,15 +13,15 @@ class RemoteStartTransactionCommand @Inject constructor(
     override val name = "remote-start-transaction"
 
     override fun validate(payload: Map<String, Any>): Response? {
-        val idTag = payload["idTag"] as String?
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()
+        val idTag = payload["idTag"]
+        val connectorIdRaw = payload["connectorId"]
 
-        if (idTag.isNullOrEmpty()) {
+        if (!PayloadValidators.isNonEmptyString(idTag)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "idTag is required"))
                 .build()
         }
-        if (connectorId == null) {
+        if (!PayloadValidators.isNumber(connectorIdRaw)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "connectorId is required"))
                 .build()
@@ -31,7 +31,7 @@ class RemoteStartTransactionCommand @Inject constructor(
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
         val idTag = payload["idTag"] as String
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()
+        val connectorId = (payload["connectorId"] as Number).toInt()
 
         val result = gateway.sendRemoteStartTransaction(chargePointId, idTag, connectorId)
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)

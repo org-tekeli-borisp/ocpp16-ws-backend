@@ -17,7 +17,7 @@ class GetConfigurationCommand @Inject constructor(
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val keys = payload["key"] as? List<String>
+        val keys = if (payload["key"] is List<*>) payload["key"] as List<String> else null
 
         val result = gateway.sendGetConfiguration(chargePointId, keys)
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)

@@ -120,6 +120,78 @@ class OcppCommandTest {
         assertEquals(1, service.lastConnectorId)
     }
 
+    @Test
+    fun `RemoteStartTransactionCommand rejects string connectorId`() {
+        val cmd = RemoteStartTransactionCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "idTag" to "CARD123",
+            "connectorId" to "not-a-number"
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("connectorId"))
+    }
+
+    @Test
+    fun `RemoteStartTransactionCommand accepts Long connectorId`() {
+        val cmd = RemoteStartTransactionCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "idTag" to "CARD123",
+            "connectorId" to 2L
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `RemoteStartTransactionCommand accepts Double connectorId`() {
+        val cmd = RemoteStartTransactionCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "idTag" to "CARD123",
+            "connectorId" to 3.0
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `RemoteStartTransactionCommand execute with Long connectorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = RemoteStartTransactionCommand(service)
+        val payload = mapOf<String, Any>(
+            "idTag" to "CARD123",
+            "connectorId" to 4L
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(4, service.lastConnectorId)
+    }
+
+    @Test
+    fun `RemoteStartTransactionCommand execute with Double connectorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = RemoteStartTransactionCommand(service)
+        val payload = mapOf<String, Any>(
+            "idTag" to "CARD123",
+            "connectorId" to 5.0
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(5, service.lastConnectorId)
+    }
+
     // ---- RemoteStopTransactionCommand ----
 
     @Test
@@ -174,6 +246,53 @@ class OcppCommandTest {
         cmd.execute("CP-001", payload)
 
         assertEquals(99, service.lastTransactionId)
+    }
+
+    @Test
+    fun `RemoteStopTransactionCommand rejects string transactionId`() {
+        val cmd = RemoteStopTransactionCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("transactionId" to "not-a-number")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("transactionId"))
+    }
+
+    @Test
+    fun `RemoteStopTransactionCommand accepts Long transactionId`() {
+        val cmd = RemoteStopTransactionCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("transactionId" to 42L)
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `RemoteStopTransactionCommand execute with Long transactionId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = RemoteStopTransactionCommand(service)
+        val payload = mapOf<String, Any>("transactionId" to 55L)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(55, service.lastTransactionId)
+    }
+
+    @Test
+    fun `RemoteStopTransactionCommand execute with Double transactionId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = RemoteStopTransactionCommand(service)
+        val payload = mapOf<String, Any>("transactionId" to 66.0)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(66, service.lastTransactionId)
     }
 
     // ---- ResetCommand ----
@@ -255,6 +374,17 @@ class OcppCommandTest {
         assertEquals("Soft", service.lastResetType)
     }
 
+    @Test
+    fun `ResetCommand rejects empty string type`() {
+        val cmd = ResetCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("type" to "")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
     // ---- UnlockConnectorCommand ----
 
     @Test
@@ -309,6 +439,53 @@ class OcppCommandTest {
         cmd.execute("CP-001", payload)
 
         assertEquals(5, service.lastConnectorId)
+    }
+
+    @Test
+    fun `UnlockConnectorCommand rejects string connectorId`() {
+        val cmd = UnlockConnectorCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to "not-a-number")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("connectorId"))
+    }
+
+    @Test
+    fun `UnlockConnectorCommand accepts Long connectorId`() {
+        val cmd = UnlockConnectorCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 6L)
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `UnlockConnectorCommand execute with Long connectorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = UnlockConnectorCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 7L)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(7, service.lastConnectorId)
+    }
+
+    @Test
+    fun `UnlockConnectorCommand execute with Double connectorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = UnlockConnectorCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 8.0)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(8, service.lastConnectorId)
     }
 
     // ---- CancelReservationCommand ----
@@ -379,6 +556,53 @@ class OcppCommandTest {
         cmd.execute("CP-001", payload)
 
         assertEquals(99, service.lastReservationId)
+    }
+
+    @Test
+    fun `CancelReservationCommand rejects string reservationId`() {
+        val cmd = CancelReservationCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("reservationId" to "not-a-number")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("reservationId"))
+    }
+
+    @Test
+    fun `CancelReservationCommand accepts Long reservationId`() {
+        val cmd = CancelReservationCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("reservationId" to 100L)
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `CancelReservationCommand execute with Long reservationId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = CancelReservationCommand(service)
+        val payload = mapOf<String, Any>("reservationId" to 111L)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(111, service.lastReservationId)
+    }
+
+    @Test
+    fun `CancelReservationCommand execute with Double reservationId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = CancelReservationCommand(service)
+        val payload = mapOf<String, Any>("reservationId" to 122.0)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(122, service.lastReservationId)
     }
 
     // ---- ChangeAvailabilityCommand ----
@@ -487,6 +711,53 @@ class OcppCommandTest {
 
         assertEquals(3, service.lastChangeAvailabilityConnectorId)
         assertEquals("Operative", service.lastChangeAvailabilityType)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand rejects string connectorId`() {
+        val cmd = ChangeAvailabilityCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to "not-a-number", "type" to "Operative")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("connectorId"))
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand accepts Long connectorId`() {
+        val cmd = ChangeAvailabilityCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("connectorId" to 10L, "type" to "Operative")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand execute with Long connectorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ChangeAvailabilityCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 11L, "type" to "Inoperative")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(11, service.lastChangeAvailabilityConnectorId)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand execute with Double connectorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ChangeAvailabilityCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 12.0, "type" to "Inoperative")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(12, service.lastChangeAvailabilityConnectorId)
     }
 
     // ---- ChangeConfigurationCommand ----
@@ -683,6 +954,32 @@ class OcppCommandTest {
 
         assertEquals(2, service.lastClearChargingProfileConnectorId)
         assertEquals(3, service.lastClearChargingProfileStackLevel)
+    }
+
+    @Test
+    fun `ClearChargingProfileCommand execute with Long connectorId and stackLevel`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ClearChargingProfileCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 10L, "stackLevel" to 20L)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(10, service.lastClearChargingProfileConnectorId)
+        assertEquals(20, service.lastClearChargingProfileStackLevel)
+    }
+
+    @Test
+    fun `ClearChargingProfileCommand execute with Double connectorId and stackLevel`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ClearChargingProfileCommand(service)
+        val payload = mapOf<String, Any>("connectorId" to 11.0, "stackLevel" to 22.0)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(11, service.lastClearChargingProfileConnectorId)
+        assertEquals(22, service.lastClearChargingProfileStackLevel)
     }
 
     // ---- GetCompositeScheduleCommand ----
@@ -927,6 +1224,27 @@ class OcppCommandTest {
         cmd.execute("CP-001", payload)
 
         assertEquals(listOf("k1", "k2"), service.lastGetConfigurationKeys)
+    }
+
+    @Test
+    fun `GetConfigurationCommand execute passes null for missing key`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetConfigurationCommand(service)
+
+        val result = cmd.execute("CP-001", emptyMap<String, Any>())
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+    }
+
+    @Test
+    fun `GetConfigurationCommand execute with string key field`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetConfigurationCommand(service)
+        val payload = mapOf<String, Any>("key" to "not-a-list")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
     }
 
     // ---- GetDiagnosticsCommand ----
@@ -1390,6 +1708,53 @@ class OcppCommandTest {
         assertEquals("Differential", service.lastSendLocalListUpdateType)
     }
 
+    @Test
+    fun `SendLocalListCommand rejects string listVersion`() {
+        val cmd = SendLocalListCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("listVersion" to "not-a-number", "updateType" to "Full")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("listVersion"))
+    }
+
+    @Test
+    fun `SendLocalListCommand accepts Long listVersion`() {
+        val cmd = SendLocalListCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("listVersion" to 20L, "updateType" to "Full")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `SendLocalListCommand execute with Long listVersion`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = SendLocalListCommand(service)
+        val payload = mapOf<String, Any>("listVersion" to 21L, "updateType" to "Differential")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(21, service.lastSendLocalListVersion)
+    }
+
+    @Test
+    fun `SendLocalListCommand execute with Double listVersion`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = SendLocalListCommand(service)
+        val payload = mapOf<String, Any>("listVersion" to 22.0, "updateType" to "Full")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(22, service.lastSendLocalListVersion)
+    }
+
     // ---- SetChargingProfileCommand ----
 
     @Test
@@ -1486,6 +1851,65 @@ class OcppCommandTest {
 
         assertEquals(2, service.lastSetChargingProfileConnectorId)
         assertEquals(profiles, service.lastSetChargingProfiles)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand rejects string connectorId`() {
+        val cmd = SetChargingProfileCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to "not-a-number",
+            "csChargingProfiles" to mapOf<String, Any>()
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("connectorId"))
+    }
+
+    @Test
+    fun `SetChargingProfileCommand accepts Long connectorId`() {
+        val cmd = SetChargingProfileCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to 3L,
+            "csChargingProfiles" to mapOf<String, Any>()
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand execute with Long connectorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = SetChargingProfileCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 4L,
+            "csChargingProfiles" to mapOf<String, Any>("chargingProfileId" to 1)
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(4, service.lastSetChargingProfileConnectorId)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand execute with Double connectorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = SetChargingProfileCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 5.0,
+            "csChargingProfiles" to mapOf<String, Any>("chargingProfileId" to 1)
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(5, service.lastSetChargingProfileConnectorId)
     }
 
     // ---- TriggerMessageCommand ----
@@ -1600,6 +2024,28 @@ class OcppCommandTest {
 
         assertEquals("BootNotification", service.lastTriggerMessage)
         assertEquals(3, service.lastTriggerMessageConnectorId)
+    }
+
+    @Test
+    fun `TriggerMessageCommand rejects string requestedMessage`() {
+        val cmd = TriggerMessageCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("requestedMessage" to "")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `TriggerMessageCommand execute with Long connectorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = TriggerMessageCommand(service)
+        val payload = mapOf<String, Any>("requestedMessage" to "Heartbeat", "connectorId" to 6L)
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
     }
 
     // ---- UpdateFirmwareCommand ----

@@ -13,9 +13,9 @@ class CancelReservationCommand @Inject constructor(
     override val name = "cancel-reservation"
 
     override fun validate(payload: Map<String, Any>): Response? {
-        val reservationId = (payload["reservationId"] as? Number)?.toInt()
+        val reservationIdRaw = payload["reservationId"]
 
-        if (reservationId == null) {
+        if (reservationIdRaw !is Number) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "reservationId is required"))
                 .build()
@@ -24,7 +24,7 @@ class CancelReservationCommand @Inject constructor(
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val reservationId = (payload["reservationId"] as? Number)?.toInt()!!
+        val reservationId = (payload["reservationId"] as Number).toInt()
 
         val result = gateway.sendCancelReservation(chargePointId, reservationId)
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)

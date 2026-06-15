@@ -13,15 +13,15 @@ class SetChargingProfileCommand @Inject constructor(
     override val name = "set-charging-profile"
 
     override fun validate(payload: Map<String, Any>): Response? {
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()
-        val csChargingProfiles = payload["csChargingProfiles"] as? Map<String, Any>
+        val connectorIdRaw = payload["connectorId"]
+        val csChargingProfiles = payload["csChargingProfiles"]
 
-        if (connectorId == null) {
+        if (!PayloadValidators.isNumber(connectorIdRaw)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "connectorId is required"))
                 .build()
         }
-        if (csChargingProfiles == null) {
+        if (!PayloadValidators.isMap(csChargingProfiles)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "csChargingProfiles is required"))
                 .build()
@@ -30,10 +30,11 @@ class SetChargingProfileCommand @Inject constructor(
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()!!
-        val csChargingProfiles = payload["csChargingProfiles"] as Map<String, Any>
+        val connectorId = (payload["connectorId"] as Number).toInt()
+        @Suppress("UNCHECKED_CAST")
+        val profiles = payload["csChargingProfiles"] as Map<String, Any>
 
-        val result = gateway.sendSetChargingProfile(chargePointId, connectorId, csChargingProfiles)
+        val result = gateway.sendSetChargingProfile(chargePointId, connectorId, profiles)
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
 
         return if (response is OcppMessage.CallResult) {
