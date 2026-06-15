@@ -10,7 +10,7 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 
 @ApplicationScoped
-class MetricsService {
+open class MetricsService {
 
     @Inject
     var injectedMeterRegistry: MeterRegistry? = null
@@ -35,7 +35,7 @@ class MetricsService {
             .register(meterRegistry)
     }
 
-    val energyDeliveredWh: Counter by lazy {
+    open val energyDeliveredWh: Counter? by lazy {
         Counter.builder("ocpp.energy.delivered.wh")
             .description("Total energy delivered in watt-hours")
             .tag("version", "1.6")
@@ -63,7 +63,7 @@ class MetricsService {
             .register(meterRegistry)
     }
 
-    val transactionDuration: Timer by lazy {
+    open val transactionDuration: Timer? by lazy {
         Timer.builder("ocpp.transaction.duration.seconds")
             .description("Duration of charging transactions")
             .tag("version", "1.6")

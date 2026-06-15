@@ -29,7 +29,7 @@ class StopTransactionHandler(
           val ps = server.persistenceService
           val transaction = ps?.findTransaction(parsed.transactionId)
           val energyWh = (parsed.meterStop - (transaction?.meterStart ?: 0)).toDouble()
-          val durationSeconds = transaction?.startTime?.let { parsed.stopTime.epochSecond - it.epochSecond } ?: 0
+          val durationSeconds = transaction?.let { parsed.stopTime.epochSecond - it.startTime.epochSecond } ?: 0
           ps?.stopTransaction(parsed.transactionId, parsed.meterStop, parsed.stopTime, parsed.reason, parsed.idTagEnd)
           recordMetrics(energyWh, durationSeconds)
       }

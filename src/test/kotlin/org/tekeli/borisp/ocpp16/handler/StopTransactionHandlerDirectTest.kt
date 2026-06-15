@@ -1,12 +1,18 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import io.micrometer.core.instrument.Counter
+import io.micrometer.core.instrument.Timer
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
+import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.persistence.Transaction
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
+import java.util.concurrent.TimeUnit
 
 class StopTransactionHandlerDirectTest {
 
@@ -400,5 +406,252 @@ class StopTransactionHandlerDirectTest {
 
         assertTrue(response.contains("Accepted"))
         assertTrue(response.contains("test-msg"))
+    }
+
+    // =====================================================
+    // TrackingPersistenceService for direct processStopTransaction tests
+    // =====================================================
+
+    private class TrackingPersistenceService(
+        private val transactionToReturn: Transaction?
+    ) : PersistenceService() {
+        var findTransactionId: Long? = null
+        var stopTransactionId: Long? = null
+        var stopMeterStop: Int? = null
+        var stopStopTime: Instant? = null
+        var stopReason: String? = null
+        var stopIdTagEnd: String? = null
+
+        override fun findTransaction(id: Long): Transaction? {
+            findTransactionId = id
+            return transactionToReturn
+        }
+
+        override fun stopTransaction(
+            transactionId: Long,
+            meterStop: Int,
+            stopTime: Instant,
+            reason: String?,
+            idTagEnd: String?
+        ): Boolean {
+            stopTransactionId = transactionId
+            stopMeterStop = meterStop
+            stopStopTime = stopTime
+            stopReason = reason
+            stopIdTagEnd = idTagEnd
+            return true
+        }
+    }
+
+    // =====================================================
+    // Kill EQUAL_ELSE mutants: processStopTransaction with null persistenceService
+    // L30: ps?. → if ps is null, removing conditional crashes on findTransaction
+    // L33: ps?. → if ps is null, removing conditional crashes on stopTransaction
+    // =====================================================
+
+    @Test
+    fun `processStopTransaction with null persistenceService does not throw`() {
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply {
+            persistenceService = null
+        }
+        val parsed = handler.validatePayload(mapOf<String, Any>(
+            "transactionId" to 1L,
+            "meterStop" to 5000,
+            "timestamp" to "2024-01-01T00:00:00Z"
+        ))
+
+        assertDoesNotThrow { handler.processStopTransaction(server, parsed) }
+    }
+
+    // =====================================================
+    // Kill EQUAL_ELSE mutants: processStopTransaction with transaction not found
+    // L31: transaction?.meterStart → if null, removing conditional crashes
+    // L32: transaction?.startTime → if null, removing conditional crashes
+    // =====================================================
+
+    @Test
+    fun `processStopTransaction with transaction not found uses defaults`() {
+        val ps = TrackingPersistenceService(null)
+        val meterRegistry = SimpleMeterRegistry()
+        val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
+        val handler = StopTransactionHandler(metricsService)
+        val server = OcppWebSocketServer().apply {
+            persistenceService = ps
+        }
+        val parsed = StopTransactionHandler.ParsedStopTransaction(
+            transactionId = 999L,
+            meterStop = 5000,
+            stopTime = Instant.parse("2024-01-01T01:00:00Z"),
+            reason = "Local",
+            idTagEnd = null
+        )
+
+        handler.processStopTransaction(server, parsed)
+
+        assertEquals(999L, ps.findTransactionId)
+        assertEquals(5000, ps.stopMeterStop)
+        assertEquals("Local", ps.stopReason)
+        val counter = meterRegistry.find("ocpp.energy.delivered.wh").counter()
+        assertNotNull(counter)
+        assertEquals(5000.0, counter!!.count(), 0.01)
+    }
+
+    // =====================================================
+    // Kill MathMutator + NonVoidMethodCallMutator: verify exact calculations
+    // L31: subtraction vs addition - must have non-zero meterStart
+    // L29: removed getPersistenceService call - must verify ps methods were called
+    // =====================================================
+
+    @Test
+    fun `processStopTransaction calculates exact energy with non-zero meterStart`() {
+        val txn = Transaction(
+            id = 42L,
+            chargePointId = "CP-ENERGY",
+            meterStart = 2000,
+            startTime = Instant.parse("2024-01-01T00:00:00Z")
+        )
+        val ps = TrackingPersistenceService(txn)
+        val meterRegistry = SimpleMeterRegistry()
+        val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
+        val handler = StopTransactionHandler(metricsService)
+        val server = OcppWebSocketServer().apply {
+            persistenceService = ps
+        }
+        val parsed = StopTransactionHandler.ParsedStopTransaction(
+            transactionId = 42L,
+            meterStop = 7000,
+            stopTime = Instant.parse("2024-01-01T02:30:00Z"),
+            reason = "EVDisconnected",
+            idTagEnd = "END999"
+        )
+
+        handler.processStopTransaction(server, parsed)
+
+        // 7000 - 2000 = 5000, NOT 7000 + 2000 = 9000
+        val counter = meterRegistry.find("ocpp.energy.delivered.wh").counter()
+        assertNotNull(counter)
+        assertEquals(5000.0, counter!!.count(), 0.01)
+        assertEquals(42L, ps.stopTransactionId)
+        assertEquals(7000, ps.stopMeterStop)
+        assertEquals("EVDisconnected", ps.stopReason)
+        assertEquals("END999", ps.stopIdTagEnd)
+    }
+
+    @Test
+    fun `processStopTransaction calculates exact duration from timestamps`() {
+        val txn = Transaction(
+            id = 10L,
+            chargePointId = "CP-DUR",
+            meterStart = 1000,
+            startTime = Instant.parse("2024-06-15T10:00:00Z")
+        )
+        val ps = TrackingPersistenceService(txn)
+        val meterRegistry = SimpleMeterRegistry()
+        val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
+        val handler = StopTransactionHandler(metricsService)
+        val server = OcppWebSocketServer().apply {
+            persistenceService = ps
+        }
+        val parsed = StopTransactionHandler.ParsedStopTransaction(
+            transactionId = 10L,
+            meterStop = 4000,
+            stopTime = Instant.parse("2024-06-15T14:30:00Z"),
+            reason = "Remote",
+            idTagEnd = null
+        )
+
+        handler.processStopTransaction(server, parsed)
+
+        // 4000 - 1000 = 3000 Wh
+        val counter = meterRegistry.find("ocpp.energy.delivered.wh").counter()
+        assertEquals(3000.0, counter!!.count(), 0.01)
+        // 14:30 - 10:00 = 4h30m = 16200 seconds
+        val timer = meterRegistry.find("ocpp.transaction.duration.seconds").timer()
+        assertNotNull(timer)
+        assertEquals(16200.0, timer!!.totalTime(TimeUnit.SECONDS), 1.0)
+    }
+
+    // =====================================================
+    // Kill EQUAL_IF mutants on L39 L40: metricsService null-safe access
+    // =====================================================
+
+    @Test
+    fun `recordMetrics with null metricsService does not throw`() {
+        val handler = StopTransactionHandler(null)
+        assertDoesNotThrow { handler.recordMetrics(500.0, 120) }
+    }
+
+    @Test
+    fun `recordMetrics energy and duration are recorded with exact values`() {
+        val meterRegistry = SimpleMeterRegistry()
+        val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
+        val handler = StopTransactionHandler(metricsService)
+
+        handler.recordMetrics(1234.56, 7890)
+
+        val counter = meterRegistry.find("ocpp.energy.delivered.wh").counter()
+        assertNotNull(counter)
+        assertEquals(1234.56, counter!!.count(), 0.001)
+        val timer = meterRegistry.find("ocpp.transaction.duration.seconds").timer()
+        assertNotNull(timer)
+        assertEquals(7890.0, timer!!.totalTime(TimeUnit.SECONDS), 1.0)
+    }
+
+    // =====================================================
+    // NullMetricsProperties - overrides lazy props to return null
+    // Kills L39 and L40 EQUAL_IF: if null check on energyDeliveredWh
+    // or transactionDuration is removed, NPE is thrown on .increment()/.record()
+    // =====================================================
+
+    private class NullMetricsProperties : MetricsService() {
+        override val energyDeliveredWh: Counter?
+            get() = null
+        override val transactionDuration: Timer?
+            get() = null
+    }
+
+    @Test
+    fun `recordMetrics with null counter and timer properties does not throw`() {
+        val nullMetrics = NullMetricsProperties()
+        val handler = StopTransactionHandler(nullMetrics)
+        // If null checks on energyDeliveredWh or transactionDuration are removed,
+        // calling .increment() or .record() on null will throw NPE
+        assertDoesNotThrow { handler.recordMetrics(500.0, 120) }
+    }
+
+    // =====================================================
+    // Kill L32 EQUAL_IF: transaction?.startTime - removed conditional
+    // Directly call processStopTransaction with transaction not found
+    // =====================================================
+
+    @Test
+    fun `processStopTransaction with null transaction calculates duration as zero`() {
+        val ps = TrackingPersistenceService(null)
+        val meterRegistry = SimpleMeterRegistry()
+        val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
+        val handler = StopTransactionHandler(metricsService)
+        val server = OcppWebSocketServer().apply {
+            persistenceService = ps
+        }
+        val parsed = StopTransactionHandler.ParsedStopTransaction(
+            transactionId = 404L,
+            meterStop = 9999,
+            stopTime = Instant.parse("2024-06-15T12:00:00Z"),
+            reason = "Other",
+            idTagEnd = "NULLTXN"
+        )
+
+        handler.processStopTransaction(server, parsed)
+
+        assertEquals(404L, ps.findTransactionId)
+        assertEquals(404L, ps.stopTransactionId)
+        assertEquals(9999, ps.stopMeterStop)
+        assertEquals("Other", ps.stopReason)
+        assertEquals("NULLTXN", ps.stopIdTagEnd)
+        // duration should be 0 when transaction is null
+        val timer = meterRegistry.find("ocpp.transaction.duration.seconds").timer()
+        assertNotNull(timer)
+        assertEquals(0.0, timer!!.totalTime(TimeUnit.SECONDS), 1.0)
     }
 }

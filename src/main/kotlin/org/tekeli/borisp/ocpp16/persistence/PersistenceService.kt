@@ -7,7 +7,7 @@ import jakarta.transaction.Transactional
 import java.time.Instant
 
 @ApplicationScoped
-class PersistenceService {
+open class PersistenceService {
 
     @Inject
     lateinit var em: EntityManager
@@ -52,7 +52,7 @@ class PersistenceService {
     }
 
     @Transactional
-    fun stopTransaction(transactionId: Long, meterStop: Int, stopTime: Instant, reason: String?, idTagEnd: String?): Boolean {
+    open fun stopTransaction(transactionId: Long, meterStop: Int, stopTime: Instant, reason: String?, idTagEnd: String?): Boolean {
         val txn = em.find(Transaction::class.java, transactionId)
         if (txn == null || txn.stopTime != null) {
             return false
@@ -88,7 +88,7 @@ class PersistenceService {
         return if (result.isEmpty()) null else result[0] as ChargePoint
     }
 
-    fun findTransaction(id: Long): Transaction? =
+    open fun findTransaction(id: Long): Transaction? =
         em.find(Transaction::class.java, id)
 
     fun findRunningTransactions(chargePointId: String): List<Transaction> =
