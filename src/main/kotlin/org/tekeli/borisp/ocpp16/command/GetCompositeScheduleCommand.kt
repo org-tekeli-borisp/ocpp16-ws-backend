@@ -13,25 +13,26 @@ class GetCompositeScheduleCommand @Inject constructor(
     override val name = "get-composite-schedule"
 
     override fun validate(payload: Map<String, Any>): Response? {
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()
-        val duration = (payload["duration"] as? Number)?.toInt()
-
-        if (connectorId == null) {
+        val connectorIdRaw = payload["connectorId"]
+        if (connectorIdRaw is Number) {
+            val durationRaw = payload["duration"]
+            if (durationRaw is Number) {
+                return null
+            }
+        }
+        if (payload["connectorId"] !is Number) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "connectorId is required"))
                 .build()
         }
-        if (duration == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "duration is required"))
-                .build()
-        }
-        return null
+        return Response.status(Response.Status.BAD_REQUEST)
+            .entity(mapOf<String, Any>("error" to "duration is required"))
+            .build()
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()!!
-        val duration = (payload["duration"] as? Number)?.toInt()!!
+        val connectorId = (payload["connectorId"] as Number).toInt()
+        val duration = (payload["duration"] as Number).toInt()
 
         val result = gateway.sendGetCompositeSchedule(chargePointId, connectorId, duration)
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)

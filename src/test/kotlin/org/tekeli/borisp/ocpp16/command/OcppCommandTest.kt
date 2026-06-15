@@ -770,6 +770,99 @@ class OcppCommandTest {
         assertEquals(7200, service.lastCompositeScheduleDuration)
     }
 
+    @Test
+    fun `GetCompositeScheduleCommand rejects string connectorId`() {
+        val cmd = GetCompositeScheduleCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to "not-a-number",
+            "duration" to 3600
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("connectorId"))
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand rejects string duration`() {
+        val cmd = GetCompositeScheduleCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "duration" to "not-a-number"
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("duration"))
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand validate with Long connectorId and duration`() {
+        val cmd = GetCompositeScheduleCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to 5L,
+            "duration" to 7200L
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand execute with Long connectorId and duration`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetCompositeScheduleCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 5L,
+            "duration" to 7200L
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(5, service.lastCompositeScheduleConnectorId)
+        assertEquals(7200, service.lastCompositeScheduleDuration)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand execute with Double connectorId and duration`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetCompositeScheduleCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 7.0,
+            "duration" to 900.0
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(7, service.lastCompositeScheduleConnectorId)
+        assertEquals(900, service.lastCompositeScheduleDuration)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand execute uses correct chargePointId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetCompositeScheduleCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 3,
+            "duration" to 1800
+        )
+
+        val result = cmd.execute("CP-999", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(3, service.lastCompositeScheduleConnectorId)
+        assertEquals(1800, service.lastCompositeScheduleDuration)
+    }
+
     // ---- GetConfigurationCommand ----
 
     @Test
