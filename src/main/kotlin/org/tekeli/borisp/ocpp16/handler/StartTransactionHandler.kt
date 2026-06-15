@@ -7,8 +7,8 @@ import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
 
 class StartTransactionHandler(
-     private val metricsService: MetricsService? = null
- ) : OcppActionHandler {
+     internal val metricsService: MetricsService? = null
+  ) : OcppActionHandler {
      override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
          val payload = call.payload ?: throw FormationViolationException("Payload is null")
          val (connectorId, idTag, meterStart, startTime) = validatePayload(payload)
@@ -24,7 +24,7 @@ class StartTransactionHandler(
          ).toJson()
      }
 
-     private fun createTransaction(
+     internal open fun createTransaction(
          server: OcppWebSocketServer,
          connectorId: Int,
          idTag: String,

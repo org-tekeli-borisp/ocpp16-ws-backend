@@ -306,6 +306,7 @@
                          <param>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest</param>
                          <param>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest</param>
                          <param>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest</param>
+                         <param>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest</param>
                          <param>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest</param>
                          <param>org.tekeli.borisp.ocpp16.mutation.MutationKillTest</param>
                          <param>org.tekeli.borisp.ocpp16.mutation.MutationKillTest2</param>
