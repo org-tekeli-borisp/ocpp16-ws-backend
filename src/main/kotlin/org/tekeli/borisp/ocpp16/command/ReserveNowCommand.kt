@@ -19,11 +19,17 @@ class ReserveNowCommand @Inject constructor(
     }
 
     private fun validateRequiredIds(payload: Map<String, Any>): String? {
-        if ((payload["connectorId"] as? Number)?.toInt() == null) {
+        val connectorIdRaw = payload["connectorId"]
+        if (connectorIdRaw is Number) {
+            val reservationIdRaw = payload["reservationId"]
+            if (reservationIdRaw is Number) {
+                return null
+            } else {
+                return "reservationId is required"
+            }
+        } else {
             return "connectorId is required"
         }
-        return if ((payload["reservationId"] as? Number)?.toInt() != null) null
-            else "reservationId is required"
     }
 
     private fun validateStringFields(payload: Map<String, Any>): String? {
@@ -37,10 +43,10 @@ class ReserveNowCommand @Inject constructor(
         .entity(mapOf<String, Any>("error" to error)).build()
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val connectorId = (payload["connectorId"] as? Number)?.toInt()!!
+        val connectorId = (payload["connectorId"] as Number).toInt()
         val expiryDate = payload["expiryDate"] as String
         val idTag = payload["idTag"] as String
-        val reservationId = (payload["reservationId"] as? Number)?.toInt()!!
+        val reservationId = (payload["reservationId"] as Number).toInt()
 
         val result = gateway.sendReserveNow(chargePointId, connectorId, expiryDate, idTag, reservationId)
         val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)

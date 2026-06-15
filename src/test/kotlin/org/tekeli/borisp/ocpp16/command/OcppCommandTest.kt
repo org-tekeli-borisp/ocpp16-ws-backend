@@ -1099,6 +1099,96 @@ class OcppCommandTest {
         assertEquals(77, service.lastReserveNowReservationId)
     }
 
+    @Test
+    fun `ReserveNowCommand rejects string connectorId`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to "not-a-number",
+            "expiryDate" to "2024-01-01T00:00:00Z",
+            "idTag" to "CARD1",
+            "reservationId" to 1
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("connectorId"))
+    }
+
+    @Test
+    fun `ReserveNowCommand rejects string reservationId`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "connectorId" to 1,
+            "expiryDate" to "2024-01-01T00:00:00Z",
+            "idTag" to "CARD1",
+            "reservationId" to "not-a-number"
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = result.entity as Map<String, Any>
+        assertTrue(entity["error"].toString().contains("reservationId"))
+    }
+
+    @Test
+    fun `ReserveNowCommand execute with Long connectorId and reservationId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ReserveNowCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 5L,
+            "expiryDate" to "2025-06-01T12:00:00Z",
+            "idTag" to "MYCARD",
+            "reservationId" to 88L
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(5, service.lastReserveNowConnectorId)
+        assertEquals(88, service.lastReserveNowReservationId)
+    }
+
+    @Test
+    fun `ReserveNowCommand execute with Double connectorId and reservationId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ReserveNowCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 7.0,
+            "expiryDate" to "2025-06-01T12:00:00Z",
+            "idTag" to "MYCARD",
+            "reservationId" to 99.0
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals(7, service.lastReserveNowConnectorId)
+        assertEquals(99, service.lastReserveNowReservationId)
+    }
+
+    @Test
+    fun `ReserveNowCommand execute uses correct chargePointId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ReserveNowCommand(service)
+        val payload = mapOf<String, Any>(
+            "connectorId" to 2,
+            "expiryDate" to "2025-06-01T12:00:00Z",
+            "idTag" to "CARD99",
+            "reservationId" to 42
+        )
+
+        val result = cmd.execute("CP-999", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals("CARD99", service.lastReserveNowIdTag)
+        assertEquals("2025-06-01T12:00:00Z", service.lastReserveNowExpiryDate)
+    }
+
     // ---- SendLocalListCommand ----
 
     @Test
