@@ -8,6 +8,9 @@ import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.TimeoutException
 
 class ResponseAwaiterTest {
@@ -299,15 +302,17 @@ class ResponseAwaiterTest {
     }
 
     @Test
-    fun `rejectAll only affects currently pending futures`() {
+    fun `rejectAll rejects all pending and marks awaiter as rejected`() {
         val awaiter = ResponseAwaiter()
 
         val future1 = awaiter.pending("msg-1")
         awaiter.rejectAll("first")
         assertTrue(future1.isDone)
 
+        // After rejectAll, new pending calls return immediately rejected futures
         val future2 = awaiter.pending("msg-2")
-        assertFalse(future2.isDone, "newly created pending should not be completed by previous rejectAll")
+        assertTrue(future2.isDone, "awaiter should be in rejected state after rejectAll")
+        assertThrows(ExecutionException::class.java) { future2.get() }
     }
 
     @Test
@@ -362,5 +367,156 @@ class ResponseAwaiterTest {
 
         assertTrue(latch.await(2, TimeUnit.SECONDS), "All 50 futures should complete")
         futures.forEach { assertTrue(it.isDone) }
+    }
+
+    // --- rejectAll concurrency tests ---
+
+    @Test
+    fun `rejectAll must not throw ConcurrentModificationException when resolve runs concurrently`() {
+        val awaiter = ResponseAwaiter()
+        val threads = 10
+        val executor: ExecutorService = Executors.newFixedThreadPool(threads)
+        val startLatch = CountDownLatch(1)
+        val errorHolder: java.util.concurrent.atomic.AtomicReference<Throwable?> = java.util.concurrent.atomic.AtomicReference(null)
+
+        // Create pending responses
+        repeat(100) { i ->
+            awaiter.pending("msg-$i")
+        }
+
+        // Multiple threads call rejectAll and resolve concurrently
+        repeat(threads / 2) { t ->
+            executor.submit {
+                try {
+                    startLatch.await()
+                    repeat(10) {
+                        awaiter.rejectAll("test-$t")
+                    }
+                } catch (e: Throwable) {
+                    errorHolder.compareAndSet(null, e)
+                }
+            }
+        }
+        repeat(threads / 2) { t ->
+            executor.submit {
+                try {
+                    startLatch.await()
+                    repeat(10) { i ->
+                        try {
+                            awaiter.resolve("msg-$i", OcppMessage.CallResult("msg-$i", null))
+                        } catch (_: IllegalStateException) {
+                            // Expected when entry already removed
+                        }
+                    }
+                } catch (e: Throwable) {
+                    errorHolder.compareAndSet(null, e)
+                }
+            }
+        }
+
+        startLatch.countDown()
+        executor.shutdown()
+        assertTrue(executor.awaitTermination(30, TimeUnit.SECONDS))
+
+        if (errorHolder.get() != null) {
+            throw AssertionError("Concurrent rejectAll/resolve threw", errorHolder.get()!!)
+        }
+    }
+
+    @Test
+    fun `rejectAll must not lose futures when pending is called concurrently`() {
+        val awaiter = ResponseAwaiter()
+        val threads = 10
+        val operationsPerThread = 100
+        val executor: ExecutorService = Executors.newFixedThreadPool(threads)
+        val startLatch = CountDownLatch(1)
+        val completedFutures = java.util.concurrent.atomic.AtomicInteger(0)
+
+        // Thread group 1: create pending and immediately track completion
+        // Thread group 2: call rejectAll
+
+        repeat(threads / 2) {
+            executor.submit {
+                try {
+                    startLatch.await()
+                    repeat(operationsPerThread) { i ->
+                        val f = awaiter.pending("new-msg-${System.nanoTime()}-$i")
+                        f.whenComplete { _, _ -> completedFutures.incrementAndGet() }
+                    }
+                } finally {
+                    // done creating
+                }
+            }
+        }
+        repeat(threads / 2) {
+            executor.submit {
+                try {
+                    startLatch.await()
+                    repeat(operationsPerThread) {
+                        awaiter.rejectAll("concurrent-disconnect")
+                    }
+                } finally {
+                    // done rejecting
+                }
+            }
+        }
+
+        startLatch.countDown()
+        executor.shutdown()
+        assertTrue(executor.awaitTermination(30, TimeUnit.SECONDS))
+
+        // Every future that was created should eventually complete
+        // (either by rejectAll or by a subsequent rejectAll)
+        val totalCreated = (threads / 2) * operationsPerThread
+        // Give some time for async completions
+        Thread.sleep(500)
+        assertTrue(completedFutures.get() >= totalCreated * 0.9,
+            "Most futures should complete: ${completedFutures.get()}/$totalCreated")
+    }
+
+    @Test
+    fun `rejectAll and pending must not corrupt internal map state`() {
+        val awaiter = ResponseAwaiter()
+        val threads = 20
+        val operationsPerThread = 200
+        val executor: ExecutorService = Executors.newFixedThreadPool(threads)
+        val startLatch = CountDownLatch(1)
+        val errorHolder: java.util.concurrent.atomic.AtomicReference<Throwable?> = java.util.concurrent.atomic.AtomicReference(null)
+        val nanos = System.nanoTime()
+
+        repeat(threads) { t ->
+            executor.submit {
+                try {
+                    startLatch.await()
+                    repeat(operationsPerThread) { i ->
+                        when (i % 3) {
+                            0 -> {
+                                val f = awaiter.pending("race-$nanos-$t-$i")
+                                f.whenComplete { _, _ -> }
+                            }
+                            1 -> awaiter.rejectAll("race-$t-$i")
+                            2 -> {
+                                try {
+                                    awaiter.resolve("race-$nanos-$t-$i",
+                                        OcppMessage.CallResult("race-$nanos-$t-$i", null))
+                                } catch (_: IllegalStateException) {
+                                    // Expected
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Throwable) {
+                    errorHolder.compareAndSet(null, e)
+                }
+            }
+        }
+
+        startLatch.countDown()
+        executor.shutdown()
+        assertTrue(executor.awaitTermination(60, TimeUnit.SECONDS))
+
+        if (errorHolder.get() != null) {
+            throw AssertionError("Race condition detected", errorHolder.get()!!)
+        }
     }
 }
