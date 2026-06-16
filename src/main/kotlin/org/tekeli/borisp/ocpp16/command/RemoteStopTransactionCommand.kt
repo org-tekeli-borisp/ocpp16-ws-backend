@@ -27,8 +27,6 @@ class RemoteStopTransactionCommand @Inject constructor(
         val transactionId = (payload["transactionId"] as Number).toInt()
 
         val result = gateway.sendRemoteStopTransaction(chargePointId, transactionId)
-        val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
-
-        return PayloadValidators.buildCommandResponse(response, name)
+        return PayloadValidators.awaitAndBuildResponse(result, name)
     }
 }

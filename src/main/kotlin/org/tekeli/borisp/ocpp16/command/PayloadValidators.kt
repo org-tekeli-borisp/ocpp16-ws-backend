@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16.command
 
 import jakarta.ws.rs.core.Response
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import java.util.concurrent.CompletableFuture
 
 object PayloadValidators {
     fun isNumber(value: Any?): Boolean = value is Number
@@ -32,4 +33,15 @@ object PayloadValidators {
     fun buildCommandResponse(response: OcppMessage, command: String, extra: Map<String, Any> = emptyMap()): Response =
         if (isCallResult(response)) buildAcceptedResponse(command, extra)
         else buildRejectedResponse()
+
+    fun awaitAndBuildResponse(
+        future: CompletableFuture<OcppMessage>,
+        command: String,
+        extra: Map<String, Any> = emptyMap()
+    ): Response =
+        buildCommandResponse(
+            future.get(10, java.util.concurrent.TimeUnit.SECONDS),
+            command,
+            extra
+        )
 }

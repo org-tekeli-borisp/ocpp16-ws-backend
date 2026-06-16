@@ -239,6 +239,7 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
+                        <param>org.tekeli.borisp.ocpp16.command.PayloadValidators</param>
                         <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage</param>
                         <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$Call</param>
                         <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$CallResult</param>
@@ -289,7 +290,8 @@
                         <param>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommand</param>
                     </targetClasses>
                     <targetTests>
-                         <param>org.tekeli.borisp.ocpp16.OcppMessageTest</param>
+                          <param>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest</param>
+                          <param>org.tekeli.borisp.ocpp16.OcppMessageTest</param>
                          <param>org.tekeli.borisp.ocpp16.OcppWebSocketServerUnitTest</param>
                          <param>org.tekeli.borisp.ocpp16.ResponseAwaiterTest</param>
                          <param>org.tekeli.borisp.ocpp16.OutboundCallDispatcherTest</param>

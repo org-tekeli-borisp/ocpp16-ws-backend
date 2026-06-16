@@ -27,8 +27,6 @@ class ResetCommand @Inject constructor(
         val type = payload["type"] as String
 
         val result = gateway.sendReset(chargePointId, type)
-        val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
-
-        return PayloadValidators.buildCommandResponse(response, name, mapOf("type" to type))
+        return PayloadValidators.awaitAndBuildResponse(result, name, mapOf("type" to type))
     }
 }

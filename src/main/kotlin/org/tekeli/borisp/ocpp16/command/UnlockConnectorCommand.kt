@@ -26,8 +26,6 @@ class UnlockConnectorCommand @Inject constructor(
         val connectorId = (payload["connectorId"] as Number).toInt()
 
         val result = gateway.sendUnlockConnector(chargePointId, connectorId)
-        val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
-
-        return PayloadValidators.buildCommandResponse(response, name)
+        return PayloadValidators.awaitAndBuildResponse(result, name)
     }
 }

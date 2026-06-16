@@ -3,7 +3,6 @@ package org.tekeli.borisp.ocpp16.command
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.Response
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
-import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 
 @jakarta.enterprise.context.ApplicationScoped
 class UpdateFirmwareCommand @Inject constructor(
@@ -34,16 +33,6 @@ class UpdateFirmwareCommand @Inject constructor(
         val retrieveDate = payload["retrieveDate"] as String
 
         val result = gateway.sendUpdateFirmware(chargePointId, location, retrieveDate, null, null)
-        val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
-
-        return if (response is OcppMessage.CallResult) {
-            Response.status(Response.Status.ACCEPTED)
-                .entity(mapOf<String, Any>("status" to "sent", "command" to name))
-                .build()
-        } else {
-            Response.status(Response.Status.BAD_GATEWAY)
-                .entity(mapOf<String, Any>("status" to "rejected", "error" to "ChargePoint rejected command"))
-                .build()
-        }
+        return PayloadValidators.awaitAndBuildResponse(result, name)
     }
 }

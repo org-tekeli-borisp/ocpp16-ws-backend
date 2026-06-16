@@ -4,7 +4,6 @@ import jakarta.inject.Inject
 import jakarta.ws.rs.core.Response
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
-import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import java.time.Instant
 
  @jakarta.enterprise.context.ApplicationScoped
@@ -64,14 +63,7 @@ class SignedUpdateFirmwareCommand @Inject constructor(
             signingCertificate = firmware["signingCertificate"] as String,
             signature = firmware["signature"] as String
         )
-        val response = gateway.sendSignedUpdateFirmware(chargePointId, requestId, firmware, retries, retryInterval)
-            .get(10, java.util.concurrent.TimeUnit.SECONDS)
-        return if (response is OcppMessage.CallResult) {
-            Response.status(Response.Status.ACCEPTED)
-                .entity(mapOf<String, Any>("status" to "sent", "command" to name)).build()
-        } else {
-            Response.status(Response.Status.BAD_GATEWAY)
-                .entity(mapOf<String, Any>("status" to "rejected", "error" to "ChargePoint rejected command")).build()
-        }
+        val result = gateway.sendSignedUpdateFirmware(chargePointId, requestId, firmware, retries, retryInterval)
+        return PayloadValidators.awaitAndBuildResponse(result, name)
     }
 }

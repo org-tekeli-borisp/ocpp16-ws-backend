@@ -3,7 +3,6 @@ package org.tekeli.borisp.ocpp16.command
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.Response
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
-import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 
 @jakarta.enterprise.context.ApplicationScoped
 class DeleteCertificateCommand @Inject constructor(
@@ -40,16 +39,6 @@ class DeleteCertificateCommand @Inject constructor(
         val certificateHashData = payload["certificateHashData"] as Map<String, Any>
 
         val result = gateway.sendDeleteCertificate(chargePointId, certificateHashData)
-        val response = result.get(10, java.util.concurrent.TimeUnit.SECONDS)
-
-        return if (response is OcppMessage.CallResult) {
-            Response.status(Response.Status.ACCEPTED)
-                .entity(mapOf<String, Any>("status" to "sent", "command" to name))
-                .build()
-        } else {
-            Response.status(Response.Status.BAD_GATEWAY)
-                .entity(mapOf<String, Any>("status" to "rejected", "error" to "ChargePoint rejected command"))
-                .build()
-        }
+        return PayloadValidators.awaitAndBuildResponse(result, name)
     }
 }
