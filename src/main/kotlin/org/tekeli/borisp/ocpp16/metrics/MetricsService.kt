@@ -8,6 +8,7 @@ import io.micrometer.core.instrument.simple.SimpleMeterRegistry
 import jakarta.annotation.PostConstruct
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import java.util.concurrent.atomic.AtomicInteger
 
 @ApplicationScoped
 open class MetricsService {
@@ -18,8 +19,8 @@ open class MetricsService {
     private val meterRegistry: MeterRegistry
         get() = injectedMeterRegistry ?: SimpleMeterRegistry()
 
-    private var connectionCount = 0
-    private var activeTransactionCount = 0
+    private val connectionCount = AtomicInteger(0)
+    private val activeTransactionCount = AtomicInteger(0)
 
     val transactionsStarted: Counter by lazy {
         Counter.builder("ocpp.transactions.started")
@@ -82,23 +83,23 @@ open class MetricsService {
     }
 
     fun onChargePointConnected() {
-        connectionCount++
+        connectionCount.incrementAndGet()
     }
 
     fun onChargePointDisconnected() {
-        connectionCount--
+        connectionCount.decrementAndGet()
     }
 
     fun onTransactionStarted() {
-        activeTransactionCount++
+        activeTransactionCount.incrementAndGet()
         transactionsStarted.increment()
     }
 
     fun onTransactionStopped() {
-        activeTransactionCount--
+        activeTransactionCount.decrementAndGet()
         transactionsStopped.increment()
     }
 
-    private fun getConnectionCount(): Double = connectionCount.toDouble()
-    private fun getActiveTransactionCount(): Double = activeTransactionCount.toDouble()
+    internal fun getConnectionCount(): Long = connectionCount.get().toLong()
+    internal fun getActiveTransactionCount(): Long = activeTransactionCount.get().toLong()
 }

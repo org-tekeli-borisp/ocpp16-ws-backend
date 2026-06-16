@@ -288,6 +288,7 @@
                         <param>org.tekeli.borisp.ocpp16.command.DeleteCertificateCommand</param>
                         <param>org.tekeli.borisp.ocpp16.command.GetLogCommand</param>
                         <param>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommand</param>
+                         <param>org.tekeli.borisp.ocpp16.metrics.MetricsService</param>
                     </targetClasses>
                     <targetTests>
                           <param>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest</param>
@@ -312,6 +313,7 @@
                          <param>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest</param>
                          <param>org.tekeli.borisp.ocpp16.mutation.MutationKillTest</param>
                          <param>org.tekeli.borisp.ocpp16.mutation.MutationKillTest2</param>
+                          <param>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest</param>
                      </targetTests>
                     <excludedMethods>
                         <exclude>parseJsonNode</exclude>
