@@ -30,6 +30,7 @@ import org.tekeli.borisp.ocpp16.protocol.OcppParseException
 import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 @WebSocket(path = "/ocpp/{chargePointId}")
 @ApplicationScoped
@@ -56,9 +57,10 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     private val activePersistence: PersistenceService
         get() = persistenceService ?: throw IllegalStateException("Persistence not initialized")
 
-    override val responseAwaiter = ResponseAwaiter()
+     override val responseAwaiter = ResponseAwaiter()
     open override var sessionId: String = ""
     override var chargePointId: String = ""
+    private val isClosed = AtomicBoolean(false)
     private val handlers: Map<String, OcppActionHandler> by lazy {
         mapOf(
             "BootNotification" to BootNotificationHandler(),
@@ -174,14 +176,15 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     private fun generateMessageId(): String = UUID.randomUUID().toString()
 
-    @OnClose
+  @OnClose
     fun onClose() {
+        if (!isClosed.compareAndSet(false, true)) return
         val connectionId = sessionId
         if (activeRegistry.isConnected(connectionId)) {
             responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
             activeRegistry.unregister(connectionId)
             activePersistence.setChargePointOffline(connectionId)
+            Log.info("WebSocket connection closed: session=$connectionId")
         }
-        Log.info("WebSocket connection closed: session=$connectionId")
     }
 }
