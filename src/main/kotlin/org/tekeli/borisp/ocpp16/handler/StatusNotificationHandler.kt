@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 
@@ -69,8 +70,8 @@ class StatusNotificationHandler : OcppActionHandler {
      private fun validateInfoField(payload: Map<String, Any>) {
          val info = payload["info"] ?: return
          val infoStr = info.toString().trim()
-         if (infoStr.length > 50) {
-             throw FormationViolationException("info must not exceed 50 characters")
+         if (infoStr.length > OcppConstants.MAX_INFO_LENGTH) {
+              throw FormationViolationException("info must not exceed ${OcppConstants.MAX_INFO_LENGTH} characters")
          }
      }
  }

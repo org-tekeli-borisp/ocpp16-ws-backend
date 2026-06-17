@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 
@@ -12,8 +13,8 @@ class DataTransferHandler : OcppActionHandler {
             throw FormationViolationException("vendorId is required")
         }
 
-        if (vendorId.toString().length > 255) {
-            throw FormationViolationException("vendorId must not exceed 255 characters")
+        if (vendorId.toString().length > OcppConstants.MAX_VENDOR_ID_LENGTH) {
+            throw FormationViolationException("vendorId must not exceed ${OcppConstants.MAX_VENDOR_ID_LENGTH} characters")
         }
 
         val responsePayload = mapOf(

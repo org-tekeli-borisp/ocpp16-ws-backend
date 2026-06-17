@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16.command
 
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import java.time.Instant
@@ -25,10 +26,10 @@ class SignedUpdateFirmwareCommand @Inject constructor(
 
     private fun validateFirmwareFields(firmware: Map<*, *>): Response? =
         runCatching {
-            checkField(firmware, "location", 512, "firmware.location")
+            checkField(firmware, "location", OcppConstants.MAX_FIRMWARE_LOCATION_LENGTH, "firmware.location")
             checkField(firmware, "retrieveDateTime", Int.MAX_VALUE, "firmware.retrieveDateTime")
-            checkField(firmware, "signingCertificate", 5500, "firmware.signingCertificate")
-            checkField(firmware, "signature", 800, "firmware.signature")
+            checkField(firmware, "signingCertificate", OcppConstants.MAX_SIGNING_CERTIFICATE_LENGTH, "firmware.signingCertificate")
+            checkField(firmware, "signature", OcppConstants.MAX_SIGNATURE_LENGTH, "firmware.signature")
         }.exceptionOrNull()?.let { badRequest(it.message ?: "Validation failed") }
 
     private fun checkField(map: Map<*, *>, key: String, maxLen: Int, name: String) {

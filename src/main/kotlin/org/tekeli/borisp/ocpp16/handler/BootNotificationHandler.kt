@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import java.time.ZoneOffset
@@ -19,7 +20,7 @@ class BootNotificationHandler : OcppActionHandler {
              messageId = call.messageId,
              payload = mapOf(
                  "currentTime" to ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                 "interval" to 300,
+                 "interval" to OcppConstants.DEFAULT_HEARTBEAT_INTERVAL_SECONDS,
                  "status" to "Accepted"
              )
          ).toJson()
@@ -51,8 +52,8 @@ class BootNotificationHandler : OcppActionHandler {
      )
 
      internal fun validatePayload(payload: Map<String, Any>): ParsedBootNotification {
-         val vendor = extractStringField(payload, "chargePointVendor", 20)
-         val model = extractStringField(payload, "chargePointModel", 20)
+         val vendor = extractStringField(payload, "chargePointVendor", OcppConstants.MAX_VENDOR_LENGTH)
+          val model = extractStringField(payload, "chargePointModel", OcppConstants.MAX_MODEL_LENGTH)
          val firmwareVersion = payload["firmwareVersion"]?.toString()
          return ParsedBootNotification(vendor, model, firmwareVersion)
      }

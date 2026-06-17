@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16.protocol
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.tekeli.borisp.ocpp16.OcppConstants
 
 enum class OcppMessageType(val value: Int) {
     CALL(2),
@@ -61,8 +62,8 @@ sealed class OcppMessage {
             val messageTypeId = nodes[0].asInt()
             val messageId = nodes[1].asText()
                 .also {
-                    if (it.length > 36) {
-                        throw OcppParseException("messageId exceeds 36 characters")
+                    if (it.length > OcppConstants.MAX_MESSAGE_ID_LENGTH) {
+                        throw OcppParseException("messageId exceeds ${OcppConstants.MAX_MESSAGE_ID_LENGTH} characters")
                     }
                 }
 

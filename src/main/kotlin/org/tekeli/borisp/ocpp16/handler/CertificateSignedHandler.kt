@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 
@@ -13,8 +14,8 @@ class CertificateSignedHandler : OcppActionHandler {
             throw FormationViolationException("certificateChain is required")
         }
 
-        if (certificateChain.toString().length > 10000) {
-            throw FormationViolationException("certificateChain must not exceed 10000 characters")
+        if (certificateChain.toString().length > OcppConstants.MAX_CERTIFICATE_CHAIN_LENGTH) {
+            throw FormationViolationException("certificateChain must not exceed ${OcppConstants.MAX_CERTIFICATE_CHAIN_LENGTH} characters")
         }
 
         val responsePayload = mapOf(

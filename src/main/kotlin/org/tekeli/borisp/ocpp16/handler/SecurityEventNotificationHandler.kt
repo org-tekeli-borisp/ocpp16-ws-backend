@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
@@ -72,8 +73,8 @@ class SecurityEventNotificationHandler(
             throw FormationViolationException("type is required")
         }
         val typeStr = type.toString()
-        if (typeStr.length > 50) {
-            throw FormationViolationException("type must not exceed 50 characters")
+        if (typeStr.length > OcppConstants.MAX_EVENT_TYPE_LENGTH) {
+            throw FormationViolationException("type must not exceed ${OcppConstants.MAX_EVENT_TYPE_LENGTH} characters")
         }
         if (typeStr !in validSecurityEvents) {
             throw FormationViolationException("Invalid security event type: $typeStr")
@@ -91,8 +92,8 @@ class SecurityEventNotificationHandler(
 
      internal fun extractTechInfo(payload: Map<String, Any>): String? {
          val techInfo = payload["techInfo"]?.toString() ?: return null
-         if (techInfo.length > 255) {
-             throw FormationViolationException("techInfo must not exceed 255 characters")
+         if (techInfo.length > OcppConstants.MAX_TECH_INFO_LENGTH) {
+              throw FormationViolationException("techInfo must not exceed ${OcppConstants.MAX_TECH_INFO_LENGTH} characters")
          }
          return techInfo
      }

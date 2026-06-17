@@ -1,6 +1,7 @@
 package org.tekeli.borisp.ocpp16.handler
 
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import java.time.Instant
@@ -72,8 +73,8 @@ class StartTransactionHandler(
          if (value == null || value.toString().isBlank()) {
              throw FormationViolationException("idTag is required")
          }
-         if (value.toString().length > 20) {
-             throw FormationViolationException("idTag must not exceed 20 characters")
+         if (value.toString().length > OcppConstants.MAX_ID_TAG_LENGTH) {
+              throw FormationViolationException("idTag must not exceed ${OcppConstants.MAX_ID_TAG_LENGTH} characters")
          }
          return value.toString()
      }

@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 
@@ -12,8 +13,8 @@ class AuthorizeHandler : OcppActionHandler {
             throw FormationViolationException("idTag is required")
         }
 
-        if (idTag.toString().length > 20) {
-            throw FormationViolationException("idTag must not exceed 20 characters")
+        if (idTag.toString().length > OcppConstants.MAX_ID_TAG_LENGTH) {
+            throw FormationViolationException("idTag must not exceed ${OcppConstants.MAX_ID_TAG_LENGTH} characters")
         }
 
         val responsePayload = mapOf(

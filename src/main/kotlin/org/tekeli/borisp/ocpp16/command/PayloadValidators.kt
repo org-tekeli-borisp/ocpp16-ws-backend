@@ -1,6 +1,7 @@
 package org.tekeli.borisp.ocpp16.command
 
 import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import java.util.concurrent.CompletableFuture
 
@@ -40,7 +41,7 @@ object PayloadValidators {
         extra: Map<String, Any> = emptyMap()
     ): Response =
         buildCommandResponse(
-            future.get(10, java.util.concurrent.TimeUnit.SECONDS),
+            future.get(OcppConstants.COMMAND_TIMEOUT_SECONDS.toLong(), java.util.concurrent.TimeUnit.SECONDS),
             command,
             extra
         )

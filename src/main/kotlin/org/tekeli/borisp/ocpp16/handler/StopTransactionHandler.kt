@@ -1,6 +1,7 @@
 package org.tekeli.borisp.ocpp16.handler
 
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import java.time.Instant
@@ -95,8 +96,8 @@ class StopTransactionHandler(
      private fun extractIdTagEnd(payload: Map<String, Any>): String? {
          val idTag = payload["idTag"] ?: return null
          val idTagStr = idTag.toString().trim()
-         if (idTagStr.length > 20) {
-             throw FormationViolationException("idTag must not exceed 20 characters")
+         if (idTagStr.length > OcppConstants.MAX_ID_TAG_LENGTH) {
+              throw FormationViolationException("idTag must not exceed ${OcppConstants.MAX_ID_TAG_LENGTH} characters")
          }
          return if (idTagStr.isEmpty()) null else idTagStr
      }

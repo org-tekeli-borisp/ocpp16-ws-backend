@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16.command
 
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
 
 @jakarta.enterprise.context.ApplicationScoped
@@ -36,8 +37,8 @@ class GetLogCommand @Inject constructor(
     internal fun validateNestedLog(payload: Map<String, Any>): String? {
         val remoteLocation = (payload["log"] as Map<*, *>).get("remoteLocation") as? String
             ?: return "log.remoteLocation is required"
-        return if (remoteLocation.isEmpty() || remoteLocation.length > 512)
-            "log.remoteLocation must not exceed 512 characters" else null
+        return if (remoteLocation.isEmpty() || remoteLocation.length > OcppConstants.MAX_FIRMWARE_LOCATION_LENGTH)
+            "log.remoteLocation must not exceed ${OcppConstants.MAX_FIRMWARE_LOCATION_LENGTH} characters" else null
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {

@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16.command
 
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
 
 @jakarta.enterprise.context.ApplicationScoped
@@ -32,9 +33,9 @@ class InstallCertificateCommand @Inject constructor(
                 .build()
         }
 
-        if (certificate.length > 5500) {
+        if (certificate.length > OcppConstants.MAX_CERTIFICATE_LENGTH) {
             return Response.status(Response.Status.BAD_REQUEST)
-                .entity(mapOf<String, Any>("error" to "certificate must not exceed 5500 characters"))
+                .entity(mapOf<String, Any>("error" to "certificate must not exceed ${OcppConstants.MAX_CERTIFICATE_LENGTH} characters"))
                 .build()
         }
 

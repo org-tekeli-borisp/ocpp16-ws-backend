@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 
@@ -13,8 +14,8 @@ class SignCertificateHandler : OcppActionHandler {
             throw FormationViolationException("csr is required")
         }
 
-        if (csr.toString().length > 5500) {
-            throw FormationViolationException("csr must not exceed 5500 characters")
+        if (csr.toString().length > OcppConstants.MAX_CSR_LENGTH) {
+            throw FormationViolationException("csr must not exceed ${OcppConstants.MAX_CSR_LENGTH} characters")
         }
 
         val responsePayload = mapOf(
