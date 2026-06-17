@@ -361,7 +361,7 @@ class SecurityEventNotificationHandlerTest {
             "timestamp" to "2024-01-01T00:00:00Z"
         ))
         val server = org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer()
-        // chargePointId stays null
+        // chargePointId stays empty
         val ex = assertThrows(FormationViolationException::class.java) {
             handler.handle(call, server)
         }

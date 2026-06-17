@@ -378,7 +378,7 @@ class BootNotificationHandlerDirectTest {
         }
 
         handler.processBootNotification(
-            server = server,
+            context = server,
             chargePointId = "CP-VENDOR",
             vendor = "ExactVendor",
             model = "ModelX",
@@ -401,7 +401,7 @@ class BootNotificationHandlerDirectTest {
         }
 
         handler.processBootNotification(
-            server = server,
+            context = server,
             chargePointId = "CP-MODEL",
             vendor = "VendorA",
             model = "ExactModel",
@@ -424,7 +424,7 @@ class BootNotificationHandlerDirectTest {
         }
 
         handler.processBootNotification(
-            server = server,
+            context = server,
             chargePointId = "CP-FW",
             vendor = "VendorA",
             model = "ModelX",
@@ -447,7 +447,7 @@ class BootNotificationHandlerDirectTest {
         }
 
         handler.processBootNotification(
-            server = server,
+            context = server,
             chargePointId = "CP-BOTH",
             vendor = "VendorA",
             model = "ModelX",
@@ -477,7 +477,7 @@ class BootNotificationHandlerDirectTest {
         }
 
         handler.processBootNotification(
-            server = server,
+            context = server,
             chargePointId = "CP-SESSION",
             vendor = "V",
             model = "M",
@@ -500,7 +500,7 @@ class BootNotificationHandlerDirectTest {
         }
 
         handler.processBootNotification(
-            server = server,
+            context = server,
             chargePointId = "CP-NULL-FW",
             vendor = "VendorA",
             model = "ModelX",

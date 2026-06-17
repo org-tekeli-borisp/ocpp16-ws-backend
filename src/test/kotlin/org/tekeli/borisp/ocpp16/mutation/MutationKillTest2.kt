@@ -291,7 +291,7 @@ class MutationKillTest2 {
     @Test
     fun `BootNotificationHandler throws when chargePointId is null`() {
         val server = OcppWebSocketServer().apply {
-            chargePointId = null
+            chargePointId = ""
             sessionId = "sess-bn-null"
         }
 

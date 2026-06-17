@@ -3,17 +3,16 @@ package org.tekeli.borisp.ocpp16.handler
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
-import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
 
 class StartTransactionHandler(
      internal val metricsService: MetricsService? = null
   ) : OcppActionHandler {
-     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
+     override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
          val payload = call.payload ?: throw FormationViolationException("Payload is null")
          val (connectorId, idTag, meterStart, startTime) = validatePayload(payload)
 
-         val transactionId = createTransaction(server, connectorId, idTag, meterStart, startTime)
+         val transactionId = createTransaction(context, connectorId, idTag, meterStart, startTime)
 
          return OcppMessage.CallResult(
              messageId = call.messageId,
@@ -25,14 +24,14 @@ class StartTransactionHandler(
      }
 
      internal open fun createTransaction(
-         server: OcppWebSocketServer,
+         context: OcppHandlerContext,
          connectorId: Int,
          idTag: String,
          meterStart: Int,
          startTime: Instant
      ): Long {
-         val ps = server.persistenceService ?: return 1
-         val chargePoint = ps.findChargePointBySessionId(server.sessionId) ?: return 1
+         val ps = context.persistenceService ?: return 1
+         val chargePoint = ps.findChargePointBySessionId(context.sessionId) ?: return 1
          val txn = ps.createTransaction(
              chargePointId = chargePoint.chargePointId,
              connectorId = connectorId,

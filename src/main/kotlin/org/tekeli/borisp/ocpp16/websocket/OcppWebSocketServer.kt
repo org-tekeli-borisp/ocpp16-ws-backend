@@ -13,6 +13,7 @@ import org.tekeli.borisp.ocpp16.handler.HeartbeatHandler
 import org.tekeli.borisp.ocpp16.handler.LogStatusNotificationHandler
 import org.tekeli.borisp.ocpp16.handler.MeterValuesHandler
 import org.tekeli.borisp.ocpp16.handler.OcppActionHandler
+import org.tekeli.borisp.ocpp16.handler.OcppHandlerContext
 import org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandler
 import org.tekeli.borisp.ocpp16.handler.SignCertificateHandler
 import org.tekeli.borisp.ocpp16.handler.SignedFirmwareStatusNotificationHandler
@@ -31,19 +32,19 @@ import java.util.*
 
 @WebSocket(path = "/ocpp/{chargePointId}")
 @ApplicationScoped
-open class OcppWebSocketServer : ChargePointConnection {
+open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @Inject
     var connection: WebSocketConnection? = null
 
     @Inject
-    open var chargePointRegistry: ChargePointRegistry? = null
+    override var chargePointRegistry: ChargePointRegistry? = null
 
     @Inject
-    open var persistenceService: PersistenceService? = null
+    override var persistenceService: PersistenceService? = null
 
     @Inject
-    var metricsService: MetricsService? = null
+    override var metricsService: MetricsService? = null
 
     val activeConnection: WebSocketConnection
         get() = connection ?: throw IllegalStateException("Connection not initialized")
@@ -55,8 +56,8 @@ open class OcppWebSocketServer : ChargePointConnection {
         get() = persistenceService ?: throw IllegalStateException("Persistence not initialized")
 
     override val responseAwaiter = ResponseAwaiter()
-    var sessionId: String = ""
-    var chargePointId: String? = null
+    open override var sessionId: String = ""
+    override var chargePointId: String = ""
     private val handlers: Map<String, OcppActionHandler> by lazy {
         mapOf(
             "BootNotification" to BootNotificationHandler(),

@@ -2,7 +2,6 @@ package org.tekeli.borisp.ocpp16.handler
 
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
-import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 
 class StatusNotificationHandler : OcppActionHandler {
      private val validErrorCodes = setOf(
@@ -18,7 +17,7 @@ class StatusNotificationHandler : OcppActionHandler {
          "Finishing", "Reserved", "Unavailable", "Faulted"
      )
 
-     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
+     override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
          val payload = call.payload ?: throw FormationViolationException("Payload is null")
          validatePayload(payload)
 

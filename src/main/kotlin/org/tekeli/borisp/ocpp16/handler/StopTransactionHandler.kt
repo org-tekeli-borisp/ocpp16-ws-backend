@@ -3,31 +3,30 @@ package org.tekeli.borisp.ocpp16.handler
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
-import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
 
 class StopTransactionHandler(
      private val metricsService: MetricsService? = null
- ) : OcppActionHandler {
+  ) : OcppActionHandler {
      private val validStopReasons = setOf(
          "DeAuthorized", "EmergencyStop", "EVDisconnected", "HardReset",
          "Local", "Other", "PowerLoss", "Reboot", "Remote", "SoftReset",
          "UnlockCommand"
      )
 
- override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
-          val payload = call.payload ?: throw FormationViolationException("Payload is null")
-          val parsed = validatePayload(payload)
-          processStopTransaction(server, parsed)
-          return OcppMessage.CallResult(
-              messageId = call.messageId,
-              payload = mapOf("idTagInfo" to mapOf("status" to "Accepted"))
-          ).toJson()
-      }
+ override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
+         val payload = call.payload ?: throw FormationViolationException("Payload is null")
+         val parsed = validatePayload(payload)
+         processStopTransaction(context, parsed)
+         return OcppMessage.CallResult(
+             messageId = call.messageId,
+             payload = mapOf("idTagInfo" to mapOf("status" to "Accepted"))
+         ).toJson()
+     }
 
-      internal fun processStopTransaction(server: OcppWebSocketServer, parsed: ParsedStopTransaction) {
-          val ps = server.persistenceService
-          val transaction = ps?.findTransaction(parsed.transactionId)
+     internal fun processStopTransaction(context: OcppHandlerContext, parsed: ParsedStopTransaction) {
+         val ps = context.persistenceService
+         val transaction = ps?.findTransaction(parsed.transactionId)
           val energyWh = (parsed.meterStop - (transaction?.meterStart ?: 0)).toDouble()
           val durationSeconds = transaction?.let { parsed.stopTime.epochSecond - it.startTime.epochSecond } ?: 0
           ps?.stopTransaction(parsed.transactionId, parsed.meterStop, parsed.stopTime, parsed.reason, parsed.idTagEnd)

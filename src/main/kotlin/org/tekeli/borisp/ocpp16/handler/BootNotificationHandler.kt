@@ -2,18 +2,18 @@ package org.tekeli.borisp.ocpp16.handler
 
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
-import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
 class BootNotificationHandler : OcppActionHandler {
-     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
+     override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
          val payload = call.payload ?: throw FormationViolationException("Payload is null")
          val (vendor, model, firmwareVersion) = validatePayload(payload)
-         val chargePointId = server.chargePointId
+         val chargePointId = context.chargePointId
+             .takeIf { it.isNotBlank() }
              ?: throw FormationViolationException("No chargePointId from connection")
 
-         processBootNotification(server, chargePointId, vendor, model, firmwareVersion)
+         processBootNotification(context, chargePointId, vendor, model, firmwareVersion)
 
          return OcppMessage.CallResult(
              messageId = call.messageId,
@@ -26,17 +26,17 @@ class BootNotificationHandler : OcppActionHandler {
      }
 
      internal fun processBootNotification(
-         server: OcppWebSocketServer,
+         context: OcppHandlerContext,
          chargePointId: String,
          vendor: String,
          model: String,
          firmwareVersion: String?
      ) {
-         server.chargePointRegistry?.updateChargePointInfo(
-             server.sessionId, chargePointId, vendor, model
+         context.chargePointRegistry?.updateChargePointInfo(
+             context.sessionId, chargePointId, vendor, model
          )
-         server.persistenceService?.upsertChargePoint(
-             sessionId = server.sessionId,
+         context.persistenceService?.upsertChargePoint(
+             sessionId = context.sessionId,
              chargePointId = chargePointId,
              vendor = vendor,
              model = model,

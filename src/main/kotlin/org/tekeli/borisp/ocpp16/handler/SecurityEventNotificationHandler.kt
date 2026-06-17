@@ -3,12 +3,11 @@ package org.tekeli.borisp.ocpp16.handler
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
-import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
 import java.time.Instant
 
 class SecurityEventNotificationHandler(
      private val persistenceService: PersistenceService? = null
- ) : OcppActionHandler {
+  ) : OcppActionHandler {
 
      private val validSecurityEvents = setOf(
          "FirmwareUpdated",
@@ -28,13 +27,14 @@ class SecurityEventNotificationHandler(
          "UnauthorizedAccess"
      )
 
-     override fun handle(call: OcppMessage.Call, server: OcppWebSocketServer): String {
+     override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
          val payload = call.payload ?: throw FormationViolationException("Payload is null")
          val (type, timestamp, techInfo) = validatePayload(payload)
-         val chargePointId = server.chargePointId
+         val chargePointId = context.chargePointId
+             .takeIf { it.isNotBlank() }
              ?: throw FormationViolationException("No chargePointId from connection")
 
-         processSecurityEvent(server, chargePointId, type, timestamp, techInfo)
+         processSecurityEvent(context, chargePointId, type, timestamp, techInfo)
 
          return OcppMessage.CallResult(
              messageId = call.messageId,
@@ -42,16 +42,16 @@ class SecurityEventNotificationHandler(
          ).toJson()
      }
 
-  internal fun processSecurityEvent(
-        server: OcppWebSocketServer,
-        chargePointId: String,
-        type: String,
-        timestamp: Instant,
-        techInfo: String?
-    ) {
-        persistenceService?.createSecurityLog(chargePointId, type, timestamp, techInfo)
-        server.metricsService?.securityEventsReceived?.increment()
-    }
+ internal fun processSecurityEvent(
+       context: OcppHandlerContext,
+       chargePointId: String,
+       type: String,
+       timestamp: Instant,
+       techInfo: String?
+   ) {
+       persistenceService?.createSecurityLog(chargePointId, type, timestamp, techInfo)
+       context.metricsService?.securityEventsReceived?.increment()
+   }
 
     internal data class ParsedSecurityEvent(
         val type: String,
