@@ -5,7 +5,7 @@ import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
-import org.tekeli.borisp.ocpp16.command.*
+import org.tekeli.borisp.ocpp16.command.OcppCommand
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 
 @Path("/api/chargepoints/{chargePointId}/commands")
@@ -20,104 +20,10 @@ class CommandResource {
     lateinit var objectMapper: ObjectMapper
 
     @Inject
-    lateinit var remoteStartTransactionCommand: RemoteStartTransactionCommand
-
-    @Inject
-    lateinit var remoteStopTransactionCommand: RemoteStopTransactionCommand
-
-    @Inject
-    lateinit var resetCommand: ResetCommand
-
-    @Inject
-    lateinit var unlockConnectorCommand: UnlockConnectorCommand
-
-    @Inject
-    lateinit var cancelReservationCommand: CancelReservationCommand
-
-    @Inject
-    lateinit var changeAvailabilityCommand: ChangeAvailabilityCommand
-
-    @Inject
-    lateinit var changeConfigurationCommand: ChangeConfigurationCommand
-
-    @Inject
-    lateinit var clearCacheCommand: ClearCacheCommand
-
-    @Inject
-    lateinit var clearChargingProfileCommand: ClearChargingProfileCommand
-
-    @Inject
-    lateinit var getCompositeScheduleCommand: GetCompositeScheduleCommand
-
-    @Inject
-    lateinit var getConfigurationCommand: GetConfigurationCommand
-
-    @Inject
-    lateinit var getDiagnosticsCommand: GetDiagnosticsCommand
-
-    @Inject
-    lateinit var getLocalListVersionCommand: GetLocalListVersionCommand
-
-    @Inject
-    lateinit var reserveNowCommand: ReserveNowCommand
-
-    @Inject
-    lateinit var sendLocalListCommand: SendLocalListCommand
-
-    @Inject
-    lateinit var setChargingProfileCommand: SetChargingProfileCommand
-
-    @Inject
-    lateinit var triggerMessageCommand: TriggerMessageCommand
-
-    @Inject
-    lateinit var updateFirmwareCommand: UpdateFirmwareCommand
-
-    @Inject
-    lateinit var extendedTriggerMessageCommand: ExtendedTriggerMessageCommand
-
-    @Inject
-    lateinit var installCertificateCommand: InstallCertificateCommand
-
-    @Inject
-    lateinit var getInstalledCertificateIdsCommand: GetInstalledCertificateIdsCommand
-
-    @Inject
-    lateinit var deleteCertificateCommand: DeleteCertificateCommand
-
-    @Inject
-    lateinit var getLogCommand: GetLogCommand
-
-    @Inject
-    lateinit var signedUpdateFirmwareCommand: SignedUpdateFirmwareCommand
+    lateinit var commands: jakarta.enterprise.inject.Instance<OcppCommand>
 
     private val commandMap: Map<String, OcppCommand> by lazy {
-        mapOf(
-            remoteStartTransactionCommand.name to remoteStartTransactionCommand,
-            remoteStopTransactionCommand.name to remoteStopTransactionCommand,
-            resetCommand.name to resetCommand,
-            unlockConnectorCommand.name to unlockConnectorCommand,
-            cancelReservationCommand.name to cancelReservationCommand,
-            changeAvailabilityCommand.name to changeAvailabilityCommand,
-            changeConfigurationCommand.name to changeConfigurationCommand,
-            clearCacheCommand.name to clearCacheCommand,
-            clearChargingProfileCommand.name to clearChargingProfileCommand,
-            getCompositeScheduleCommand.name to getCompositeScheduleCommand,
-            getConfigurationCommand.name to getConfigurationCommand,
-            getDiagnosticsCommand.name to getDiagnosticsCommand,
-            getLocalListVersionCommand.name to getLocalListVersionCommand,
-            reserveNowCommand.name to reserveNowCommand,
-            sendLocalListCommand.name to sendLocalListCommand,
-            setChargingProfileCommand.name to setChargingProfileCommand,
-            triggerMessageCommand.name to triggerMessageCommand,
-            updateFirmwareCommand.name to updateFirmwareCommand,
-            extendedTriggerMessageCommand.name to extendedTriggerMessageCommand,
-            installCertificateCommand.name to installCertificateCommand,
-            getInstalledCertificateIdsCommand.name to getInstalledCertificateIdsCommand,
-            deleteCertificateCommand.name to deleteCertificateCommand,
-            getLogCommand.name to getLogCommand,
-            signedUpdateFirmwareCommand.name to signedUpdateFirmwareCommand
-        )
+        commands.iterator().asSequence().associateBy { it.name }
     }
 
     @GET
