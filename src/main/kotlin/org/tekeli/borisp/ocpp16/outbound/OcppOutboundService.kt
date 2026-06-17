@@ -40,16 +40,14 @@ class OcppOutboundService : ChargePointGateway {
         chargePointRegistry.sendCall(chargePointId, "UnlockConnector", mapOf("connectorId" to connectorId))
 
     override fun sendUpdateFirmware(chargePointId: String, location: String, retrieveDate: String, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> {
-        @Suppress("UNCHECKED_CAST")
-        val payload = mapOf<String, Any?>("location" to location, "retrieveDate" to retrieveDate, "retries" to retries, "retryInterval" to retryInterval)
-            .filterValues { it != null } as Map<String, Any>
+       val payload = mapOf<String, Any?>("location" to location, "retrieveDate" to retrieveDate, "retries" to retries, "retryInterval" to retryInterval)
+            .filterNulls()
         return chargePointRegistry.sendCall(chargePointId, "UpdateFirmware", payload)
     }
 
     override fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> {
-        @Suppress("UNCHECKED_CAST")
-        val payload = mapOf<String, Any?>("location" to location, "retries" to retries, "retryInterval" to retryInterval)
-            .filterValues { it != null } as Map<String, Any>
+       val payload = mapOf<String, Any?>("location" to location, "retries" to retries, "retryInterval" to retryInterval)
+            .filterNulls()
         return chargePointRegistry.sendCall(chargePointId, "GetDiagnostics", payload)
     }
 
@@ -75,9 +73,8 @@ class OcppOutboundService : ChargePointGateway {
         chargePointRegistry.sendCall(chargePointId, "SetChargingProfile", mapOf("connectorId" to connectorId, "csChargingProfiles" to csChargingProfiles))
 
     override fun sendClearChargingProfile(chargePointId: String, connectorId: Int?, stackLevel: Int?): CompletableFuture<OcppMessage> {
-        @Suppress("UNCHECKED_CAST")
         val payload = mapOf<String, Any?>("connectorId" to connectorId, "stackLevel" to stackLevel)
-            .filterValues { it != null } as Map<String, Any>
+            .filterNulls()
         return chargePointRegistry.sendCall(chargePointId, "ClearChargingProfile", payload)
     }
 
@@ -101,16 +98,14 @@ class OcppOutboundService : ChargePointGateway {
         chargePointRegistry.sendCall(chargePointId, "DeleteCertificate", mapOf("certificateHashData" to certificateHashData))
 
     override fun sendGetLog(chargePointId: String, logType: String, requestId: Int, log: Map<String, Any>, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> {
-        @Suppress("UNCHECKED_CAST")
-        val payload = mapOf<String, Any?>("logType" to logType, "requestId" to requestId, "log" to log, "retries" to retries, "retryInterval" to retryInterval)
-            .filterValues { it != null } as Map<String, Any>
+       val payload = mapOf<String, Any?>("logType" to logType, "requestId" to requestId, "log" to log, "retries" to retries, "retryInterval" to retryInterval)
+            .filterNulls()
         return chargePointRegistry.sendCall(chargePointId, "GetLog", payload)
     }
 
   override fun sendSignedUpdateFirmware(chargePointId: String, requestId: Int, firmware: Map<String, Any>, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> {
-        @Suppress("UNCHECKED_CAST")
-        val payload = mapOf<String, Any?>("requestId" to requestId, "firmware" to firmware, "retries" to retries, "retryInterval" to retryInterval)
-            .filterValues { it != null } as Map<String, Any>
+      val payload = mapOf<String, Any?>("requestId" to requestId, "firmware" to firmware, "retries" to retries, "retryInterval" to retryInterval)
+            .filterNulls()
         return chargePointRegistry.sendCall(chargePointId, "SignedUpdateFirmware", payload)
     }
 
