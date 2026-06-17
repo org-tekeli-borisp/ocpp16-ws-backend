@@ -1690,11 +1690,9 @@ class MutationKillTest2 {
     // 38. SignedUpdateFirmwareCommand - non-Number requestId
     // =====================================================
 
-    @Test
+   @Test
     fun `SignedUpdateFirmwareCommand validate with non-Number requestId`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
-        // Note: production code uses `as Number?` which throws ClassCastException
-        // for non-Number types, so we test with a boolean (non-Number) instead
         val payload = mutableMapOfNullable()
         payload["requestId"] = false
         payload["firmware"] = mapOf<String, Any>(
@@ -1703,10 +1701,9 @@ class MutationKillTest2 {
             "signingCertificate" to "cert",
             "signature" to "sig"
         )
-        val ex = assertThrows(ClassCastException::class.java) {
-            cmd.validate(payload)
-        }
-        // ClassCastException is thrown by the production code for non-Number requestId
+        val response = cmd.validate(payload)
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
     }
 
     // =====================================================

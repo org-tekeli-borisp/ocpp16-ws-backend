@@ -15,7 +15,7 @@ class SignedUpdateFirmwareCommand @Inject constructor(
     override val name = "signed-update-firmware"
 
     override fun validate(payload: Map<String, Any>): Response? {
-        if (payload["requestId"] as Number? == null) {
+        if (payload["requestId"] as? Number == null) {
             return badRequest("requestId is required")
         }
         val firmware = payload["firmware"] as? Map<*, *>

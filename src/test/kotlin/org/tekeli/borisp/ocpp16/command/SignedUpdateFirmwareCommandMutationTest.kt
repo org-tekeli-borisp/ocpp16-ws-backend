@@ -52,11 +52,12 @@ class SignedUpdateFirmwareCommandMutationTest {
     }
 
     @Test
-    fun `validate - requestId as String throws ClassCastException`() {
+    fun `validate - requestId as String returns 400 bad request`() {
         val firmware = makeValidFirmware()
-        assertThrows<ClassCastException> {
-            cmd.validate(mapOf("requestId" to "notANumber", "firmware" to firmware))
-        }
+        val response = cmd.validate(mapOf("requestId" to "notANumber", "firmware" to firmware))
+
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
     }
 
     @Test
