@@ -84,13 +84,12 @@ class ChargePointResourceTest {
         assertTrue(statuses.all { it == "ONLINE" })
     }
 
-    @Test
-    fun `should return empty list for no matching status`() {
+   @Test
+    fun `should return 400 for invalid status`() {
         RestAssured.given()
             .queryParam("status", "NONEXISTENT")
             .`when`().get("/api/chargepoints")
             .then()
-            .statusCode(200)
-            .body("size()", org.hamcrest.Matchers.equalTo(0))
+            .statusCode(400)
     }
 }

@@ -9,6 +9,7 @@ import org.tekeli.borisp.ocpp16.outbound.TextSender
 import org.tekeli.borisp.ocpp16.outbound.WsSender
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
+import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 
 interface ChargePointConnection : TextSender {
@@ -30,8 +31,8 @@ class ChargePointRegistry {
     private val testSenders = ConcurrentHashMap<String, TextSender>()
 
     val connectionCount: Int get() = sessionInfos.size
-    val connectedSessionIds: Set<String> get() = sessionInfos.keys.toSet()
-    val connectedChargePointIds: Set<String> get() = chargePointIdIndex.keys.toSet()
+    val connectedSessionIds: Set<String> get() = Collections.unmodifiableSet(sessionInfos.keys)
+    val connectedChargePointIds: Set<String> get() = Collections.unmodifiableSet(chargePointIdIndex.keys)
 
     fun register(sessionId: String, connectionId: String, connection: ChargePointConnection) {
         sessionInfos[sessionId] = ChargePointInfo(

@@ -23,7 +23,6 @@ open class PersistenceService {
             cp.status = ChargePointStatus.ONLINE
             cp.sessionId = sessionId
             cp.touch()
-            em.flush()
         } else {
             em.persist(ChargePoint(
                 chargePointId = chargePointId,
@@ -33,8 +32,8 @@ open class PersistenceService {
                 status = ChargePointStatus.ONLINE,
                 sessionId = sessionId
             ))
-            em.flush()
         }
+        em.flush()
     }
 
     @Transactional

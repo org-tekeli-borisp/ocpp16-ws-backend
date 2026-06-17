@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.websocket
 
+import io.quarkus.logging.Log
 import io.quarkus.websockets.next.*
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -83,7 +84,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         chargePointId = activeConnection.pathParam("chargePointId")
         sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
         activeRegistry.register(sessionId, sessionId, this)
-        println("WebSocket connection opened: $sessionId, chargePointId=$chargePointId")
+        Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId")
     }
 
     @OnTextMessage
@@ -181,6 +182,6 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
             activeRegistry.unregister(connectionId)
             activePersistence.setChargePointOffline(connectionId)
         }
-        println("WebSocket connection closed: $connectionId")
+        Log.info("WebSocket connection closed: session=$connectionId")
     }
 }

@@ -1,6 +1,7 @@
 package org.tekeli.borisp.ocpp16.rest
 
 import jakarta.inject.Inject
+import jakarta.ws.rs.BadRequestException
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.NotFoundException
 import jakarta.ws.rs.Path
@@ -21,12 +22,13 @@ class ChargePointResource {
 
     @GET
     fun getAll(@QueryParam("status") status: String? = null): List<ChargePointDto> {
-        return if (status != null) {
-            try {
-                persistenceService.findByStatus(ChargePointStatus.valueOf(status)).map { toDto(it) }
+       return if (status != null) {
+            val chargePointStatus = try {
+                ChargePointStatus.valueOf(status)
             } catch (e: IllegalArgumentException) {
-                emptyList()
+                throw BadRequestException("Invalid status: $status. Must be one of: ${ChargePointStatus.values().joinToString()}")
             }
+            persistenceService.findByStatus(chargePointStatus).map { toDto(it) }
         } else {
             persistenceService.findAllChargePoints().map { toDto(it) }
         }
