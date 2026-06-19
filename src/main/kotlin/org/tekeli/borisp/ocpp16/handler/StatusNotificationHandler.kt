@@ -3,75 +3,40 @@ package org.tekeli.borisp.ocpp16.handler
 import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.callResult
 
 class StatusNotificationHandler : OcppActionHandler {
-     private val validErrorCodes = setOf(
-         "ConnectorLockFailure", "EVCommunicationError", "GroundFailure",
-         "HighTemperature", "InternalError", "LocalListConflict", "NoError",
-         "OtherError", "OverCurrentFailure", "OverVoltage", "PowerMeterFailure",
-         "PowerSwitchFailure", "ReaderFailure", "ResetFailure", "UnderVoltage",
-         "WeakSignal"
-     )
+    override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
+        val payload = call.payload ?: throw FormationViolationException("Payload is null")
+        validatePayload(payload)
 
-     private val validConnectorStatuses = setOf(
-         "Available", "Preparing", "Charging", "SuspendedEVSE", "SuspendedEV",
-         "Finishing", "Reserved", "Unavailable", "Faulted"
-     )
+        return call.callResult()
+    }
 
-     override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
-         val payload = call.payload ?: throw FormationViolationException("Payload is null")
-         validatePayload(payload)
+    private fun validatePayload(payload: Map<String, Any>) {
+        validateTopLevelFields(payload)
+        validateInfoField(payload)
+    }
 
-         return OcppMessage.CallResult(
-             messageId = call.messageId,
-             payload = null
-         ).toJson()
-     }
+    private fun validateTopLevelFields(payload: Map<String, Any>) {
+        validateConnectorId(payload)
+        validateErrorCode(payload)
+        validateStatus(payload)
+    }
 
-     private fun validatePayload(payload: Map<String, Any>) {
-         validateTopLevelFields(payload)
-         validateInfoField(payload)
-     }
+    private fun validateConnectorId(payload: Map<String, Any>) {
+        payload.requiredInt("connectorId", min = 0)
+    }
 
-     private fun validateTopLevelFields(payload: Map<String, Any>) {
-         validateConnectorId(payload)
-         validateErrorCode(payload)
-         validateStatus(payload)
-     }
+    private fun validateErrorCode(payload: Map<String, Any>) {
+        payload.requiredStringIn("errorCode", OcppConstants.ERROR_CODES)
+    }
 
-     private fun validateConnectorId(payload: Map<String, Any>) {
-         val value = payload["connectorId"]
-         if (value == null) throw FormationViolationException("connectorId is required")
-         val intValue = (value as? Number)?.toInt()
-             ?: throw FormationViolationException("connectorId must be an integer")
-         if (intValue < 0) throw FormationViolationException("connectorId must be >= 0")
-     }
+    private fun validateStatus(payload: Map<String, Any>) {
+        payload.requiredStringIn("status", OcppConstants.CONNECTOR_STATUSES)
+    }
 
-     private fun validateErrorCode(payload: Map<String, Any>) {
-         val errorCode = payload["errorCode"]
-         if (errorCode == null || errorCode.toString().isBlank()) {
-             throw FormationViolationException("errorCode is required")
-         }
-         if (!validErrorCodes.contains(errorCode.toString())) {
-             throw FormationViolationException("Invalid errorCode: ${errorCode}")
-         }
-     }
-
-     private fun validateStatus(payload: Map<String, Any>) {
-         val status = payload["status"]
-         if (status == null) throw FormationViolationException("status is required")
-         val statusStr = status.toString().trim()
-         if (statusStr.isEmpty()) throw FormationViolationException("status is required")
-         if (!validConnectorStatuses.contains(statusStr)) {
-             throw FormationViolationException("Invalid status: ${status}")
-         }
-     }
-
-     private fun validateInfoField(payload: Map<String, Any>) {
-         val info = payload["info"] ?: return
-         val infoStr = info.toString().trim()
-         if (infoStr.length > OcppConstants.MAX_INFO_LENGTH) {
-              throw FormationViolationException("info must not exceed ${OcppConstants.MAX_INFO_LENGTH} characters")
-         }
-     }
- }
+    private fun validateInfoField(payload: Map<String, Any>) {
+        payload.optionalString("info", OcppConstants.MAX_INFO_LENGTH)
+    }
+}

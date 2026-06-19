@@ -384,8 +384,7 @@ class StopTransactionHandlerDirectTest {
 
     @Test
     fun `handle with MetricsService records metrics`() {
-        val metrics = MetricsService()
-        val handlerWithMetrics = StopTransactionHandler(metrics)
+        val handlerWithMetrics = StopTransactionHandler()
         val server = OcppWebSocketServer().apply {
             chargePointId = "CP-001"
             sessionId = "test-session"
@@ -475,9 +474,10 @@ class StopTransactionHandlerDirectTest {
         val ps = TrackingPersistenceService(null)
         val meterRegistry = SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
         val server = OcppWebSocketServer().apply {
             persistenceService = ps
+            this.metricsService = metricsService
         }
         val parsed = StopTransactionHandler.ParsedStopTransaction(
             transactionId = 999L,
@@ -514,9 +514,10 @@ class StopTransactionHandlerDirectTest {
         val ps = TrackingPersistenceService(txn)
         val meterRegistry = SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
         val server = OcppWebSocketServer().apply {
             persistenceService = ps
+            this.metricsService = metricsService
         }
         val parsed = StopTransactionHandler.ParsedStopTransaction(
             transactionId = 42L,
@@ -549,9 +550,10 @@ class StopTransactionHandlerDirectTest {
         val ps = TrackingPersistenceService(txn)
         val meterRegistry = SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
         val server = OcppWebSocketServer().apply {
             persistenceService = ps
+            this.metricsService = metricsService
         }
         val parsed = StopTransactionHandler.ParsedStopTransaction(
             transactionId = 10L,
@@ -578,17 +580,19 @@ class StopTransactionHandlerDirectTest {
 
     @Test
     fun `recordMetrics with null metricsService does not throw`() {
-        val handler = StopTransactionHandler(null)
-        assertDoesNotThrow { handler.recordMetrics(500.0, 120) }
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { metricsService = null }
+        assertDoesNotThrow { handler.recordMetrics(server, 500.0, 120) }
     }
 
     @Test
     fun `recordMetrics energy and duration are recorded with exact values`() {
         val meterRegistry = SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { this.metricsService = metricsService }
 
-        handler.recordMetrics(1234.56, 7890)
+        handler.recordMetrics(server, 1234.56, 7890)
 
         val counter = meterRegistry.find("ocpp.energy.delivered.wh").counter()
         assertNotNull(counter)
@@ -614,10 +618,11 @@ class StopTransactionHandlerDirectTest {
     @Test
     fun `recordMetrics with null counter and timer properties does not throw`() {
         val nullMetrics = NullMetricsProperties()
-        val handler = StopTransactionHandler(nullMetrics)
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { metricsService = nullMetrics }
         // If null checks on energyDeliveredWh or transactionDuration are removed,
         // calling .increment() or .record() on null will throw NPE
-        assertDoesNotThrow { handler.recordMetrics(500.0, 120) }
+        assertDoesNotThrow { handler.recordMetrics(server, 500.0, 120) }
     }
 
     // =====================================================
@@ -630,9 +635,10 @@ class StopTransactionHandlerDirectTest {
         val ps = TrackingPersistenceService(null)
         val meterRegistry = SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
         val server = OcppWebSocketServer().apply {
             persistenceService = ps
+            this.metricsService = metricsService
         }
         val parsed = StopTransactionHandler.ParsedStopTransaction(
             transactionId = 404L,

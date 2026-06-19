@@ -1,8 +1,7 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
+
 class FirmwareStatusNotificationHandler : AbstractStatusNotificationHandler(
-    setOf(
-        "Downloaded", "DownloadFailed", "Downloading", "Idle",
-        "InstallationFailed", "Installing", "Installed"
-    )
+    OcppConstants.FIRMWARE_STATUSES
 )

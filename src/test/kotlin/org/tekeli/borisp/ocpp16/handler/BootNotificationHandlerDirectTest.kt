@@ -204,72 +204,72 @@ class BootNotificationHandlerDirectTest {
         assertNull(payload["firmwareVersion"])
     }
 
-    // -- extractStringField direct tests --
+    // -- requiredString extension direct tests --
 
     @Test
-    fun `extractStringField returns valid value`() {
+    fun `requiredString returns valid value`() {
         val payload = mapOf<String, Any>(
             "fieldName" to "someValue"
         )
 
-        val result = handler.extractStringField(payload, "fieldName", 50)
+        val result = payload.requiredString("fieldName", 50)
 
         assertEquals("someValue", result)
     }
 
     @Test
-    fun `extractStringField throws for missing field`() {
+    fun `requiredString throws for missing field`() {
         val payload = mapOf<String, Any>()
 
         val ex = assertThrows(FormationViolationException::class.java) {
-            handler.extractStringField(payload, "fieldName", 50)
+            payload.requiredString("fieldName", 50)
         }
         assertTrue(ex.message!!.contains("fieldName"))
     }
 
     @Test
-    fun `extractStringField throws for empty value`() {
+    fun `requiredString throws for empty value`() {
         val payload = mapOf<String, Any>(
             "fieldName" to ""
         )
 
         val ex = assertThrows(FormationViolationException::class.java) {
-            handler.extractStringField(payload, "fieldName", 50)
+            payload.requiredString("fieldName", 50)
         }
         assertTrue(ex.message!!.contains("fieldName"))
     }
 
     @Test
-    fun `extractStringField throws for whitespace value`() {
+    fun `requiredString throws for whitespace value`() {
         val payload = mapOf<String, Any>(
             "fieldName" to "  "
         )
 
         val ex = assertThrows(FormationViolationException::class.java) {
-            handler.extractStringField(payload, "fieldName", 50)
+            payload.requiredString("fieldName", 50)
         }
         assertTrue(ex.message!!.contains("fieldName"))
     }
 
     @Test
-    fun `extractStringField throws when value exceeds maxLength`() {
+    fun `requiredString throws when value exceeds maxLength`() {
         val payload = mapOf<String, Any>(
             "fieldName" to "A".repeat(11)
         )
 
         val ex = assertThrows(FormationViolationException::class.java) {
-            handler.extractStringField(payload, "fieldName", 10)
+            payload.requiredString("fieldName", 10)
         }
         assertTrue(ex.message!!.contains("10 characters"))
     }
 
     @Test
-    fun `extractStringField accepts value exactly at maxLength`() {
+    fun `requiredString accepts value exactly at maxLength`() {
         val payload = mapOf<String, Any>(
             "fieldName" to "A".repeat(10)
         )
 
-        val result = handler.extractStringField(payload, "fieldName", 10)
+        val result = payload.requiredString("fieldName", 10)
 
         assertEquals("A".repeat(10), result)
     }

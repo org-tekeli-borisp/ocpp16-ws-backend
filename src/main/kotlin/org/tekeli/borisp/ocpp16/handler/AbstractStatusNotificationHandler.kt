@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16.handler
 
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.callResult
 
 abstract class AbstractStatusNotificationHandler(
     private val validStatuses: Set<String>
@@ -9,19 +10,8 @@ abstract class AbstractStatusNotificationHandler(
 
     override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
+        payload.requiredStringIn("status", validStatuses)
 
-        val status = payload["status"]
-        if (status == null || status.toString().isBlank()) {
-            throw FormationViolationException("status is required")
-        }
-
-        if (status.toString() !in validStatuses) {
-            throw FormationViolationException("Invalid status: ${status}")
-        }
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = null as Map<String, Any>?
-        ).toJson()
+        return call.callResult()
     }
 }

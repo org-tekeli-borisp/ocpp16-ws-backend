@@ -325,7 +325,7 @@ class HandlerMutationTest {
         )
         assertTrue(response.startsWith("[4,"), "connectorId=0 must return CallError")
         assertTrue(response.contains("FormationViolation"), "Error must be FormationViolation")
-        assertTrue(response.contains("connectorId must be > 0"), "Error must mention > 0")
+        assertTrue(response.contains("connectorId must be >= 1"), "Error must mention >= 1")
     }
 
     @Test
@@ -336,7 +336,7 @@ class HandlerMutationTest {
         )
         assertTrue(response.startsWith("[4,"), "Negative connectorId must return CallError")
         assertTrue(response.contains("FormationViolation"), "Error must be FormationViolation")
-        assertTrue(response.contains("connectorId must be > 0"), "Error must mention > 0")
+        assertTrue(response.contains("connectorId must be >= 1"), "Error must mention >= 1")
     }
 
     @Test

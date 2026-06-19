@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16.handler
 
 import io.quarkus.logging.Log
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.callResult
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
@@ -13,11 +14,6 @@ class HeartbeatHandler : OcppActionHandler {
             Log.warn("Heartbeat persistence update failed: ${e.message}")
         }
         val currentTime = ZonedDateTime.now(ZoneOffset.UTC).toString()
-        val responsePayload = mapOf("currentTime" to currentTime)
-
-        return OcppMessage.CallResult(
-            messageId = call.messageId,
-            payload = responsePayload
-        ).toJson()
+        return call.callResult(mapOf("currentTime" to currentTime))
     }
 }

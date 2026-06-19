@@ -444,9 +444,8 @@ class StartTransactionHandlerHandleTest {
             }
         }
 
-        val server = newServer("sess-1", ps)
-        val metrics = object : MetricsService() {}
-        val handler = StartTransactionHandler(metrics)
+        val server = newServer("sess-1", ps).apply { metricsService = MetricsService() }
+        val handler = StartTransactionHandler()
 
         val startTime = Instant.parse("2024-06-15T12:30:00Z")
         val call = OcppMessage.Call(
@@ -541,8 +540,8 @@ class StartTransactionHandlerHandleTest {
                 idTag: String, meterStart: Int, startTime: Instant
             ): Transaction = Transaction(id = 99L)
         }
-        val server = newServer("sess-3", ps)
-        val handler = StartTransactionHandler(metrics)
+        val server = newServer("sess-3", ps).apply { metricsService = metrics }
+        val handler = StartTransactionHandler()
         val call = OcppMessage.Call(
             messageId = "msg-5",
             action = "StartTransaction",

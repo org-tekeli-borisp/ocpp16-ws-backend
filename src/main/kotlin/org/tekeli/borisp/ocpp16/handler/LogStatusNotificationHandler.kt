@@ -1,8 +1,7 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
+
 class LogStatusNotificationHandler : AbstractStatusNotificationHandler(
-    setOf(
-        "BadMessage", "Idle", "NotSupportedOperation",
-        "PermissionDenied", "Uploaded", "UploadFailure", "Uploading"
-    )
+    OcppConstants.LOG_STATUSES
 )

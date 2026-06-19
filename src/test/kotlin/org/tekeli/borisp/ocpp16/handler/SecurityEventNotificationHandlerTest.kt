@@ -2,7 +2,7 @@ package org.tekeli.borisp.ocpp16
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.*
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
@@ -212,78 +212,77 @@ class SecurityEventNotificationHandlerTest {
     // ====== Mutation-killing tests ======
 
     @Test
-    fun `extractType returns exact type value for valid input`() {
+    fun `requiredStringIn returns exact type value for valid input`() {
         val payload = mapOf("type" to "FirmwareUpdated")
-        val result = handler.extractType(payload)
+        val result = payload.requiredStringIn("type", OcppConstants.SECURITY_EVENTS)
         assertEquals("FirmwareUpdated", result)
     }
 
     @Test
-    fun `extractType rejects type exceeding 50 characters`() {
+    fun `requiredStringIn rejects type exceeding 50 characters`() {
         val longType = "A".repeat(51)
         val payload = mapOf("type" to longType)
         val ex = assertThrows(FormationViolationException::class.java) {
-            handler.extractType(payload)
+            payload.requiredStringIn("type", OcppConstants.SECURITY_EVENTS)
         }
-        assertTrue(ex.message!!.contains("50"))
+        assertTrue(ex.message!!.contains("Invalid type"))
     }
 
     @Test
-    fun `extractType accepts type with exactly 50 characters if valid`() {
-        // No valid type is 50 chars, but test boundary with valid short type
-        val result = handler.extractType(mapOf("type" to "Reset"))
+    fun `requiredStringIn accepts type with exactly 50 characters if valid`() {
+        val result = mapOf("type" to "Reset").requiredStringIn("type", OcppConstants.SECURITY_EVENTS)
         assertEquals("Reset", result)
     }
 
     @Test
-    fun `extractTimestamp returns correct Instant`() {
+    fun `requiredInstant returns correct Instant`() {
         val ts = "2024-06-15T12:00:00Z"
-        val result = handler.extractTimestamp(mapOf("timestamp" to ts))
+        val result = mapOf("timestamp" to ts).requiredInstant("timestamp")
         assertEquals(java.time.Instant.parse(ts), result)
     }
 
     @Test
-    fun `extractTimestamp rejects blank timestamp`() {
+    fun `requiredInstant rejects blank timestamp`() {
         val ex = assertThrows(FormationViolationException::class.java) {
-            handler.extractTimestamp(mapOf("timestamp" to "   "))
+            mapOf("timestamp" to "   ").requiredInstant("timestamp")
         }
         assertEquals("timestamp is required", ex.message)
     }
 
     @Test
-    fun `extractTimestamp rejects null timestamp`() {
+    fun `requiredInstant rejects null timestamp`() {
         val ex = assertThrows(FormationViolationException::class.java) {
             @Suppress("UNCHECKED_CAST")
-            handler.extractTimestamp(mapOf("timestamp" to null as Any?) as Map<String, Any>)
+            (mapOf("timestamp" to null as Any?) as Map<String, Any>).requiredInstant("timestamp")
         }
         assertEquals("timestamp is required", ex.message)
     }
 
     @Test
-    fun `extractTechInfo returns value when present`() {
-        val result = handler.extractTechInfo(mapOf("techInfo" to "test info"))
+    fun `optionalString returns value when present`() {
+        val result = mapOf("techInfo" to "test info").optionalString("techInfo", 255)
         assertEquals("test info", result)
     }
 
     @Test
-    fun `extractTechInfo returns null when missing`() {
-        val result = handler.extractTechInfo(emptyMap<String, Any>())
+    fun `optionalString returns null when missing`() {
+        val result = emptyMap<String, Any>().optionalString("techInfo", 255)
         assertNull(result)
     }
 
     @Test
-    fun `extractTechInfo rejects value exceeding 255 characters`() {
+    fun `optionalString rejects value exceeding 255 characters`() {
         val longInfo = "A".repeat(256)
         val ex = assertThrows(FormationViolationException::class.java) {
-            handler.extractTechInfo(mapOf("techInfo" to longInfo))
+            mapOf("techInfo" to longInfo).optionalString("techInfo", 255)
         }
         assertTrue(ex.message!!.contains("255"))
     }
 
     @Test
-    fun `extractTechInfo accepts value with exactly 255 characters`() {
+    fun `optionalString accepts value with exactly 255 characters`() {
         val maxInfo = "A".repeat(255)
-        val result = handler.extractTechInfo(mapOf("techInfo" to maxInfo))
+        val result = mapOf("techInfo" to maxInfo).optionalString("techInfo", 255)
         assertEquals(255, result!!.length)
     }
 
@@ -377,8 +376,9 @@ class SecurityEventNotificationHandlerTest {
                 return SecurityLog(chargePointId = cp, type = type, timestamp = ts, techInfo = info)
             }
         }
-        val h = SecurityEventNotificationHandler(ps)
-        h.processSecurityEvent(mockServer(), "CP-001", "Tampering", Instant.parse("2024-01-01T00:00:00Z"), null)
+        val h = SecurityEventNotificationHandler()
+        val server = mockServer().apply { persistenceService = ps }
+        h.processSecurityEvent(server, "CP-001", "Tampering", Instant.parse("2024-01-01T00:00:00Z"), null)
         assertEquals(listOf("Tampering"), captured)
     }
 
@@ -391,8 +391,9 @@ class SecurityEventNotificationHandlerTest {
                 return SecurityLog(chargePointId = cp, type = type, timestamp = ts, techInfo = info)
             }
         }
-        val h = SecurityEventNotificationHandler(ps)
-        h.processSecurityEvent(mockServer(), "CP-001", "Reset", Instant.parse("2024-01-01T00:00:00Z"), "details here")
+        val h = SecurityEventNotificationHandler()
+        val server = mockServer().apply { persistenceService = ps }
+        h.processSecurityEvent(server, "CP-001", "Reset", Instant.parse("2024-01-01T00:00:00Z"), "details here")
         assertEquals(listOf("details here"), capturedInfo)
     }
 
@@ -428,9 +429,12 @@ class SecurityEventNotificationHandlerTest {
     }
 
     @Test
-    fun `extractTechInfo returns empty string for empty value`() {
-        val result = handler.extractTechInfo(mapOf("techInfo" to ""))
-        assertEquals("", result)
+    fun `validatePayload calls optionalString for techInfo`() {
+        val parsed = handler.validatePayload(mapOf(
+            "type" to "Reset",
+            "timestamp" to "2024-01-01T00:00:00Z"
+        ))
+        assertNull(parsed.techInfo)
     }
 
     @Test
@@ -444,17 +448,17 @@ class SecurityEventNotificationHandlerTest {
     }
 
     @Test
-    fun `extractType rejects type at exactly 51 characters`() {
+    fun `requiredStringIn rejects invalid type at exactly 51 characters`() {
         val longType = "A".repeat(51)
         val ex = assertThrows(FormationViolationException::class.java) {
-            handler.extractType(mapOf("type" to longType))
+            mapOf("type" to longType).requiredStringIn("type", OcppConstants.SECURITY_EVENTS)
         }
-        assertEquals("type must not exceed 50 characters", ex.message)
+        assertTrue(ex.message!!.contains("Invalid type"))
     }
 
     @Test
-    fun `extractType accepts valid type correctly`() {
-        val result = handler.extractType(mapOf("type" to "LocalAccess"))
+    fun `requiredStringIn accepts valid type correctly`() {
+        val result = mapOf("type" to "LocalAccess").requiredStringIn("type", OcppConstants.SECURITY_EVENTS)
         assertEquals("LocalAccess", result)
     }
 

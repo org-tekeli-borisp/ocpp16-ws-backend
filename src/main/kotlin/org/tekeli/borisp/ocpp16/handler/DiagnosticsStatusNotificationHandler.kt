@@ -1,5 +1,7 @@
 package org.tekeli.borisp.ocpp16.handler
 
+import org.tekeli.borisp.ocpp16.OcppConstants
+
 class DiagnosticsStatusNotificationHandler : AbstractStatusNotificationHandler(
-    setOf("Idle", "Uploaded", "UploadFailed", "Uploading")
+    OcppConstants.DIAGNOSTICS_STATUSES
 )

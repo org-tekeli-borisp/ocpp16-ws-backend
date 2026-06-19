@@ -38,4 +38,68 @@ object OcppConstants {
 
     // Command timeout
     const val COMMAND_TIMEOUT_SECONDS = 10
+
+    // Firmware status notification valid values
+    val FIRMWARE_STATUSES = setOf(
+        "Downloaded", "DownloadFailed", "Downloading", "Idle",
+        "InstallationFailed", "Installing", "Installed"
+    )
+
+    // Diagnostics status notification valid values
+    val DIAGNOSTICS_STATUSES = setOf("Idle", "Uploaded", "UploadFailed", "Uploading")
+
+    // Log status notification valid values
+    val LOG_STATUSES = setOf(
+        "BadMessage", "Idle", "NotSupportedOperation",
+        "PermissionDenied", "Uploaded", "UploadFailure", "Uploading"
+    )
+
+    // Signed firmware status notification valid values
+    val SIGNED_FIRMWARE_STATUSES = setOf(
+        "Downloaded", "DownloadFailed", "Downloading", "DownloadScheduled",
+        "DownloadPaused", "Idle", "InstallationFailed", "Installing",
+        "Installed", "InstallRebooting", "InstallScheduled",
+        "InstallVerificationFailed", "InvalidSignature", "SignatureVerified"
+    )
+
+    // StatusNotification connector status valid values
+    val CONNECTOR_STATUSES = setOf(
+        "Available", "Preparing", "Charging", "SuspendedEVSE", "SuspendedEV",
+        "Finishing", "Reserved", "Unavailable", "Faulted"
+    )
+
+    // StatusNotification error code valid values
+    val ERROR_CODES = setOf(
+        "ConnectorLockFailure", "EVCommunicationError", "GroundFailure",
+        "HighTemperature", "InternalError", "LocalListConflict", "NoError",
+        "OtherError", "OverCurrentFailure", "OverVoltage", "PowerMeterFailure",
+        "PowerSwitchFailure", "ReaderFailure", "ResetFailure", "UnderVoltage",
+        "WeakSignal"
+    )
+
+    // StopTransaction reason valid values
+    val STOP_REASONS = setOf(
+        "DeAuthorized", "EmergencyStop", "EVDisconnected", "HardReset",
+        "Local", "Other", "PowerLoss", "Reboot", "Remote", "SoftReset",
+        "UnlockCommand"
+    )
+
+    // SecurityEventNotification type valid values
+    val SECURITY_EVENTS = setOf(
+        "FirmwareUpdated",
+        "FirmwareVerificationFailed",
+        "InvalidChargePointCertificate",
+        "InvalidCentralSystemCertificate",
+        "InvalidTLSCipherSuite",
+        "InvalidTLSVersion",
+        "LocalAccess",
+        "ResetFailed",
+        "Reset",
+        "Tampering",
+        "TransactionInfoNotStored",
+        "InvalidFirmwareSigningCertificate",
+        "InvalidFirmwareSignature",
+        "DiscardedRenewedClientCertificate",
+        "UnauthorizedAccess"
+    )
 }

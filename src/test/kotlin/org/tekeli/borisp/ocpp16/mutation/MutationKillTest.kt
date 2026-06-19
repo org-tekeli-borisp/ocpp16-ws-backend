@@ -23,9 +23,10 @@ class MutationKillTest {
     fun `recordMetrics increments energyDeliveredWh correctly`() {
         val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { this.metricsService = metricsService }
 
-        handler.recordMetrics(1500.5, 3600)
+        handler.recordMetrics(server, 1500.5, 3600)
 
         val counter = meterRegistry.find("ocpp.energy.delivered.wh").counter()
         assertNotNull(counter)
@@ -36,9 +37,10 @@ class MutationKillTest {
     fun `recordMetrics records transactionDuration without error`() {
         val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { this.metricsService = metricsService }
 
-        assertDoesNotThrow { handler.recordMetrics(1500.5, 7200) }
+        assertDoesNotThrow { handler.recordMetrics(server, 1500.5, 7200) }
     }
 
     @Test
@@ -48,9 +50,10 @@ class MutationKillTest {
             injectedMeterRegistry = meterRegistry
             initGauges()
         }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { this.metricsService = metricsService }
 
-        handler.recordMetrics(100.0, 60)
+        handler.recordMetrics(server, 100.0, 60)
 
         val gauge = meterRegistry.find("ocpp.transactions.active").gauge()
         assertNotNull(gauge)
@@ -60,9 +63,10 @@ class MutationKillTest {
     fun `recordMetrics with zero energy and duration still records`() {
         val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { this.metricsService = metricsService }
 
-        handler.recordMetrics(0.0, 0)
+        handler.recordMetrics(server, 0.0, 0)
 
         val counter = meterRegistry.find("ocpp.energy.delivered.wh").counter()
         assertNotNull(counter)

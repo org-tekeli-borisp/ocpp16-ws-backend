@@ -113,9 +113,10 @@ class MutationKillTest2 {
     fun `recordMetrics energy counter reflects exact energy value`() {
         val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { this.metricsService = metricsService }
 
-        handler.recordMetrics(2500.75, 1800)
+        handler.recordMetrics(server, 2500.75, 1800)
 
         val counter = meterRegistry.find("ocpp.energy.delivered.wh").counter()
         assertNotNull(counter)
@@ -127,12 +128,13 @@ class MutationKillTest2 {
         val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
         metricsService.initGauges()
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { this.metricsService = metricsService }
 
         metricsService.onTransactionStarted()
         assertEquals(1.0, meterRegistry.find("ocpp.transactions.active").gauge()!!.value(), 0.01)
 
-        handler.recordMetrics(100.0, 60)
+        handler.recordMetrics(server, 100.0, 60)
 
         val gauge = meterRegistry.find("ocpp.transactions.active").gauge()
         assertNotNull(gauge)
@@ -143,9 +145,10 @@ class MutationKillTest2 {
     fun `recordMetrics timer records duration value`() {
         val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
-        val handler = StopTransactionHandler(metricsService)
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { this.metricsService = metricsService }
 
-        handler.recordMetrics(500.0, 3600)
+        handler.recordMetrics(server, 500.0, 3600)
 
         val timer = meterRegistry.find("ocpp.transaction.duration.seconds").timer()
         assertNotNull(timer)
@@ -154,8 +157,9 @@ class MutationKillTest2 {
 
     @Test
     fun `recordMetrics with null metricsService does not throw`() {
-        val handler = StopTransactionHandler(null)
-        assertDoesNotThrow { handler.recordMetrics(100.0, 60) }
+        val handler = StopTransactionHandler()
+        val server = OcppWebSocketServer().apply { metricsService = null }
+        assertDoesNotThrow { handler.recordMetrics(server, 100.0, 60) }
     }
 
     // =====================================================
