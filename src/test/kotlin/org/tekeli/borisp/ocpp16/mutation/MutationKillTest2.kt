@@ -4,17 +4,17 @@ import jakarta.ws.rs.core.Response
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.command.*
-import org.tekeli.borisp.ocpp16.handler.*
+import org.tekeli.borisp.ocpp16.handler.LogStatusNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.SignedFirmwareStatusNotificationHandler
+import org.tekeli.borisp.ocpp16.handler.StopTransactionHandler
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
 import org.tekeli.borisp.ocpp16.protocol.*
 import org.tekeli.borisp.ocpp16.websocket.ChargePointConnection
 import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
 import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
-import java.time.Instant
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.TimeUnit
-import kotlin.Suppress
 
 class MutationKillTest2 {
 
@@ -42,29 +42,80 @@ class MutationKillTest2 {
         private fun track(name: String) = run { callsMade.add(name); resp }
 
         override fun sendReset(cp: String, type: String) = track("sendReset")
-        override fun sendRemoteStartTransaction(cp: String, idTag: String, connectorId: Int?) = track("sendRemoteStartTransaction")
+        override fun sendRemoteStartTransaction(cp: String, idTag: String, connectorId: Int?) =
+            track("sendRemoteStartTransaction")
+
         override fun sendRemoteStopTransaction(cp: String, transactionId: Int) = track("sendRemoteStopTransaction")
         override fun sendUnlockConnector(cp: String, connectorId: Int) = track("sendUnlockConnector")
         override fun sendCancelReservation(cp: String, reservationId: Int) = track("sendCancelReservation")
-        override fun sendChangeAvailability(cp: String, connectorId: Int, type: String) = track("sendChangeAvailability")
+        override fun sendChangeAvailability(cp: String, connectorId: Int, type: String) =
+            track("sendChangeAvailability")
+
         override fun sendChangeConfiguration(cp: String, key: String, value: String) = track("sendChangeConfiguration")
         override fun sendClearCache(cp: String) = track("sendClearCache")
-        override fun sendClearChargingProfile(cp: String, connectorId: Int?, stackLevel: Int?) = track("sendClearChargingProfile")
-        override fun sendGetCompositeSchedule(cp: String, connectorId: Int, duration: Int) = track("sendGetCompositeSchedule")
+        override fun sendClearChargingProfile(cp: String, connectorId: Int?, stackLevel: Int?) =
+            track("sendClearChargingProfile")
+
+        override fun sendGetCompositeSchedule(cp: String, connectorId: Int, duration: Int) =
+            track("sendGetCompositeSchedule")
+
         override fun sendGetConfiguration(cp: String, keys: List<String>?) = track("sendGetConfiguration")
-        override fun sendGetDiagnostics(cp: String, location: String, retries: Int?, retryInterval: Int?) = track("sendGetDiagnostics")
+        override fun sendGetDiagnostics(cp: String, location: String, retries: Int?, retryInterval: Int?) =
+            track("sendGetDiagnostics")
+
         override fun sendGetLocalListVersion(cp: String) = track("sendGetLocalListVersion")
-        override fun sendReserveNow(cp: String, connectorId: Int, expiryDate: String, idTag: String, reservationId: Int) = track("sendReserveNow")
+        override fun sendReserveNow(
+            cp: String,
+            connectorId: Int,
+            expiryDate: String,
+            idTag: String,
+            reservationId: Int
+        ) = track("sendReserveNow")
+
         override fun sendSendLocalList(cp: String, listVersion: Int, updateType: String) = track("sendSendLocalList")
-        override fun sendSetChargingProfile(cp: String, connectorId: Int, csChargingProfiles: Map<String, Any>) = track("sendSetChargingProfile")
-        override fun sendTriggerMessage(cp: String, requestedMessage: String, connectorId: Int?) = track("sendTriggerMessage")
-        override fun sendUpdateFirmware(cp: String, location: String, retrieveDate: String, retries: Int?, retryInterval: Int?) = track("sendUpdateFirmware")
-        override fun sendExtendedTriggerMessage(cp: String, requestedMessage: String, connectorId: Int?) = track("sendExtendedTriggerMessage")
-        override fun sendInstallCertificate(cp: String, certificateType: String, certificate: String) = track("sendInstallCertificate")
-        override fun sendGetInstalledCertificateIds(cp: String, certificateType: String) = track("sendGetInstalledCertificateIds")
-        override fun sendDeleteCertificate(cp: String, certificateHashData: Map<String, Any>) = track("sendDeleteCertificate")
-        override fun sendGetLog(cp: String, logType: String, requestId: Int, log: Map<String, Any>, retries: Int?, retryInterval: Int?) = track("sendGetLog")
-        override fun sendSignedUpdateFirmware(cp: String, requestId: Int, firmware: Map<String, Any>, retries: Int?, retryInterval: Int?) = track("sendSignedUpdateFirmware")
+        override fun sendSetChargingProfile(cp: String, connectorId: Int, csChargingProfiles: Map<String, Any>) =
+            track("sendSetChargingProfile")
+
+        override fun sendTriggerMessage(cp: String, requestedMessage: String, connectorId: Int?) =
+            track("sendTriggerMessage")
+
+        override fun sendUpdateFirmware(
+            cp: String,
+            location: String,
+            retrieveDate: String,
+            retries: Int?,
+            retryInterval: Int?
+        ) = track("sendUpdateFirmware")
+
+        override fun sendExtendedTriggerMessage(cp: String, requestedMessage: String, connectorId: Int?) =
+            track("sendExtendedTriggerMessage")
+
+        override fun sendInstallCertificate(cp: String, certificateType: String, certificate: String) =
+            track("sendInstallCertificate")
+
+        override fun sendGetInstalledCertificateIds(cp: String, certificateType: String) =
+            track("sendGetInstalledCertificateIds")
+
+        override fun sendDeleteCertificate(cp: String, certificateHashData: Map<String, Any>) =
+            track("sendDeleteCertificate")
+
+        override fun sendGetLog(
+            cp: String,
+            logType: String,
+            requestId: Int,
+            log: Map<String, Any>,
+            retries: Int?,
+            retryInterval: Int?
+        ) = track("sendGetLog")
+
+        override fun sendSignedUpdateFirmware(
+            cp: String,
+            requestId: Int,
+            firmware: Map<String, Any>,
+            retries: Int?,
+            retryInterval: Int?
+        ) = track("sendSignedUpdateFirmware")
+
         override fun sendCertificateSigned(cp: String, certificateChain: String) = track("sendCertificateSigned")
     }
 
@@ -76,6 +127,7 @@ class MutationKillTest2 {
         private val resp = CompletableFuture.completedFuture<OcppMessage>(
             OcppMessage.CallError("id", OcppErrorCode.GENERIC_ERROR, "Error", null)
         )
+
         override fun sendReset(cp: String, type: String) = resp
         override fun sendRemoteStartTransaction(cp: String, idTag: String, connectorId: Int?) = resp
         override fun sendRemoteStopTransaction(cp: String, transactionId: Int) = resp
@@ -89,17 +141,46 @@ class MutationKillTest2 {
         override fun sendGetConfiguration(cp: String, keys: List<String>?) = resp
         override fun sendGetDiagnostics(cp: String, location: String, retries: Int?, retryInterval: Int?) = resp
         override fun sendGetLocalListVersion(cp: String) = resp
-        override fun sendReserveNow(cp: String, connectorId: Int, expiryDate: String, idTag: String, reservationId: Int) = resp
+        override fun sendReserveNow(
+            cp: String,
+            connectorId: Int,
+            expiryDate: String,
+            idTag: String,
+            reservationId: Int
+        ) = resp
+
         override fun sendSendLocalList(cp: String, listVersion: Int, updateType: String) = resp
         override fun sendSetChargingProfile(cp: String, connectorId: Int, csChargingProfiles: Map<String, Any>) = resp
         override fun sendTriggerMessage(cp: String, requestedMessage: String, connectorId: Int?) = resp
-        override fun sendUpdateFirmware(cp: String, location: String, retrieveDate: String, retries: Int?, retryInterval: Int?) = resp
+        override fun sendUpdateFirmware(
+            cp: String,
+            location: String,
+            retrieveDate: String,
+            retries: Int?,
+            retryInterval: Int?
+        ) = resp
+
         override fun sendExtendedTriggerMessage(cp: String, requestedMessage: String, connectorId: Int?) = resp
         override fun sendInstallCertificate(cp: String, certificateType: String, certificate: String) = resp
         override fun sendGetInstalledCertificateIds(cp: String, certificateType: String) = resp
         override fun sendDeleteCertificate(cp: String, certificateHashData: Map<String, Any>) = resp
-        override fun sendGetLog(cp: String, logType: String, requestId: Int, log: Map<String, Any>, retries: Int?, retryInterval: Int?) = resp
-        override fun sendSignedUpdateFirmware(cp: String, requestId: Int, firmware: Map<String, Any>, retries: Int?, retryInterval: Int?) = resp
+        override fun sendGetLog(
+            cp: String,
+            logType: String,
+            requestId: Int,
+            log: Map<String, Any>,
+            retries: Int?,
+            retryInterval: Int?
+        ) = resp
+
+        override fun sendSignedUpdateFirmware(
+            cp: String,
+            requestId: Int,
+            firmware: Map<String, Any>,
+            retries: Int?,
+            retryInterval: Int?
+        ) = resp
+
         override fun sendCertificateSigned(cp: String, certificateChain: String) = resp
     }
 
@@ -168,7 +249,7 @@ class MutationKillTest2 {
     // calculation from mutated (addition instead of subtraction)
     // =====================================================
 
-   @Test
+    @Test
     fun `processStopTransaction with non-zero meterStart yields correct energy`() {
         val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
@@ -374,7 +455,7 @@ class MutationKillTest2 {
             """[2,"sn-mut","StatusNotification",{"connectorId":-1,"errorCode":"NoError","status":"Available"}]"""
         )
         assertTrue(response.startsWith("[4,"))
-        assertTrue(response.contains("connectorId must be >= 0"))
+        assertTrue(response.contains("connectorId is out of range"))
     }
 
     @Test
@@ -424,7 +505,7 @@ class MutationKillTest2 {
             """[2,"mv-mut3","MeterValues",{"connectorId":-1,"meterValue":[{"timestamp":"2024-01-01T00:00:00Z","sampledValue":[{"value":"100"}]}]}]"""
         )
         assertTrue(response.startsWith("[4,"))
-        assertTrue(response.contains("connectorId must be >= 0"))
+        assertTrue(response.contains("connectorId is out of range"))
     }
 
     // =====================================================
@@ -601,10 +682,12 @@ class MutationKillTest2 {
     @Test
     fun `ReserveNowCommand validate with non-Number connectorId`() {
         val cmd = ReserveNowCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "connectorId" to "bad", "expiryDate" to "2024-01-01T00:00:00Z",
-            "idTag" to "CARD1", "reservationId" to 1
-        ))
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "connectorId" to "bad", "expiryDate" to "2024-01-01T00:00:00Z",
+                "idTag" to "CARD1", "reservationId" to 1
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -612,10 +695,12 @@ class MutationKillTest2 {
     @Test
     fun `ReserveNowCommand validate with non-Number reservationId`() {
         val cmd = ReserveNowCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "connectorId" to 1, "expiryDate" to "2024-01-01T00:00:00Z",
-            "idTag" to "CARD1", "reservationId" to "bad"
-        ))
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "connectorId" to 1, "expiryDate" to "2024-01-01T00:00:00Z",
+                "idTag" to "CARD1", "reservationId" to "bad"
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -841,10 +926,12 @@ class MutationKillTest2 {
     @Test
     fun `ReserveNowCommand execute returns BAD_GATEWAY on CallError`() {
         val cmd = ReserveNowCommand(ErrorGateway())
-        val resp = cmd.execute("CP-1", mapOf<String, Any>(
-            "connectorId" to 1, "expiryDate" to "2024-01-01T00:00:00Z",
-            "idTag" to "CARD1", "reservationId" to 1
-        ))
+        val resp = cmd.execute(
+            "CP-1", mapOf<String, Any>(
+                "connectorId" to 1, "expiryDate" to "2024-01-01T00:00:00Z",
+                "idTag" to "CARD1", "reservationId" to 1
+            )
+        )
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
     }
 
@@ -858,7 +945,10 @@ class MutationKillTest2 {
     @Test
     fun `SetChargingProfileCommand execute returns BAD_GATEWAY on CallError`() {
         val cmd = SetChargingProfileCommand(ErrorGateway())
-        val resp = cmd.execute("CP-1", mapOf("connectorId" to 1, "csChargingProfiles" to mapOf<String, Any>("chargingProfileId" to 1)))
+        val resp = cmd.execute(
+            "CP-1",
+            mapOf("connectorId" to 1, "csChargingProfiles" to mapOf<String, Any>("chargingProfileId" to 1))
+        )
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
     }
 
@@ -886,7 +976,10 @@ class MutationKillTest2 {
     @Test
     fun `InstallCertificateCommand execute returns BAD_GATEWAY on CallError`() {
         val cmd = InstallCertificateCommand(ErrorGateway())
-        val resp = cmd.execute("CP-1", mapOf("certificateType" to "CentralSystemRootCertificate", "certificate" to "cert-data"))
+        val resp = cmd.execute(
+            "CP-1",
+            mapOf("certificateType" to "CentralSystemRootCertificate", "certificate" to "cert-data")
+        )
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
     }
 
@@ -900,20 +993,26 @@ class MutationKillTest2 {
     @Test
     fun `DeleteCertificateCommand execute returns BAD_GATEWAY on CallError`() {
         val cmd = DeleteCertificateCommand(ErrorGateway())
-        val resp = cmd.execute("CP-1", mapOf("certificateHashData" to mapOf<String, Any>(
-            "hashAlgorithm" to "SHA256", "issuerNameHash" to "h1",
-            "issuerKeyHash" to "h2", "serialNumber" to "s1"
-        )))
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "certificateHashData" to mapOf<String, Any>(
+                    "hashAlgorithm" to "SHA256", "issuerNameHash" to "h1",
+                    "issuerKeyHash" to "h2", "serialNumber" to "s1"
+                )
+            )
+        )
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
     }
 
     @Test
     fun `GetLogCommand execute returns BAD_GATEWAY on CallError`() {
         val cmd = GetLogCommand(ErrorGateway())
-        val resp = cmd.execute("CP-1", mapOf<String, Any>(
-            "logType" to "DiagnosticsLog", "requestId" to 1,
-            "log" to mapOf("remoteLocation" to "http://example.com/log")
-        ))
+        val resp = cmd.execute(
+            "CP-1", mapOf<String, Any>(
+                "logType" to "DiagnosticsLog", "requestId" to 1,
+                "log" to mapOf("remoteLocation" to "http://example.com/log")
+            )
+        )
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
     }
 
@@ -963,10 +1062,12 @@ class MutationKillTest2 {
     fun `ReserveNowCommand execute returns ACCEPTED on CallResult`() {
         val gw = TrackingGateway()
         val cmd = ReserveNowCommand(gw)
-        val resp = cmd.execute("CP-1", mapOf<String, Any>(
-            "connectorId" to 1, "expiryDate" to "2024-01-01T00:00:00Z",
-            "idTag" to "CARD1", "reservationId" to 1
-        ))
+        val resp = cmd.execute(
+            "CP-1", mapOf<String, Any>(
+                "connectorId" to 1, "expiryDate" to "2024-01-01T00:00:00Z",
+                "idTag" to "CARD1", "reservationId" to 1
+            )
+        )
         assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
         val entity = resp.entity as Map<*, *>
         assertEquals("sent", entity["status"])
@@ -1002,30 +1103,34 @@ class MutationKillTest2 {
     @Test
     fun `SignedUpdateFirmwareCommand validate with valid firmware`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "http://fw.bin",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to "cert-data",
-                "signature" to "sig-data"
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert-data",
+                    "signature" to "sig-data"
+                )
             )
-        ))
+        )
         assertNull(resp)
     }
 
     @Test
     fun `SignedUpdateFirmwareCommand validate with empty location`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to "cert",
-                "signature" to "sig"
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to "sig"
+                )
             )
-        ))
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1049,15 +1154,17 @@ class MutationKillTest2 {
     @Test
     fun `SignedUpdateFirmwareCommand validateFirmwareFields catches exception in runCatching`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "http://fw.bin",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to "",
-                "signature" to "sig"
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "",
+                    "signature" to "sig"
+                )
             )
-        ))
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1066,15 +1173,17 @@ class MutationKillTest2 {
     fun `SignedUpdateFirmwareCommand execute returns ACCEPTED on CallResult`() {
         val gw = TrackingGateway()
         val cmd = SignedUpdateFirmwareCommand(gw)
-        val resp = cmd.execute("CP-1", mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "http://fw.bin",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to "cert",
-                "signature" to "sig"
+        val resp = cmd.execute(
+            "CP-1", mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to "sig"
+                )
             )
-        ))
+        )
         assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
     }
 
@@ -1082,31 +1191,35 @@ class MutationKillTest2 {
     fun `SignedUpdateFirmwareCommand execute with installDateTime`() {
         val gw = TrackingGateway()
         val cmd = SignedUpdateFirmwareCommand(gw)
-        val resp = cmd.execute("CP-1", mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "http://fw.bin",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "installDateTime" to "2024-01-02T00:00:00Z",
-                "signingCertificate" to "cert",
-                "signature" to "sig"
+        val resp = cmd.execute(
+            "CP-1", mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "installDateTime" to "2024-01-02T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to "sig"
+                )
             )
-        ))
+        )
         assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
     }
 
     @Test
     fun `SignedUpdateFirmwareCommand execute returns BAD_GATEWAY on CallError`() {
         val cmd = SignedUpdateFirmwareCommand(ErrorGateway())
-        val resp = cmd.execute("CP-1", mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "http://fw.bin",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to "cert",
-                "signature" to "sig"
+        val resp = cmd.execute(
+            "CP-1", mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to "sig"
+                )
             )
-        ))
+        )
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
     }
 
@@ -1117,10 +1230,12 @@ class MutationKillTest2 {
     @Test
     fun `GetLogCommand validateTopLevel with invalid logType`() {
         val cmd = GetLogCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "logType" to "InvalidLog", "requestId" to 1,
-            "log" to mapOf("remoteLocation" to "http://example.com/log")
-        ))
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "logType" to "InvalidLog", "requestId" to 1,
+                "log" to mapOf("remoteLocation" to "http://example.com/log")
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1128,10 +1243,12 @@ class MutationKillTest2 {
     @Test
     fun `GetLogCommand validateTopLevel with missing requestId`() {
         val cmd = GetLogCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "logType" to "DiagnosticsLog",
-            "log" to mapOf("remoteLocation" to "http://example.com/log")
-        ))
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "logType" to "DiagnosticsLog",
+                "log" to mapOf("remoteLocation" to "http://example.com/log")
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1139,10 +1256,12 @@ class MutationKillTest2 {
     @Test
     fun `GetLogCommand validateTopLevel with non-Map log`() {
         val cmd = GetLogCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "logType" to "DiagnosticsLog", "requestId" to 1,
-            "log" to "not-a-map"
-        ))
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "logType" to "DiagnosticsLog", "requestId" to 1,
+                "log" to "not-a-map"
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1150,10 +1269,12 @@ class MutationKillTest2 {
     @Test
     fun `GetLogCommand validateNestedLog with empty remoteLocation`() {
         val cmd = GetLogCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "logType" to "SecurityLog", "requestId" to 1,
-            "log" to mapOf("remoteLocation" to "")
-        ))
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "logType" to "SecurityLog", "requestId" to 1,
+                "log" to mapOf("remoteLocation" to "")
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1161,10 +1282,12 @@ class MutationKillTest2 {
     @Test
     fun `GetLogCommand validateNestedLog with missing remoteLocation`() {
         val cmd = GetLogCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "logType" to "SecurityLog", "requestId" to 1,
-            "log" to mapOf<String, Any>()
-        ))
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "logType" to "SecurityLog", "requestId" to 1,
+                "log" to mapOf<String, Any>()
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1176,20 +1299,28 @@ class MutationKillTest2 {
     @Test
     fun `DeleteCertificateCommand validate with valid data`() {
         val cmd = DeleteCertificateCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf("certificateHashData" to mapOf<String, Any>(
-            "hashAlgorithm" to "SHA256", "issuerNameHash" to "h1",
-            "issuerKeyHash" to "h2", "serialNumber" to "s1"
-        )))
+        val resp = cmd.validate(
+            mapOf(
+                "certificateHashData" to mapOf<String, Any>(
+                    "hashAlgorithm" to "SHA256", "issuerNameHash" to "h1",
+                    "issuerKeyHash" to "h2", "serialNumber" to "s1"
+                )
+            )
+        )
         assertNull(resp)
     }
 
     @Test
     fun `DeleteCertificateCommand validate with invalid hashAlgorithm`() {
         val cmd = DeleteCertificateCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf("certificateHashData" to mapOf<String, Any>(
-            "hashAlgorithm" to "MD5", "issuerNameHash" to "h1",
-            "issuerKeyHash" to "h2", "serialNumber" to "s1"
-        )))
+        val resp = cmd.validate(
+            mapOf(
+                "certificateHashData" to mapOf<String, Any>(
+                    "hashAlgorithm" to "MD5", "issuerNameHash" to "h1",
+                    "issuerKeyHash" to "h2", "serialNumber" to "s1"
+                )
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1197,10 +1328,14 @@ class MutationKillTest2 {
     @Test
     fun `DeleteCertificateCommand checkRequiredStringFields with empty field`() {
         val cmd = DeleteCertificateCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf("certificateHashData" to mapOf<String, Any>(
-            "hashAlgorithm" to "SHA256", "issuerNameHash" to "",
-            "issuerKeyHash" to "h2", "serialNumber" to "s1"
-        )))
+        val resp = cmd.validate(
+            mapOf(
+                "certificateHashData" to mapOf<String, Any>(
+                    "hashAlgorithm" to "SHA256", "issuerNameHash" to "",
+                    "issuerKeyHash" to "h2", "serialNumber" to "s1"
+                )
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1323,11 +1458,13 @@ class MutationKillTest2 {
     fun `GetDiagnosticsCommand execute with all params returns ACCEPTED`() {
         val gw = TrackingGateway()
         val cmd = GetDiagnosticsCommand(gw)
-        val resp = cmd.execute("CP-1", mapOf(
-            "location" to "http://diag.com/log",
-            "retries" to 3,
-            "retryInterval" to 60
-        ))
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "location" to "http://diag.com/log",
+                "retries" to 3,
+                "retryInterval" to 60
+            )
+        )
         assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
     }
 
@@ -1339,12 +1476,14 @@ class MutationKillTest2 {
     fun `UpdateFirmwareCommand execute with all params returns ACCEPTED`() {
         val gw = TrackingGateway()
         val cmd = UpdateFirmwareCommand(gw)
-        val resp = cmd.execute("CP-1", mapOf(
-            "location" to "http://fw.bin",
-            "retrieveDate" to "2024-01-01T00:00:00Z",
-            "retries" to 2,
-            "retryInterval" to 30
-        ))
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "location" to "http://fw.bin",
+                "retrieveDate" to "2024-01-01T00:00:00Z",
+                "retries" to 2,
+                "retryInterval" to 30
+            )
+        )
         assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
     }
 
@@ -1412,7 +1551,7 @@ class MutationKillTest2 {
         assertEquals(6000.0, counter!!.count(), 0.01)
     }
 
-@Test
+    @Test
     fun `StopTransactionHandler full flow duration from timestamps`() {
         val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
         val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
@@ -1682,10 +1821,12 @@ class MutationKillTest2 {
     @Test
     fun `GetLogCommand validateTopLevel with non-Number requestId`() {
         val cmd = GetLogCommand(TrackingGateway())
-        val resp = cmd.validate(mapOf<String, Any>(
-            "logType" to "DiagnosticsLog", "requestId" to "not-a-number",
-            "log" to mapOf("remoteLocation" to "http://example.com/log")
-        ))
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "logType" to "DiagnosticsLog", "requestId" to "not-a-number",
+                "log" to mapOf("remoteLocation" to "http://example.com/log")
+            )
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1694,7 +1835,7 @@ class MutationKillTest2 {
     // 38. SignedUpdateFirmwareCommand - non-Number requestId
     // =====================================================
 
-   @Test
+    @Test
     fun `SignedUpdateFirmwareCommand validate with non-Number requestId`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
         val payload = mutableMapOfNullable()
@@ -1718,15 +1859,17 @@ class MutationKillTest2 {
     fun `SignedUpdateFirmwareCommand validate with location exactly 512 chars`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
         val loc = "h".repeat(512)
-        val resp = cmd.validate(mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to loc,
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to "cert",
-                "signature" to "sig"
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to loc,
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to "sig"
+                )
             )
-        ))
+        )
         assertNull(resp)
     }
 
@@ -1734,15 +1877,17 @@ class MutationKillTest2 {
     fun `SignedUpdateFirmwareCommand validate with location 513 chars fails`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
         val loc = "h".repeat(513)
-        val resp = cmd.validate(mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to loc,
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to "cert",
-                "signature" to "sig"
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to loc,
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to "sig"
+                )
             )
-        ))
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1751,15 +1896,17 @@ class MutationKillTest2 {
     fun `SignedUpdateFirmwareCommand validate with signingCertificate 5500 chars`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
         val cert = "c".repeat(5500)
-        val resp = cmd.validate(mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "http://fw.bin",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to cert,
-                "signature" to "sig"
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to cert,
+                    "signature" to "sig"
+                )
             )
-        ))
+        )
         assertNull(resp)
     }
 
@@ -1767,15 +1914,17 @@ class MutationKillTest2 {
     fun `SignedUpdateFirmwareCommand validate with signingCertificate 5501 chars fails`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
         val cert = "c".repeat(5501)
-        val resp = cmd.validate(mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "http://fw.bin",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to cert,
-                "signature" to "sig"
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to cert,
+                    "signature" to "sig"
+                )
             )
-        ))
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1784,15 +1933,17 @@ class MutationKillTest2 {
     fun `SignedUpdateFirmwareCommand validate with signature 800 chars`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
         val sig = "s".repeat(800)
-        val resp = cmd.validate(mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "http://fw.bin",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to "cert",
-                "signature" to sig
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to sig
+                )
             )
-        ))
+        )
         assertNull(resp)
     }
 
@@ -1800,15 +1951,17 @@ class MutationKillTest2 {
     fun `SignedUpdateFirmwareCommand validate with signature 801 chars fails`() {
         val cmd = SignedUpdateFirmwareCommand(TrackingGateway())
         val sig = "s".repeat(801)
-        val resp = cmd.validate(mapOf<String, Any>(
-            "requestId" to 1,
-            "firmware" to mapOf<String, Any>(
-                "location" to "http://fw.bin",
-                "retrieveDateTime" to "2024-01-01T00:00:00Z",
-                "signingCertificate" to "cert",
-                "signature" to sig
+        val resp = cmd.validate(
+            mapOf<String, Any>(
+                "requestId" to 1,
+                "firmware" to mapOf<String, Any>(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to sig
+                )
             )
-        ))
+        )
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
     }
@@ -1819,10 +1972,12 @@ class MutationKillTest2 {
     @Test
     fun `SecurityEventNotificationHandler rejects whitespace-only type with correct message`() {
         val handler = SecurityEventNotificationHandler()
-        val call = OcppMessage.Call("id", "SecurityEventNotification", mapOf(
-            "type" to "   ",
-            "timestamp" to "2024-01-01T00:00:00Z"
-        ))
+        val call = OcppMessage.Call(
+            "id", "SecurityEventNotification", mapOf(
+                "type" to "   ",
+                "timestamp" to "2024-01-01T00:00:00Z"
+            )
+        )
         val ex = assertThrows(FormationViolationException::class.java) {
             handler.handle(call, OcppWebSocketServer())
         }
@@ -1832,10 +1987,12 @@ class MutationKillTest2 {
     @Test
     fun `SecurityEventNotificationHandler rejects blank timestamp with correct message`() {
         val handler = SecurityEventNotificationHandler()
-        val call = OcppMessage.Call("id", "SecurityEventNotification", mapOf(
-            "type" to "FirmwareUpdated",
-            "timestamp" to "   "
-        ))
+        val call = OcppMessage.Call(
+            "id", "SecurityEventNotification", mapOf(
+                "type" to "FirmwareUpdated",
+                "timestamp" to "   "
+            )
+        )
         val ex = assertThrows(FormationViolationException::class.java) {
             handler.handle(call, OcppWebSocketServer())
         }
@@ -1845,11 +2002,13 @@ class MutationKillTest2 {
     @Test
     fun `SecurityEventNotificationHandler handles null techInfo gracefully`() {
         val handler = SecurityEventNotificationHandler()
-        val call = OcppMessage.Call("id", "SecurityEventNotification", mapOf<String, Any>(
-            "type" to "FirmwareUpdated",
-            "timestamp" to "2024-01-01T00:00:00Z"
-            // techInfo intentionally missing
-        ))
+        val call = OcppMessage.Call(
+            "id", "SecurityEventNotification", mapOf<String, Any>(
+                "type" to "FirmwareUpdated",
+                "timestamp" to "2024-01-01T00:00:00Z"
+                // techInfo intentionally missing
+            )
+        )
         val server = OcppWebSocketServer().apply {
             chargePointId = "CP-SEC"
         }
@@ -1864,8 +2023,10 @@ class MutationKillTest2 {
     @Test
     fun `LogStatusNotificationHandler accepts all 7 valid statuses`() {
         val handler = LogStatusNotificationHandler()
-        for (status in listOf("BadMessage", "Idle", "NotSupportedOperation",
-            "PermissionDenied", "Uploaded", "UploadFailure", "Uploading")) {
+        for (status in listOf(
+            "BadMessage", "Idle", "NotSupportedOperation",
+            "PermissionDenied", "Uploaded", "UploadFailure", "Uploading"
+        )) {
             val call = OcppMessage.Call("id", "LogStatusNotification", mapOf("status" to status))
             val response = handler.handle(call, OcppWebSocketServer())
             assertTrue(response.startsWith("[3,"), "Should accept status: $status")
@@ -1888,10 +2049,12 @@ class MutationKillTest2 {
     @Test
     fun `SignedFirmwareStatusNotificationHandler accepts all 14 valid statuses`() {
         val handler = SignedFirmwareStatusNotificationHandler()
-        for (status in listOf("Downloaded", "DownloadFailed", "Downloading", "DownloadScheduled",
+        for (status in listOf(
+            "Downloaded", "DownloadFailed", "Downloading", "DownloadScheduled",
             "DownloadPaused", "Idle", "InstallationFailed", "Installing",
             "Installed", "InstallRebooting", "InstallScheduled",
-            "InstallVerificationFailed", "InvalidSignature", "SignatureVerified")) {
+            "InstallVerificationFailed", "InvalidSignature", "SignatureVerified"
+        )) {
             val call = OcppMessage.Call("id", "SignedFirmwareStatusNotification", mapOf("status" to status))
             val response = handler.handle(call, OcppWebSocketServer())
             assertTrue(response.startsWith("[3,"), "Should accept status: $status")
