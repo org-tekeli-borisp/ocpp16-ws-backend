@@ -57,6 +57,7 @@ class OcppWebSocketServerBootNotificationTest {
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
         assertTrue(response.contains("chargePointModel is required"))
+        assertFalse(response.contains("Payload validation failed"))
     }
 
     @Test
@@ -90,6 +91,7 @@ class OcppWebSocketServerBootNotificationTest {
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
         assertTrue(response.contains("chargePointVendor must not exceed 20 characters"))
+        assertFalse(response.contains("Payload validation failed"))
     }
 
     @Test
@@ -121,6 +123,7 @@ class OcppWebSocketServerBootNotificationTest {
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
         assertTrue(response.contains("Payload is null"))
+        assertFalse(response.contains("Payload validation failed"))
     }
 
     @Test

@@ -43,23 +43,27 @@ class OcppWebSocketServerInfrastructureTest {
 
     @Test
     fun `sendText delegates to set connection`() {
-        var called = false
+        var delegated = false
         val proxy = Proxy.newProxyInstance(
             io.quarkus.websockets.next.WebSocketConnection::class.java.classLoader,
             arrayOf(io.quarkus.websockets.next.WebSocketConnection::class.java)
-        ) { _, m, _ ->
-            if (m.name == "sendText") called = true
+        ) { _, method, args ->
+            if (method.name == "sendText" && args?.get(0) == "test") {
+                delegated = true
+            }
             Uni.createFrom().voidItem()
         } as io.quarkus.websockets.next.WebSocketConnection
         val s = OcppWebSocketServer().also { it.connection = proxy }
         s.sendText("test")
-        assertTrue(called, "sendText must delegate to set connection")
+        assertTrue(delegated, "sendText must delegate exact argument to set connection")
     }
 
     @Test
     fun `sendText returns void Uni when connection is null`() {
         val s = OcppWebSocketServer()
-        assertDoesNotThrow({ s.sendText("test") })
+        val result = s.sendText("test")
+        assertNotNull(result)
+        assertTrue(result is Uni<*>)
     }
 
     @Test
@@ -102,5 +106,19 @@ class OcppWebSocketServerInfrastructureTest {
         val s = OcppWebSocketServer().apply { chargePointId = "CP1"; metricsService = null }
         val r = s.onTextMessage("""[2,"n1","Heartbeat",{}]""")
         assertTrue(r.startsWith("[3,"))
+        assertTrue(r.contains("currentTime"))
+    }
+
+    @Test
+    fun `null metricsService safe on multiple CALL types`() {
+        val s = OcppWebSocketServer().apply { chargePointId = "CP1"; metricsService = null }
+
+        val r1 = s.onTextMessage("""[2,"n3","Heartbeat",{}]""")
+        val r2 = s.onTextMessage("""[2,"n4","BootNotification",{"chargePointVendor":"V","chargePointModel":"M"}]""")
+        val r3 = s.onTextMessage("""[2,"n5","Authorize",{"idTag":"TAG1"}]""")
+
+        assertTrue(r1.startsWith("[3,"), "Heartbeat must succeed")
+        assertTrue(r2.startsWith("[3,"), "BootNotification must succeed")
+        assertTrue(r3.startsWith("[3,"), "Authorize must succeed")
     }
 }
