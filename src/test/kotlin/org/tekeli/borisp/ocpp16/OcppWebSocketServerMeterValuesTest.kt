@@ -37,7 +37,7 @@ class OcppWebSocketServerMeterValuesTest {
         val response = server.onTextMessage("""[2,"mv-4","MeterValues",{"connectorId":-1,"meterValue":[{"timestamp":"2024-01-01T00:00:00Z","sampledValue":[{"value":"5000"}]}]}]""")
         assertTrue(response.startsWith("[4,"))
         assertTrue(response.contains("FormationViolation"))
-        assertTrue(response.contains("connectorId must be >= 0"))
+        assertTrue(response.contains("connectorId is out of range"))
     }
 
     @Test

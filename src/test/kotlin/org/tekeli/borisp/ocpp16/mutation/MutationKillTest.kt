@@ -230,7 +230,7 @@ class MutationKillTest {
             """[2,"sn-n1","StatusNotification",{"connectorId":-1,"errorCode":"NoError","status":"Available"}]"""
         )
         assertTrue(response.startsWith("[4,"))
-        assertTrue(response.contains("connectorId must be >= 0"))
+        assertTrue(response.contains("connectorId is out of range"))
     }
 
     @Test

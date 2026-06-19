@@ -34,13 +34,7 @@ fun Map<String, Any>.requiredInt(key: String, min: Int = Int.MIN_VALUE, max: Int
     val intValue = (value as? Number)?.toInt()
         ?: throw FormationViolationException("$key must be an integer")
     if (intValue < min || intValue > max) {
-        val constraint = when {
-            min != Int.MIN_VALUE && max != Int.MAX_VALUE -> "between $min and $max"
-            min != Int.MIN_VALUE -> ">= $min"
-            max != Int.MAX_VALUE -> "<= $max"
-            else -> "valid integer"
-        }
-        throw FormationViolationException("$key must be $constraint")
+        throw FormationViolationException("$key is out of range")
     }
     return intValue
 }

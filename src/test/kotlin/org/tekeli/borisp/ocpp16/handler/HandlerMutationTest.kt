@@ -325,7 +325,7 @@ class HandlerMutationTest {
         )
         assertTrue(response.startsWith("[4,"), "connectorId=0 must return CallError")
         assertTrue(response.contains("FormationViolation"), "Error must be FormationViolation")
-        assertTrue(response.contains("connectorId must be >= 1"), "Error must mention >= 1")
+        assertTrue(response.contains("connectorId is out of range"), "Error must mention >= 1")
     }
 
     @Test
@@ -336,7 +336,7 @@ class HandlerMutationTest {
         )
         assertTrue(response.startsWith("[4,"), "Negative connectorId must return CallError")
         assertTrue(response.contains("FormationViolation"), "Error must be FormationViolation")
-        assertTrue(response.contains("connectorId must be >= 1"), "Error must mention >= 1")
+        assertTrue(response.contains("connectorId is out of range"), "Error must mention >= 1")
     }
 
     @Test
@@ -718,7 +718,7 @@ class HandlerMutationTest {
         )
         assertTrue(response.startsWith("[4,"), "connectorId=-1 must return CallError")
         assertTrue(response.contains("FormationViolation"), "Error must be FormationViolation")
-        assertTrue(response.contains("connectorId must be >= 0"), "Error must mention >= 0")
+        assertTrue(response.contains("connectorId is out of range"), "Error must mention >= 0")
     }
 
     @Test
@@ -892,7 +892,7 @@ class HandlerMutationTest {
             """[2,"mv-cn2","MeterValues",{"connectorId":-2,"meterValue":[{"timestamp":"2024-01-01T00:00:00Z","sampledValue":[{"value":"1000"}]}]}]"""
         )
         assertTrue(response.startsWith("[4,"), "connectorId=-2 must fail")
-        assertTrue(response.contains("connectorId must be >= 0"), "Error must mention >= 0")
+        assertTrue(response.contains("connectorId is out of range"), "Error must mention >= 0")
     }
 
     @Test
