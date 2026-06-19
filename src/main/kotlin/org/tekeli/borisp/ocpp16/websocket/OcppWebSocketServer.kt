@@ -56,7 +56,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     private val activePersistence: PersistenceService
         get() = persistenceService ?: throw IllegalStateException("Persistence not initialized")
 
-    override val responseAwaiter = ResponseAwaiter()
+    override var responseAwaiter: ResponseAwaiter = ResponseAwaiter()
     open override var sessionId: String = ""
     override var chargePointId: String = ""
     private val handlers: Map<String, OcppActionHandler> by lazy {
@@ -83,6 +83,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     fun onOpen() {
         chargePointId = activeConnection.pathParam("chargePointId")
         sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
+        responseAwaiter = ResponseAwaiter()
         activeRegistry.register(sessionId, sessionId, this)
         Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId")
     }
@@ -174,12 +175,12 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     private fun generateMessageId(): String = UUID.randomUUID().toString()
 
-  @OnClose
+   @OnClose
     fun onClose() {
         val connectionId = sessionId
         if (activeRegistry.isConnected(connectionId)) {
-            responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
             activeRegistry.unregister(connectionId)
+            responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
             activePersistence.setChargePointOffline(connectionId)
             Log.info("WebSocket connection closed: session=$connectionId")
         }

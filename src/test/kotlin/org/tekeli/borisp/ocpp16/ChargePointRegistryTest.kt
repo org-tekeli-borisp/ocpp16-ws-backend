@@ -541,6 +541,63 @@ class ChargePointRegistryTest {
         }
     }
 
+    @Test
+    fun `should allow new connection to work after previous connection closes`() {
+        // Simulates: connection 1 opens → closes (rejectAll) → connection 2 opens → sends command.
+        // The bug was: ResponseAwaiter was shared across all connections, so rejectAll
+        // on connection 1's close permanently poisoned the awaiter for connection 2.
+        val registry = ChargePointRegistry()
+        val connection1 = mockChargePointConnection()
+        val connection2 = mockChargePointConnection()
+
+        // Connection 1: register, close (with rejectAll)
+        registry.register("s1", "c1", connection1)
+        registry.setTestSender("s1", connection1)
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+        registry.unregister("s1")
+        connection1.responseAwaiter.rejectAll("Connection 1 closed")
+
+        // Connection 2: register (same chargePointId), should work normally
+        registry.register("s2", "c2", connection2)
+        registry.setTestSender("s2", connection2)
+        registry.updateChargePointInfo("s2", "CP-001", "V2", "M2")
+
+        // SendCall must work with connection 2's fresh awaiter
+        val future = registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))
+        assertFalse(future.isDone, "Future should NOT be immediately rejected")
+
+        val sentMessages = connection2.sentMessages
+        assertEquals(1, sentMessages.size)
+        val call = OcppMessage.parse(sentMessages[0]) as OcppMessage.Call
+        assertEquals("Reset", call.action)
+
+        // Resolve the call normally
+        connection2.simulateCallResult(call.messageId, mapOf("status" to "Accepted"))
+        assertTrue((future.get() as OcppMessage.CallResult).payload!!.containsKey("status"))
+    }
+
+    @Test
+    fun `should throw not connected when sendCall occurs after onClose sequence`() {
+        // Simulates the correct onClose order: unregister first, then rejectAll.
+        // After unregister, sendCall must throw "ChargePoint not connected"
+        // and must NOT throw "ResponseAwaiter has been rejected".
+        val registry = ChargePointRegistry()
+        val connection = mockChargePointConnection()
+
+        registry.register("s1", "c1", connection)
+        registry.setTestSender("s1", connection)
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+
+        // Correct onClose order: unregister first, then rejectAll
+        registry.unregister("s1")
+        connection.responseAwaiter.rejectAll("Connection closed")
+
+        val ex = assertThrows(IllegalStateException::class.java) {
+            registry.sendCall("CP-001", "TriggerMessage", mapOf("requestedMessage" to "Heartbeat"))
+        }
+        assertEquals("ChargePoint not connected: CP-001", ex.message)
+    }
+
     private fun mockChargePointConnection(): TestChargePointConnection = TestChargePointConnection()
 
     private class TestChargePointConnection(
