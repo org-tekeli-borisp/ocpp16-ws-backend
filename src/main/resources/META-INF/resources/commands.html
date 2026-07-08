@@ -77,6 +77,19 @@ select:invalid { color: #6c757d; }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: .4rem; }
 .status-dot.online { background: #28a745; }
 .status-dot.offline { background: #dc3545; }
+.connector-list { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .8rem; padding-top: .8rem; border-top: 1px solid #eee; }
+.connector-list-title { font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; color: #6c757d; font-weight: 600; width: 100%; margin-bottom: .2rem; }
+.connector-chip {
+    display: inline-flex; align-items: center; gap: .2rem;
+    padding: .15rem .45rem; border-radius: 4px;
+    font-size: .7rem; font-weight: 600; white-space: nowrap;
+}
+.connector-chip .cid { color: #6c757d; font-weight: 400; margin-right: .15rem; }
+.connector-chip.avail { background: #d4edda; color: #155724; }
+.connector-chip.charg { background: #cce5ff; color: #004085; }
+.connector-chip.fault { background: #f8d7da; color: #721c24; }
+.connector-chip.other { background: #fff3cd; color: #856404; }
+.connector-chip.unavail { background: #e2e3e5; color: #383d41; }
 
 /* Response */
 .response-area {
@@ -108,6 +121,7 @@ select:invalid { color: #6c757d; }
         <div class="panel" style="margin-bottom:1.5rem;">
             <h2>Kommando</h2>
             <div class="panel-body">
+                <div id="connectorStatus"></div>
                 <div class="form-group">
                     <label>Kommando</label>
                     <select id="cmdSelect" disabled required>
@@ -357,6 +371,16 @@ async function fetchAllCommands(ids) {
     }
 }
 
+function connectorChipHtml(c) {
+    const s = c.status.toLowerCase();
+    let cls = 'other';
+    if (s === 'available' || s === 'preparing') cls = 'avail';
+    else if (s === 'charging') cls = 'charg';
+    else if (s === 'faulted') cls = 'fault';
+    else if (s === 'unavailable') cls = 'unavail';
+    return `<span class="connector-chip ${cls}"><span class="cid">#${c.connectorId}</span> ${c.status}</span>`;
+}
+
 /* ── Station auswählen ──────────────────────────────────────── */
 function selectStation(cpId) {
     selectedChargePointId = cpId;
@@ -365,6 +389,21 @@ function selectStation(cpId) {
     })));
     loadStations(); // refresh with full data
     populateCommands(cpId);
+    loadConnectorStatus(cpId);
+}
+
+async function loadConnectorStatus(cpId) {
+    const el = document.getElementById('connectorStatus');
+    try {
+        const res = await fetch(`${API_BASE}/${encodeURIComponent(cpId)}`);
+        if (!res.ok) { el.innerHTML = ''; return; }
+        const cp = await res.json();
+        const conns = cp.connectors || [];
+        if (conns.length === 0) { el.innerHTML = ''; return; }
+        el.innerHTML = `<div class="connector-list"><div class="connector-list-title">Konnektoren</div>${conns.map(connectorChipHtml).join('')}</div>`;
+    } catch (_) {
+        el.innerHTML = '';
+    }
 }
 
 function populateCommands(cpId) {
