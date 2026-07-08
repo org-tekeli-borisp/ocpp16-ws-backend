@@ -8,10 +8,12 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **OCPP 1.6 Security Edition 4** – 11 Security Messages (Certificate Management, Security Events, Signed Firmware)
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
 - **24 Remote Commands** – 18 OCPP 1.6J + 6 Security Commands via REST API
+- **WebUI** – multilingual dashboard (DE/EN/FR) with station overview, connector status & remote command dispatcher
+- **Connector Status Tracking** – real-time per-connector state (Available, Charging, Faulted, etc.)
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (72% mutation score)
-- **554 Unit & Integration Tests**
+- **1126 Unit & Integration Tests**
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
@@ -37,7 +39,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 │     SignCertificate, CertificateSigned)                      │
 ├─────────────────────────────────────────────────────────────┤
 │  Persistence (ChargePoint, Transaction, SecurityLog,        │
-│   SignedFirmware → PostgreSQL)                               │
+│   SignedFirmware, ConnectorStatus → PostgreSQL)              │
 │  Liquibase migrations in db/changelog/                      │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -57,6 +59,13 @@ mvn quarkus:dev
 ```
 
 Quarkus Dev Services automatically starts a PostgreSQL container. The server starts on `http://localhost:8080`.
+
+### WebUI
+
+- **Station Overview:** `http://localhost:8080/stations.html`
+- **Remote Commands:** `http://localhost:8080/commands.html`
+
+Both pages support DE / EN / FR with live language switching (persisted in localStorage).
 
 ### Connect a Charge Point
 
@@ -160,7 +169,7 @@ java -jar target/quarkus-app/quarkus-run.jar \
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/api/chargepoints` | List all charge points |
-| `GET` | `/api/chargepoints/{chargePointId}` | Get charge point details |
+| `GET` | `/api/chargepoints/{chargePointId}` | Get charge point details with connectors |
 
 ### Transactions
 
@@ -282,12 +291,36 @@ Liquibase manages the database schema via SQL changelogs in `src/main/resources/
 
 ```
 db/changelog/
-├── changelog-master.yaml   # Master changelog
-├── 001-init.sql            # Initial schema (charge_points, transactions)
-└── 002-security.sql        # Security schema (security_logs, signed_firmware)
+├── changelog-master.yaml       # Master changelog
+├── 001-init.sql                # Initial schema (charge_points, transactions)
+├── 002-security.sql            # Security schema (security_logs, signed_firmware)
+└── 003-connector-status.sql    # Connector status tracking
 ```
 
 New migrations: add `00X-name.sql` to `db/changelog/` and include it in `changelog-master.yaml`.
+
+## WebUI
+
+Two vanilla HTML/CSS/JS pages served from the application root — no build step required.
+
+| Page | URL | Description |
+|------|-----|-------------|
+| **Stations** | `/stations.html` | Dashboard with online/offline stats, sortable table, connector chips, auto-refresh (10s) |
+| **Commands** | `/commands.html` | Station selector, 22 command definitions with dynamic forms, JSON response viewer |
+
+### i18n (Internationalization)
+
+Both pages support three languages with client-side translation:
+
+| Language | Code |
+|----------|------|
+| Deutsch | `de` |
+| English | `en` |
+| Français | `fr` |
+
+Language is auto-detected from browser locale, selectable via dropdown, and persisted in `localStorage`. All static text uses `data-i18n` attributes; dynamic content (tables, forms, status badges) translates via the `I18N.t()` function. Language switch triggers a `langchange` event to re-render dynamic content instantly.
+
+**Adding a language:** add an entry to the `T` dictionary in `src/main/resources/META-INF/resources/i18n.js` and an `<option>` in the `#langSelect` dropdown on both pages.
 
 ## Project Structure
 
@@ -296,10 +329,15 @@ src/main/kotlin/org/tekeli/borisp/ocpp16/
 ├── command/            # 24 OcppCommand implementations (18 standard + 6 security)
 ├── handler/            # 15 C→P message handlers (10 standard + 5 security)
 ├── outbound/           # S→C service layer
-├── persistence/        # Entities (ChargePoint, Transaction, SecurityLog, SignedFirmware)
+├── persistence/        # Entities (ChargePoint, Transaction, SecurityLog, SignedFirmware, ConnectorStatus)
 ├── protocol/           # OCPP message types, ResponseAwaiter
 ├── rest/               # REST API resources
 └── websocket/          # WebSocket server & registry
+
+src/main/resources/META-INF/resources/
+├── stations.html       # WebUI – station dashboard
+├── commands.html       # WebUI – remote command dispatcher
+└── i18n.js             # Shared i18n module (DE/EN/FR)
 ```
 
 ## Testing
@@ -317,13 +355,15 @@ mvn org.pitest:pitest-maven:mutationCoverage
 | Category | Tests | Description |
 |---------|-------|-------------|
 | OCPP Messages | 49 | Parse, Serialize, Error Handling |
-| WebSocket Server | 141 | Integration, Handler Dispatch, Error Paths |
-| Commands | 179 | 18 Standard + 6 Security Commands |
-| Security Handlers | 49 | 5 Handler × ~10 Tests each |
-| Persistence | 30 | ChargePoint, Transaction, SecurityLog, SignedFirmware |
-| REST API | 19 | ChargePoints, Commands, Transactions |
-| Other | 87 | Registry, Dispatcher, Awaiter, Message Types |
-| **Total** | **554** | |
+| WebSocket Server | 210 | Integration, Handler Dispatch, Error Paths, Infrastructure |
+| Commands | 491 | 18 Standard + 6 Security + Mutation Tests |
+| Security Handlers | 96 | SecurityEvent, CertificateSigned, LogStatus, SignCertificate, SignedFirmware |
+| Persistence | 61 | ChargePoint, Transaction, SecurityLog, SignedFirmware, ConnectorStatus |
+| REST API | 20 | ChargePoints, Commands, Transactions |
+| Handlers (unit) | 137 | BootNotification, Heartbeat, MeterValues, Start/StopTransaction, etc. |
+| Outbound & Protocol | 88 | Registry, Dispatcher, Awaiter, PayloadBuilder |
+| Other | 74 | Health, Metrics, Entity tests, ChargePointInfo, MessageDispatcher |
+| **Total** | **1126** | |
 
 ## CI/CD Pipeline
 
@@ -383,14 +423,16 @@ Key properties in `application.properties`:
 
 ## Tech Stack
 
-- **Kotlin** 2.3 – primary language
-- **Quarkus** 3.36 – application framework
-- **PostgreSQL** 18 – production database (Dev Services for dev/test)
-- **Liquibase** – database migrations
-- **WebSocket Next** – server-sent WebSocket API
-- **Hibernate ORM + Panache** – persistence
-- **Jackson** – JSON serialization
-- **PITest** – mutation testing
-- **Docker Compose** – production deployment
-- **GitHub Actions** – CI/CD Pipeline
-- **GHCR** – Container Registry
+| Layer | Technology |
+|-------|------------|
+| Language | Kotlin 2.3 (JVM target 25) |
+| Framework | Quarkus 3.36 |
+| Database | PostgreSQL 18 |
+| Migrations | Liquibase |
+| WebSocket | Quarkus WebSocket Next |
+| Persistence | Hibernate ORM + Panache |
+| JSON | Jackson |
+| Testing | JUnit 5, RestAssured, MockK, PITest |
+| Metrics | Micrometer + Prometheus |
+| Deployment | Docker Compose, GitHub Actions, GHCR |
+| WebUI | Vanilla HTML/CSS/JS (no build step) |
