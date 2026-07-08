@@ -1,8 +1,30 @@
 # AGENTS.md — OCPP 1.6J WebSocket Backend
 
+## ⚠️ TDD-ZWANG (vor JEDER Code-Änderung abarbeiten)
+
+Dieses Projekt folgt **striktem Test-Driven Development**. Jeder Agent (einschließlich mir) muss vor dem ersten Production-Code die folgende Checkliste abgearbeitet haben:
+
+### Pre-Task Checklist (vor Production-Code zwingend ausführen)
+
+1. **Lies diese Datei (AGENTS.md) komplett** – insbesondere den TDD-Abschnitt
+2. **Existiert bereits ein Test, der das gewünschte Verhalten abdeckt?**
+   - JA → Test läuft grün? → Weiter mit Production-Code
+   - JA → Test läuft rot? → Production-Code schreiben, bis Test grün
+   - NEIN → **Test schreiben (RED)**, der das neue Verhalten fordert
+3. **Test muss fehlschlagen** – `mvn test -Dtest={TestName}` zeigt Fehler
+4. **Erst dann** Production-Code schreiben (GREEN)
+5. **`mvn test`** – alle Tests grün
+6. **Refaktorieren** nur wenn alle Tests grün sind
+
+### Sanktion bei Verstoß
+
+Wird Production-Code ohne vorherigen roten Test committet, muss der Agent den Code **komplett zurückrollen** und die Checkliste von vorne durchlaufen. Keine Ausnahmen.
+
+---
+
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 554 tests, 24 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1126 tests, 24 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support.
 
 ## Tech Stack
 
