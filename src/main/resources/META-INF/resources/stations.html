@@ -56,6 +56,19 @@ tr:hover td { background: #f8f9ff; }
 .status-dot.online { background: #28a745; }
 .status-dot.offline { background: #dc3545; }
 .vendor-model { font-size: .85rem; color: #495057; }
+.connector-list { display: flex; flex-wrap: wrap; gap: .3rem; }
+.connector-chip {
+    display: inline-flex; align-items: center; gap: .2rem;
+    padding: .15rem .45rem; border-radius: 4px;
+    font-size: .7rem; font-weight: 600; white-space: nowrap;
+}
+.connector-chip .cid { color: #6c757d; font-weight: 400; margin-right: .15rem; }
+.connector-chip.avail { background: #d4edda; color: #155724; }
+.connector-chip.charg { background: #cce5ff; color: #004085; }
+.connector-chip.fault { background: #f8d7da; color: #721c24; }
+.connector-chip.other { background: #fff3cd; color: #856404; }
+.connector-chip.unavail { background: #e2e3e5; color: #383d41; }
+.connectors-col { min-width: 140px; }
 .last-seen { font-size: .82rem; color: #6c757d; }
 .loading { text-align: center; padding: 3rem; color: #6c757d; }
 .error { text-align: center; padding: 2rem; color: #721c24; background: #f8d7da; border-radius: 10px; }
@@ -85,12 +98,13 @@ footer {
                 <th>Hersteller / Modell</th>
                 <th>Firmware</th>
                 <th>Status</th>
+                <th class="connectors-col">Konnektoren</th>
                 <th>Verbunden seit</th>
                 <th>Zuletzt gesehen</th>
             </tr>
         </thead>
         <tbody id="stationsBody">
-            <tr><td colspan="6" class="loading">Lade Stationen…</td></tr>
+            <tr><td colspan="7" class="loading">Lade Stationen…</td></tr>
         </tbody>
     </table>
 </div>
@@ -125,30 +139,44 @@ function statusBadgeHtml(status) {
     return `<span class="status-badge ${cls}"><span class="status-dot ${cls}"></span>${status}</span>`;
 }
 
+function connectorChipHtml(c) {
+    const s = c.status.toLowerCase();
+    let cls = 'other';
+    if (s === 'available' || s === 'preparing') cls = 'avail';
+    else if (s === 'charging') cls = 'charg';
+    else if (s === 'faulted') cls = 'fault';
+    else if (s === 'unavailable') cls = 'unavail';
+    return `<span class="connector-chip ${cls}"><span class="cid">#${c.connectorId}</span> ${c.status}</span>`;
+}
+
 function render(data) {
     const total = data.length;
     const online = data.filter(cp => cp.status === 'ONLINE').length;
     const offline = total - online;
+    const totalConnectors = data.reduce((s, cp) => s + (cp.connectors || []).length, 0);
 
     document.getElementById('stats').innerHTML = `
         <div class="stat-card total"><div class="value">${total}</div><div class="label">Stationen</div></div>
         <div class="stat-card online"><div class="value">${online}</div><div class="label">Online</div></div>
         <div class="stat-card offline"><div class="value">${offline}</div><div class="label">Offline</div></div>
+        <div class="stat-card total"><div class="value">${totalConnectors}</div><div class="label">Konnektoren</div></div>
     `;
 
     const tbody = document.getElementById('stationsBody');
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty">Keine Stationen vorhanden</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">Keine Stationen vorhanden</td></tr>';
         return;
     }
 
     tbody.innerHTML = data.map(cp => {
         const vm = [cp.vendor, cp.model].filter(Boolean).join(' / ') || '–';
+        const conns = (cp.connectors || []).map(connectorChipHtml).join('') || '<span style="color:#6c757d;font-size:.78rem;">–</span>';
         return `<tr onclick="window.location='/commands.html?cp=${encodeURIComponent(cp.chargePointId)}'">
             <td><strong>${cp.chargePointId}</strong></td>
             <td class="vendor-model">${vm}</td>
             <td class="vendor-model">${cp.firmwareVersion || '–'}</td>
             <td>${statusBadgeHtml(cp.status)}</td>
+            <td class="connectors-col"><div class="connector-list">${conns}</div></td>
             <td class="last-seen">${formatDateTime(cp.createdAt)}</td>
             <td class="last-seen" title="${formatDateTime(cp.lastSeenAt)}">${timeAgo(cp.lastSeenAt)}</td>
         </tr>`;
@@ -163,7 +191,7 @@ async function fetchStations() {
         render(data);
     } catch (err) {
         document.getElementById('stationsBody').innerHTML =
-            `<tr><td colspan="6" class="error">Fehler beim Laden: ${err.message}</td></tr>`;
+            `<tr><td colspan="7" class="error">Fehler beim Laden: ${err.message}</td></tr>`;
     }
 }
 

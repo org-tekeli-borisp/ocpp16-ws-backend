@@ -10,6 +10,19 @@ class StatusNotificationHandler : OcppActionHandler {
         val payload = call.payload ?: throw FormationViolationException("Payload is null")
         validatePayload(payload)
 
+        val connectorId = (payload["connectorId"] as Number).toInt()
+        val status = payload["status"] as String
+        val errorCode = payload["errorCode"] as String
+        val info = payload["info"]?.toString()
+
+        context.persistenceService?.updateConnectorStatus(
+            chargePointId = context.chargePointId,
+            connectorId = connectorId,
+            status = status,
+            errorCode = errorCode,
+            info = info
+        )
+
         return call.callResult()
     }
 

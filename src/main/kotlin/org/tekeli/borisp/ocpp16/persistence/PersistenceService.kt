@@ -6,6 +6,14 @@ import jakarta.persistence.EntityManager
 import jakarta.transaction.Transactional
 import java.time.Instant
 
+data class ConnectorStatusDto(
+    val connectorId: Int,
+    val status: String,
+    val errorCode: String,
+    val info: String?,
+    val timestamp: String
+)
+
 @ApplicationScoped
 open class PersistenceService {
 
@@ -184,5 +192,44 @@ open class PersistenceService {
         firmware.status = status
         em.flush()
         return true
+    }
+
+    // ConnectorStatus
+    @Transactional
+    open fun updateConnectorStatus(
+        chargePointId: String,
+        connectorId: Int,
+        status: String,
+        errorCode: String,
+        info: String?
+    ) {
+        em.createQuery("DELETE FROM ConnectorStatus cs WHERE cs.chargePointId = :cpId AND cs.connectorId = :connId")
+            .setParameter("cpId", chargePointId)
+            .setParameter("connId", connectorId)
+            .executeUpdate()
+        em.persist(ConnectorStatus(
+            chargePointId = chargePointId,
+            connectorId = connectorId,
+            status = status,
+            errorCode = errorCode,
+            info = info
+        ))
+        em.flush()
+    }
+
+    fun findConnectorStatusesByChargePointId(chargePointId: String): List<ConnectorStatusDto> {
+        val result = em.createQuery(
+            "SELECT cs FROM ConnectorStatus cs WHERE cs.chargePointId = :cpId ORDER BY cs.connectorId",
+            ConnectorStatus::class.java
+        ).setParameter("cpId", chargePointId).resultList as List<ConnectorStatus>
+        return result.map { cs ->
+            ConnectorStatusDto(
+                connectorId = cs.connectorId,
+                status = cs.status,
+                errorCode = cs.errorCode,
+                info = cs.info,
+                timestamp = cs.timestamp.toString()
+            )
+        }
     }
 }

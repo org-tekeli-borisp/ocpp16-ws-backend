@@ -11,6 +11,7 @@ import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
 import org.tekeli.borisp.ocpp16.persistence.ChargePoint
 import org.tekeli.borisp.ocpp16.persistence.ChargePointStatus
+import org.tekeli.borisp.ocpp16.persistence.ConnectorStatusDto
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 
 @Path("/api/chargepoints")
@@ -51,7 +52,8 @@ class ChargePointResource {
         status = cp.status.name,
         sessionId = cp.sessionId,
         lastSeenAt = cp.lastSeenAt.toString(),
-        createdAt = cp.createdAt.toString()
+        createdAt = cp.createdAt.toString(),
+        connectors = persistenceService.findConnectorStatusesByChargePointId(cp.chargePointId)
     )
 }
 
@@ -64,5 +66,6 @@ data class ChargePointDto(
     val status: String,
     val sessionId: String,
     val lastSeenAt: String,
-    val createdAt: String
+    val createdAt: String,
+    val connectors: List<ConnectorStatusDto> = emptyList()
 )
