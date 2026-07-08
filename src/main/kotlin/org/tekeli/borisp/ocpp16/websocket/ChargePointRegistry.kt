@@ -34,12 +34,15 @@ class ChargePointRegistry {
     val connectedSessionIds: Set<String> get() = Collections.unmodifiableSet(sessionInfos.keys)
     val connectedChargePointIds: Set<String> get() = Collections.unmodifiableSet(chargePointIdIndex.keys)
 
-    fun register(sessionId: String, connectionId: String, connection: ChargePointConnection) {
+    fun register(sessionId: String, connectionId: String, connection: ChargePointConnection, chargePointId: String? = null) {
         sessionInfos[sessionId] = ChargePointInfo(
             sessionId = sessionId,
             connectionId = connectionId
         )
         sessionConnections[sessionId] = connection
+        if (chargePointId != null) {
+            chargePointIdIndex[chargePointId] = sessionId
+        }
         metricsService?.onChargePointConnected()
     }
 
