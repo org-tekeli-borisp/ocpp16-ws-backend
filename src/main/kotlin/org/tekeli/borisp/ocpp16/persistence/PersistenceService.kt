@@ -83,6 +83,17 @@ open class PersistenceService {
         ).setParameter("status", ChargePointStatus.ONLINE).setParameter("now", Instant.now()).setParameter("sid", sessionId).executeUpdate()
     }
 
+    @Transactional
+    fun setChargePointOnlineById(chargePointId: String, sessionId: String) {
+        em.createQuery(
+            "UPDATE ChargePoint c SET c.status = :status, c.sessionId = :sid, c.lastSeenAt = :now WHERE c.chargePointId = :cpId"
+        ).setParameter("status", ChargePointStatus.ONLINE)
+         .setParameter("sid", sessionId)
+         .setParameter("now", Instant.now())
+         .setParameter("cpId", chargePointId)
+         .executeUpdate()
+    }
+
     fun findChargePointBySessionId(sessionId: String): ChargePoint? {
         val result = em.createQuery("SELECT c FROM ChargePoint c WHERE c.sessionId = :sid", ChargePoint::class.java)
             .setParameter("sid", sessionId).resultList

@@ -68,6 +68,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
         responseAwaiter = ResponseAwaiter()
         activeRegistry.register(sessionId, sessionId, this)
+        activePersistence.setChargePointOnlineById(chargePointId, sessionId)
         Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId")
     }
 
