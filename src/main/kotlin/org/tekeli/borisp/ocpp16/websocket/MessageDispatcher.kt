@@ -4,7 +4,9 @@ import org.tekeli.borisp.ocpp16.handler.OcppActionHandler
 import org.tekeli.borisp.ocpp16.handler.OcppHandlerContext
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.OcppMessageDirection
 import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
 import org.tekeli.borisp.ocpp16.protocol.OcppMessageType
 import org.tekeli.borisp.ocpp16.protocol.OcppParseException
@@ -17,6 +19,7 @@ import java.util.*
  */
 class MessageDispatcher(
     private val handlers: Map<String, OcppActionHandler>,
+    private val messageCaptureService: MessageCaptureService? = null,
 ) {
     fun dispatch(
         message: String,
@@ -43,13 +46,16 @@ class MessageDispatcher(
         context: OcppHandlerContext,
         responseAwaiter: ResponseAwaiter,
         metricsService: MetricsService?
-    ): String = when (ocppMessage.type) {
-        OcppMessageType.CALL -> {
-            metricsService?.messagesReceived?.increment()
-            handleCall(ocppMessage as OcppMessage.Call, context)
+    ): String {
+        messageCaptureService?.capture(context.chargePointId, OcppMessageDirection.INBOUND, ocppMessage)
+        return when (ocppMessage.type) {
+            OcppMessageType.CALL -> {
+                metricsService?.messagesReceived?.increment()
+                handleCall(ocppMessage as OcppMessage.Call, context)
+            }
+            OcppMessageType.CALLRESULT -> handleCallResult(ocppMessage as OcppMessage.CallResult, responseAwaiter)
+            OcppMessageType.CALLERROR -> handleCallError(ocppMessage as OcppMessage.CallError, responseAwaiter)
         }
-        OcppMessageType.CALLRESULT -> handleCallResult(ocppMessage as OcppMessage.CallResult, responseAwaiter)
-        OcppMessageType.CALLERROR -> handleCallError(ocppMessage as OcppMessage.CallError, responseAwaiter)
     }
 
     private fun handleCall(call: OcppMessage.Call, context: OcppHandlerContext): String {

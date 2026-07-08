@@ -89,6 +89,6 @@ class ChargePointRegistry {
         val sender = testSenders[info.sessionId] ?: WsSender(openConnections, info.connectionId)
         val dispatcher = OutboundCallDispatcher(sender, connection.responseAwaiter)
         metricsService?.messagesSent?.increment()
-        return dispatcher.sendCall(action, payload)
+        return dispatcher.sendCall(chargePointId, action, payload)
     }
 }

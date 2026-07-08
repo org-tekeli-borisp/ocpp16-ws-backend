@@ -243,4 +243,57 @@ open class PersistenceService {
             )
         }
     }
+
+    @Transactional
+    fun createMessageLog(
+        chargePointId: String,
+        direction: String,
+        messageType: String,
+        action: String?,
+        messageId: String,
+        payload: String?
+    ): OcppMessageLog {
+        val log = OcppMessageLog(
+            chargePointId = chargePointId,
+            direction = direction,
+            messageType = messageType,
+            action = action ?: "",
+            messageId = messageId,
+            payload = payload
+        )
+        em.persist(log)
+        return log
+    }
+
+    fun findMessageLogs(chargePointId: String, direction: String?, action: String?, limit: Int): List<OcppMessageLog> {
+        var qp = "SELECT m FROM OcppMessageLog m WHERE m.chargePointId = :cpId"
+        val conditions = mutableListOf<String>()
+        if (direction != null && direction.isNotBlank()) {
+            conditions += "m.direction = :direction"
+        }
+        if (action != null && action.isNotBlank()) {
+            conditions += "m.action = :action"
+        }
+        if (conditions.isNotEmpty()) {
+            qp += " AND " + conditions.joinToString(" AND ")
+        }
+        qp += " ORDER BY m.timestamp DESC"
+        var query = em.createQuery(qp, OcppMessageLog::class.java)
+            .setParameter("cpId", chargePointId)
+        if (direction != null && direction.isNotBlank()) {
+            query = query.setParameter("direction", direction)
+        }
+        if (action != null && action.isNotBlank()) {
+            query = query.setParameter("action", action)
+        }
+        query.maxResults = limit
+        return query.resultList as List<OcppMessageLog>
+    }
+
+    @Transactional
+    fun purgeMessageLogsBefore(cutoff: Instant): Int {
+        return em.createQuery(
+            "DELETE FROM OcppMessageLog m WHERE m.timestamp < :cutoff"
+        ).setParameter("cutoff", cutoff).executeUpdate()
+    }
 }

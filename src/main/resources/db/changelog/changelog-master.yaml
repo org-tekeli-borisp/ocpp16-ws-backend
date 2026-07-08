@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/002-security.sql
   - include:
       file: db/changelog/003-connector-status.sql
+  - include:
+      file: db/changelog/004-message-log.sql

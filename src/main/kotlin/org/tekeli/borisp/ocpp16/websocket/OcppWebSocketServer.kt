@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.tekeli.borisp.ocpp16.handler.*
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
+import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
@@ -27,6 +28,9 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     @Inject
     override var metricsService: MetricsService? = null
 
+    @Inject
+    var messageCaptureService: MessageCaptureService? = null
+
     val activeConnection: WebSocketConnection
         get() = connection ?: throw IllegalStateException("Connection not initialized")
 
@@ -41,7 +45,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     override var chargePointId: String = ""
 
     private val dispatcher: MessageDispatcher by lazy {
-        MessageDispatcher(createHandlers())
+        MessageDispatcher(createHandlers(), messageCaptureService)
     }
 
     open fun createHandlers(): Map<String, OcppActionHandler> = mapOf(
