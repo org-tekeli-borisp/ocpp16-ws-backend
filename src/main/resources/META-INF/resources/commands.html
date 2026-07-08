@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OCPP Remote Commands</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f4f6f9; color: #1a1a2e; min-height: 100vh;
+}
+header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff; padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+header h1 { font-size: 1.4rem; font-weight: 600; }
+header a { color: #8ab4f8; text-decoration: none; font-size: .85rem; }
+header a:hover { text-decoration: underline; }
+.container { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
+
+/* Panel */
+.panel {
+    background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden;
+}
+.panel h2 {
+    font-size: .9rem; text-transform: uppercase; letter-spacing: .05em;
+    padding: 1rem 1.2rem; background: #f8f9fa; border-bottom: 1px solid #eee;
+    color: #495057; font-weight: 600;
+}
+.panel-body { padding: 1.2rem; }
+
+/* Form */
+.form-group { margin-bottom: 1rem; }
+.form-group:last-child { margin-bottom: 0; }
+.form-group label {
+    display: block; font-size: .8rem; font-weight: 600; margin-bottom: .3rem; color: #495057;
+}
+.form-group label .required { color: #dc3545; margin-left: 2px; }
+.form-group label .optional { color: #6c757d; font-weight: 400; font-size: .75rem; }
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: .55rem .75rem; border: 1px solid #ced4da; border-radius: 6px;
+    font-size: .88rem; font-family: inherit; transition: border-color .15s; background: #fff;
+}
+.form-group textarea { min-height: 80px; resize: vertical; font-family: "SFMono-Regular", Consolas, monospace; font-size: .82rem; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none; border-color: #4a9eff; box-shadow: 0 0 0 3px rgba(74, 158, 255, .15);
+}
+.form-group .hint { font-size: .75rem; color: #6c757d; margin-top: .25rem; }
+select:invalid { color: #6c757d; }
+
+/* Buttons */
+.btn {
+    padding: .6rem 1.5rem; border: none; border-radius: 6px; font-size: .88rem;
+    font-weight: 600; cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: .4rem;
+}
+.btn-primary { background: #1a73e8; color: #fff; }
+.btn-primary:hover { background: #1557b0; }
+.btn-primary:disabled { background: #a8c7fa; cursor: not-allowed; }
+.btn-sm { padding: .4rem .8rem; font-size: .8rem; }
+.btn-outline { background: transparent; border: 1px solid #ced4da; color: #495057; }
+.btn-outline:hover { background: #f8f9fa; }
+
+/* Stations list */
+.station-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .7rem 0; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: background .1s;
+}
+.station-item:last-child { border-bottom: none; }
+.station-item:hover { background: #f8f9ff; margin: 0 -1.2rem; padding-left: 1.2rem; padding-right: 1.2rem; }
+.station-item.active { background: #e8f0fe; margin: 0 -1.2rem; padding-left: 1.2rem; padding-right: 1.2rem; border-radius: 6px; }
+.station-name { font-weight: 600; font-size: .9rem; }
+.station-meta { font-size: .78rem; color: #6c757d; margin-top: .15rem; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: .4rem; }
+.status-dot.online { background: #28a745; }
+.status-dot.offline { background: #dc3545; }
+
+/* Response */
+.response-area {
+    background: #1a1a2e; color: #e8e8e8; border-radius: 8px; padding: 1rem;
+    font-family: "SFMono-Regular", Consolas, monospace; font-size: .8rem; max-height: 400px; overflow: auto;
+    white-space: pre-wrap; word-break: break-all;
+}
+.response-area .empty { color: #6c757d; font-style: italic; }
+.response-area .success { color: #28a745; }
+.response-area .error { color: #f85149; }
+.response-info { font-size: .78rem; color: #6c757d; margin-bottom: .5rem; }
+</style>
+</head>
+<body>
+<header>
+    <h1 class="header-title">OCPP Remote Commands</h1>
+    <div>
+        <a href="/stations.html">Stationen</a>
+    </div>
+</header>
+<div class="container">
+    <div class="panel">
+        <h2>Station auswählen</h2>
+        <div class="panel-body" id="stationsPanel">
+            <p class="loading" style="color:#6c757d;font-size:.85rem;">Lade Stationen…</p>
+        </div>
+    </div>
+    <div>
+        <div class="panel" style="margin-bottom:1.5rem;">
+            <h2>Kommando</h2>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Kommando</label>
+                    <select id="cmdSelect" disabled required>
+                        <option value="">– zuerst Station wählen –</option>
+                    </select>
+                </div>
+                <div id="commandForm"></div>
+                <div style="margin-top:1rem;">
+                    <button class="btn btn-primary" id="sendBtn" disabled onclick="sendCommand()">Senden</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <h2>Antwort</h2>
+            <div class="panel-body">
+                <div class="response-info" id="responseInfo"></div>
+                <div class="response-area" id="responseArea"><span class="empty">Noch keine Antwort</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const API_BASE = '/api/chargepoints';
+
+let selectedChargePointId = null;
+let commandsCache = {};
+
+/* ── Kommando-Definitionen ──────────────────────────────────── */
+const CMD_DEFS = {
+    'reset': {
+        label: 'Reset',
+        fields: [
+            { name: 'type', label: 'Typ', type: 'select', required: true, options: ['Hard', 'Soft'] }
+        ]
+    },
+    'clear-cache': {
+        label: 'Clear Cache',
+        fields: []
+    },
+    'get-local-list-version': {
+        label: 'Get Local List Version',
+        fields: []
+    },
+    'unlock-connector': {
+        label: 'Unlock Connector',
+        fields: [
+            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true }
+        ]
+    },
+    'remote-start-transaction': {
+        label: 'Remote Start Transaction',
+        fields: [
+            { name: 'idTag', label: 'ID Tag', type: 'text', required: true },
+            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true }
+        ]
+    },
+    'remote-stop-transaction': {
+        label: 'Remote Stop Transaction',
+        fields: [
+            { name: 'transactionId', label: 'Transaction ID', type: 'number', required: true }
+        ]
+    },
+    'change-availability': {
+        label: 'Change Availability',
+        fields: [
+            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true },
+            { name: 'type', label: 'Typ', type: 'select', required: true, options: ['Inoperative', 'Operative'] }
+        ]
+    },
+    'change-configuration': {
+        label: 'Change Configuration',
+        fields: [
+            { name: 'key', label: 'Key', type: 'text', required: true },
+            { name: 'value', label: 'Value', type: 'text', required: true }
+        ]
+    },
+    'trigger-message': {
+        label: 'Trigger Message',
+        fields: [
+            { name: 'requestedMessage', label: 'Nachricht', type: 'select', required: true,
+              options: ['BootNotification', 'DiagnosticsStatusNotification', 'FirmwareStatusNotification',
+                        'Heartbeat', 'MeterValues', 'StatusNotification', 'LogStatusNotification',
+                        'SignChargePointCertificate'] },
+            { name: 'connectorId', label: 'Connector ID', type: 'number', required: false }
+        ]
+    },
+    'extended-trigger-message': {
+        label: 'Extended Trigger Message',
+        fields: [
+            { name: 'requestedMessage', label: 'Nachricht', type: 'select', required: true,
+              options: ['BootNotification', 'LogStatusNotification', 'FirmwareStatusNotification',
+                        'Heartbeat', 'MeterValues', 'SignChargePointCertificate', 'StatusNotification'] },
+            { name: 'connectorId', label: 'Connector ID', type: 'number', required: false }
+        ]
+    },
+    'cancel-reservation': {
+        label: 'Cancel Reservation',
+        fields: [
+            { name: 'reservationId', label: 'Reservation ID', type: 'number', required: true }
+        ]
+    },
+    'get-composite-schedule': {
+        label: 'Get Composite Schedule',
+        fields: [
+            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true },
+            { name: 'duration', label: 'Dauer (Sekunden)', type: 'number', required: true }
+        ]
+    },
+    'get-configuration': {
+        label: 'Get Configuration',
+        fields: [
+            { name: 'key', label: 'Keys (kommagetrennt, optional)', type: 'text', required: false }
+        ]
+    },
+    'get-diagnostics': {
+        label: 'Get Diagnostics',
+        fields: [
+            { name: 'location', label: 'Upload URL', type: 'text', required: true }
+        ]
+    },
+    'reserve-now': {
+        label: 'Reserve Now',
+        fields: [
+            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true },
+            { name: 'reservationId', label: 'Reservation ID', type: 'number', required: true },
+            { name: 'expiryDate', label: 'Ablauf (ISO)', type: 'text', required: true },
+            { name: 'idTag', label: 'ID Tag', type: 'text', required: true }
+        ]
+    },
+    'send-local-list': {
+        label: 'Send Local List',
+        fields: [
+            { name: 'listVersion', label: 'Listen-Version', type: 'number', required: true },
+            { name: 'updateType', label: 'Update Typ', type: 'select', required: true, options: ['Differential', 'Full'] }
+        ]
+    },
+    'update-firmware': {
+        label: 'Update Firmware',
+        fields: [
+            { name: 'location', label: 'Firmware URL', type: 'text', required: true },
+            { name: 'retrieveDate', label: 'Abrufdatum (ISO)', type: 'text', required: true }
+        ]
+    },
+    'clear-charging-profile': {
+        label: 'Clear Charging Profile',
+        fields: [
+            { name: 'connectorId', label: 'Connector ID', type: 'number', required: false },
+            { name: 'stackLevel', label: 'Stack Level', type: 'number', required: false }
+        ]
+    },
+    'get-installed-certificate-ids': {
+        label: 'Get Installed Certificate IDs',
+        fields: [
+            { name: 'certificateType', label: 'Zertifikatstyp', type: 'select', required: true,
+              options: ['CentralSystemRootCertificate', 'ManufacturerRootCertificate'] }
+        ]
+    },
+    'install-certificate': {
+        label: 'Install Certificate',
+        fields: [
+            { name: 'certificateType', label: 'Zertifikatstyp', type: 'select', required: true,
+              options: ['CentralSystemRootCertificate', 'ManufacturerRootCertificate'] },
+            { name: 'certificate', label: 'Zertifikat (PEM)', type: 'textarea', required: true,
+              hint: 'max. 5500 Zeichen' }
+        ]
+    },
+    'delete-certificate': {
+        label: 'Delete Certificate',
+        fields: [
+            { name: 'certificateHashData', label: 'Certificate Hash Data', type: 'json', required: true,
+              hint: 'JSON mit hashAlgorithm, issuerNameHash, issuerKeyHash, serialNumber' }
+        ]
+    },
+    'get-log': {
+        label: 'Get Log',
+        fields: [
+            { name: 'logType', label: 'Log-Typ', type: 'select', required: true,
+              options: ['DiagnosticsLog', 'SecurityLog'] },
+            { name: 'requestId', label: 'Request ID', type: 'number', required: true },
+            { name: 'log', label: 'Log-Parameter (JSON)', type: 'json', required: true,
+              hint: 'JSON mit remoteLocation, optional latestTimestamp, oldestTimestamp' },
+            { name: 'retries', label: 'Retries', type: 'number', required: false },
+            { name: 'retryInterval', label: 'Retry Interval (s)', type: 'number', required: false }
+        ]
+    },
+    'set-charging-profile': {
+        label: 'Set Charging Profile',
+        fields: [
+            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true },
+            { name: 'csChargingProfiles', label: 'Charging Profile (JSON)', type: 'json', required: true,
+              hint: 'Komplexes JSON-Objekt – siehe OCPP 1.6 Spezifikation' }
+        ]
+    },
+    'signed-update-firmware': {
+        label: 'Signed Update Firmware',
+        fields: [
+            { name: 'requestId', label: 'Request ID', type: 'number', required: true },
+            { name: 'firmware', label: 'Firmware (JSON)', type: 'json', required: true,
+              hint: 'JSON mit location, retrieveDateTime, signingCertificate, signature' },
+            { name: 'retries', label: 'Retries', type: 'number', required: false },
+            { name: 'retryInterval', label: 'Retry Interval (s)', type: 'number', required: false }
+        ]
+    }
+};
+
+/* ── Stationen laden ────────────────────────────────────────── */
+async function loadStations() {
+    const panel = document.getElementById('stationsPanel');
+    try {
+        const res = await fetch(API_BASE);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        renderStations(data);
+        await fetchAllCommands(data.map(cp => cp.chargePointId));
+    } catch (err) {
+        panel.innerHTML = `<p style="color:#dc3545;">Fehler: ${err.message}</p>`;
+    }
+}
+
+function renderStations(stations) {
+    const panel = document.getElementById('stationsPanel');
+    if (stations.length === 0) {
+        panel.innerHTML = '<p style="color:#6c757d;font-size:.85rem;">Keine Stationen vorhanden</p>';
+        return;
+    }
+    panel.innerHTML = stations.map(cp => {
+        const cls = cp.status === 'ONLINE' ? 'online' : 'offline';
+        const vm = [cp.vendor, cp.model].filter(Boolean).join(' / ') || '–';
+        const active = cp.chargePointId === selectedChargePointId ? ' active' : '';
+        return `<div class="station-item${active}" data-cpid="${cp.chargePointId}" onclick="selectStation('${cp.chargePointId}')">
+            <div>
+                <div class="station-name"><span class="status-dot ${cls}"></span>${cp.chargePointId}</div>
+                <div class="station-meta">${vm}</div>
+            </div>
+            <span style="font-size:.75rem;color:#6c757d;">${cp.status}</span>
+        </div>`;
+    }).join('');
+}
+
+async function fetchAllCommands(ids) {
+    for (const id of ids) {
+        try {
+            const res = await fetch(`${API_BASE}/${id}/commands`);
+            if (res.ok) commandsCache[id] = await res.json();
+        } catch (_) { /* skip */ }
+    }
+}
+
+/* ── Station auswählen ──────────────────────────────────────── */
+function selectStation(cpId) {
+    selectedChargePointId = cpId;
+    renderStations(Array.from(document.querySelectorAll('.station-item')).map(el => ({
+        chargePointId: el.dataset.cpid,
+    })));
+    loadStations(); // refresh with full data
+    populateCommands(cpId);
+}
+
+function populateCommands(cpId) {
+    const sel = document.getElementById('cmdSelect');
+    sel.disabled = false;
+    sel.innerHTML = '<option value="">– Kommando wählen –</option>';
+    const cmds = commandsCache[cpId] || [];
+    for (const name of cmds) {
+        const def = CMD_DEFS[name];
+        const label = def ? def.label : name;
+        sel.innerHTML += `<option value="${name}">${label}</option>`;
+    }
+    sel.value = '';
+    document.getElementById('commandForm').innerHTML = '';
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('responseArea').innerHTML = '<span class="empty">Noch keine Antwort</span>';
+    document.getElementById('responseInfo').textContent = '';
+}
+
+/* ── Kommando-Formular ──────────────────────────────────────── */
+document.getElementById('cmdSelect').addEventListener('change', function() {
+    const cmdName = this.value;
+    if (!cmdName) {
+        document.getElementById('commandForm').innerHTML = '';
+        document.getElementById('sendBtn').disabled = true;
+        return;
+    }
+    buildForm(cmdName);
+    document.getElementById('sendBtn').disabled = false;
+});
+
+function buildForm(cmdName) {
+    const def = CMD_DEFS[cmdName];
+    if (!def) {
+        document.getElementById('commandForm').innerHTML =
+            '<p style="color:#6c757d;font-size:.85rem;">Keine Felddefinitionen für dieses Kommando.</p><div class="form-group"><label>Payload (JSON)</label><textarea id="rawJson" rows="4"></textarea></div>';
+        return;
+    }
+    if (def.fields.length === 0) {
+        document.getElementById('commandForm').innerHTML =
+            '<p style="color:#6c757d;font-size:.85rem;">Dieses Kommando benötigt keine Parameter.</p>';
+        return;
+    }
+    let html = '';
+    for (const f of def.fields) {
+        const req = f.required ? '<span class="required">*</span>' : '';
+        const opt = !f.required ? ' <span class="optional">(optional)</span>' : '';
+        const hint = f.hint ? `<div class="hint">${f.hint}</div>` : '';
+        const id = `f_${f.name}`;
+        html += `<div class="form-group"><label for="${id}">${f.label}${req}${opt}</label>`;
+        if (f.type === 'select') {
+            html += `<select id="${id}" ${f.required ? 'required' : ''}>`;
+            html += `<option value="">– wählen –</option>`;
+            for (const o of f.options) html += `<option value="${o}">${o}</option>`;
+            html += `</select>`;
+        } else if (f.type === 'textarea' || f.type === 'json') {
+            html += `<textarea id="${id}" rows="${f.type === 'json' ? 4 : 3}"></textarea>`;
+        } else if (f.type === 'number') {
+            html += `<input type="number" id="${id}" ${f.required ? 'required' : ''}>`;
+        } else {
+            html += `<input type="text" id="${id}" ${f.required ? 'required' : ''}>`;
+        }
+        html += `${hint}</div>`;
+    }
+    document.getElementById('commandForm').innerHTML = html;
+}
+
+/* ── Kommando senden ────────────────────────────────────────── */
+async function sendCommand() {
+    const cmdName = document.getElementById('cmdSelect').value;
+    if (!cmdName || !selectedChargePointId) return;
+
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sende…';
+
+    const payload = buildPayload(cmdName);
+    if (payload === null) {
+        btn.disabled = false;
+        btn.textContent = 'Senden';
+        return;
+    }
+
+    const area = document.getElementById('responseArea');
+    const info = document.getElementById('responseInfo');
+    area.innerHTML = 'Warte auf Antwort…';
+    info.textContent = `» ${selectedChargePointId} / ${cmdName}`;
+
+    try {
+        const res = await fetch(`${API_BASE}/${encodeURIComponent(selectedChargePointId)}/commands/${cmdName}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const text = await res.text();
+        let formatted;
+        try {
+            formatted = JSON.stringify(JSON.parse(text), null, 2);
+        } catch (_) {
+            formatted = text;
+        }
+        const cls = res.ok ? 'success' : 'error';
+        area.innerHTML = `<span class="${cls}">${res.status} ${res.statusText}</span>\n\n${formatted}`;
+    } catch (err) {
+        area.innerHTML = `<span class="error">Netzwerkfehler: ${err.message}</span>`;
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Senden';
+    }
+}
+
+function buildPayload(cmdName) {
+    const def = CMD_DEFS[cmdName];
+    if (!def || def.fields.length === 0) return {};
+
+    if (!def) {
+        const raw = document.getElementById('rawJson');
+        try { return JSON.parse(raw.value || '{}'); }
+        catch (e) { alert('Ungültiges JSON: ' + e.message); return null; }
+    }
+
+    const payload = {};
+    for (const f of def.fields) {
+        const el = document.getElementById(`f_${f.name}`);
+        if (!el) continue;
+        let val;
+        if (f.type === 'number') {
+            val = el.value !== '' ? Number(el.value) : null;
+        } else if (f.type === 'select') {
+            val = el.value || null;
+        } else if (f.type === 'json') {
+            if (el.value.trim() === '') {
+                if (f.required) { alert(`${f.label} ist erforderlich`); return null; }
+                continue;
+            }
+            try { val = JSON.parse(el.value); }
+            catch (e) { alert(`Ungültiges JSON in "${f.label}": ${e.message}`); return null; }
+        } else {
+            val = el.value.trim() || null;
+        }
+
+        if (val === null || val === '') {
+            if (f.required) { alert(`${f.label} ist erforderlich`); return null; }
+            continue;
+        }
+
+        payload[f.name] = val;
+    }
+    return payload;
+}
+
+/* ── Start ──────────────────────────────────────────────────── */
+function getUrlParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+(async () => {
+    await loadStations();
+    const cpFromUrl = getUrlParam('cp');
+    if (cpFromUrl && commandsCache[cpFromUrl]) {
+        selectStation(cpFromUrl);
+        document.querySelector('.header-title').textContent = `Station: ${cpFromUrl}`;
+    }
+})();
+</script>
+</body>
+</html>
