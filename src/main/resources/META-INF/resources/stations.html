@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OCPP Stationen</title>
+<title data-i18n="page_stations">OCPP Stationen</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -20,6 +20,12 @@ header h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: .02em; }
 .header-info { font-size: .85rem; opacity: .85; display: flex; align-items: center; gap: 1rem; }
 .header-info a { color: #8ab4f8; text-decoration: none; }
 .header-info a:hover { text-decoration: underline; }
+.lang-select {
+    background: transparent; color: #8ab4f8; border: 1px solid rgba(138,180,248,.3);
+    border-radius: 4px; padding: .2rem .4rem; font-size: .8rem; cursor: pointer;
+}
+.lang-select:hover { background: rgba(255,255,255,.1); }
+.lang-select option { color: #1a1a2e; background: #fff; }
 .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
 .stats {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -80,13 +86,19 @@ footer {
 </head>
 <body>
 <header>
-    <h1>OCPP Stationen</h1>
+    <h1 data-i18n="page_stations">OCPP Stationen</h1>
     <div class="header-info">
-        <a href="/commands.html">Remote Commands</a>
+        <a href="/commands.html" data-i18n="nav_commands">Remote Commands</a>
+        <span style="opacity:.4">|</span>
+        <select id="langSelect" class="lang-select" data-i18n-label="lang_label">
+            <option value="de">DE</option>
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+        </select>
         <span style="opacity:.4">|</span>
         <span id="updateTime"></span>
         <span style="opacity:.4">|</span>
-        <span id="autoRefreshStatus">Aktualisierung alle 10s</span>
+        <span data-i18n="auto_refresh">Aktualisierung alle 10s</span>
     </div>
 </header>
 <div class="container">
@@ -94,49 +106,54 @@ footer {
     <table>
         <thead>
             <tr>
-                <th>Station</th>
-                <th>Hersteller / Modell</th>
-                <th>Firmware</th>
-                <th>Status</th>
-                <th class="connectors-col">Konnektoren</th>
-                <th>Verbunden seit</th>
-                <th>Zuletzt gesehen</th>
+                <th data-i18n="label_station">Station</th>
+                <th data-i18n="label_vendor_model">Hersteller / Modell</th>
+                <th data-i18n="label_firmware">Firmware</th>
+                <th data-i18n="label_status">Status</th>
+                <th class="connectors-col" data-i18n="label_connectors">Konnektoren</th>
+                <th data-i18n="label_connected_since">Verbunden seit</th>
+                <th data-i18n="label_last_seen">Zuletzt gesehen</th>
             </tr>
         </thead>
         <tbody id="stationsBody">
-            <tr><td colspan="7" class="loading">Lade Stationen…</td></tr>
+            <tr><td colspan="7" class="loading" data-i18n="loading_stations">Lade Stationen…</td></tr>
         </tbody>
     </table>
 </div>
-<footer>OCPP 1.6 Central System</footer>
+<footer data-i18n="footer_text">OCPP 1.6 Central System</footer>
 
+<script src="/i18n.js"></script>
 <script>
 const API_URL = '/api/chargepoints';
 const REFRESH_MS = 10000;
 let timer;
 
+const getDateLocale = () => document.documentElement.dataset.dateLocale || 'de-DE';
+
 function formatDateTime(iso) {
     if (!iso) return '–';
     const d = new Date(iso);
-    return d.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' })
-        + ' ' + d.toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit' });
+    const loc = getDateLocale();
+    return d.toLocaleDateString(loc, { day:'2-digit', month:'2-digit', year:'numeric' })
+        + ' ' + d.toLocaleTimeString(loc, { hour:'2-digit', minute:'2-digit' });
 }
 
 function timeAgo(iso) {
     if (!iso) return '–';
     const diff = Date.now() - new Date(iso).getTime();
     const sec = Math.floor(diff / 1000);
-    if (sec < 60) return 'Gerade eben';
+    if (sec < 60) return I18N.t('just_now');
     const min = Math.floor(sec / 60);
-    if (min < 60) return `Vor ${min} Min.`;
+    if (min < 60) return `${I18N.t('time_ago_min')} ${min} ${I18N.t('time_unit_min')}`;
     const h = Math.floor(min / 60);
-    if (h < 24) return `Vor ${h} Std.`;
+    if (h < 24) return `${I18N.t('time_ago_min')} ${h} ${I18N.t('time_unit_hour')}`;
     return formatDateTime(iso);
 }
 
 function statusBadgeHtml(status) {
     const cls = status === 'ONLINE' ? 'online' : 'offline';
-    return `<span class="status-badge ${cls}"><span class="status-dot ${cls}"></span>${status}</span>`;
+    const label = status === 'ONLINE' ? I18N.t('label_online') : I18N.t('label_offline');
+    return `<span class="status-badge ${cls}"><span class="status-dot ${cls}"></span>${label}</span>`;
 }
 
 function connectorChipHtml(c) {
@@ -156,15 +173,15 @@ function render(data) {
     const totalConnectors = data.reduce((s, cp) => s + (cp.connectors || []).length, 0);
 
     document.getElementById('stats').innerHTML = `
-        <div class="stat-card total"><div class="value">${total}</div><div class="label">Stationen</div></div>
-        <div class="stat-card online"><div class="value">${online}</div><div class="label">Online</div></div>
-        <div class="stat-card offline"><div class="value">${offline}</div><div class="label">Offline</div></div>
-        <div class="stat-card total"><div class="value">${totalConnectors}</div><div class="label">Konnektoren</div></div>
+        <div class="stat-card total"><div class="value">${total}</div><div class="label">${I18N.t('label_stations')}</div></div>
+        <div class="stat-card online"><div class="value">${online}</div><div class="label">${I18N.t('label_online')}</div></div>
+        <div class="stat-card offline"><div class="value">${offline}</div><div class="label">${I18N.t('label_offline')}</div></div>
+        <div class="stat-card total"><div class="value">${totalConnectors}</div><div class="label">${I18N.t('label_connectors')}</div></div>
     `;
 
     const tbody = document.getElementById('stationsBody');
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="empty">Keine Stationen vorhanden</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="7" class="empty">${I18N.t('no_stations')}</td></tr>`;
         return;
     }
 
@@ -191,13 +208,14 @@ async function fetchStations() {
         render(data);
     } catch (err) {
         document.getElementById('stationsBody').innerHTML =
-            `<tr><td colspan="7" class="error">Fehler beim Laden: ${err.message}</td></tr>`;
+            `<tr><td colspan="7" class="error">${I18N.t('error_loading')}: ${err.message}</td></tr>`;
     }
 }
 
 function updateTimestamp() {
+    const loc = getDateLocale();
     document.getElementById('updateTime').textContent =
-        'Stand: ' + new Date().toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+        I18N.t('timestamp_prefix') + ' ' + new Date().toLocaleTimeString(loc, { hour:'2-digit', minute:'2-digit', second:'2-digit' });
 }
 
 function refresh() {
@@ -208,6 +226,10 @@ function refresh() {
 fetchStations();
 updateTimestamp();
 timer = setInterval(refresh, REFRESH_MS);
+
+document.addEventListener('langchange', () => {
+    refresh();
+});
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OCPP Remote Commands</title>
+<title data-i18n="page_commands">OCPP Remote Commands</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -19,10 +19,17 @@ header {
 header h1 { font-size: 1.4rem; font-weight: 600; }
 header a { color: #8ab4f8; text-decoration: none; font-size: .85rem; }
 header a:hover { text-decoration: underline; }
+.lang-select {
+    background: transparent; color: #8ab4f8; border: 1px solid rgba(138,180,248,.3);
+    border-radius: 4px; padding: .2rem .4rem; font-size: .8rem; cursor: pointer;
+    margin-left: .5rem;
+}
+.lang-select:hover { background: rgba(255,255,255,.1); }
+.lang-select option { color: #1a1a2e; background: #fff; }
+.header-right { display: flex; align-items: center; }
 .container { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
 
-/* Panel */
 .panel {
     background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden;
 }
@@ -33,7 +40,6 @@ header a:hover { text-decoration: underline; }
 }
 .panel-body { padding: 1.2rem; }
 
-/* Form */
 .form-group { margin-bottom: 1rem; }
 .form-group:last-child { margin-bottom: 0; }
 .form-group label {
@@ -52,7 +58,6 @@ header a:hover { text-decoration: underline; }
 .form-group .hint { font-size: .75rem; color: #6c757d; margin-top: .25rem; }
 select:invalid { color: #6c757d; }
 
-/* Buttons */
 .btn {
     padding: .6rem 1.5rem; border: none; border-radius: 6px; font-size: .88rem;
     font-weight: 600; cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: .4rem;
@@ -64,7 +69,6 @@ select:invalid { color: #6c757d; }
 .btn-outline { background: transparent; border: 1px solid #ced4da; color: #495057; }
 .btn-outline:hover { background: #f8f9fa; }
 
-/* Stations list */
 .station-item {
     display: flex; align-items: center; justify-content: space-between;
     padding: .7rem 0; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: background .1s;
@@ -77,7 +81,7 @@ select:invalid { color: #6c757d; }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: .4rem; }
 .status-dot.online { background: #28a745; }
 .status-dot.offline { background: #dc3545; }
-.connector-list { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .8rem; padding-top: .8rem; border-top: 1px solid #eee; }
+.connector-list { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .8rem; padding-top: .8rem; border-top: 1px solid #eee; margin-bottom: 1rem; }
 .connector-list-title { font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; color: #6c757d; font-weight: 600; width: 100%; margin-bottom: .2rem; }
 .connector-chip {
     display: inline-flex; align-items: center; gap: .2rem;
@@ -91,7 +95,6 @@ select:invalid { color: #6c757d; }
 .connector-chip.other { background: #fff3cd; color: #856404; }
 .connector-chip.unavail { background: #e2e3e5; color: #383d41; }
 
-/* Response */
 .response-area {
     background: #1a1a2e; color: #e8e8e8; border-radius: 8px; padding: 1rem;
     font-family: "SFMono-Regular", Consolas, monospace; font-size: .8rem; max-height: 400px; overflow: auto;
@@ -105,230 +108,234 @@ select:invalid { color: #6c757d; }
 </head>
 <body>
 <header>
-    <h1 class="header-title">OCPP Remote Commands</h1>
-    <div>
-        <a href="/stations.html">Stationen</a>
+    <h1 class="header-title" data-i18n="page_commands">OCPP Remote Commands</h1>
+    <div class="header-right">
+        <a href="/stations.html" data-i18n="nav_stations">Stationen</a>
+        <select id="langSelect" class="lang-select">
+            <option value="de">DE</option>
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+        </select>
     </div>
 </header>
 <div class="container">
     <div class="panel">
-        <h2>Station auswählen</h2>
+        <h2 data-i18n="select_station">Station auswählen</h2>
         <div class="panel-body" id="stationsPanel">
-            <p class="loading" style="color:#6c757d;font-size:.85rem;">Lade Stationen…</p>
+            <p class="loading" style="color:#6c757d;font-size:.85rem;" data-i18n="loading_stations">Lade Stationen…</p>
         </div>
     </div>
     <div>
         <div class="panel" style="margin-bottom:1.5rem;">
-            <h2>Kommando</h2>
+            <h2 data-i18n="label_command">Kommando</h2>
             <div class="panel-body">
                 <div id="connectorStatus"></div>
                 <div class="form-group">
-                    <label>Kommando</label>
+                    <label data-i18n="label_command">Kommando</label>
                     <select id="cmdSelect" disabled required>
-                        <option value="">– zuerst Station wählen –</option>
+                        <option value="" data-i18n="select_command_first">– zuerst Station wählen –</option>
                     </select>
                 </div>
                 <div id="commandForm"></div>
                 <div style="margin-top:1rem;">
-                    <button class="btn btn-primary" id="sendBtn" disabled onclick="sendCommand()">Senden</button>
+                    <button class="btn btn-primary" id="sendBtn" disabled onclick="sendCommand()" data-i18n="btn_send">Senden</button>
                 </div>
             </div>
         </div>
         <div class="panel">
-            <h2>Antwort</h2>
+            <h2 data-i18n="response_label">Antwort</h2>
             <div class="panel-body">
                 <div class="response-info" id="responseInfo"></div>
-                <div class="response-area" id="responseArea"><span class="empty">Noch keine Antwort</span></div>
+                <div class="response-area" id="responseArea"><span class="empty" data-i18n="no_response_yet">Noch keine Antwort</span></div>
             </div>
         </div>
     </div>
 </div>
 
+<script src="/i18n.js"></script>
 <script>
 const API_BASE = '/api/chargepoints';
 
 let selectedChargePointId = null;
 let commandsCache = {};
 
-/* ── Kommando-Definitionen ──────────────────────────────────── */
 const CMD_DEFS = {
     'reset': {
-        label: 'Reset',
+        labelKey: 'cmd_reset',
         fields: [
-            { name: 'type', label: 'Typ', type: 'select', required: true, options: ['Hard', 'Soft'] }
+            { name: 'type', labelKey: 'field_type', type: 'select', required: true, options: ['Hard', 'Soft'] }
         ]
     },
     'clear-cache': {
-        label: 'Clear Cache',
+        labelKey: 'cmd_clear_cache',
         fields: []
     },
     'get-local-list-version': {
-        label: 'Get Local List Version',
+        labelKey: 'cmd_get_local_list_version',
         fields: []
     },
     'unlock-connector': {
-        label: 'Unlock Connector',
+        labelKey: 'cmd_unlock_connector',
         fields: [
-            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true }
+            { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: true }
         ]
     },
     'remote-start-transaction': {
-        label: 'Remote Start Transaction',
+        labelKey: 'cmd_remote_start_transaction',
         fields: [
-            { name: 'idTag', label: 'ID Tag', type: 'text', required: true },
-            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true }
+            { name: 'idTag', labelKey: 'field_id_tag', type: 'text', required: true },
+            { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: true }
         ]
     },
     'remote-stop-transaction': {
-        label: 'Remote Stop Transaction',
+        labelKey: 'cmd_remote_stop_transaction',
         fields: [
-            { name: 'transactionId', label: 'Transaction ID', type: 'number', required: true }
+            { name: 'transactionId', labelKey: 'field_transaction_id', type: 'number', required: true }
         ]
     },
     'change-availability': {
-        label: 'Change Availability',
+        labelKey: 'cmd_change_availability',
         fields: [
-            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true },
-            { name: 'type', label: 'Typ', type: 'select', required: true, options: ['Inoperative', 'Operative'] }
+            { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: true },
+            { name: 'type', labelKey: 'field_type', type: 'select', required: true, options: ['Inoperative', 'Operative'] }
         ]
     },
     'change-configuration': {
-        label: 'Change Configuration',
+        labelKey: 'cmd_change_configuration',
         fields: [
-            { name: 'key', label: 'Key', type: 'text', required: true },
-            { name: 'value', label: 'Value', type: 'text', required: true }
+            { name: 'key', labelKey: 'field_key', type: 'text', required: true },
+            { name: 'value', labelKey: 'field_value', type: 'text', required: true }
         ]
     },
     'trigger-message': {
-        label: 'Trigger Message',
+        labelKey: 'cmd_trigger_message',
         fields: [
-            { name: 'requestedMessage', label: 'Nachricht', type: 'select', required: true,
+            { name: 'requestedMessage', labelKey: 'field_requested_message', type: 'select', required: true,
               options: ['BootNotification', 'DiagnosticsStatusNotification', 'FirmwareStatusNotification',
                         'Heartbeat', 'MeterValues', 'StatusNotification', 'LogStatusNotification',
                         'SignChargePointCertificate'] },
-            { name: 'connectorId', label: 'Connector ID', type: 'number', required: false }
+            { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: false }
         ]
     },
     'extended-trigger-message': {
-        label: 'Extended Trigger Message',
+        labelKey: 'cmd_extended_trigger_message',
         fields: [
-            { name: 'requestedMessage', label: 'Nachricht', type: 'select', required: true,
+            { name: 'requestedMessage', labelKey: 'field_requested_message', type: 'select', required: true,
               options: ['BootNotification', 'LogStatusNotification', 'FirmwareStatusNotification',
                         'Heartbeat', 'MeterValues', 'SignChargePointCertificate', 'StatusNotification'] },
-            { name: 'connectorId', label: 'Connector ID', type: 'number', required: false }
+            { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: false }
         ]
     },
     'cancel-reservation': {
-        label: 'Cancel Reservation',
+        labelKey: 'cmd_cancel_reservation',
         fields: [
-            { name: 'reservationId', label: 'Reservation ID', type: 'number', required: true }
+            { name: 'reservationId', labelKey: 'field_reservation_id', type: 'number', required: true }
         ]
     },
     'get-composite-schedule': {
-        label: 'Get Composite Schedule',
+        labelKey: 'cmd_get_composite_schedule',
         fields: [
-            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true },
-            { name: 'duration', label: 'Dauer (Sekunden)', type: 'number', required: true }
+            { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: true },
+            { name: 'duration', labelKey: 'field_duration', type: 'number', required: true }
         ]
     },
     'get-configuration': {
-        label: 'Get Configuration',
+        labelKey: 'cmd_get_configuration',
         fields: [
-            { name: 'key', label: 'Keys (kommagetrennt, optional)', type: 'text', required: false }
+            { name: 'key', labelKey: 'field_keys_hint', type: 'text', required: false }
         ]
     },
     'get-diagnostics': {
-        label: 'Get Diagnostics',
+        labelKey: 'cmd_get_diagnostics',
         fields: [
-            { name: 'location', label: 'Upload URL', type: 'text', required: true }
+            { name: 'location', labelKey: 'field_upload_url', type: 'text', required: true }
         ]
     },
     'reserve-now': {
-        label: 'Reserve Now',
+        labelKey: 'cmd_reserve_now',
         fields: [
-            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true },
-            { name: 'reservationId', label: 'Reservation ID', type: 'number', required: true },
-            { name: 'expiryDate', label: 'Ablauf (ISO)', type: 'text', required: true },
-            { name: 'idTag', label: 'ID Tag', type: 'text', required: true }
+            { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: true },
+            { name: 'reservationId', labelKey: 'field_reservation_id', type: 'number', required: true },
+            { name: 'expiryDate', labelKey: 'field_expiry_date', type: 'text', required: true },
+            { name: 'idTag', labelKey: 'field_id_tag', type: 'text', required: true }
         ]
     },
     'send-local-list': {
-        label: 'Send Local List',
+        labelKey: 'cmd_send_local_list',
         fields: [
-            { name: 'listVersion', label: 'Listen-Version', type: 'number', required: true },
-            { name: 'updateType', label: 'Update Typ', type: 'select', required: true, options: ['Differential', 'Full'] }
+            { name: 'listVersion', labelKey: 'field_list_version', type: 'number', required: true },
+            { name: 'updateType', labelKey: 'field_update_type', type: 'select', required: true, options: ['Differential', 'Full'] }
         ]
     },
     'update-firmware': {
-        label: 'Update Firmware',
+        labelKey: 'cmd_update_firmware',
         fields: [
-            { name: 'location', label: 'Firmware URL', type: 'text', required: true },
-            { name: 'retrieveDate', label: 'Abrufdatum (ISO)', type: 'text', required: true }
+            { name: 'location', labelKey: 'field_firmware_url', type: 'text', required: true },
+            { name: 'retrieveDate', labelKey: 'field_retrieve_date', type: 'text', required: true }
         ]
     },
     'clear-charging-profile': {
-        label: 'Clear Charging Profile',
+        labelKey: 'cmd_clear_charging_profile',
         fields: [
-            { name: 'connectorId', label: 'Connector ID', type: 'number', required: false },
-            { name: 'stackLevel', label: 'Stack Level', type: 'number', required: false }
+            { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: false },
+            { name: 'stackLevel', labelKey: 'field_stack_level', type: 'number', required: false }
         ]
     },
     'get-installed-certificate-ids': {
-        label: 'Get Installed Certificate IDs',
+        labelKey: 'cmd_get_installed_cert_ids',
         fields: [
-            { name: 'certificateType', label: 'Zertifikatstyp', type: 'select', required: true,
+            { name: 'certificateType', labelKey: 'field_cert_type', type: 'select', required: true,
               options: ['CentralSystemRootCertificate', 'ManufacturerRootCertificate'] }
         ]
     },
     'install-certificate': {
-        label: 'Install Certificate',
+        labelKey: 'cmd_install_certificate',
         fields: [
-            { name: 'certificateType', label: 'Zertifikatstyp', type: 'select', required: true,
+            { name: 'certificateType', labelKey: 'field_cert_type', type: 'select', required: true,
               options: ['CentralSystemRootCertificate', 'ManufacturerRootCertificate'] },
-            { name: 'certificate', label: 'Zertifikat (PEM)', type: 'textarea', required: true,
-              hint: 'max. 5500 Zeichen' }
+            { name: 'certificate', labelKey: 'field_certificate_pem', type: 'textarea', required: true,
+              hintKey: 'field_cert_max' }
         ]
     },
     'delete-certificate': {
-        label: 'Delete Certificate',
+        labelKey: 'cmd_delete_certificate',
         fields: [
-            { name: 'certificateHashData', label: 'Certificate Hash Data', type: 'json', required: true,
-              hint: 'JSON mit hashAlgorithm, issuerNameHash, issuerKeyHash, serialNumber' }
+            { name: 'certificateHashData', labelKey: 'field_cert_hash', type: 'json', required: true,
+              hintKey: 'field_cert_hash_hint' }
         ]
     },
     'get-log': {
-        label: 'Get Log',
+        labelKey: 'cmd_get_log',
         fields: [
-            { name: 'logType', label: 'Log-Typ', type: 'select', required: true,
+            { name: 'logType', labelKey: 'field_log_type', type: 'select', required: true,
               options: ['DiagnosticsLog', 'SecurityLog'] },
-            { name: 'requestId', label: 'Request ID', type: 'number', required: true },
-            { name: 'log', label: 'Log-Parameter (JSON)', type: 'json', required: true,
-              hint: 'JSON mit remoteLocation, optional latestTimestamp, oldestTimestamp' },
-            { name: 'retries', label: 'Retries', type: 'number', required: false },
-            { name: 'retryInterval', label: 'Retry Interval (s)', type: 'number', required: false }
+            { name: 'requestId', labelKey: 'field_request_id', type: 'number', required: true },
+            { name: 'log', labelKey: 'field_log_params', type: 'json', required: true,
+              hintKey: 'field_log_hint' },
+            { name: 'retries', labelKey: 'field_retries', type: 'number', required: false },
+            { name: 'retryInterval', labelKey: 'field_retry_interval', type: 'number', required: false }
         ]
     },
     'set-charging-profile': {
-        label: 'Set Charging Profile',
+        labelKey: 'cmd_set_charging_profile',
         fields: [
-            { name: 'connectorId', label: 'Connector ID', type: 'number', required: true },
-            { name: 'csChargingProfiles', label: 'Charging Profile (JSON)', type: 'json', required: true,
-              hint: 'Komplexes JSON-Objekt – siehe OCPP 1.6 Spezifikation' }
+            { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: true },
+            { name: 'csChargingProfiles', labelKey: 'field_charging_profile', type: 'json', required: true,
+              hintKey: 'field_charging_profile_hint' }
         ]
     },
     'signed-update-firmware': {
-        label: 'Signed Update Firmware',
+        labelKey: 'cmd_signed_update_firmware',
         fields: [
-            { name: 'requestId', label: 'Request ID', type: 'number', required: true },
-            { name: 'firmware', label: 'Firmware (JSON)', type: 'json', required: true,
-              hint: 'JSON mit location, retrieveDateTime, signingCertificate, signature' },
-            { name: 'retries', label: 'Retries', type: 'number', required: false },
-            { name: 'retryInterval', label: 'Retry Interval (s)', type: 'number', required: false }
+            { name: 'requestId', labelKey: 'field_request_id', type: 'number', required: true },
+            { name: 'firmware', labelKey: 'field_firmware_json', type: 'json', required: true,
+              hintKey: 'field_firmware_json_hint' },
+            { name: 'retries', labelKey: 'field_retries', type: 'number', required: false },
+            { name: 'retryInterval', labelKey: 'field_retry_interval', type: 'number', required: false }
         ]
     }
 };
 
-/* ── Stationen laden ────────────────────────────────────────── */
 async function loadStations() {
     const panel = document.getElementById('stationsPanel');
     try {
@@ -338,26 +345,27 @@ async function loadStations() {
         renderStations(data);
         await fetchAllCommands(data.map(cp => cp.chargePointId));
     } catch (err) {
-        panel.innerHTML = `<p style="color:#dc3545;">Fehler: ${err.message}</p>`;
+        panel.innerHTML = `<p style="color:#dc3545;">${I18N.t('error_loading')}: ${err.message}</p>`;
     }
 }
 
 function renderStations(stations) {
     const panel = document.getElementById('stationsPanel');
     if (stations.length === 0) {
-        panel.innerHTML = '<p style="color:#6c757d;font-size:.85rem;">Keine Stationen vorhanden</p>';
+        panel.innerHTML = `<p style="color:#6c757d;font-size:.85rem;">${I18N.t('no_stations')}</p>`;
         return;
     }
     panel.innerHTML = stations.map(cp => {
         const cls = cp.status === 'ONLINE' ? 'online' : 'offline';
         const vm = [cp.vendor, cp.model].filter(Boolean).join(' / ') || '–';
         const active = cp.chargePointId === selectedChargePointId ? ' active' : '';
+        const statusLabel = cp.status === 'ONLINE' ? I18N.t('label_online') : I18N.t('label_offline');
         return `<div class="station-item${active}" data-cpid="${cp.chargePointId}" onclick="selectStation('${cp.chargePointId}')">
             <div>
                 <div class="station-name"><span class="status-dot ${cls}"></span>${cp.chargePointId}</div>
                 <div class="station-meta">${vm}</div>
             </div>
-            <span style="font-size:.75rem;color:#6c757d;">${cp.status}</span>
+            <span style="font-size:.75rem;color:#6c757d;">${statusLabel}</span>
         </div>`;
     }).join('');
 }
@@ -381,7 +389,6 @@ function connectorChipHtml(c) {
     return `<span class="connector-chip ${cls}"><span class="cid">#${c.connectorId}</span> ${c.status}</span>`;
 }
 
-/* ── Station auswählen ──────────────────────────────────────── */
 let connectorRefreshTimer = null;
 function selectStation(cpId) {
     if (connectorRefreshTimer) { clearInterval(connectorRefreshTimer); connectorRefreshTimer = null; }
@@ -389,7 +396,7 @@ function selectStation(cpId) {
     renderStations(Array.from(document.querySelectorAll('.station-item')).map(el => ({
         chargePointId: el.dataset.cpid,
     })));
-    loadStations(); // refresh with full data
+    loadStations();
     populateCommands(cpId);
     loadConnectorStatus(cpId);
     connectorRefreshTimer = setInterval(() => {
@@ -405,7 +412,7 @@ async function loadConnectorStatus(cpId) {
         const cp = await res.json();
         const conns = cp.connectors || [];
         if (conns.length === 0) { el.innerHTML = ''; return; }
-        el.innerHTML = `<div class="connector-list"><div class="connector-list-title">Konnektoren</div>${conns.map(connectorChipHtml).join('')}</div>`;
+        el.innerHTML = `<div class="connector-list"><div class="connector-list-title">${I18N.t('label_connectors')}</div>${conns.map(connectorChipHtml).join('')}</div>`;
     } catch (_) {
         el.innerHTML = '';
     }
@@ -414,21 +421,20 @@ async function loadConnectorStatus(cpId) {
 function populateCommands(cpId) {
     const sel = document.getElementById('cmdSelect');
     sel.disabled = false;
-    sel.innerHTML = '<option value="">– Kommando wählen –</option>';
+    sel.innerHTML = `<option value="">${I18N.t('select_command_pick')}</option>`;
     const cmds = commandsCache[cpId] || [];
     for (const name of cmds) {
         const def = CMD_DEFS[name];
-        const label = def ? def.label : name;
+        const label = def ? I18N.t(def.labelKey) : name;
         sel.innerHTML += `<option value="${name}">${label}</option>`;
     }
     sel.value = '';
     document.getElementById('commandForm').innerHTML = '';
     document.getElementById('sendBtn').disabled = true;
-    document.getElementById('responseArea').innerHTML = '<span class="empty">Noch keine Antwort</span>';
+    document.getElementById('responseArea').innerHTML = `<span class="empty">${I18N.t('no_response_yet')}</span>`;
     document.getElementById('responseInfo').textContent = '';
 }
 
-/* ── Kommando-Formular ──────────────────────────────────────── */
 document.getElementById('cmdSelect').addEventListener('change', function() {
     const cmdName = this.value;
     if (!cmdName) {
@@ -444,24 +450,25 @@ function buildForm(cmdName) {
     const def = CMD_DEFS[cmdName];
     if (!def) {
         document.getElementById('commandForm').innerHTML =
-            '<p style="color:#6c757d;font-size:.85rem;">Keine Felddefinitionen für dieses Kommando.</p><div class="form-group"><label>Payload (JSON)</label><textarea id="rawJson" rows="4"></textarea></div>';
+            `<p style="color:#6c757d;font-size:.85rem;">${I18N.t('no_fields')}</p><div class="form-group"><label>${I18N.t('payload_json')}</label><textarea id="rawJson" rows="4"></textarea></div>`;
         return;
     }
     if (def.fields.length === 0) {
         document.getElementById('commandForm').innerHTML =
-            '<p style="color:#6c757d;font-size:.85rem;">Dieses Kommando benötigt keine Parameter.</p>';
+            `<p style="color:#6c757d;font-size:.85rem;">${I18N.t('no_params')}</p>`;
         return;
     }
     let html = '';
     for (const f of def.fields) {
         const req = f.required ? '<span class="required">*</span>' : '';
-        const opt = !f.required ? ' <span class="optional">(optional)</span>' : '';
-        const hint = f.hint ? `<div class="hint">${f.hint}</div>` : '';
+        const opt = !f.required ? ` <span class="optional">${I18N.t('optional')}</span>` : '';
+        const hint = f.hintKey ? `<div class="hint">${I18N.t(f.hintKey)}</div>` : '';
         const id = `f_${f.name}`;
-        html += `<div class="form-group"><label for="${id}">${f.label}${req}${opt}</label>`;
+        const label = I18N.t(f.labelKey);
+        html += `<div class="form-group"><label for="${id}">${label}${req}${opt}</label>`;
         if (f.type === 'select') {
             html += `<select id="${id}" ${f.required ? 'required' : ''}>`;
-            html += `<option value="">– wählen –</option>`;
+            html += `<option value="">${I18N.t('select_pick')}</option>`;
             for (const o of f.options) html += `<option value="${o}">${o}</option>`;
             html += `</select>`;
         } else if (f.type === 'textarea' || f.type === 'json') {
@@ -476,26 +483,25 @@ function buildForm(cmdName) {
     document.getElementById('commandForm').innerHTML = html;
 }
 
-/* ── Kommando senden ────────────────────────────────────────── */
 async function sendCommand() {
     const cmdName = document.getElementById('cmdSelect').value;
     if (!cmdName || !selectedChargePointId) return;
 
     const btn = document.getElementById('sendBtn');
     btn.disabled = true;
-    btn.textContent = 'Sende…';
+    btn.textContent = I18N.t('btn_sending');
 
     const payload = buildPayload(cmdName);
     if (payload === null) {
         btn.disabled = false;
-        btn.textContent = 'Senden';
+        btn.textContent = I18N.t('btn_send');
         return;
     }
 
     const area = document.getElementById('responseArea');
     const info = document.getElementById('responseInfo');
-    area.innerHTML = 'Warte auf Antwort…';
-    info.textContent = `» ${selectedChargePointId} / ${cmdName}`;
+    area.textContent = I18N.t('waiting_response');
+    info.textContent = `\u203a ${selectedChargePointId} / ${cmdName}`;
 
     try {
         const res = await fetch(`${API_BASE}/${encodeURIComponent(selectedChargePointId)}/commands/${cmdName}`, {
@@ -513,10 +519,10 @@ async function sendCommand() {
         const cls = res.ok ? 'success' : 'error';
         area.innerHTML = `<span class="${cls}">${res.status} ${res.statusText}</span>\n\n${formatted}`;
     } catch (err) {
-        area.innerHTML = `<span class="error">Netzwerkfehler: ${err.message}</span>`;
+        area.innerHTML = `<span class="error">${I18N.t('network_error')}: ${err.message}</span>`;
     } finally {
         btn.disabled = false;
-        btn.textContent = 'Senden';
+        btn.textContent = I18N.t('btn_send');
     }
 }
 
@@ -527,7 +533,7 @@ function buildPayload(cmdName) {
     if (!def) {
         const raw = document.getElementById('rawJson');
         try { return JSON.parse(raw.value || '{}'); }
-        catch (e) { alert('Ungültiges JSON: ' + e.message); return null; }
+        catch (e) { alert(`${I18N.t('invalid_json')}: ${e.message}`); return null; }
     }
 
     const payload = {};
@@ -541,17 +547,17 @@ function buildPayload(cmdName) {
             val = el.value || null;
         } else if (f.type === 'json') {
             if (el.value.trim() === '') {
-                if (f.required) { alert(`${f.label} ist erforderlich`); return null; }
+                if (f.required) { alert(`${I18N.t(f.labelKey)} ${I18N.t('field_required')}`); return null; }
                 continue;
             }
             try { val = JSON.parse(el.value); }
-            catch (e) { alert(`Ungültiges JSON in "${f.label}": ${e.message}`); return null; }
+            catch (e) { alert(`${I18N.t('invalid_json')}: ${e.message}`); return null; }
         } else {
             val = el.value.trim() || null;
         }
 
         if (val === null || val === '') {
-            if (f.required) { alert(`${f.label} ist erforderlich`); return null; }
+            if (f.required) { alert(`${I18N.t(f.labelKey)} ${I18N.t('field_required')}`); return null; }
             continue;
         }
 
@@ -560,18 +566,24 @@ function buildPayload(cmdName) {
     return payload;
 }
 
-/* ── Start ──────────────────────────────────────────────────── */
 function getUrlParam(name) {
     const params = new URLSearchParams(window.location.search);
     return params.get(name);
 }
+
+document.addEventListener('langchange', () => {
+    if (selectedChargePointId) {
+        populateCommands(selectedChargePointId);
+        loadConnectorStatus(selectedChargePointId);
+    }
+});
 
 (async () => {
     await loadStations();
     const cpFromUrl = getUrlParam('cp');
     if (cpFromUrl && commandsCache[cpFromUrl]) {
         selectStation(cpFromUrl);
-        document.querySelector('.header-title').textContent = `Station: ${cpFromUrl}`;
+        document.querySelector('.header-title').textContent = `${I18N.t('station_prefix')} ${cpFromUrl}`;
     }
 })();
 </script>
