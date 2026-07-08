@@ -382,7 +382,9 @@ function connectorChipHtml(c) {
 }
 
 /* ── Station auswählen ──────────────────────────────────────── */
+let connectorRefreshTimer = null;
 function selectStation(cpId) {
+    if (connectorRefreshTimer) { clearInterval(connectorRefreshTimer); connectorRefreshTimer = null; }
     selectedChargePointId = cpId;
     renderStations(Array.from(document.querySelectorAll('.station-item')).map(el => ({
         chargePointId: el.dataset.cpid,
@@ -390,6 +392,9 @@ function selectStation(cpId) {
     loadStations(); // refresh with full data
     populateCommands(cpId);
     loadConnectorStatus(cpId);
+    connectorRefreshTimer = setInterval(() => {
+        if (selectedChargePointId) loadConnectorStatus(selectedChargePointId);
+    }, 10000);
 }
 
 async function loadConnectorStatus(cpId) {
