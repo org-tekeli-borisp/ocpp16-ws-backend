@@ -1,24 +1,24 @@
 # AGENTS.md — OCPP 1.6J WebSocket Backend
 
-## ⚠️ TDD-ZWANG (vor JEDER Code-Änderung abarbeiten)
+## ⚠️ TDD ENFORCEMENT (mandatory before ANY code change)
 
-Dieses Projekt folgt **striktem Test-Driven Development**. Jeder Agent (einschließlich mir) muss vor dem ersten Production-Code die folgende Checkliste abgearbeitet haben:
+This project follows **strict Test-Driven Development**. Every agent (including me) must complete the following checklist before writing any production code:
 
-### Pre-Task Checklist (vor Production-Code zwingend ausführen)
+### Pre-Task Checklist (MUST run before production code)
 
-1. **Lies diese Datei (AGENTS.md) komplett** – insbesondere den TDD-Abschnitt
-2. **Existiert bereits ein Test, der das gewünschte Verhalten abdeckt?**
-   - JA → Test läuft grün? → Weiter mit Production-Code
-   - JA → Test läuft rot? → Production-Code schreiben, bis Test grün
-   - NEIN → **Test schreiben (RED)**, der das neue Verhalten fordert
-3. **Test muss fehlschlagen** – `mvn test -Dtest={TestName}` zeigt Fehler
-4. **Erst dann** Production-Code schreiben (GREEN)
-5. **`mvn test`** – alle Tests grün
-6. **Refaktorieren** nur wenn alle Tests grün sind
+1. **Read this file (AGENTS.md) completely** – especially the TDD section
+2. **Does a test already exist that covers the desired behavior?**
+   - YES → Test passes (green)? → Proceed to production code
+   - YES → Test fails (red)? → Write production code until test passes
+   - NO → **Write a test (RED)** that demands the new behavior
+3. **Test MUST fail** – `mvn test -Dtest={TestName}` shows failure
+4. **Only then** write production code (GREEN)
+5. **`mvn test`** – all tests green
+6. **Refactor** only when all tests are green
 
-### Sanktion bei Verstoß
+### Penalty for Violation
 
-Wird Production-Code ohne vorherigen roten Test committet, muss der Agent den Code **komplett zurückrollen** und die Checkliste von vorne durchlaufen. Keine Ausnahmen.
+If production code is committed without a preceding failing test, the agent MUST **roll back the code completely** and re-run the checklist from the start. No exceptions.
 
 ---
 
