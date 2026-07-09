@@ -266,29 +266,46 @@ open class PersistenceService {
     }
 
     fun findMessageLogs(chargePointId: String, direction: String?, action: String?, limit: Int): List<OcppMessageLog> {
-        var qp = "SELECT m FROM OcppMessageLog m WHERE m.chargePointId = :cpId"
-        val conditions = mutableListOf<String>()
-        if (direction != null && direction.isNotBlank()) {
-            conditions += "m.direction = :direction"
-        }
-        if (action != null && action.isNotBlank()) {
-            conditions += "m.action = :action"
-        }
-        if (conditions.isNotEmpty()) {
-            qp += " AND " + conditions.joinToString(" AND ")
-        }
-        qp += " ORDER BY m.timestamp DESC"
-        var query = em.createQuery(qp, OcppMessageLog::class.java)
-            .setParameter("cpId", chargePointId)
-        if (direction != null && direction.isNotBlank()) {
-            query = query.setParameter("direction", direction)
-        }
-        if (action != null && action.isNotBlank()) {
-            query = query.setParameter("action", action)
+        val (queryStr, params) = buildMessageQuery(chargePointId, direction, action)
+        var query = em.createQuery(queryStr, OcppMessageLog::class.java)
+        for ((key, value) in params) {
+            query.setParameter(key, value)
         }
         query.maxResults = limit
         return query.resultList as List<OcppMessageLog>
     }
+
+    private fun buildMessageQuery(chargePointId: String, direction: String?, action: String?): Pair<String, Map<String, Any?>> {
+        val params = mapOf("cpId" to chargePointId)
+        val conditions = mutableListOf<String>()
+
+        if (!isBlank(direction)) {
+            conditions += "m.direction = :direction"
+        }
+        if (!isBlank(action)) {
+            conditions += "m.action = :action"
+        }
+
+        val queryStr = buildQueryBase(chargePointId, conditions)
+        val allParams = params + directionParam(direction) + actionParam(action)
+        return queryStr to allParams
+    }
+
+    private fun buildQueryBase(chargePointId: String, conditions: List<String>): String {
+        var qp = "SELECT m FROM OcppMessageLog m WHERE m.chargePointId = :cpId"
+        if (conditions.isNotEmpty()) {
+            qp += " AND " + conditions.joinToString(" AND ")
+        }
+        return qp + " ORDER BY m.timestamp DESC"
+    }
+
+    private fun directionParam(direction: String?): Map<String, Any?> =
+        if (!isBlank(direction)) mapOf("direction" to direction) else emptyMap()
+
+    private fun actionParam(action: String?): Map<String, Any?> =
+        if (!isBlank(action)) mapOf("action" to action) else emptyMap()
+
+    private fun isBlank(s: String?) = s == null || s.isBlank()
 
     @Transactional
     fun purgeMessageLogsBefore(cutoff: Instant): Int {

@@ -33,12 +33,8 @@ class MessageResource {
         validateChargePoint(chargePointId)
 
         val buffered = messageCaptureService.getMessages(chargePointId)
-        val filtered = buffered.filter { msg ->
-            (direction == null || direction.isBlank() || msg.direction == direction) &&
-            (action == null || action.isBlank() || msg.action == action) &&
-            (since == null || since.isBlank() || msg.timestamp >= since)
-        }
-        return if (limit > 0) filtered.takeLast(limit) else filtered
+        val filtered = buffered.filter { it.matches(direction, action, since) }
+        return filtered.applyLimit(limit)
     }
 
     @GET
@@ -79,4 +75,14 @@ class MessageResource {
         payload = log.payload,
         timestamp = log.timestamp.toString()
     )
+
+    private fun OcppMessageDto.matches(direction: String?, action: String?, since: String?): Boolean =
+        matchesDirection(direction) && matchesAction(action) && matchesSince(since)
+
+    private fun OcppMessageDto.matchesDirection(d: String?) = d.isNullOrBlank() || this.direction == d
+    private fun OcppMessageDto.matchesAction(a: String?) = a.isNullOrBlank() || this.action == a
+    private fun OcppMessageDto.matchesSince(s: String?) = s.isNullOrBlank() || this.timestamp >= s
+
+    private fun List<OcppMessageDto>.applyLimit(limit: Int) =
+        if (limit > 0) takeLast(limit) else this
 }

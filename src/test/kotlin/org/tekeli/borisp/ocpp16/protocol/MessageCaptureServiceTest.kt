@@ -33,6 +33,16 @@ class MessageCaptureServiceTest {
             synchronized(persistedLogs) { persistedLogs.add(log) }
             return log
         }
+
+        override fun findMessageLogs(chargePointId: String, direction: String?, action: String?, limit: Int): List<OcppMessageLog> {
+            synchronized(persistedLogs) {
+                return persistedLogs
+                    .filter { it.chargePointId == chargePointId }
+                    .filter { direction.isNullOrEmpty() || it.direction == direction }
+                    .filter { action.isNullOrEmpty() || it.action == action }
+                    .take(limit)
+            }
+        }
     }
 
     private lateinit var service: MessageCaptureService
@@ -150,5 +160,62 @@ class MessageCaptureServiceTest {
         service.capture("CP-1", OcppMessageDirection.INBOUND, OcppMessage.Call("m1", "H", null))
         val messages = service.getMessages("CP-1")
         Instant.parse(messages[0].timestamp)
+    }
+
+    @Test
+    fun `getMessagesFromDb returns persisted logs as DTOs`() {
+        service.capture("CP-1", OcppMessageDirection.INBOUND,
+            OcppMessage.Call("m1", "BootNotification", mapOf("vendor" to "V")))
+
+        Thread.sleep(2000)
+
+        val dtos = service.getMessagesFromDb("CP-1", null, null, 100)
+        assertEquals(1, dtos.size)
+        assertEquals("CP-1", dtos[0].chargePointId)
+        assertEquals("INBOUND", dtos[0].direction)
+        assertEquals("BootNotification", dtos[0].action)
+    }
+
+    @Test
+    fun `getMessagesFromDb filters by direction`() {
+        service.capture("CP-1", OcppMessageDirection.INBOUND,
+            OcppMessage.Call("m1", "Heartbeat", null))
+        service.capture("CP-1", OcppMessageDirection.OUTBOUND,
+            OcppMessage.Call("m2", "Reset", mapOf("type" to "Soft")))
+
+        Thread.sleep(2000)
+
+        val inbound = service.getMessagesFromDb("CP-1", "INBOUND", null, 100)
+        assertEquals(1, inbound.size)
+        assertEquals("INBOUND", inbound[0].direction)
+    }
+
+    @Test
+    fun `getMessagesFromDb filters by action`() {
+        service.capture("CP-1", OcppMessageDirection.INBOUND,
+            OcppMessage.Call("m1", "Heartbeat", null))
+        service.capture("CP-1", OcppMessageDirection.INBOUND,
+            OcppMessage.Call("m2", "BootNotification", mapOf("vendor" to "V")))
+
+        Thread.sleep(2000)
+
+        val filtered = service.getMessagesFromDb("CP-1", null, "Heartbeat", 100)
+        assertEquals(1, filtered.size)
+        assertEquals("Heartbeat", filtered[0].action)
+    }
+
+    @Test
+    fun `getMessagesFromDb with blank action returns null action`() {
+        service.capture("CP-1", OcppMessageDirection.INBOUND,
+            OcppMessage.Call("m1", "BootNotification", mapOf("vendor" to "V")))
+
+        Thread.sleep(2000)
+
+        val log = synchronized(persistenceService.persistedLogs) { persistenceService.persistedLogs[0] }
+        log.action = ""
+
+        val dtos = service.getMessagesFromDb("CP-1", null, null, 100)
+        assertEquals(1, dtos.size)
+        assertNull(dtos[0].action)
     }
 }
