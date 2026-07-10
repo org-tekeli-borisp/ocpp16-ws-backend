@@ -59,7 +59,7 @@
 </script>
 
 <div class="panel">
-  <h2>{t('label_messages')}</h2>
+  <h2>{$t('label_messages')}</h2>
   <div class="panel-body">
     <div class="msg-tabs">
       <button class="msg-tab {msgTab === 'live' ? 'active' : ''}" onclick={() => switchTab('live')}>Live</button>
@@ -67,26 +67,26 @@
     </div>
 
     <div class="filters">
-      <label style="font-size:.78rem;font-weight:600;">{t('filter_direction')}:</label>
+      <label style="font-size:.78rem;font-weight:600;">{$t('filter_direction')}:</label>
       <select bind:value={filterDirection}>
-        <option value="">{t('filter_all')}</option>
-        <option value="INBOUND">C→S {t('filter_inbound')}</option>
-        <option value="OUTBOUND">S→C {t('filter_outbound')}</option>
+        <option value="">{$t('filter_all')}</option>
+        <option value="INBOUND">C→S {$t('filter_inbound')}</option>
+        <option value="OUTBOUND">S→C {$t('filter_outbound')}</option>
       </select>
-      <label style="font-size:.78rem;font-weight:600;">{t('filter_action')}:</label>
+      <label style="font-size:.78rem;font-weight:600;">{$t('filter_action')}:</label>
       <input type="text" bind:value={filterAction} placeholder="z.B. Heartbeat" />
-      <button class="btn btn-sm btn-outline" onclick={applyFilters}>{t('btn_apply')}</button>
+      <button class="btn btn-sm btn-outline" onclick={applyFilters}>{$t('btn_apply')}</button>
       <div class="status-bar" style="margin-left:auto;">
-        <span>{messageCount} {t('label_messages_lower')}</span>
+        <span>{messageCount} {$t('label_messages_lower')}</span>
         <span class="live-indicator" style="display:{msgTab === 'live' ? 'inline-flex' : 'none'}">
-          <span class="live-dot"></span> {t('label_live')}
+          <span class="live-dot"></span> {$t('label_live')}
         </span>
       </div>
     </div>
 
     <div class="message-list">
       {#if messages.length === 0}
-        <p class="empty-state">{t('no_messages')}</p>
+        <p class="empty-state">{$t('no_messages')}</p>
       {:else}
         {#each messages as msg}
           <div class="message-item">

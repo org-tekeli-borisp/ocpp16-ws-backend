@@ -1,4 +1,4 @@
-import { writable, get, type Readable } from 'svelte/store';
+import { writable, derived, get } from 'svelte/store';
 
 const translations: Record<string, Record<string, string>> = {
   de: {
@@ -325,9 +325,8 @@ function detectLocale(): string {
 
 const locale = writable(detectLocale());
 
-function t(key: string): string {
-  const currentLocale = get(locale);
-  return translations[currentLocale]?.[key] ?? translations['de']?.[key] ?? key;
-}
+const t = derived(locale, ($locale) => (key: string) =>
+  translations[$locale]?.[key] ?? translations['de']?.[key] ?? key
+);
 
 export { locale, t, translations };

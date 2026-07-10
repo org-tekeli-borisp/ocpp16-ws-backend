@@ -8,7 +8,7 @@
 
   function getLabel(cmd: string): string {
     const def = COMMAND_DEFINITIONS[cmd];
-    return def ? t(def.labelKey) : cmd;
+    return def ? $t(def.labelKey) : cmd;
   }
 
   function handleChange(e: Event) {
@@ -19,9 +19,9 @@
 </script>
 
 <div class="form-group">
-  <label>{t('label_command')}</label>
+  <label>{$t('label_command')}</label>
   <select value={selectedCommand} onchange={handleChange}>
-    <option value="">{t('select_command_pick')}</option>
+    <option value="">{$t('select_command_pick')}</option>
     {#each commands as cmd}
       <option value={cmd}>{getLabel(cmd)}</option>
     {/each}

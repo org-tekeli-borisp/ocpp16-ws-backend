@@ -26,7 +26,7 @@
   async function handleSend() {
     if (!selectedCommand || !cpId) return;
     sending = true;
-    response = t('waiting_response');
+    response = $t('waiting_response');
     responseInfo = `\u203a ${cpId} / ${selectedCommand}`;
 
     const payload = formRef?.getPayload() ?? {};
@@ -40,7 +40,7 @@
       const cls = result.status >= 200 && result.status < 300 ? 'success' : 'error';
       response = `<span class="${cls}">${result.status} ${result.statusText}</span>\n\n${formatted}`;
     } catch (err) {
-      response = `<span class="error">${t('network_error')}: ${(err as Error).message}</span>`;
+      response = `<span class="error">${$t('network_error')}: ${(err as Error).message}</span>`;
     } finally {
       sending = false;
     }
@@ -50,7 +50,7 @@
 </script>
 
 <div class="panel">
-  <h2>{t('label_command')}</h2>
+  <h2>{$t('label_command')}</h2>
   <div class="panel-body">
     {#if connectors.length > 0}
       <div class="connector-list" style="margin-bottom:1rem;">
@@ -68,7 +68,7 @@
 
     {#if currentDef}
       {#if currentDef.fields.length === 0}
-        <p style="color:#6c757d;font-size:.85rem;">{t('no_params')}</p>
+        <p style="color:#6c757d;font-size:.85rem;">{$t('no_params')}</p>
       {:else}
         <CommandForm
           fields={currentDef.fields}
@@ -76,7 +76,7 @@
         />
       {/if}
     {:else if selectedCommand}
-      <p style="color:#6c757d;font-size:.85rem;">{t('no_fields')}</p>
+      <p style="color:#6c757d;font-size:.85rem;">{$t('no_fields')}</p>
     {/if}
 
     <div style="margin-top:1rem;">
@@ -85,21 +85,21 @@
         disabled={!selectedCommand || sending}
         onclick={handleSend}
       >
-        {sending ? t('btn_sending') : t('btn_send')}
+        {sending ? $t('btn_sending') : $t('btn_send')}
       </button>
     </div>
   </div>
 </div>
 
 <div class="panel">
-  <h2>{t('response_label')}</h2>
+  <h2>{$t('response_label')}</h2>
   <div class="panel-body">
     <div class="response-info">{responseInfo}</div>
     <div class="response-area">
       {#if response}
         {@html response}
       {:else}
-        <span class="empty">{t('no_response_yet')}</span>
+        <span class="empty">{$t('no_response_yet')}</span>
       {/if}
     </div>
   </div>
