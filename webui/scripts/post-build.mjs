@@ -12,9 +12,19 @@ const cssFile = cssFiles.find(f => f.startsWith('index-') && f.endsWith('.css'))
 
 if (!jsFile) throw new Error('No index JS bundle found');
 
-const html = srcHtml
-  .replace('<script type="module" src="/src/main.ts"></script>',
-    `<script type="module" src="/js/${jsFile}"></script>`);
+let html = srcHtml;
+if (cssFile) {
+  html = html.replace(
+    '<script type="module" src="/src/main.ts"></script>',
+    `<link rel="stylesheet" href="/assets/${cssFile}" />
+    <script type="module" src="/js/${jsFile}"></script>`
+  );
+} else {
+  html = html.replace(
+    '<script type="module" src="/src/main.ts"></script>',
+    `<script type="module" src="/js/${jsFile}"></script>`
+  );
+}
 
 writeFileSync(resolve(outDir, 'index.html'), html);
 console.log(`Created index.html → /js/${jsFile}`);
