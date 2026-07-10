@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.tekeli.borisp.ocpp16.command.PayloadValidators
 import org.tekeli.borisp.ocpp16.handler.CertificateSignedHandler
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
@@ -75,7 +76,7 @@ class CertificateSignedHandlerTest {
 
     @Test
     fun `should throw FormationViolation for null certificateChain`() {
-        val call = makeCall("CertificateSigned", mapOf("certificateChain" to null as Any?) as Map<String, Any>)
+        val call = makeCall("CertificateSigned", PayloadValidators.safeMap(mapOf("certificateChain" to null as Any?)))
 
         assertThrows(FormationViolationException::class.java) {
             handler.handle(call, mockServer())

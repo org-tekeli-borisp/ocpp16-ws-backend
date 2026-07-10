@@ -54,7 +54,7 @@ class GetLogCommandMutationTest {
         ))
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("logType"))
         assertTrue(entity["error"].toString().contains("DiagnosticsLog"))
         assertTrue(entity["error"].toString().contains("SecurityLog"))
@@ -70,7 +70,7 @@ class GetLogCommandMutationTest {
         ))
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("logType"))
     }
 
@@ -83,7 +83,7 @@ class GetLogCommandMutationTest {
         ))
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("requestId"))
     }
 
@@ -97,7 +97,7 @@ class GetLogCommandMutationTest {
         ))
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("requestId"))
     }
 
@@ -143,7 +143,7 @@ class GetLogCommandMutationTest {
         ))
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("log"))
     }
 
@@ -157,7 +157,7 @@ class GetLogCommandMutationTest {
         ))
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("log"))
     }
 
@@ -171,7 +171,7 @@ class GetLogCommandMutationTest {
         ))
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("remoteLocation"))
     }
 
@@ -185,7 +185,7 @@ class GetLogCommandMutationTest {
         ))
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("remoteLocation"))
         assertTrue(entity["error"].toString().contains("512"))
     }
@@ -211,7 +211,7 @@ class GetLogCommandMutationTest {
         ))
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("remoteLocation"))
         assertTrue(entity["error"].toString().contains("512"))
     }
@@ -221,7 +221,7 @@ class GetLogCommandMutationTest {
         val cmd = GetLogCommand(gateway)
         val response = cmd.validate(mapOf("logType" to "BadType", "requestId" to 1, "log" to mapOf("remoteLocation" to "url")))
         assertNotNull(response)
-        val entity = response!!.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response!!.entity)
         assertNotNull(entity["error"])
         assertEquals(String::class.java, (entity["error"] as Any)::class.java)
     }
@@ -239,7 +239,7 @@ class GetLogCommandMutationTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-log", entity["command"])
     }
@@ -255,7 +255,7 @@ class GetLogCommandMutationTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-log", entity["command"])
         assertEquals("DiagnosticsLog", gateway.capturedLogType)
@@ -272,7 +272,7 @@ class GetLogCommandMutationTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-log", entity["command"])
         assertEquals("SecurityLog", gateway.capturedLogType)
@@ -395,7 +395,7 @@ class GetLogCommandMutationTest {
         ))
 
         assertEquals(502, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -438,7 +438,7 @@ class GetLogCommandMutationTest {
             "requestId" to 1,
             "log" to mapOf("remoteLocation" to "https://example.com")
         ))
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
         assertNotNull(entity["error"])
@@ -491,7 +491,7 @@ class GetLogCommandMutationTest {
         ))
         assertEquals(202, response.status)
         assertEquals(0, gateway.capturedRequestId)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
     }
 

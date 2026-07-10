@@ -32,7 +32,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("idTag"))
     }
 
@@ -48,7 +48,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -82,7 +82,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", validPayload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("remote-start-transaction", entity["command"])
     }
@@ -95,7 +95,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", validPayload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -132,7 +132,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -209,7 +209,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("transactionId"))
     }
 
@@ -232,7 +232,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("remote-stop-transaction", entity["command"])
     }
@@ -257,7 +257,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("transactionId"))
     }
 
@@ -312,7 +312,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("type"))
     }
 
@@ -325,7 +325,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("type"))
     }
 
@@ -358,7 +358,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("reset", entity["command"])
     }
@@ -402,7 +402,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -425,7 +425,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("unlock-connector", entity["command"])
     }
@@ -450,7 +450,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -505,7 +505,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("reservationId"))
     }
 
@@ -528,7 +528,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("cancel-reservation", entity["command"])
     }
@@ -542,7 +542,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -567,7 +567,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("reservationId"))
     }
 
@@ -623,7 +623,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -636,7 +636,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("type"))
     }
 
@@ -649,7 +649,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("type"))
     }
 
@@ -682,7 +682,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("change-availability", entity["command"])
     }
@@ -696,7 +696,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -722,7 +722,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -778,7 +778,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("key"))
     }
 
@@ -791,7 +791,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("value"))
     }
 
@@ -814,7 +814,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("change-configuration", entity["command"])
     }
@@ -828,7 +828,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -871,7 +871,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", emptyMap<String, Any>())
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("clear-cache", entity["command"])
     }
@@ -884,7 +884,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", emptyMap<String, Any>())
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -926,7 +926,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("clear-charging-profile", entity["command"])
     }
@@ -939,7 +939,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", emptyMap<String, Any>())
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -1000,7 +1000,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -1013,7 +1013,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("duration"))
     }
 
@@ -1036,7 +1036,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-composite-schedule", entity["command"])
     }
@@ -1050,7 +1050,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -1079,7 +1079,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -1095,7 +1095,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("duration"))
     }
 
@@ -1197,7 +1197,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-configuration", entity["command"])
     }
@@ -1210,7 +1210,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", emptyMap<String, Any>())
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -1264,7 +1264,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("location"))
     }
 
@@ -1287,7 +1287,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-diagnostics", entity["command"])
     }
@@ -1301,7 +1301,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -1343,7 +1343,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", emptyMap<String, Any>())
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-local-list-version", entity["command"])
     }
@@ -1356,7 +1356,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", emptyMap<String, Any>())
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -1383,7 +1383,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -1400,7 +1400,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("expiryDate"))
     }
 
@@ -1417,7 +1417,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("idTag"))
     }
 
@@ -1434,7 +1434,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("reservationId"))
     }
 
@@ -1467,7 +1467,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("reserve-now", entity["command"])
     }
@@ -1486,7 +1486,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -1524,7 +1524,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -1542,7 +1542,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("reservationId"))
     }
 
@@ -1618,7 +1618,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("listVersion"))
     }
 
@@ -1631,7 +1631,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("updateType"))
     }
 
@@ -1644,7 +1644,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("updateType"))
     }
 
@@ -1677,7 +1677,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("send-local-list", entity["command"])
     }
@@ -1691,7 +1691,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -1717,7 +1717,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("listVersion"))
     }
 
@@ -1773,7 +1773,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -1786,7 +1786,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("csChargingProfiles"))
     }
 
@@ -1815,7 +1815,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("set-charging-profile", entity["command"])
     }
@@ -1832,7 +1832,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -1865,7 +1865,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("connectorId"))
     }
 
@@ -1929,7 +1929,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("requestedMessage"))
     }
 
@@ -1942,7 +1942,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("requestedMessage"))
     }
 
@@ -1995,7 +1995,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("trigger-message", entity["command"])
     }
@@ -2009,7 +2009,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -2066,7 +2066,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("location"))
     }
 
@@ -2079,7 +2079,7 @@ class OcppCommandTest {
 
         assertNotNull(result)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertTrue(entity["error"].toString().contains("retrieveDate"))
     }
 
@@ -2108,7 +2108,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("sent", entity["status"])
         assertEquals("update-firmware", entity["command"])
     }
@@ -2125,7 +2125,7 @@ class OcppCommandTest {
         val result = cmd.execute("CP-001", payload)
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
-        val entity = result.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(result.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }

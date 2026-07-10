@@ -134,7 +134,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.buildAcceptedResponse("test-command")
 
         assertEquals(Response.Status.ACCEPTED.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("test-command", entity["command"])
     }
@@ -144,7 +144,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.buildAcceptedResponse("test-command", mapOf("type" to "Hard"))
 
         assertEquals(Response.Status.ACCEPTED.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("test-command", entity["command"])
         assertEquals("Hard", entity["type"])
@@ -157,7 +157,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.buildRejectedResponse()
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -170,7 +170,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.buildCommandResponse(msg, "test-command")
 
         assertEquals(Response.Status.ACCEPTED.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("test-command", entity["command"])
     }
@@ -181,7 +181,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.buildCommandResponse(msg, "test-command")
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
     }
 
@@ -199,7 +199,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.buildCommandResponse(msg, "reset", mapOf("type" to "Hard"))
 
         assertEquals(Response.Status.ACCEPTED.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("reset", entity["command"])
         assertEquals("Hard", entity["type"])
@@ -215,7 +215,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.awaitAndBuildResponse(future, "test-command")
 
         assertEquals(Response.Status.ACCEPTED.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("test-command", entity["command"])
     }
@@ -228,7 +228,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.awaitAndBuildResponse(future, "test-command")
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -241,7 +241,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.awaitAndBuildResponse(future, "reset", mapOf("type" to "Hard"))
 
         assertEquals(Response.Status.ACCEPTED.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("reset", entity["command"])
         assertEquals("Hard", entity["type"])
@@ -255,7 +255,7 @@ class PayloadValidatorsTest {
         val response = PayloadValidators.awaitAndBuildResponse(future, "test-command")
 
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
     }
 

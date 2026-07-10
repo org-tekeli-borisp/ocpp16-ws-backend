@@ -47,7 +47,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("requestId is required", entity["error"])
     }
 
@@ -92,7 +92,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("firmware is required", entity["error"])
     }
 
@@ -102,7 +102,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("firmware is required", entity["error"])
     }
 
@@ -112,7 +112,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("firmware is required", entity["error"])
     }
 
@@ -127,7 +127,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertNotNull(entity["error"])
     }
 
@@ -138,7 +138,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("firmware.location"))
     }
 
@@ -157,7 +157,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("firmware.location"))
     }
 
@@ -172,7 +172,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertNotNull(entity["error"])
     }
 
@@ -183,7 +183,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("firmware.retrieveDateTime"))
     }
 
@@ -199,7 +199,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertNotNull(entity["error"])
     }
 
@@ -210,7 +210,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("firmware.signingCertificate"))
     }
 
@@ -229,7 +229,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("firmware.signingCertificate"))
     }
 
@@ -246,7 +246,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertNotNull(entity["error"])
     }
 
@@ -257,7 +257,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("firmware.signature"))
     }
 
@@ -276,7 +276,7 @@ class SignedUpdateFirmwareCommandMutationTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("firmware.signature"))
     }
 
@@ -312,7 +312,7 @@ class SignedUpdateFirmwareCommandMutationTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("signed-update-firmware", entity["command"])
     }
@@ -329,7 +329,7 @@ class SignedUpdateFirmwareCommandMutationTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("signed-update-firmware", entity["command"])
     }
@@ -341,7 +341,7 @@ class SignedUpdateFirmwareCommandMutationTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("signed-update-firmware", entity["command"])
     }
@@ -353,7 +353,7 @@ class SignedUpdateFirmwareCommandMutationTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 999L, "firmware" to firmware))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("signed-update-firmware", entity["command"])
         assertEquals(999, gateway.lastRequestId)
@@ -366,7 +366,7 @@ class SignedUpdateFirmwareCommandMutationTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("signed-update-firmware", entity["command"])
     }
@@ -380,7 +380,7 @@ class SignedUpdateFirmwareCommandMutationTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
 
         assertEquals(502, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -397,7 +397,7 @@ class SignedUpdateFirmwareCommandMutationTest {
         ))
 
         assertEquals(502, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertTrue(entity["error"].toString().contains("rejected", ignoreCase = true))
     }
@@ -466,7 +466,7 @@ class SignedUpdateFirmwareCommandMutationTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
     }
 
@@ -483,7 +483,7 @@ class SignedUpdateFirmwareCommandMutationTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
     }
 

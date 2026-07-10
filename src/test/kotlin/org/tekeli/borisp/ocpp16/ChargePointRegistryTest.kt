@@ -495,7 +495,7 @@ class ChargePointRegistryTest {
         // Remove the connection from sessionConnections while keeping sessionInfo
         val sessionConnectionsField = registry::class.java.getDeclaredField("sessionConnections")
         sessionConnectionsField.isAccessible = true
-        val sessionConnections = sessionConnectionsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, ChargePointConnection>
+        val sessionConnections = @Suppress("UNCHECKED_CAST") sessionConnectionsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, ChargePointConnection>
         sessionConnections.remove("s1")
 
         val ex = assertThrows(IllegalStateException::class.java) {

@@ -22,7 +22,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("extended-trigger-message", entity["command"])
         assertEquals("SignChargePointCertificate", gateway.lastExtendedTriggerMessage)
@@ -35,7 +35,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "LogStatusNotification", "connectorId" to 1))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("extended-trigger-message", entity["command"])
         assertEquals(1, gateway.lastExtendedTriggerConnectorId)
@@ -49,7 +49,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("requestedMessage"))
     }
 
@@ -61,7 +61,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("requestedMessage"))
     }
 
@@ -90,7 +90,7 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("install-certificate", entity["command"])
         assertEquals("CentralSystemRootCertificate", gateway.lastCertificateType)
@@ -104,7 +104,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("certificateType"))
     }
 
@@ -116,7 +116,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("certificate"))
     }
 
@@ -131,7 +131,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("certificate"))
     }
 
@@ -154,7 +154,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateType" to "CentralSystemRootCertificate"))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-installed-certificate-ids", entity["command"])
     }
@@ -167,7 +167,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("certificateType"))
     }
 
@@ -179,7 +179,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("certificateType"))
     }
 
@@ -197,7 +197,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateHashData" to hashData))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("delete-certificate", entity["command"])
     }
@@ -210,7 +210,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("certificateHashData"))
     }
 
@@ -224,7 +224,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("hashAlgorithm"))
     }
 
@@ -238,7 +238,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("issuerNameHash"))
     }
 
@@ -271,7 +271,7 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-log", entity["command"])
     }
@@ -287,7 +287,7 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-log", entity["command"])
     }
@@ -300,7 +300,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("logType"))
     }
 
@@ -312,7 +312,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("requestId"))
     }
 
@@ -324,7 +324,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("log"))
     }
 
@@ -336,7 +336,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("remoteLocation"))
     }
 
@@ -352,7 +352,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("remoteLocation"))
     }
 
@@ -379,7 +379,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("requestId"))
     }
 
@@ -391,7 +391,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("firmware"))
     }
 
@@ -406,7 +406,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertNotNull(entity["error"])
     }
 
@@ -421,7 +421,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertNotNull(entity["error"])
     }
 
@@ -436,7 +436,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertNotNull(entity["error"])
     }
 
@@ -455,7 +455,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertNotNull(entity["error"])
     }
 
@@ -475,7 +475,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("signingCertificate"))
     }
 
@@ -495,7 +495,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("signature"))
     }
 
@@ -515,7 +515,7 @@ class SecurityCommandTest {
         assertNotNull(response)
         assertNotNull(response)
         assertEquals(400, response!!.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("location"))
     }
 
@@ -542,7 +542,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("extended-trigger-message", entity["command"])
     }
@@ -554,7 +554,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
 
         assertEquals(502, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -566,7 +566,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "LogStatusNotification", "connectorId" to 1))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("extended-trigger-message", entity["command"])
     }
@@ -578,7 +578,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestedMessage" to "SignChargePointCertificate"))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("extended-trigger-message", entity["command"])
     }
@@ -593,7 +593,7 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("install-certificate", entity["command"])
     }
@@ -608,7 +608,7 @@ class SecurityCommandTest {
         ))
 
         assertEquals(502, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -620,7 +620,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateType" to "CentralSystemRootCertificate"))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-installed-certificate-ids", entity["command"])
     }
@@ -632,7 +632,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateType" to "CentralSystemRootCertificate"))
 
         assertEquals(502, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -650,7 +650,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateHashData" to hashData))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("delete-certificate", entity["command"])
     }
@@ -668,7 +668,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("certificateHashData" to hashData))
 
         assertEquals(502, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -684,7 +684,7 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-log", entity["command"])
     }
@@ -700,7 +700,7 @@ class SecurityCommandTest {
         ))
 
         assertEquals(502, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -718,7 +718,7 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-log", entity["command"])
     }
@@ -734,7 +734,7 @@ class SecurityCommandTest {
         ))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("get-log", entity["command"])
     }
@@ -752,7 +752,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("signed-update-firmware", entity["command"])
     }
@@ -770,7 +770,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware))
 
         assertEquals(502, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("rejected", entity["status"])
         assertEquals("ChargePoint rejected command", entity["error"])
     }
@@ -788,7 +788,7 @@ class SecurityCommandTest {
         val response = cmd.execute("CP-001", mapOf("requestId" to 123, "firmware" to firmware, "retries" to 3, "retryInterval" to 60))
 
         assertEquals(202, response.status)
-        val entity = response.entity as Map<String, Any>
+        val entity = PayloadValidators.safeMap(response.entity)
         assertEquals("sent", entity["status"])
         assertEquals("signed-update-firmware", entity["command"])
     }
