@@ -47,9 +47,9 @@ class MessageDispatcher(
         responseAwaiter: ResponseAwaiter,
         metricsService: MetricsService?
     ): String {
-        messageCaptureService?.capture(context.chargePointId, OcppMessageDirection.INBOUND, ocppMessage)
         return when (ocppMessage.type) {
             OcppMessageType.CALL -> {
+                messageCaptureService?.capture(context.chargePointId, OcppMessageDirection.INBOUND, ocppMessage)
                 metricsService?.messagesReceived?.increment()
                 handleCall(ocppMessage as OcppMessage.Call, context)
             }
