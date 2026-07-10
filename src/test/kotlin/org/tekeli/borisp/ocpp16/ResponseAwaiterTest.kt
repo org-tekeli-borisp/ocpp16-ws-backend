@@ -10,6 +10,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.TimeoutException
 
@@ -518,5 +519,120 @@ class ResponseAwaiterTest {
         if (errorHolder.get() != null) {
             throw AssertionError("Race condition detected", errorHolder.get()!!)
         }
+    }
+
+    // --- Automatic timeout cleanup tests ---
+
+    @Test
+    fun `should automatically timeout pending future after configured duration`() {
+        val executor = Executors.newSingleThreadScheduledExecutor()
+        val awaiter = ResponseAwaiter(executor, 500)
+        val latch = CountDownLatch(1)
+
+        val future = awaiter.pending("msg-1")
+        future.whenComplete { _, ex -> if (ex != null) latch.countDown() }
+
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Future should have timed out")
+        assertTrue(future.isDone)
+        val ex = assertThrows(ExecutionException::class.java) { future.get() }
+        assertTrue(ex.cause is TimeoutException)
+
+        executor.shutdown()
+    }
+
+    @Test
+    fun `should not timeout resolved future`() {
+        val executor = Executors.newSingleThreadScheduledExecutor()
+        val awaiter = ResponseAwaiter(executor, 200)
+
+        val future = awaiter.pending("msg-1")
+        awaiter.resolve("msg-1", OcppMessage.CallResult("msg-1", mapOf("status" to "Accepted")))
+
+        Thread.sleep(500)
+        assertTrue(future.isDone)
+        assertEquals("Accepted", (future.get() as OcppMessage.CallResult).payload?.get("status"))
+
+        executor.shutdown()
+    }
+
+    @Test
+    fun `should not timeout rejected future`() {
+        val executor = Executors.newSingleThreadScheduledExecutor()
+        val awaiter = ResponseAwaiter(executor, 200)
+
+        val future = awaiter.pending("msg-1")
+        awaiter.reject("msg-1", OcppMessage.CallError("msg-1", OcppErrorCode.GENERIC_ERROR, "err", null))
+
+        Thread.sleep(500)
+        assertTrue(future.isDone)
+        assertTrue(future.get() is OcppMessage.CallError)
+
+        executor.shutdown()
+    }
+
+    @Test
+    fun `should timeout only the specific future and not others`() {
+        val executor = Executors.newSingleThreadScheduledExecutor()
+        val awaiter = ResponseAwaiter(executor, 300)
+
+        val future1 = awaiter.pending("msg-1")
+        val future2 = awaiter.pending("msg-2")
+
+        Thread.sleep(600)
+
+        assertTrue(future1.isDone, "first future should have timed out")
+        assertTrue(future2.isDone, "second future should have timed out")
+
+        executor.shutdown()
+    }
+
+    @Test
+    fun `should remove timed-out entry from pending map`() {
+        val executor = Executors.newSingleThreadScheduledExecutor()
+        val awaiter = ResponseAwaiter(executor, 200)
+
+        awaiter.pending("msg-1")
+        Thread.sleep(500)
+
+        assertThrows(IllegalStateException::class.java) {
+            awaiter.resolve("msg-1", OcppMessage.CallResult("msg-1", null))
+        }
+
+        executor.shutdown()
+    }
+
+    @Test
+    fun `should not double-timeout when resolve happens just before timeout`() {
+        val executor = Executors.newSingleThreadScheduledExecutor()
+        val awaiter = ResponseAwaiter(executor, 500)
+
+        val future = awaiter.pending("msg-1")
+
+        Thread.sleep(200)
+        awaiter.resolve("msg-1", OcppMessage.CallResult("msg-1", mapOf("status" to "Accepted")))
+        assertTrue(future.isDone)
+        assertEquals("Accepted", (future.get() as OcppMessage.CallResult).payload?.get("status"))
+
+        Thread.sleep(400)
+        assertTrue(future.isDone)
+        assertEquals("Accepted", (future.get() as OcppMessage.CallResult).payload?.get("status"))
+
+        executor.shutdown()
+    }
+
+    @Test
+    fun `should handle many pending futures with individual timeouts`() {
+        val executor = Executors.newSingleThreadScheduledExecutor()
+        val awaiter = ResponseAwaiter(executor, 300)
+        val latch = CountDownLatch(10)
+
+        repeat(10) { i ->
+            val f = awaiter.pending("msg-$i")
+            f.whenComplete { _, ex -> if (ex != null) latch.countDown() }
+        }
+
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "All 10 futures should have timed out")
+
+        executor.shutdown()
     }
 }
