@@ -239,86 +239,25 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>org.tekeli.borisp.ocpp16.command.PayloadValidators</param>
-                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage</param>
-                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$Call</param>
-                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$CallResult</param>
-                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$CallError</param>
-                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessage$Companion</param>
-                        <param>org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter</param>
-                        <param>org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer</param>
-                        <param>org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.BootNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.HeartbeatHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.AuthorizeHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.StartTransactionHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.StopTransactionHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.MeterValuesHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.DataTransferHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.FirmwareStatusNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.DiagnosticsStatusNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.SignedFirmwareStatusNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.LogStatusNotificationHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.SignCertificateHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.handler.CertificateSignedHandler</param>
-                        <param>org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher</param>
-                        <param>org.tekeli.borisp.ocpp16.command.RemoteStartTransactionCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.RemoteStopTransactionCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.ResetCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.UnlockConnectorCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.CancelReservationCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.ChangeAvailabilityCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.ChangeConfigurationCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.ClearCacheCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.ClearChargingProfileCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.GetCompositeScheduleCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.GetConfigurationCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.GetLocalListVersionCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.ReserveNowCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.SendLocalListCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.SetChargingProfileCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.TriggerMessageCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.UpdateFirmwareCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.ExtendedTriggerMessageCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.InstallCertificateCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.GetInstalledCertificateIdsCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.DeleteCertificateCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.GetLogCommand</param>
-                        <param>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommand</param>
-                         <param>org.tekeli.borisp.ocpp16.metrics.MetricsService</param>
+                        <param>org.tekeli.borisp.ocpp16.*</param>
                     </targetClasses>
+                    <excludedClasses>
+                        <param>org.tekeli.borisp.ocpp16.persistence.ChargePoint</param>
+                        <param>org.tekeli.borisp.ocpp16.persistence.ConnectorStatus</param>
+                        <param>org.tekeli.borisp.ocpp16.persistence.OcppMessageLog</param>
+                        <param>org.tekeli.borisp.ocpp16.persistence.SecurityLog</param>
+                        <param>org.tekeli.borisp.ocpp16.persistence.SignedFirmware</param>
+                        <param>org.tekeli.borisp.ocpp16.persistence.Transaction</param>
+                        <param>org.tekeli.borisp.ocpp16.protocol.OcppMessageDto</param>
+                        <param>org.tekeli.borisp.ocpp16.websocket.ChargePointInfo</param>
+                    </excludedClasses>
                     <targetTests>
-                          <param>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest</param>
-                          <param>org.tekeli.borisp.ocpp16.OcppMessageTest</param>
-                         <param>org.tekeli.borisp.ocpp16.OcppWebSocketServerUnitTest</param>
-                         <param>org.tekeli.borisp.ocpp16.ResponseAwaiterTest</param>
-                         <param>org.tekeli.borisp.ocpp16.OutboundCallDispatcherTest</param>
-                         <param>org.tekeli.borisp.ocpp16.ChargePointRegistryTest</param>
-                         <param>org.tekeli.borisp.ocpp16.command.OcppCommandTest</param>
-                         <param>org.tekeli.borisp.ocpp16.command.SecurityCommandTest</param>
-                         <param>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest</param>
-                         <param>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerTest</param>
-                         <param>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest</param>
-                          <param>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.SignCertificateHandlerTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.CertificateSignedHandlerTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest</param>
-                         <param>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest</param>
-                         <param>org.tekeli.borisp.ocpp16.mutation.MutationKillTest</param>
-                         <param>org.tekeli.borisp.ocpp16.mutation.MutationKillTest2</param>
-                          <param>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest</param>
-                     </targetTests>
+                        <param>org.tekeli.borisp.ocpp16.*</param>
+                    </targetTests>
                     <excludedMethods>
                         <exclude>parseJsonNode</exclude>
                     </excludedMethods>
-                     <mutators>
+                    <mutators>
                         <mutator>CONDITIONALS_BOUNDARY</mutator>
                         <mutator>EMPTY_RETURNS</mutator>
                         <mutator>FALSE_RETURNS</mutator>
