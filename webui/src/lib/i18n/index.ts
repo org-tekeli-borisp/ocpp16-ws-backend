@@ -1,4 +1,4 @@
-import { init, register } from 'svelte-i18n';
+import { init } from 'svelte-i18n';
 
 const translations: Record<string, Record<string, string>> = {
   de: {
@@ -305,7 +305,7 @@ const translations: Record<string, Record<string, string>> = {
     field_cert_max: 'max. 5500 caractères',
     field_cert_hash: 'Données de hachage du certificat',
     field_cert_hash_hint: 'JSON avec hashAlgorithm, issuerNameHash, issuerKeyHash, serialNumber',
-    field_log_type: 'Type de log',
+    field_log_type: 'Log Type',
     field_request_id: 'ID de demande',
     field_log_params: 'Paramètres de log (JSON)',
     field_log_hint: 'JSON avec remoteLocation, optionnel latestTimestamp, oldestTimestamp',
@@ -318,13 +318,10 @@ const translations: Record<string, Record<string, string>> = {
   },
 };
 
-for (const [lang, dict] of Object.entries(translations)) {
-  register(lang, dict as unknown as Record<string, unknown>);
-}
-
 export const i18nReady = init({
   fallbackLocale: 'de',
   initialLocale: navigator.language.slice(0, 2).toLowerCase(),
+  translations: translations as unknown as Record<string, Record<string, unknown>>,
 });
 
 export { translations };
