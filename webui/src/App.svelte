@@ -1,7 +1,6 @@
 <script lang="ts">
   import './app.css';
-  import { locale } from 'svelte-i18n';
-  import { i18nReady } from '$lib/i18n';
+  import { locale, t } from '$lib/i18n';
   import { fetchChargePoints, fetchChargePoint, fetchCommands } from '$lib/api/ocpp';
   import { chargePoints, selectedCpId, activeTab, commandsCache } from '$stores/app';
   import type { ChargePoint, TabKey, CommandName } from '$lib/types';
@@ -97,7 +96,7 @@
 </script>
 
 <header>
-  <h1>{$t('page_title')}</h1>
+  <h1>{t('page_title')}</h1>
   <div class="header-right">
     {#if badgeCp}
       <span class="station-badge">
@@ -120,21 +119,21 @@
   <main class="main">
     <div class="tabs">
       <button class="tab {$activeTab === 'overview' ? 'active' : ''}" onclick={() => handleTabChange('overview')}>
-        {$t('tab_overview')}
+        {t('tab_overview')}
       </button>
       <button class="tab {$activeTab === 'commands' ? 'active' : ''}" onclick={() => handleTabChange('commands')}>
-        {$t('tab_commands')}
+        {t('tab_commands')}
       </button>
       <button class="tab {$activeTab === 'messages' ? 'active' : ''}" onclick={() => handleTabChange('messages')}>
-        {$t('tab_messages')}
+        {t('tab_messages')}
       </button>
     </div>
 
     <div class="content">
       {#if error}
-        <div class="error-state">{$t('error_loading')}: {error}</div>
+        <div class="error-state">{t('error_loading')}: {error}</div>
       {:else if !$selectedCpId}
-        <div class="no-selection">{$t('select_station_hint')}</div>
+        <div class="no-selection">{t('select_station_hint')}</div>
       {:else if $activeTab === 'overview' && currentCp}
         <OverviewPanel chargePoint={currentCp} />
       {:else if $activeTab === 'commands'}

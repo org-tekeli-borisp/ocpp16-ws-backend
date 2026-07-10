@@ -1,4 +1,4 @@
-import { init } from 'svelte-i18n';
+import { writable, get, type Readable } from 'svelte/store';
 
 const translations: Record<string, Record<string, string>> = {
   de: {
@@ -318,10 +318,16 @@ const translations: Record<string, Record<string, string>> = {
   },
 };
 
-export const i18nReady = init({
-  fallbackLocale: 'de',
-  initialLocale: navigator.language.slice(0, 2).toLowerCase(),
-  translations: translations as unknown as Record<string, Record<string, unknown>>,
-});
+function detectLocale(): string {
+  const nav = typeof navigator !== 'undefined' ? navigator.language.slice(0, 2).toLowerCase() : 'de';
+  return translations[nav] ? nav : 'de';
+}
 
-export { translations };
+const locale = writable(detectLocale());
+
+function t(key: string): string {
+  const currentLocale = get(locale);
+  return translations[currentLocale]?.[key] ?? translations['de']?.[key] ?? key;
+}
+
+export { locale, t, translations };

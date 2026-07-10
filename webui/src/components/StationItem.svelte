@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ChargePoint } from '$lib/types';
+  import { t } from '$lib/i18n';
 
   export let station: ChargePoint;
   export let isActive: boolean;
@@ -24,5 +25,5 @@
     </div>
     <div class="station-meta">{station.vendor} {station.model}</div>
   </div>
-  <span class="status-label">{station.status === 'ONLINE' ? $t('label_online') : $t('label_offline')}</span>
+  <span class="status-label">{station.status === 'ONLINE' ? t('label_online') : t('label_offline')}</span>
 </div>

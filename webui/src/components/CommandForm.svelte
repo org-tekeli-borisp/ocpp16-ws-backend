@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { CommandField } from '$lib/types';
+  import { t } from '$lib/i18n';
 
   export let fields: CommandField[];
 
@@ -15,16 +16,16 @@
         val = el.value || null;
       } else if (f.type === 'json') {
         if (el.value.trim() === '') {
-          if (f.required) { alert(`${$t(f.labelKey)} ${$t('field_required')}`); return null; }
+          if (f.required) { alert(`${t(f.labelKey)} ${t('field_required')}`); return null; }
           continue;
         }
         try { val = JSON.parse(el.value); }
-        catch (e) { alert(`${$t('invalid_json')}: ${(e as Error).message}`); return null; }
+        catch (e) { alert(`${t('invalid_json')}: ${(e as Error).message}`); return null; }
       } else {
         val = el.value.trim() || null;
       }
       if (val === null || val === '') {
-        if (f.required) { alert(`${$t(f.labelKey)} ${$t('field_required')}`); return null; }
+        if (f.required) { alert(`${t(f.labelKey)} ${t('field_required')}`); return null; }
         continue;
       }
       payload[f.name] = val;
@@ -40,13 +41,13 @@
 {#each fields as f}
   <div class="form-group">
     <label for="f_{f.name}">
-      {$t(f.labelKey)}
+      {t(f.labelKey)}
       {#if f.required}<span class="required">*</span>{/if}
-      {#if !f.required}<span class="optional">{$t('optional')}</span>{/if}
+      {#if !f.required}<span class="optional">{t('optional')}</span>{/if}
     </label>
     {#if f.type === 'select'}
       <select id="f_{f.name}" {...(f.required ? { required: true } : {})}>
-        <option value="">{$t('select_pick')}</option>
+        <option value="">{t('select_pick')}</option>
         {#each f.options || [] as opt}
           <option value={opt}>{opt}</option>
         {/each}
@@ -58,6 +59,6 @@
     {:else}
       <input type="text" id="f_{f.name}" {...(f.required ? { required: true } : {})} />
     {/if}
-    {#if f.hintKey}<div class="hint">{$t(f.hintKey)}</div>{/if}
+    {#if f.hintKey}<div class="hint">{t(f.hintKey)}</div>{/if}
   </div>
 {/each}
