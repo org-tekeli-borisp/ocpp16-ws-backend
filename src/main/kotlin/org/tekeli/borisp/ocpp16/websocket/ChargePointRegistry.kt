@@ -7,6 +7,7 @@ import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher
 import org.tekeli.borisp.ocpp16.outbound.TextSender
 import org.tekeli.borisp.ocpp16.outbound.WsSender
+import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import java.util.Collections
@@ -24,6 +25,9 @@ class ChargePointRegistry {
 
     @Inject
     var metricsService: MetricsService? = null
+
+    @Inject
+    var messageCaptureService: MessageCaptureService? = null
 
     private val sessionInfos = ConcurrentHashMap<String, ChargePointInfo>()
     private val sessionConnections = ConcurrentHashMap<String, ChargePointConnection>()
@@ -87,7 +91,7 @@ class ChargePointRegistry {
         val connection = sessionConnections[info.sessionId]
             ?: throw IllegalStateException("ChargePoint connection not available for session: ${info.sessionId}")
         val sender = testSenders[info.sessionId] ?: WsSender(openConnections, info.connectionId)
-        val dispatcher = OutboundCallDispatcher(sender, connection.responseAwaiter)
+        val dispatcher = OutboundCallDispatcher(sender, connection.responseAwaiter, messageCaptureService)
         metricsService?.messagesSent?.increment()
         return dispatcher.sendCall(chargePointId, action, payload)
     }

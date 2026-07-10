@@ -60,18 +60,25 @@ class MessageDispatcher(
 
     private fun handleCall(call: OcppMessage.Call, context: OcppHandlerContext): String {
         val handler = handlers[call.action]
+        val responseJson: String
         if (handler == null) {
-            return call.callError(
+            responseJson = call.callError(
                 OcppErrorCode.NOT_IMPLEMENTED,
                 "Action '${call.action}' is not implemented"
             )
+        } else {
+            responseJson = try {
+                handler.handle(call, context)
+            } catch (e: FormationViolationException) {
+                val errorMsg = e.message ?: "Payload validation failed"
+                call.callError(OcppErrorCode.FORMATION_VIOLATION, errorMsg)
+            }
         }
-        return try {
-            handler.handle(call, context)
-        } catch (e: FormationViolationException) {
-            val errorMsg = e.message ?: "Payload validation failed"
-            call.callError(OcppErrorCode.FORMATION_VIOLATION, errorMsg)
-        }
+        try {
+            val responseMsg = OcppMessage.parse(responseJson)
+            messageCaptureService?.capture(context.chargePointId, OcppMessageDirection.OUTBOUND, responseMsg)
+        } catch (_: Throwable) { }
+        return responseJson
     }
 
     private fun handleCallResult(callResult: OcppMessage.CallResult, responseAwaiter: ResponseAwaiter): String {

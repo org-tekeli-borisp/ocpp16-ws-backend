@@ -598,6 +598,38 @@ class ChargePointRegistryTest {
         assertEquals("ChargePoint not connected: CP-001", ex.message)
     }
 
+    @Test
+    fun `sendCall captures outbound CALL and inbound response via MessageCaptureService`() {
+        val capturedMessages = mutableListOf<OcppMessage>()
+        val mockCaptureService = object : org.tekeli.borisp.ocpp16.protocol.MessageCaptureService() {
+            override fun capture(chargePointId: String, direction: org.tekeli.borisp.ocpp16.protocol.OcppMessageDirection, ocppMessage: OcppMessage) {
+                super.capture(chargePointId, direction, ocppMessage)
+                capturedMessages.add(ocppMessage)
+            }
+        }
+
+        val registry = ChargePointRegistry()
+        registry.messageCaptureService = mockCaptureService
+        val connection = mockChargePointConnection()
+
+        registry.register("s1", "c1", connection)
+        registry.setTestSender("s1", connection)
+        registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
+
+        val future = registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))
+
+        assertEquals(1, capturedMessages.size)
+        val outboundCall = capturedMessages[0] as OcppMessage.Call
+        assertEquals("Reset", outboundCall.action)
+
+        connection.simulateCallResult(outboundCall.messageId, mapOf("status" to "Accepted"))
+        future.get()
+
+        assertEquals(2, capturedMessages.size)
+        val inboundResponse = capturedMessages[1] as OcppMessage.CallResult
+        assertEquals("Accepted", inboundResponse.payload?.get("status"))
+    }
+
     private fun mockChargePointConnection(): TestChargePointConnection = TestChargePointConnection()
 
     private class TestChargePointConnection(

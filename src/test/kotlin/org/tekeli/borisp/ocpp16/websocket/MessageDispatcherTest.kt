@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.handler.OcppActionHandler
 import org.tekeli.borisp.ocpp16.handler.OcppHandlerContext
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
+import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.OcppMessageDirection
 import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import java.util.concurrent.CompletableFuture
@@ -109,6 +111,80 @@ class MessageDispatcherTest {
 
         val parsed = OcppMessage.parse(response) as OcppMessage.CallError
         assertEquals(OcppErrorCode.PROTOCOL_ERROR, parsed.errorCode)
+    }
+
+    @Test
+    fun `handleCall captures outbound CALLRESULT via MessageCaptureService`() {
+        val capturedMessages = mutableListOf<Pair<OcppMessageDirection, OcppMessage>>()
+        val mockCaptureService = object : MessageCaptureService() {
+            override fun capture(chargePointId: String, direction: OcppMessageDirection, ocppMessage: OcppMessage) {
+                super.capture(chargePointId, direction, ocppMessage)
+                capturedMessages.add(Pair(direction, ocppMessage))
+            }
+        }
+        val dispatcher = MessageDispatcher(handlers, mockCaptureService)
+        val context = createTestContext()
+        val awaiter = ResponseAwaiter()
+        val message = """["2","msg-1","TestAction",{"key":"value"}]"""
+
+        dispatcher.dispatch(message, context, awaiter, null)
+
+        assertEquals(2, capturedMessages.size)
+        assertEquals(OcppMessageDirection.INBOUND, capturedMessages[0].first)
+        assertTrue(capturedMessages[0].second is OcppMessage.Call)
+        assertEquals(OcppMessageDirection.OUTBOUND, capturedMessages[1].first)
+        assertTrue(capturedMessages[1].second is OcppMessage.CallResult)
+    }
+
+    @Test
+    fun `handleCall captures outbound CALLERROR for NOT_IMPLEMENTED via MessageCaptureService`() {
+        val capturedMessages = mutableListOf<Pair<OcppMessageDirection, OcppMessage>>()
+        val mockCaptureService = object : MessageCaptureService() {
+            override fun capture(chargePointId: String, direction: OcppMessageDirection, ocppMessage: OcppMessage) {
+                super.capture(chargePointId, direction, ocppMessage)
+                capturedMessages.add(Pair(direction, ocppMessage))
+            }
+        }
+        val dispatcher = MessageDispatcher(handlers, mockCaptureService)
+        val context = createTestContext()
+        val awaiter = ResponseAwaiter()
+        val message = """["2","msg-1","UnknownAction",{}]"""
+
+        dispatcher.dispatch(message, context, awaiter, null)
+
+        assertEquals(2, capturedMessages.size)
+        assertEquals(OcppMessageDirection.INBOUND, capturedMessages[0].first)
+        assertEquals(OcppMessageDirection.OUTBOUND, capturedMessages[1].first)
+        val callError = capturedMessages[1].second as OcppMessage.CallError
+        assertEquals(OcppErrorCode.NOT_IMPLEMENTED, callError.errorCode)
+    }
+
+    @Test
+    fun `handleCall captures outbound CALLERROR for FORMATION_VIOLATION via MessageCaptureService`() {
+        val violationHandler = object : OcppActionHandler {
+            override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
+                throw org.tekeli.borisp.ocpp16.protocol.FormationViolationException("Invalid payload")
+            }
+        }
+        val capturedMessages = mutableListOf<Pair<OcppMessageDirection, OcppMessage>>()
+        val mockCaptureService = object : MessageCaptureService() {
+            override fun capture(chargePointId: String, direction: OcppMessageDirection, ocppMessage: OcppMessage) {
+                super.capture(chargePointId, direction, ocppMessage)
+                capturedMessages.add(Pair(direction, ocppMessage))
+            }
+        }
+        val dispatcher = MessageDispatcher(mapOf("ViolationAction" to violationHandler), mockCaptureService)
+        val context = createTestContext()
+        val awaiter = ResponseAwaiter()
+        val message = """["2","msg-1","ViolationAction",{}]"""
+
+        dispatcher.dispatch(message, context, awaiter, null)
+
+        assertEquals(2, capturedMessages.size)
+        assertEquals(OcppMessageDirection.INBOUND, capturedMessages[0].first)
+        assertEquals(OcppMessageDirection.OUTBOUND, capturedMessages[1].first)
+        val callError = capturedMessages[1].second as OcppMessage.CallError
+        assertEquals(OcppErrorCode.FORMATION_VIOLATION, callError.errorCode)
     }
 
     private fun createTestContext(): OcppHandlerContext = object : OcppHandlerContext {
