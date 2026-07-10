@@ -1,9 +1,10 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package org.tekeli.borisp.ocpp16
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.tekeli.borisp.ocpp16.command.PayloadValidators
 import org.tekeli.borisp.ocpp16.handler.SignedFirmwareStatusNotificationHandler
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
@@ -92,7 +93,7 @@ class SignedFirmwareStatusNotificationHandlerTest {
 
     @Test
     fun `should throw FormationViolation for null status`() {
-        val call = makeCall("SignedFirmwareStatusNotification", PayloadValidators.safeMap(mapOf("status" to null as Any?)))
+        val call = makeCall("SignedFirmwareStatusNotification", mapOf("status" to null as Any?) as Map<String, Any>)
 
         assertThrows(FormationViolationException::class.java) {
             handler.handle(call, mockServer())

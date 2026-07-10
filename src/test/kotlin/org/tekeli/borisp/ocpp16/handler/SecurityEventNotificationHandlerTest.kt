@@ -1,8 +1,9 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package org.tekeli.borisp.ocpp16
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.tekeli.borisp.ocpp16.command.PayloadValidators
 import org.tekeli.borisp.ocpp16.handler.*
 import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
@@ -188,10 +189,10 @@ class SecurityEventNotificationHandlerTest {
 
     @Test
     fun `should handle null type field`() {
-        val call = makeCall("SecurityEventNotification", PayloadValidators.safeMap(mapOf(
+        val call = makeCall("SecurityEventNotification",             mapOf(
             "type" to null as Any?,
             "timestamp" to "2024-01-01T00:00:00Z"
-        )))
+        ) as Map<String, Any>)
 
         assertThrows(FormationViolationException::class.java) {
             handler.handle(call, mockServer())
@@ -253,7 +254,7 @@ class SecurityEventNotificationHandlerTest {
     @Test
     fun `requiredInstant rejects null timestamp`() {
         val ex = assertThrows(FormationViolationException::class.java) {
-            PayloadValidators.safeMap(mapOf("timestamp" to null as Any?)).requiredInstant("timestamp")
+            (mapOf("timestamp" to null as Any?) as Map<String, Any>).requiredInstant("timestamp")
         }
         assertEquals("timestamp is required", ex.message)
     }
