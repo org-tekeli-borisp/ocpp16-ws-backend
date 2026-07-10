@@ -17,7 +17,7 @@ export default defineConfig({
     emptyOutDir: false,
     rollupOptions: {
       input: {
-        index: resolve('./src/app.html'),
+        index: resolve('./src/index.html'),
       },
       output: {
         entryFileNames: 'js/[name]-[hash].js',
