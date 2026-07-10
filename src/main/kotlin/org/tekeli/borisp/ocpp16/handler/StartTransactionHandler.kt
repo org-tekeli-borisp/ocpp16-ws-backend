@@ -21,7 +21,7 @@ class StartTransactionHandler : OcppActionHandler {
         )
     }
 
-    internal open fun createTransaction(
+    internal fun createTransaction(
         context: OcppHandlerContext,
         connectorId: Int,
         idTag: String,

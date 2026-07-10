@@ -44,7 +44,7 @@ class GetLogCommand @Inject constructor(
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
         val logType = payload["logType"] as String
         val requestId = (payload["requestId"] as Number).toInt()
-        val log = payload["log"] as Map<String, Any>
+        val log = PayloadValidators.safeMap(payload["log"])
         val retries = (payload["retries"] as? Number)?.toInt()
         val retryInterval = (payload["retryInterval"] as? Number)?.toInt()
 

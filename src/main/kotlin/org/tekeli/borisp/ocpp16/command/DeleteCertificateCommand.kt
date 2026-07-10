@@ -36,7 +36,7 @@ class DeleteCertificateCommand @Inject constructor(
         .entity(mapOf<String, Any>("error" to error)).build()
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val certificateHashData = payload["certificateHashData"] as Map<String, Any>
+        val certificateHashData = PayloadValidators.safeMap(payload["certificateHashData"])
 
         val result = gateway.sendDeleteCertificate(chargePointId, certificateHashData)
         return PayloadValidators.awaitAndBuildResponse(result, name)

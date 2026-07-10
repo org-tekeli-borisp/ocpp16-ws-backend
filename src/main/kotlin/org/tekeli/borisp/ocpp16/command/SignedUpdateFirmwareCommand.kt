@@ -44,7 +44,7 @@ class SignedUpdateFirmwareCommand @Inject constructor(
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
         val requestId = (payload["requestId"] as Number).toInt()
-        val firmware = payload["firmware"] as Map<String, Any>
+        val firmware = PayloadValidators.safeMap(payload["firmware"])
         val retries = (payload["retries"] as? Number)?.toInt()
         val retryInterval = (payload["retryInterval"] as? Number)?.toInt()
         return sendFirmwareCommand(chargePointId, requestId, firmware, retries, retryInterval)

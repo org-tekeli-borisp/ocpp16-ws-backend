@@ -18,6 +18,12 @@ object PayloadValidators {
 
     fun isMap(value: Any?): Boolean = value is Map<*, *>
 
+    fun safeMap(value: Any?): Map<String, Any> =
+        (value as? Map<*, *>)?.mapKeys { it.key as String }?.mapValues { it.value as Any } ?: emptyMap()
+
+    fun safeList(value: Any?): List<String> =
+        (value as? List<*>)?.mapNotNull { it as? String } ?: emptyList()
+
     fun isCallResult(response: OcppMessage): Boolean =
         response is OcppMessage.CallResult
 

@@ -16,7 +16,7 @@ class GetConfigurationCommand @Inject constructor(
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
-        val keys = if (payload["key"] is List<*>) payload["key"] as List<String> else null
+        val keys = if (payload["key"] is List<*>) PayloadValidators.safeList(payload["key"]).takeIf { it.isNotEmpty() } else null
 
         val result = gateway.sendGetConfiguration(chargePointId, keys)
         return PayloadValidators.awaitAndBuildResponse(result, name)

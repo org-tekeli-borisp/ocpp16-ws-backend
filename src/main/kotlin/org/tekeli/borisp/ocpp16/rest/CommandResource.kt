@@ -6,6 +6,7 @@ import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import org.tekeli.borisp.ocpp16.command.OcppCommand
+import org.tekeli.borisp.ocpp16.command.PayloadValidators
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 
 @Path("/api/chargepoints/{chargePointId}/commands")
@@ -48,7 +49,7 @@ class CommandResource {
                 .entity(mapOf<String, Any>("error" to "Unknown command: $command"))
                 .build()
 
-        val payload = objectMapper.readValue(body, Map::class.java) as Map<String, Any>
+        val payload = PayloadValidators.safeMap(objectMapper.readValue(body, Map::class.java))
 
         val validationError = cmd.validate(payload)
         if (validationError != null) return validationError
