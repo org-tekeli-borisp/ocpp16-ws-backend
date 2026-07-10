@@ -113,7 +113,12 @@ const I18N = (() => {
       filter_outbound: 'Gesendet',
       btn_apply: 'Anwenden',
       loading_messages: 'Lade Nachrichten…',
-      no_messages: 'Keine Nachrichten vorhanden'
+      no_messages: 'Keine Nachrichten vorhanden',
+      tab_overview: 'Übersicht',
+      tab_commands: 'Commands',
+      tab_messages: 'Messages',
+      select_station_hint: 'Wählen Sie eine Station aus der Liste links',
+      search_placeholder: 'Filtern…'
     },
     en: {
       page_stations: 'OCPP Stations',
@@ -228,7 +233,12 @@ const I18N = (() => {
       filter_outbound: 'Sent',
       btn_apply: 'Apply',
       loading_messages: 'Loading messages…',
-      no_messages: 'No messages'
+      no_messages: 'No messages',
+      tab_overview: 'Overview',
+      tab_commands: 'Commands',
+      tab_messages: 'Messages',
+      select_station_hint: 'Select a station from the list on the left',
+      search_placeholder: 'Filter…'
     },
     fr: {
       page_stations: 'OCPP Stations',
@@ -343,7 +353,12 @@ const I18N = (() => {
       filter_outbound: 'Envoyé',
       btn_apply: 'Appliquer',
       loading_messages: 'Chargement des messages…',
-      no_messages: 'Aucun message'
+      no_messages: 'Aucun message',
+      tab_overview: 'Aperçu',
+      tab_commands: 'Commandes',
+      tab_messages: 'Messages',
+      select_station_hint: 'Sélectionnez une station dans la liste à gauche',
+      search_placeholder: 'Filtrer…'
     }
   };
 
