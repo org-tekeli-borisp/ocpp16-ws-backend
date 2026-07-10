@@ -96,7 +96,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @OnClose
     fun onClose() {
-        val connectionId = sessionId
+        val connectionId = activeConnection.id() ?: return
         if (activeRegistry.isConnected(connectionId)) {
             activeRegistry.unregister(connectionId)
             responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")

@@ -121,4 +121,45 @@ class OcppWebSocketServerInfrastructureTest {
         assertTrue(r2.startsWith("[3,"), "BootNotification must succeed")
         assertTrue(r3.startsWith("[3,"), "Authorize must succeed")
     }
+
+    @Test
+    fun `onClose must use activeConnection id not stale sessionId field`() {
+        var offlineSessionId: String? = null
+        val ps = object : PersistenceService() {
+            override fun setChargePointOffline(sid: String) {
+                offlineSessionId = sid
+            }
+        }
+        val registry = org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry()
+
+        val proxy = Proxy.newProxyInstance(
+            io.quarkus.websockets.next.WebSocketConnection::class.java.classLoader,
+            arrayOf(io.quarkus.websockets.next.WebSocketConnection::class.java)
+        ) { _, method, _ ->
+            when (method.name) {
+                "id" -> "actual-connection-id"
+                else -> when (method.returnType) {
+                    String::class.java -> "proxy"
+                    Boolean::class.java -> false
+                    Uni::class.java -> Uni.createFrom().voidItem()
+                    else -> null
+                }
+            }
+        } as io.quarkus.websockets.next.WebSocketConnection
+
+        val s = OcppWebSocketServer().apply {
+            connection = proxy
+            chargePointId = "CP1"
+            sessionId = "stale-session-id"
+            chargePointRegistry = registry
+            persistenceService = ps
+        }
+
+        registry.register("actual-connection-id", "actual-connection-id", s, "CP1")
+
+        s.onClose()
+
+        assertEquals("actual-connection-id", offlineSessionId,
+            "onClose must derive session ID from activeConnection.id(), not from stale sessionId field")
+    }
 }
