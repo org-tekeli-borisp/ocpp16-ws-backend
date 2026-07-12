@@ -8,12 +8,12 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **OCPP 1.6 Security Edition 4** – 11 Security Messages (Certificate Management, Security Events, Signed Firmware)
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
 - **24 Remote Commands** – 18 OCPP 1.6J + 6 Security Commands via REST API
-- **WebUI** – multilingual dashboard (DE/EN/FR) with station overview, connector status & remote command dispatcher
+- **WebUI** – Svelte 5 single-page application (DE/EN/FR) with station overview, remote commands, and message log
 - **Connector Status Tracking** – real-time per-connector state (Available, Charging, Faulted, etc.)
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (72% mutation score)
-- **1126 Unit & Integration Tests**
+- **1286 Unit & Integration Tests**
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
@@ -62,10 +62,7 @@ Quarkus Dev Services automatically starts a PostgreSQL container. The server sta
 
 ### WebUI
 
-- **Station Overview:** `http://localhost:8080/stations.html`
-- **Remote Commands:** `http://localhost:8080/commands.html`
-
-Both pages support DE / EN / FR with live language switching (persisted in localStorage).
+Open `http://localhost:8080/` for the Svelte 5 single-page application with station overview, remote commands, and message log – all in one interface with DE/EN/FR language switching.
 
 ### Connect a Charge Point
 
@@ -176,6 +173,12 @@ java -jar target/quarkus-app/quarkus-run.jar \
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/api/chargepoints/{chargePointId}/transactions` | List transactions |
+
+### Messages
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/messages` | List OCPP messages with pagination and filters |
 
 ### Remote Commands
 
@@ -294,7 +297,8 @@ db/changelog/
 ├── changelog-master.yaml       # Master changelog
 ├── 001-init.sql                # Initial schema (charge_points, transactions)
 ├── 002-security.sql            # Security schema (security_logs, signed_firmware)
-└── 003-connector-status.sql    # Connector status tracking
+├── 003-connector-status.sql    # Connector status tracking
+└── 004-message-log.sql         # OCPP message capture log
 ```
 
 New migrations: add `00X-name.sql` to `db/changelog/` and include it in `changelog-master.yaml`.
@@ -305,12 +309,11 @@ Two vanilla HTML/CSS/JS pages served from the application root — no build step
 
 | Page | URL | Description |
 |------|-----|-------------|
-| **Stations** | `/stations.html` | Dashboard with online/offline stats, sortable table, connector chips, auto-refresh (10s) |
-| **Commands** | `/commands.html` | Station selector, 22 command definitions with dynamic forms, JSON response viewer |
+| **WebUI** | `/` | Svelte 5 SPA with tabs for station overview, remote commands (24), and OCPP message log |
 
 ### i18n (Internationalization)
 
-Both pages support three languages with client-side translation:
+The SPA supports three languages with client-side translation, auto-detected from browser locale, selectable via dropdown, and persisted in `localStorage`:
 
 | Language | Code |
 |----------|------|
@@ -318,26 +321,25 @@ Both pages support three languages with client-side translation:
 | English | `en` |
 | Français | `fr` |
 
-Language is auto-detected from browser locale, selectable via dropdown, and persisted in `localStorage`. All static text uses `data-i18n` attributes; dynamic content (tables, forms, status badges) translates via the `I18N.t()` function. Language switch triggers a `langchange` event to re-render dynamic content instantly.
-
-**Adding a language:** add an entry to the `T` dictionary in `src/main/resources/META-INF/resources/i18n.js` and an `<option>` in the `#langSelect` dropdown on both pages.
-
 ## Project Structure
 
 ```
 src/main/kotlin/org/tekeli/borisp/ocpp16/
 ├── command/            # 24 OcppCommand implementations (18 standard + 6 security)
 ├── handler/            # 15 C→P message handlers (10 standard + 5 security)
+├── health/             # Liveness + Readiness health checks
+├── metrics/            # Prometheus metrics service
 ├── outbound/           # S→C service layer
-├── persistence/        # Entities (ChargePoint, Transaction, SecurityLog, SignedFirmware, ConnectorStatus)
-├── protocol/           # OCPP message types, ResponseAwaiter
-├── rest/               # REST API resources
-└── websocket/          # WebSocket server & registry
+├── persistence/        # Entities (ChargePoint, Transaction, SecurityLog, SignedFirmware, ConnectorStatus, MessageLog)
+├── protocol/           # OCPP message types, ResponseAwaiter, MessageCaptureService
+├── rest/               # REST API resources (ChargePoint, Command, Transaction, Message)
+└── websocket/          # WebSocket server, registry, ChargePointInfo
 
 src/main/resources/META-INF/resources/
-├── stations.html       # WebUI – station dashboard
-├── commands.html       # WebUI – remote command dispatcher
-└── i18n.js             # Shared i18n module (DE/EN/FR)
+├── index.html          # Svelte 5 SPA entry point
+├── assets/             # Bundled CSS
+├── js/                 # Bundled JS (Svelte 5)
+└── src/                # Source assets
 ```
 
 ## Testing
@@ -354,16 +356,17 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 | Category | Tests | Description |
 |---------|-------|-------------|
-| OCPP Messages | 49 | Parse, Serialize, Error Handling |
-| WebSocket Server | 210 | Integration, Handler Dispatch, Error Paths, Infrastructure |
-| Commands | 491 | 18 Standard + 6 Security + Mutation Tests |
-| Security Handlers | 96 | SecurityEvent, CertificateSigned, LogStatus, SignCertificate, SignedFirmware |
-| Persistence | 61 | ChargePoint, Transaction, SecurityLog, SignedFirmware, ConnectorStatus |
-| REST API | 20 | ChargePoints, Commands, Transactions |
-| Handlers (unit) | 137 | BootNotification, Heartbeat, MeterValues, Start/StopTransaction, etc. |
-| Outbound & Protocol | 88 | Registry, Dispatcher, Awaiter, PayloadBuilder |
-| Other | 74 | Health, Metrics, Entity tests, ChargePointInfo, MessageDispatcher |
-| **Total** | **1126** | |
+| WebSocket & OCPP Messages | 279 | Integration, Handler Dispatch, Protocol, Error Paths, Infrastructure (17 root test files) |
+| Commands | 341 | 18 Standard + 6 Security + Mutation Tests |
+| Handlers (unit) | 305 | Authorize, BootNotification, Heartbeat, MeterValues, Start/StopTransaction, Security, Certificates |
+| Mutation Tests | 181 | Targeted mutation coverage for commands and handlers |
+| Persistence | 64 | ChargePoint, Transaction, SecurityLog, SignedFirmware, ConnectorStatus, MessageLog |
+| Rest API | 27 | ChargePoints, Commands, Transactions, Messages |
+| Outbound & Protocol | 41 | Registry, Dispatcher, Awaiter, PayloadBuilder |
+| Health | 2 | Liveness + Readiness probes |
+| Metrics | 9 | Prometheus metrics service |
+| Other | 37 | Integration tests, MessageCaptureService, misc |
+| **Total** | **1286** | 61 test files |
 
 ## CI/CD Pipeline
 
