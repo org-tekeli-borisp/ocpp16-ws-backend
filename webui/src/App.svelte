@@ -105,7 +105,7 @@
       </span>
     {/if}
     <span style="opacity:.4">|</span>
-    <select class="lang-select" onchange={handleLangChange}>
+    <select class="lang-select" bind:value={$locale} onchange={handleLangChange}>
       <option value="de">DE</option>
       <option value="en">EN</option>
       <option value="fr">FR</option>
