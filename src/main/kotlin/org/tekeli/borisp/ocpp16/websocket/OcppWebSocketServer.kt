@@ -102,7 +102,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
             responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
             try {
                 activePersistence.setChargePointOffline(connectionId)
-            } catch (_: IllegalStateException) {
+            } catch (_: Exception) {
             }
             Log.info("WebSocket connection closed: session=$connectionId")
         }
