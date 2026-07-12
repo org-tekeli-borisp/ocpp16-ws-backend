@@ -114,7 +114,7 @@ jobs:
           cache: maven
 
       - name: Run PITest mutation testing
-        run: mvn -B verify org.pitest:pitest-maven:mutationCoverage
+        run: mvn -B verify org.pitest:pitest-maven:mutationCoverage -Dpitest.threads=2
 
       - name: Upload mutation test report
         uses: actions/upload-artifact@v4
