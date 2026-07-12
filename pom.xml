@@ -305,6 +305,10 @@
                     <targetTests>
                         <param>org.tekeli.borisp.ocpp16.*</param>
                     </targetTests>
+                    <excludedTestClasses>
+                        <param>org.tekeli.borisp.ocpp16.mutation.*</param>
+                    </excludedTestClasses>
+                    <threads>4</threads>
                     <excludedMethods>
                         <exclude>parseJsonNode</exclude>
                     </excludedMethods>
