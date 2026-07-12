@@ -52,7 +52,7 @@ jobs:
         run: cd webui && npm ci
 
       - name: Start Quarkus backend
-        run: ./mvnw quarkus:dev -DskipTests -Dquarkus.analytics.disabled=true -Dquarkus.dev-ui.disabled=true -Dquarkus.live-reload.enabled=false -Dquarkus.test.continuous-testing.enabled=false -f - &
+        run: ./mvnw quarkus:dev -DskipTests -Dquarkus.analytics.disabled=true -Dquarkus.dev-ui.disabled=true -Dquarkus.live-reload.enabled=false -Dquarkus.test.continuous-testing.enabled=false &
         env:
           MAVEN_OPTS: -Xmx1g
 
