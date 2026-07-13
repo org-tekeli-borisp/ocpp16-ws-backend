@@ -99,6 +99,16 @@ jobs:
           path: target/site/jacoco/
           retention-days: 14
 
+      - name: Deploy JaCoCo report to GitHub Pages
+        if: github.ref == 'refs/heads/main' && always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: target/site/jacoco
+          publish_branch: gh-pages
+          destination_dir: _jacoco
+          force_orphan: false
+
   mutation-test:
     name: Mutation Test
     runs-on: ubuntu-latest
@@ -122,6 +132,15 @@ jobs:
           name: mutation-test-report
           path: target/pit-reports/
           retention-days: 14
+
+      - name: Deploy mutation report to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: target/pit-reports
+          publish_branch: gh-pages
+          force_orphan: true
 
   docker-jvm:
     name: Docker JVM
