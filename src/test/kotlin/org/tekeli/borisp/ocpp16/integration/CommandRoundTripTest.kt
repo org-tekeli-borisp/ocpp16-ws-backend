@@ -92,7 +92,7 @@ class CommandRoundTripTest {
                             messageIdRef.set(messageId)
                             if (config.reject) {
                                 ws.writeTextMessage(
-                                    """[4,"$messageId","NotSupported","Rejected",""]"""
+                                    """[4,"$messageId","NotSupported","Rejected",{}]"""
                                 )
                             } else {
                                 val payloadJson = mapper.writeValueAsString(config.payload)
@@ -340,72 +340,18 @@ class CommandRoundTripTest {
     @Test
     fun `should return rejected status when chargePoint rejects command`() {
         val cpId = "reject-cp-${System.currentTimeMillis()}"
-        val commandLatch = CountDownLatch(1)
-        val messageIdRef = AtomicReference<String>()
-        val connectLatch = CountDownLatch(1)
-        val bootLatch = CountDownLatch(1)
-        val wsRef = AtomicReference<WebSocket>()
-        val booted = AtomicBoolean(false)
+        val (ws, _) = connectBootAndRespond(
+            cpId,
+            CommandResponseConfig("Reset", reject = true)
+        )
 
-        val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/$cpId")
-
-        client.connect(options).onComplete { ar ->
-            if (ar.succeeded()) {
-                val ws = ar.result()
-                wsRef.set(ws)
-                connectLatch.countDown()
-
-                ws.handler { buffer: Buffer ->
-                    val message = buffer.toString()
-                    if (message.isEmpty()) return@handler
-
-                    if (!booted.get() && message.startsWith("[3,")) {
-                        booted.set(true)
-                        bootLatch.countDown()
-                    } else if (booted.get() && message.startsWith("[2,")) {
-                        val root: JsonNode = mapper.readTree(message)
-                        val action = root.get(2).asText()
-                        if (action == "Reset") {
-                            val messageId = root.get(1).asText()
-                            messageIdRef.set(messageId)
-                            commandLatch.countDown()
-                        }
-                    }
-                }
-
-                ws.writeTextMessage(
-                    """[2,"boot-1","BootNotification",{"chargePointVendor":"Tester","chargePointModel":"E2E","firmwareVersion":"1.0"}]"""
-                )
-            }
-        }
-
-        assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
-        assertTrue(bootLatch.await(5, TimeUnit.SECONDS), "Should receive boot response")
-
-        val restFuture = Thread {
-            RestAssured.given()
-                .contentType("application/json")
-                .body("""{"type": "Soft"}""")
-                .`when`().post("/api/chargepoints/$cpId/commands/reset")
-                .then()
-                .statusCode(400)
-                .body("status", org.hamcrest.Matchers.equalTo("rejected"))
-        }
-
-        restFuture.start()
-
-        assertTrue(commandLatch.await(5, TimeUnit.SECONDS), "Should receive Reset command")
-        val messageId = messageIdRef.get()
-        assertNotNull(messageId)
-
-        val ws = wsRef.get()!!
-        ws.writeTextMessage("""[4,"$messageId","NotSupported","Rejected",""]""")
-
-        restFuture.join(11000)
+        RestAssured.given()
+            .contentType("application/json")
+            .body("""{"type": "Soft"}""")
+            .`when`().post("/api/chargepoints/$cpId/commands/reset")
+            .then()
+            .statusCode(502)
+            .body("status", org.hamcrest.Matchers.equalTo("rejected"))
 
         ws.close()
     }
