@@ -259,7 +259,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: jacoco-for-pages
-          path: docs/_jacoco
+          path: docs/jacoco
 
       - name: Download mutation report
         uses: actions/download-artifact@v4
