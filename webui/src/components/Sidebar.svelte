@@ -5,6 +5,7 @@
   import { chargePoints, selectedCpId, searchQuery } from '$stores/app';
 
   export let stations: ChargePoint[];
+  export let onSelectStation: ((cpId: string) => void) | null = null;
 
   $: filtered = stations.filter(cp => {
     if (!$searchQuery) return true;
@@ -19,6 +20,7 @@
 
   function handleSelect(cpId: string) {
     selectedCpId.set(cpId);
+    onSelectStation?.(cpId);
   }
 </script>
 

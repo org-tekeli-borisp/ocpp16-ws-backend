@@ -114,7 +114,7 @@
 </header>
 
 <div class="layout">
-  <Sidebar stations={$chargePoints} />
+  <Sidebar stations={$chargePoints} onSelectStation={selectStation} />
 
   <main class="main">
     <div class="tabs">

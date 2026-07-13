@@ -1,28 +1,33 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import type { OcppMessage } from '$lib/types';
   import { t } from '$lib/i18n';
   import { fetchMessages } from '$lib/api/ocpp';
 
   export let cpId: string;
 
-  let messages: OcppMessage[] = [];
+  let allMessages: OcppMessage[] = [];
   let msgTab: 'live' | 'history' = 'live';
   let filterDirection: string = '';
   let filterAction: string = '';
   let refreshTimer: ReturnType<typeof setInterval> | null = null;
+
+  $: messages = allMessages.filter(msg => {
+    if (filterDirection && msg.direction !== filterDirection) return false;
+    if (filterAction && !(msg.action || '').toLowerCase().includes(filterAction.toLowerCase())) return false;
+    return true;
+  });
 
   $: messageCount = messages.length;
 
   async function loadMessages() {
     if (!cpId) return;
     try {
-      messages = await fetchMessages(cpId, msgTab === 'history', {
-        direction: filterDirection as 'INBOUND' | 'OUTBOUND' | undefined,
-        action: filterAction || undefined,
+      allMessages = await fetchMessages(cpId, msgTab === 'history', {
         limit: 200,
       });
     } catch {
-      messages = [];
+      allMessages = [];
     }
   }
 
@@ -32,7 +37,7 @@
   }
 
   function applyFilters() {
-    loadMessages();
+    // Client-side filtering — no-op, reactive $: handles it
   }
 
   function formatTime(iso: string): string {
@@ -53,9 +58,12 @@
   $: if (msgTab === 'live' && cpId) {
     if (refreshTimer) clearInterval(refreshTimer);
     refreshTimer = setInterval(loadMessages, 3000);
+    loadMessages();
   } else {
     if (refreshTimer) { clearInterval(refreshTimer); refreshTimer = null; }
   }
+
+  onMount(loadMessages);
 </script>
 
 <div class="panel">
