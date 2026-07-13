@@ -356,16 +356,16 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 | Category | Tests | Description |
 |---------|-------|-------------|
-| WebSocket & OCPP Messages | 279 | Integration, Handler Dispatch, Protocol, Error Paths, Infrastructure (17 root test files) |
+| WebSocket & OCPP Messages | 290 | Handler Dispatch, Protocol, Error Paths, Infrastructure, Message Tests |
 | Commands | 341 | 18 Standard + 6 Security + Mutation Tests |
-| Handlers (unit) | 305 | Authorize, BootNotification, Heartbeat, MeterValues, Start/StopTransaction, Security, Certificates |
-| Mutation Tests | 181 | Targeted mutation coverage for commands and handlers |
-| Persistence | 64 | ChargePoint, Transaction, SecurityLog, SignedFirmware, ConnectorStatus, MessageLog |
-| Rest API | 27 | ChargePoints, Commands, Transactions, Messages |
-| Outbound & Protocol | 41 | Registry, Dispatcher, Awaiter, PayloadBuilder |
+| Handlers (unit) | 229 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
+| Mutation Tests | 211 | Targeted mutation coverage for commands and handlers |
+| Persistence | 72 | Repositories + Entities (ChargePoint, Transaction, SecurityLog, etc.) |
+| REST API | 27 | ChargePoints, Commands, Transactions, Messages |
+| Outbound & Protocol | 92 | Registry, Dispatcher, Awaiter, PayloadBuilder, MessageCaptureService |
 | Health | 2 | Liveness + Readiness probes |
-| Metrics | 9 | Prometheus metrics service |
-| Other | 37 | Integration tests, MessageCaptureService, misc |
+| Metrics | 29 | Prometheus metrics service |
+| Integration | 29 | CommandRoundTrip, FullFlowIntegration |
 | **Total** | **1206** | 63 test files |
 
 ## CI/CD Pipeline
