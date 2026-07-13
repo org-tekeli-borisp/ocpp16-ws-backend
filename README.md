@@ -13,7 +13,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (72% mutation score)
-- **1286 Unit & Integration Tests**
+- **1206 Unit & Integration Tests**
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
@@ -366,7 +366,7 @@ mvn org.pitest:pitest-maven:mutationCoverage
 | Health | 2 | Liveness + Readiness probes |
 | Metrics | 9 | Prometheus metrics service |
 | Other | 37 | Integration tests, MessageCaptureService, misc |
-| **Total** | **1286** | 61 test files |
+| **Total** | **1206** | 63 test files |
 
 ## CI/CD Pipeline
 
@@ -428,8 +428,8 @@ Key properties in `application.properties`:
 
 | Layer | Technology |
 |-------|------------|
-| Language | Kotlin 2.3 (JVM target 25) |
-| Framework | Quarkus 3.36 |
+| Language | Kotlin 2.3.21 (JVM target 25) |
+| Framework | Quarkus 3.36.2 |
 | Database | PostgreSQL 18 |
 | Migrations | Liquibase |
 | WebSocket | Quarkus WebSocket Next |
@@ -438,4 +438,4 @@ Key properties in `application.properties`:
 | Testing | JUnit 5, RestAssured, MockK, PITest |
 | Metrics | Micrometer + Prometheus |
 | Deployment | Docker Compose, GitHub Actions, GHCR |
-| WebUI | Vanilla HTML/CSS/JS (no build step) |
+| WebUI | Svelte 5 (bundled JS/CSS) |
