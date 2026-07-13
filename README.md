@@ -13,7 +13,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (72% mutation score)
-- **1206 Unit & Integration Tests**
+- **1287 Unit & Integration Tests**
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
@@ -356,17 +356,18 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 | Category | Tests | Description |
 |---------|-------|-------------|
-| WebSocket & OCPP Messages | 290 | Handler Dispatch, Protocol, Error Paths, Infrastructure, Message Tests |
-| Commands | 341 | 18 Standard + 6 Security + Mutation Tests |
-| Handlers (unit) | 229 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
-| Mutation Tests | 211 | Targeted mutation coverage for commands and handlers |
+| WebSocket & OCPP Messages | 295 | Handler Dispatch, Protocol, Error Paths, Infrastructure, Message Tests |
+| Commands | 485 | 18 Standard + 6 Security + Mutation Tests |
+| Handlers (unit) | 253 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
+| Mutation Tests | 125 | Targeted mutation coverage for commands and handlers |
 | Persistence | 72 | Repositories + Entities (ChargePoint, Transaction, SecurityLog, etc.) |
 | REST API | 27 | ChargePoints, Commands, Transactions, Messages |
-| Outbound & Protocol | 92 | Registry, Dispatcher, Awaiter, PayloadBuilder, MessageCaptureService |
+| Outbound & Protocol | 55 | Registry, Dispatcher, Awaiter, PayloadBuilder |
 | Health | 2 | Liveness + Readiness probes |
 | Metrics | 29 | Prometheus metrics service |
 | Integration | 29 | CommandRoundTrip, FullFlowIntegration |
-| **Total** | **1206** | 63 test files |
+| Protocol | 18 | MessageCaptureService, OcppMessageDirection |
+| **Total** | **1287** | 66 test files |
 
 ## CI/CD Pipeline
 

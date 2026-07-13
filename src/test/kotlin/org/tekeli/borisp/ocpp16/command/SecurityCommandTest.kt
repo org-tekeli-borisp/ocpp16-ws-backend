@@ -845,4 +845,741 @@ class SecurityCommandTest {
         override fun sendTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): CompletableFuture<OcppMessage> = TODO()
         override fun sendUpdateFirmware(chargePointId: String, location: String, retrieveDate: String, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> = TODO()
     }
+
+    // ---- Mutation kill tests: ExtendedTriggerMessage empty requestedMessage ----
+
+    @Test
+    fun `ExtendedTriggerMessage - should reject empty requestedMessage`() {
+        val cmd = ExtendedTriggerMessageCommand(gateway)
+        val response = cmd.validate(mapOf("requestedMessage" to ""))
+
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    // ---- Mutation kill tests: TriggerMessage all valid message types ----
+
+    @Test
+    fun `TriggerMessageCommand validate accepts all valid messages`() {
+        val cmd = TriggerMessageCommand(TestSecurityGateway())
+        val validMessages = listOf(
+            "BootNotification", "DiagnosticsStatusNotification",
+            "FirmwareStatusNotification", "Heartbeat",
+            "MeterValues", "StatusNotification",
+            "LogStatusNotification", "SignChargePointCertificate"
+        )
+        for (msg in validMessages) {
+            val resp = cmd.validate(mapOf("requestedMessage" to msg))
+            assertNull(resp, "Should accept: $msg")
+        }
+    }
+
+    @Test
+    fun `ExtendedTriggerMessageCommand validate accepts all valid messages`() {
+        val cmd = ExtendedTriggerMessageCommand(TestSecurityGateway())
+        val validMessages = listOf(
+            "BootNotification", "LogStatusNotification",
+            "FirmwareStatusNotification", "Heartbeat",
+            "MeterValues", "SignChargePointCertificate",
+            "StatusNotification"
+        )
+        for (msg in validMessages) {
+            val resp = cmd.validate(mapOf("requestedMessage" to msg))
+            assertNull(resp, "Should accept: $msg")
+        }
+    }
+
+    // ---- Mutation kill tests: InstallCertificate boundary ----
+
+    @Test
+    fun `InstallCertificate - should accept certificate at exactly 5500 chars`() {
+        val cmd = InstallCertificateCommand(gateway)
+        val cert = "A".repeat(5500)
+        val response = cmd.validate(mapOf("certificateType" to "CentralSystemRootCertificate", "certificate" to cert))
+        assertNull(response)
+    }
+
+    @Test
+    fun `InstallCertificate - should reject certificate at 5501 chars`() {
+        val cmd = InstallCertificateCommand(gateway)
+        val cert = "A".repeat(5501)
+        val response = cmd.validate(mapOf("certificateType" to "CentralSystemRootCertificate", "certificate" to cert))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `InstallCertificate - should accept ManufacturerRootCertificate`() {
+        val cmd = InstallCertificateCommand(gateway)
+        val response = cmd.validate(mapOf("certificateType" to "ManufacturerRootCertificate", "certificate" to "cert"))
+        assertNull(response)
+    }
+
+    // ---- Mutation kill tests: SignedUpdateFirmware boundary ----
+
+    @Test
+    fun `SignedUpdateFirmware - should accept location exactly 512 chars`() {
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val loc = "h".repeat(512)
+        val response = cmd.validate(mapOf(
+            "requestId" to 1,
+            "firmware" to mapOf(
+                "location" to loc,
+                "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                "signingCertificate" to "cert",
+                "signature" to "sig"
+            )
+        ))
+        assertNull(response)
+    }
+
+    @Test
+    fun `SignedUpdateFirmware - should reject location 513 chars`() {
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val loc = "h".repeat(513)
+        val response = cmd.validate(mapOf(
+            "requestId" to 1,
+            "firmware" to mapOf(
+                "location" to loc,
+                "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                "signingCertificate" to "cert",
+                "signature" to "sig"
+            )
+        ))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `SignedUpdateFirmware - should accept signingCertificate 5500 chars`() {
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val cert = "c".repeat(5500)
+        val response = cmd.validate(mapOf(
+            "requestId" to 1,
+            "firmware" to mapOf(
+                "location" to "http://fw.bin",
+                "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                "signingCertificate" to cert,
+                "signature" to "sig"
+            )
+        ))
+        assertNull(response)
+    }
+
+    @Test
+    fun `SignedUpdateFirmware - should reject signingCertificate 5501 chars`() {
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val cert = "c".repeat(5501)
+        val response = cmd.validate(mapOf(
+            "requestId" to 1,
+            "firmware" to mapOf(
+                "location" to "http://fw.bin",
+                "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                "signingCertificate" to cert,
+                "signature" to "sig"
+            )
+        ))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `SignedUpdateFirmware - should accept signature 800 chars`() {
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val sig = "s".repeat(800)
+        val response = cmd.validate(mapOf(
+            "requestId" to 1,
+            "firmware" to mapOf(
+                "location" to "http://fw.bin",
+                "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                "signingCertificate" to "cert",
+                "signature" to sig
+            )
+        ))
+        assertNull(response)
+    }
+
+    @Test
+    fun `SignedUpdateFirmware - should reject signature 801 chars`() {
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val sig = "s".repeat(801)
+        val response = cmd.validate(mapOf(
+            "requestId" to 1,
+            "firmware" to mapOf(
+                "location" to "http://fw.bin",
+                "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                "signingCertificate" to "cert",
+                "signature" to sig
+            )
+        ))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    // ---- Mutation kill tests: SignedUpdateFirmware non-Number requestId ----
+
+    @Test
+    fun `SignedUpdateFirmware - should reject non-Number requestId`() {
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["requestId"] = false as Any?
+        payload["firmware"] = mapOf(
+            "location" to "http://fw.bin",
+            "retrieveDateTime" to "2024-01-01T00:00:00Z",
+            "signingCertificate" to "cert",
+            "signature" to "sig"
+        )
+        @Suppress("UNCHECKED_CAST")
+        val response = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    // ---- Mutation kill tests: SignedUpdateFirmware empty location ----
+
+    @Test
+    fun `SignedUpdateFirmware - should reject empty location`() {
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val response = cmd.validate(mapOf(
+            "requestId" to 1,
+            "firmware" to mapOf(
+                "location" to "",
+                "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                "signingCertificate" to "cert",
+                "signature" to "sig"
+            )
+        ))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    // ---- Mutation kill tests: SignedUpdateFirmware empty signingCertificate ----
+
+    @Test
+    fun `SignedUpdateFirmware - should reject empty signingCertificate`() {
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val response = cmd.validate(mapOf(
+            "requestId" to 1,
+            "firmware" to mapOf(
+                "location" to "http://fw.bin",
+                "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                "signingCertificate" to "",
+                "signature" to "sig"
+            )
+        ))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    // ---- Mutation kill tests: SignedUpdateFirmware with installDateTime ----
+
+    @Test
+    fun `SignedUpdateFirmware - execute with installDateTime returns accepted`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val firmware = mapOf(
+            "location" to "https://example.com/fw.bin",
+            "retrieveDateTime" to "2024-01-01T00:00:00Z",
+            "installDateTime" to "2024-01-02T00:00:00Z",
+            "signingCertificate" to "cert",
+            "signature" to "sig"
+        )
+        val response = cmd.execute("CP-1", mapOf("requestId" to 1, "firmware" to firmware))
+        assertEquals(202, response.status)
+    }
+
+    // ---- Mutation kill tests: SignedUpdateFirmware BAD_GATEWAY on CallError ----
+
+    @Test
+    fun `SignedUpdateFirmware - execute returns BAD_GATEWAY on CallError`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.GENERIC_ERROR, "Error", null)
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val response = cmd.execute(
+            "CP-1", mapOf(
+                "requestId" to 1,
+                "firmware" to mapOf(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to "sig"
+                )
+            )
+        )
+        assertEquals(502, response.status)
+    }
+
+    // ---- Mutation kill tests: GetLog validate ----
+
+    @Test
+    fun `GetLog - should reject non-Map log`() {
+        val cmd = GetLogCommand(gateway)
+        val response = cmd.validate(mapOf(
+            "logType" to "DiagnosticsLog", "requestId" to 1,
+            "log" to "not-a-map"
+        ))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `GetLog - should reject empty remoteLocation`() {
+        val cmd = GetLogCommand(gateway)
+        val response = cmd.validate(mapOf(
+            "logType" to "SecurityLog", "requestId" to 1,
+            "log" to mapOf("remoteLocation" to "")
+        ))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `GetLog - should reject non-Number requestId`() {
+        val cmd = GetLogCommand(gateway)
+        val response = cmd.validate(mapOf(
+            "logType" to "DiagnosticsLog", "requestId" to "not-a-number",
+            "log" to mapOf("remoteLocation" to "http://example.com/log")
+        ))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `GetLog - should reject null logType`() {
+        val cmd = GetLogCommand(gateway)
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["logType"] = null as Any?
+        payload["requestId"] = 1
+        payload["log"] = mapOf("remoteLocation" to "http://example.com/log")
+        @Suppress("UNCHECKED_CAST")
+        val response = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    // ---- Mutation kill tests: DeleteCertificate ----
+
+    @Test
+    fun `DeleteCertificate - should accept valid data`() {
+        val cmd = DeleteCertificateCommand(gateway)
+        val response = cmd.validate(mapOf(
+            "certificateHashData" to mapOf(
+                "hashAlgorithm" to "SHA256", "issuerNameHash" to "h1",
+                "issuerKeyHash" to "h2", "serialNumber" to "s1"
+            )
+        ))
+        assertNull(response)
+    }
+
+    @Test
+    fun `DeleteCertificate - should reject empty issuerNameHash`() {
+        val cmd = DeleteCertificateCommand(gateway)
+        val response = cmd.validate(mapOf(
+            "certificateHashData" to mapOf(
+                "hashAlgorithm" to "SHA256", "issuerNameHash" to "",
+                "issuerKeyHash" to "h2", "serialNumber" to "s1"
+            )
+        ))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `DeleteCertificate - should reject null issuerKeyHash`() {
+        val cmd = DeleteCertificateCommand(gateway)
+        val hashData: MutableMap<String, Any?> = mutableMapOf(
+            "hashAlgorithm" to "SHA256", "issuerNameHash" to "h1",
+            "serialNumber" to "s1"
+        )
+        hashData["issuerKeyHash"] = null as Any?
+        val response = cmd.validate(mapOf("certificateHashData" to hashData))
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `DeleteCertificate - should reject null certificateHashData`() {
+        val cmd = DeleteCertificateCommand(gateway)
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["certificateHashData"] = null as Any?
+        @Suppress("UNCHECKED_CAST")
+        val response = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    // ---- Mutation kill tests: InstallCertificate null certificate ----
+
+    @Test
+    fun `InstallCertificate - should reject null certificate`() {
+        val cmd = InstallCertificateCommand(gateway)
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["certificateType"] = "CentralSystemRootCertificate"
+        payload["certificate"] = null as Any?
+        @Suppress("UNCHECKED_CAST")
+        val response = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    // ---- Mutation kill tests: GetInstalledCertificateIds valid types ----
+
+    @Test
+    fun `GetInstalledCertificateIds - should accept CentralSystemRootCertificate`() {
+        val cmd = GetInstalledCertificateIdsCommand(gateway)
+        val response = cmd.validate(mapOf("certificateType" to "CentralSystemRootCertificate"))
+        assertNull(response)
+    }
+
+    @Test
+    fun `GetInstalledCertificateIds - should accept ManufacturerRootCertificate`() {
+        val cmd = GetInstalledCertificateIdsCommand(gateway)
+        val response = cmd.validate(mapOf("certificateType" to "ManufacturerRootCertificate"))
+        assertNull(response)
+    }
+
+    // ---- Mutation kill tests: RemoteStartTransaction null idTag ----
+
+    @Test
+    fun `RemoteStartTransactionCommand validate with null idTag`() {
+        val cmd = RemoteStartTransactionCommand(TestSecurityGateway())
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["idTag"] = null as Any?
+        payload["connectorId"] = 1
+        @Suppress("UNCHECKED_CAST")
+        val resp = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    // ---- Mutation kill tests: non-Number connectorId for standard commands ----
+
+    @Test
+    fun `GetCompositeScheduleCommand validate with non-Number connectorId`() {
+        val cmd = GetCompositeScheduleCommand(TestSecurityGateway())
+        val resp = cmd.validate(mapOf("connectorId" to "not-a-number", "duration" to 300))
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand validate with non-Number duration`() {
+        val cmd = GetCompositeScheduleCommand(TestSecurityGateway())
+        val resp = cmd.validate(mapOf("connectorId" to 1, "duration" to "not-a-number"))
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand validate with non-Number connectorId`() {
+        val cmd = ReserveNowCommand(TestSecurityGateway())
+        val resp = cmd.validate(
+            mapOf(
+                "connectorId" to "bad", "expiryDate" to "2024-01-01T00:00:00Z",
+                "idTag" to "CARD1", "reservationId" to 1
+            )
+        )
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand validate with non-Number reservationId`() {
+        val cmd = ReserveNowCommand(TestSecurityGateway())
+        val resp = cmd.validate(
+            mapOf(
+                "connectorId" to 1, "expiryDate" to "2024-01-01T00:00:00Z",
+                "idTag" to "CARD1", "reservationId" to "bad"
+            )
+        )
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `SendLocalListCommand validate with non-Number listVersion`() {
+        val cmd = SendLocalListCommand(TestSecurityGateway())
+        val resp = cmd.validate(mapOf("listVersion" to "bad", "updateType" to "Full"))
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand validate with non-Number connectorId`() {
+        val cmd = ChangeAvailabilityCommand(TestSecurityGateway())
+        val resp = cmd.validate(mapOf("connectorId" to "bad", "type" to "Inoperative"))
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand validate with non-Number connectorId`() {
+        val cmd = SetChargingProfileCommand(TestSecurityGateway())
+        val resp = cmd.validate(mapOf("connectorId" to "bad", "csChargingProfiles" to mapOf<String, Any>()))
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand validate with null csChargingProfiles`() {
+        val cmd = SetChargingProfileCommand(TestSecurityGateway())
+        val resp = cmd.validate(mapOf<String, Any>("connectorId" to 1))
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `UnlockConnectorCommand validate with non-Number connectorId`() {
+        val cmd = UnlockConnectorCommand(TestSecurityGateway())
+        val resp = cmd.validate(mapOf("connectorId" to "bad"))
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `RemoteStopTransactionCommand validate with non-Number transactionId`() {
+        val cmd = RemoteStopTransactionCommand(TestSecurityGateway())
+        val resp = cmd.validate(mapOf("transactionId" to "bad"))
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `CancelReservationCommand validate with non-Number reservationId`() {
+        val cmd = CancelReservationCommand(TestSecurityGateway())
+        val resp = cmd.validate(mapOf("reservationId" to "bad"))
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    // ---- Mutation kill tests: null fields ----
+
+    @Test
+    fun `ChangeAvailabilityCommand validate with null type`() {
+        val cmd = ChangeAvailabilityCommand(TestSecurityGateway())
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["connectorId"] = 1
+        payload["type"] = null as Any?
+        @Suppress("UNCHECKED_CAST")
+        val resp = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `SendLocalListCommand validate with null updateType`() {
+        val cmd = SendLocalListCommand(TestSecurityGateway())
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["listVersion"] = 1
+        payload["updateType"] = null as Any?
+        @Suppress("UNCHECKED_CAST")
+        val resp = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand validate with null duration`() {
+        val cmd = GetCompositeScheduleCommand(TestSecurityGateway())
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["connectorId"] = 1
+        payload["duration"] = null as Any?
+        @Suppress("UNCHECKED_CAST")
+        val resp = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand validate with null connectorId`() {
+        val cmd = GetCompositeScheduleCommand(TestSecurityGateway())
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["connectorId"] = null as Any?
+        payload["duration"] = 300
+        @Suppress("UNCHECKED_CAST")
+        val resp = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `RemoteStartTransactionCommand validate with null connectorId`() {
+        val cmd = RemoteStartTransactionCommand(TestSecurityGateway())
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["idTag"] = "TAG1"
+        payload["connectorId"] = null as Any?
+        @Suppress("UNCHECKED_CAST")
+        val resp = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand validate with null connectorId`() {
+        val cmd = SetChargingProfileCommand(TestSecurityGateway())
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["connectorId"] = null as Any?
+        payload["csChargingProfiles"] = mapOf<String, Any>()
+        @Suppress("UNCHECKED_CAST")
+        val resp = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand validate with null connectorId`() {
+        val cmd = ChangeAvailabilityCommand(TestSecurityGateway())
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["connectorId"] = null as Any?
+        payload["type"] = "Inoperative"
+        @Suppress("UNCHECKED_CAST")
+        val resp = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    @Test
+    fun `SendLocalListCommand validate with null listVersion`() {
+        val cmd = SendLocalListCommand(TestSecurityGateway())
+        val payload: MutableMap<String, Any?> = LinkedHashMap()
+        payload["listVersion"] = null as Any?
+        payload["updateType"] = "Full"
+        @Suppress("UNCHECKED_CAST")
+        val resp = cmd.validate(payload as Map<String, Any>)
+        assertNotNull(resp)
+        assertEquals(400, resp!!.status)
+    }
+
+    // ---- Mutation kill tests: command execute BAD_GATEWAY for security commands ----
+
+    @Test
+    fun `InstallCertificate - execute returns BAD_GATEWAY on CallError`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.GENERIC_ERROR, "Error", null)
+        val cmd = InstallCertificateCommand(gateway)
+        val resp = cmd.execute(
+            "CP-1",
+            mapOf("certificateType" to "CentralSystemRootCertificate", "certificate" to "cert-data")
+        )
+        assertEquals(502, resp.status)
+    }
+
+    @Test
+    fun `GetInstalledCertificateIds - execute returns BAD_GATEWAY on CallError`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.GENERIC_ERROR, "Error", null)
+        val cmd = GetInstalledCertificateIdsCommand(gateway)
+        val resp = cmd.execute("CP-1", mapOf("certificateType" to "CentralSystemRootCertificate"))
+        assertEquals(502, resp.status)
+    }
+
+    @Test
+    fun `DeleteCertificate - execute returns BAD_GATEWAY on CallError`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.GENERIC_ERROR, "Error", null)
+        val cmd = DeleteCertificateCommand(gateway)
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "certificateHashData" to mapOf(
+                    "hashAlgorithm" to "SHA256", "issuerNameHash" to "h1",
+                    "issuerKeyHash" to "h2", "serialNumber" to "s1"
+                )
+            )
+        )
+        assertEquals(502, resp.status)
+    }
+
+    @Test
+    fun `GetLog - execute returns BAD_GATEWAY on CallError`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.GENERIC_ERROR, "Error", null)
+        val cmd = GetLogCommand(gateway)
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "logType" to "DiagnosticsLog", "requestId" to 1,
+                "log" to mapOf("remoteLocation" to "http://example.com/log")
+            )
+        )
+        assertEquals(502, resp.status)
+    }
+
+    // ---- Mutation kill tests: command execute ACCEPTED for security commands ----
+
+    @Test
+    fun `InstallCertificate - execute returns ACCEPTED on CallResult`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = InstallCertificateCommand(gateway)
+        val resp = cmd.execute(
+            "CP-1",
+            mapOf("certificateType" to "CentralSystemRootCertificate", "certificate" to "cert-data")
+        )
+        assertEquals(202, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("sent", entity["status"])
+    }
+
+    @Test
+    fun `GetInstalledCertificateIds - execute returns ACCEPTED on CallResult`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = GetInstalledCertificateIdsCommand(gateway)
+        val resp = cmd.execute("CP-1", mapOf("certificateType" to "CentralSystemRootCertificate"))
+        assertEquals(202, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("sent", entity["status"])
+    }
+
+    @Test
+    fun `DeleteCertificate - execute returns ACCEPTED on CallResult`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = DeleteCertificateCommand(gateway)
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "certificateHashData" to mapOf(
+                    "hashAlgorithm" to "SHA256", "issuerNameHash" to "h1",
+                    "issuerKeyHash" to "h2", "serialNumber" to "s1"
+                )
+            )
+        )
+        assertEquals(202, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("sent", entity["status"])
+    }
+
+    @Test
+    fun `GetLog - execute returns ACCEPTED on CallResult`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = GetLogCommand(gateway)
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "logType" to "SecurityLog", "requestId" to 1,
+                "log" to mapOf("remoteLocation" to "https://example.com/logs")
+            )
+        )
+        assertEquals(202, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("sent", entity["status"])
+    }
+
+    @Test
+    fun `SignedUpdateFirmware - execute returns ACCEPTED on CallResult`() {
+        gateway.lastResponse = makeCallResult()
+        val cmd = SignedUpdateFirmwareCommand(gateway)
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "requestId" to 1,
+                "firmware" to mapOf(
+                    "location" to "http://fw.bin",
+                    "retrieveDateTime" to "2024-01-01T00:00:00Z",
+                    "signingCertificate" to "cert",
+                    "signature" to "sig"
+                )
+            )
+        )
+        assertEquals(202, resp.status)
+    }
+
+    // ---- Mutation kill tests: ExtendedTriggerMessage execute BAD_GATEWAY ----
+
+    @Test
+    fun `ExtendedTriggerMessage - execute returns BAD_GATEWAY on CallError`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.GENERIC_ERROR, "Error", null)
+        val cmd = ExtendedTriggerMessageCommand(gateway)
+        val resp = cmd.execute("CP-1", mapOf("requestedMessage" to "SignChargePointCertificate"))
+        assertEquals(502, resp.status)
+    }
 }

@@ -515,4 +515,16 @@ class OcppMessageTest {
 
         assertNull(message.payload)
     }
+
+    @Test
+    fun `OcppMessage parse wraps exception with original message`() {
+        val ex = assertThrows(OcppParseException::class.java) {
+            OcppMessage.parse("{bad json here")
+        }
+        assertNotNull(ex.message)
+        assertTrue(ex.message!!.startsWith("Failed to parse OCPP message"))
+        val cause = ex.cause
+        assertNotNull(cause)
+        assertNotNull(cause!!.message)
+    }
 }

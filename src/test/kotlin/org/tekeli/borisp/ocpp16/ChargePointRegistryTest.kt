@@ -649,4 +649,16 @@ class ChargePointRegistryTest {
             )
         }
     }
+
+    @Test
+    fun `ChargePointRegistry sendCall with null metricsService`() {
+        val registry = ChargePointRegistry()
+        registry.metricsService = null
+        val connection = mockChargePointConnection()
+        registry.register("s-reg", "c-reg", connection)
+        registry.setTestSender("s-reg", connection)
+        registry.updateChargePointInfo("s-reg", "CP-REG", "V", "M")
+
+        assertDoesNotThrow { registry.sendCall("CP-REG", "Heartbeat", emptyMap()) }
+    }
 }

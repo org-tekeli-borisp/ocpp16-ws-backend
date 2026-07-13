@@ -2303,4 +2303,303 @@ class OcppCommandTest {
         override fun sendCertificateSigned(chargePointId: String, certificateChain: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> =
             java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
     }
+
+    // ---- Mutation kill tests: empty string validation ----
+
+    @Test
+    fun `ChangeAvailabilityCommand validate rejects empty type`() {
+        val cmd = ChangeAvailabilityCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf("connectorId" to 1, "type" to ""))
+        assertNotNull(resp)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand validate rejects empty expiryDate`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf<String, Any>(
+            "connectorId" to 1, "expiryDate" to "", "idTag" to "CARD1", "reservationId" to 1
+        ))
+        assertNotNull(resp)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+    }
+
+    @Test
+    fun `ReserveNowCommand validate rejects empty idTag`() {
+        val cmd = ReserveNowCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf<String, Any>(
+            "connectorId" to 1, "expiryDate" to "2024-01-01T00:00:00Z", "idTag" to "", "reservationId" to 1
+        ))
+        assertNotNull(resp)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+    }
+
+    @Test
+    fun `SendLocalListCommand validate rejects empty updateType`() {
+        val cmd = SendLocalListCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf("listVersion" to 1, "updateType" to ""))
+        assertNotNull(resp)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand validate rejects empty key`() {
+        val cmd = ChangeConfigurationCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf("key" to "", "value" to "val"))
+        assertNotNull(resp)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand validate rejects empty location`() {
+        val cmd = GetDiagnosticsCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf("location" to ""))
+        assertNotNull(resp)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand validate rejects empty location`() {
+        val cmd = UpdateFirmwareCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf("location" to "", "retrieveDate" to "2024-01-01T00:00:00Z"))
+        assertNotNull(resp)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand validate rejects empty retrieveDate`() {
+        val cmd = UpdateFirmwareCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf("location" to "http://fw.bin", "retrieveDate" to ""))
+        assertNotNull(resp)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+    }
+
+    // ---- Mutation kill tests: execute with CallResult entity verification ----
+
+    @Test
+    fun `ResetCommand execute returns ACCEPTED with correct entity on CallResult`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ResetCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("type" to "Hard"))
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("sent", entity["status"])
+        assertEquals("reset", entity["command"])
+        assertEquals("Hard", entity["type"])
+    }
+
+    @Test
+    fun `ReserveNowCommand execute returns ACCEPTED on CallResult`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ReserveNowCommand(service)
+        val resp = cmd.execute(
+            "CP-1", mapOf<String, Any>(
+                "connectorId" to 1, "expiryDate" to "2024-01-01T00:00:00Z",
+                "idTag" to "CARD1", "reservationId" to 1
+            )
+        )
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("sent", entity["status"])
+        assertEquals("reserve-now", entity["command"])
+    }
+
+    @Test
+    fun `SendLocalListCommand execute returns ACCEPTED on CallResult`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = SendLocalListCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("listVersion" to 5, "updateType" to "Differential"))
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("sent", entity["status"])
+        assertEquals("send-local-list", entity["command"])
+    }
+
+    @Test
+    fun `ChangeAvailabilityCommand execute returns ACCEPTED on CallResult`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ChangeAvailabilityCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("connectorId" to 2, "type" to "Operative"))
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("sent", entity["status"])
+        assertEquals("change-availability", entity["command"])
+    }
+
+    // ---- Mutation kill tests: execute with CallError BAD_GATEWAY ----
+
+    @Test
+    fun `ResetCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = ResetCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("type" to "Hard"))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("rejected", entity["status"])
+    }
+
+    @Test
+    fun `RemoteStopTransactionCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = RemoteStopTransactionCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("transactionId" to 1))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `UnlockConnectorCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = UnlockConnectorCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("connectorId" to 1))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `GetCompositeScheduleCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = GetCompositeScheduleCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("connectorId" to 1, "duration" to 300))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `GetConfigurationCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = GetConfigurationCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("key" to listOf("key1")))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `GetLocalListVersionCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = GetLocalListVersionCommand(service)
+        val resp = cmd.execute("CP-1", emptyMap<String, Any>())
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `SetChargingProfileCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = SetChargingProfileCommand(service)
+        val resp = cmd.execute(
+            "CP-1",
+            mapOf("connectorId" to 1, "csChargingProfiles" to mapOf<String, Any>("chargingProfileId" to 1))
+        )
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `TriggerMessageCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = TriggerMessageCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("requestedMessage" to "Heartbeat"))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = UpdateFirmwareCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("location" to "http://fw.bin", "retrieveDate" to "2024-01-01T00:00:00Z"))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = ChangeConfigurationCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("key" to "key1", "value" to "val1"))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `ClearCacheCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = ClearCacheCommand(service)
+        val resp = cmd.execute("CP-1", emptyMap<String, Any>())
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `ClearChargingProfileCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = ClearChargingProfileCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("connectorId" to 1, "stackLevel" to 0))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = GetDiagnosticsCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("location" to "http://example.com/diag"))
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
+    }
+
+    // ---- Mutation kill tests: execute with ACCEPTED and entity verification ----
+
+    @Test
+    fun `ChangeConfigurationCommand execute returns ACCEPTED`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ChangeConfigurationCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("key" to "LocalPreAuthorize", "value" to "true"))
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+    }
+
+    @Test
+    fun `ClearCacheCommand execute returns ACCEPTED`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ClearCacheCommand(service)
+        val resp = cmd.execute("CP-1", emptyMap<String, Any>())
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+    }
+
+    @Test
+    fun `GetLocalListVersionCommand execute returns ACCEPTED`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetLocalListVersionCommand(service)
+        val resp = cmd.execute("CP-1", emptyMap<String, Any>())
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+    }
+
+    @Test
+    fun `ClearChargingProfileCommand execute with all params returns ACCEPTED`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = ClearChargingProfileCommand(service)
+        val resp = cmd.execute("CP-1", mapOf("connectorId" to 1, "stackLevel" to 0))
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+        val entity = resp.entity as Map<*, *>
+        assertEquals("sent", entity["status"])
+        assertEquals("clear-charging-profile", entity["command"])
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand execute with all params returns ACCEPTED`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetDiagnosticsCommand(service)
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "location" to "http://diag.com/log",
+                "retries" to 3,
+                "retryInterval" to 60
+            )
+        )
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+    }
+
+    @Test
+    fun `UpdateFirmwareCommand execute with all params returns ACCEPTED`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = UpdateFirmwareCommand(service)
+        val resp = cmd.execute(
+            "CP-1", mapOf(
+                "location" to "http://fw.bin",
+                "retrieveDate" to "2024-01-01T00:00:00Z",
+                "retries" to 2,
+                "retryInterval" to 30
+            )
+        )
+        assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+    }
 }

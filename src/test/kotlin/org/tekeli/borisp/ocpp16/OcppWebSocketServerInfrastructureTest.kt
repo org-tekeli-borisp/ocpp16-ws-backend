@@ -162,4 +162,74 @@ class OcppWebSocketServerInfrastructureTest {
         assertEquals("actual-connection-id", offlineSessionId,
             "onClose must derive session ID from activeConnection.id(), not from stale sessionId field")
     }
+
+    @Test
+    fun `OcppWebSocketServer chargePointId returns exact value not empty`() {
+        val server = OcppWebSocketServer().apply { chargePointId = "CP-EXACT" }
+        assertEquals("CP-EXACT", server.chargePointId)
+        assertFalse(server.chargePointId!!.isEmpty())
+    }
+
+    @Test
+    fun `OcppWebSocketServer onTextMessage increments messagesReceived`() {
+        val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
+        val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
+        val server = OcppWebSocketServer().apply {
+            chargePointId = "CP-METRICS"
+            sessionId = "sess-metrics"
+            this.metricsService = metricsService
+        }
+
+        server.onTextMessage("""[2,"m1","Heartbeat",{}]""")
+
+        val counter = meterRegistry.find("ocpp.messages.received").counter()
+        assertNotNull(counter)
+        assertEquals(1.0, counter!!.count())
+    }
+
+    @Test
+    fun `OcppWebSocketServer handleCall returns NotImplemented for unknown action`() {
+        val server = OcppWebSocketServer().apply { chargePointId = "CP-UNKNOWN" }
+        val response = server.onTextMessage("""[2,"uk1","NonExistentAction",{}]""")
+        assertTrue(response.contains("NotImplemented"))
+        assertTrue(response.contains("NonExistentAction"))
+    }
+
+    @Test
+    fun `OcppWebSocketServer StartTransaction handler uses metricsService`() {
+        val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
+        val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
+        val server = OcppWebSocketServer().apply {
+            chargePointId = "CP-HANDLER-MS"
+            sessionId = "sess-handler-ms"
+            this.metricsService = metricsService
+        }
+
+        server.onTextMessage(
+            """[2,"hm1","StartTransaction",{"connectorId":1,"idTag":"HM1","meterStart":0,"timestamp":"2024-01-01T00:00:00Z"}]"""
+        )
+
+        val counter = meterRegistry.find("ocpp.messages.received").counter()
+        assertNotNull(counter)
+        assertEquals(1.0, counter!!.count())
+    }
+
+    @Test
+    fun `OcppWebSocketServer StopTransaction handler uses metricsService`() {
+        val meterRegistry = io.micrometer.core.instrument.simple.SimpleMeterRegistry()
+        val metricsService = MetricsService().apply { injectedMeterRegistry = meterRegistry }
+        val server = OcppWebSocketServer().apply {
+            chargePointId = "CP-HANDLER-MS2"
+            sessionId = "sess-handler-ms2"
+            this.metricsService = metricsService
+        }
+
+        server.onTextMessage(
+            """[2,"hm2","StopTransaction",{"transactionId":1,"meterStop":100,"timestamp":"2024-01-01T00:00:00Z"}]"""
+        )
+
+        val counter = meterRegistry.find("ocpp.transactions.stopped").counter()
+        assertNotNull(counter)
+        assertEquals(1.0, counter!!.count())
+    }
 }
