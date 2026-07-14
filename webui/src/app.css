@@ -231,3 +231,56 @@ select:invalid { color: #6c757d; }
   .layout { flex-direction: column; height: auto; }
   .sidebar { width: 100%; max-height: 250px; border-right: none; border-bottom: 1px solid #e8e8e8; }
 }
+
+/* ── Transactions ─────────────────────────── */
+.tx-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .6rem 1.2rem; border-bottom: 1px solid #eee; flex-wrap: wrap; gap: .5rem;
+}
+.tx-tabs { display: flex; gap: 0; }
+.tx-tab {
+  padding: .5rem 1rem; font-size: .82rem; font-weight: 600; cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -29px; color: #6c757d;
+  background: none; border-top: none; border-left: none; border-right: none;
+  transition: all .15s; display: flex; align-items: center; gap: .4rem;
+}
+.tx-tab:hover { color: #1a1a2e; }
+.tx-tab.active { color: #1a73e8; border-bottom-color: #1a73e8; }
+.tx-tab-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #28a745;
+  animation: pulse 2s infinite;
+}
+.tx-badge {
+  background: #1a73e8; color: #fff; border-radius: 10px; padding: .1rem .4rem;
+  font-size: .7rem; font-weight: 700; min-width: 18px; text-align: center;
+}
+.tx-filters { display: flex; gap: .5rem; align-items: center; }
+.tx-filters select {
+  padding: .3rem .5rem; border: 1px solid #ced4da; border-radius: 6px;
+  font-size: .78rem; background: #fff;
+}
+.tx-table-wrap { overflow-x: auto; }
+.tx-table {
+  width: 100%; border-collapse: collapse; font-size: .82rem;
+}
+.tx-table th {
+  text-align: left; padding: .5rem .6rem; font-size: .72rem;
+  text-transform: uppercase; letter-spacing: .04em; color: #6c757d;
+  font-weight: 600; border-bottom: 2px solid #eee; white-space: nowrap;
+}
+.tx-table td {
+  padding: .55rem .6rem; border-bottom: 1px solid #f0f0f0;
+}
+.tx-table tr:hover td { background: #f8f9ff; }
+.tx-row-active td { border-bottom-color: #cce5ff; }
+.tx-conn { font-weight: 700; color: #1a73e8; }
+.tx-idtag { font-family: "SFMono-Regular", Consolas, monospace; font-size: .78rem; }
+.tx-time { white-space: nowrap; color: #495057; }
+.tx-energy { font-weight: 600; color: #28a745; white-space: nowrap; }
+.tx-duration { white-space: nowrap; }
+.tx-reason { font-size: .78rem; color: #6c757d; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tx-live { display: inline-flex; align-items: center; gap: .3rem; font-weight: 600; color: #28a745; }
+.tx-running-badge {
+  display: inline-block; background: #d4edda; color: #155724;
+  padding: .15rem .5rem; border-radius: 4px; font-size: .72rem; font-weight: 600;
+}

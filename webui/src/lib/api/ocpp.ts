@@ -1,4 +1,4 @@
-import type { ChargePoint, OcppMessage, CommandName } from '$lib/types';
+import type { ChargePoint, OcppMessage, CommandName, Transaction } from '$lib/types';
 
 const API_BASE = '/api/chargepoints';
 
@@ -61,4 +61,16 @@ export async function fetchMessages(
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();
   return history && data.messages ? data.messages : data;
+}
+
+export async function fetchTransactions(
+  cpId: string,
+  running = false,
+): Promise<Transaction[]> {
+  const params = running ? '?running=true' : '';
+  const res = await fetch(
+    `${API_BASE}/${encodeURIComponent(cpId)}/transactions${params}`,
+  );
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
 }

@@ -79,4 +79,18 @@ export interface CommandResponse {
   body: string;
 }
 
-export type TabKey = 'overview' | 'commands' | 'messages';
+export interface Transaction {
+  id: number | null;
+  chargePointId: string;
+  connectorId: number;
+  idTag: string;
+  meterStart: number;
+  startTime: string;
+  stopTime: string | null;
+  meterStop: number | null;
+  stopReason: string | null;
+  durationSeconds: number | null;
+  energyWh: number | null;
+}
+
+export type TabKey = 'overview' | 'commands' | 'messages' | 'transactions';

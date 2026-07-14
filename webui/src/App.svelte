@@ -8,6 +8,7 @@
   import OverviewPanel from '$components/OverviewPanel.svelte';
   import CommandsPanel from '$components/CommandsPanel.svelte';
   import MessagesPanel from '$components/MessagesPanel.svelte';
+  import TransactionsPanel from '$components/TransactionsPanel.svelte';
 
   let error: string | null = null;
   let currentCp: ChargePoint | null = null;
@@ -25,7 +26,7 @@
       const cpFromUrl = params.get('cp');
       const tabFromHash = window.location.hash.slice(1) as TabKey;
 
-      if (tabFromHash && ['overview', 'commands', 'messages'].includes(tabFromHash)) {
+      if (tabFromHash && ['overview', 'commands', 'messages', 'transactions'].includes(tabFromHash)) {
         activeTab.set(tabFromHash);
       }
 
@@ -127,6 +128,9 @@
       <button class="tab {$activeTab === 'messages' ? 'active' : ''}" onclick={() => handleTabChange('messages')}>
         {$t('tab_messages')}
       </button>
+      <button class="tab {$activeTab === 'transactions' ? 'active' : ''}" onclick={() => handleTabChange('transactions')}>
+        {$t('tab_transactions')}
+      </button>
     </div>
 
     <div class="content">
@@ -140,6 +144,8 @@
         <CommandsPanel cpId={$selectedCpId} commands={currentCommands} connectors={currentCp?.connectors || []} />
       {:else if $activeTab === 'messages'}
         <MessagesPanel cpId={$selectedCpId} />
+      {:else if $activeTab === 'transactions'}
+        <TransactionsPanel cpId={$selectedCpId} />
       {/if}
     </div>
   </main>
