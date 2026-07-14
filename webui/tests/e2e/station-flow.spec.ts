@@ -11,9 +11,9 @@ test.describe('Station Flow', () => {
     await expect(page.locator('.sidebar-header h2')).toBeVisible();
   });
 
-  test('shows tab bar with three tabs', async ({ page }) => {
+  test('shows tab bar with four tabs', async ({ page }) => {
     const tabs = page.locator('.tabs .tab');
-    await expect(tabs).toHaveCount(3);
+    await expect(tabs).toHaveCount(4);
   });
 
   test('shows select station hint when no station selected', async ({ page }) => {
@@ -27,7 +27,7 @@ test.describe('Station Flow', () => {
 
   test('switching tabs changes active tab', async ({ page }) => {
     const tabs = page.locator('.tabs .tab');
-    await expect(tabs).toHaveCount(3);
+    await expect(tabs).toHaveCount(4);
 
     await tabs.nth(0).click();
     await expect(tabs.nth(0)).toHaveClass(/active/);
@@ -37,6 +37,9 @@ test.describe('Station Flow', () => {
 
     await tabs.nth(2).click();
     await expect(tabs.nth(2)).toHaveClass(/active/);
+
+    await tabs.nth(3).click();
+    await expect(tabs.nth(3)).toHaveClass(/active/);
   });
 
   test('search box is visible in sidebar', async ({ page }) => {
