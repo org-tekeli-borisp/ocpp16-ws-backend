@@ -106,6 +106,7 @@
       {:else}
         {#each messages as msg}
           <div class="message-item">
+            <span class="msg-time">{formatTime(msg.timestamp, $locale)}</span>
             <span class="msg-direction {msg.direction === 'INBOUND' ? 'inbound' : 'outbound'}">
               {msg.direction === 'INBOUND' ? 'C→S' : 'S→C'}
             </span>
@@ -115,7 +116,6 @@
               class="msg-payload"
               title={msg.payload || ''}
             >{msg.payload || '–'}</span>
-            <span class="msg-time">{formatTime(msg.timestamp, $locale)}</span>
           </div>
         {/each}
       {/if}
