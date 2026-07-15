@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import type { Transaction } from '$lib/types';
-  import { t } from '$lib/i18n';
+  import { t, locale } from '$lib/i18n';
   import { fetchTransactions } from '$lib/api/ocpp';
 
   export let cpId: string;
@@ -44,12 +44,14 @@
     txTab = tab;
   }
 
-  function formatDateTime(iso: string): string {
+  function formatDateTime(iso: string, loc: string): string {
     const d = new Date(iso);
-    const lang = document.documentElement.lang || 'de-DE';
+    const langMap: Record<string, string> = { de: 'de-DE', en: 'en-US', fr: 'fr-FR' };
+    const lang = langMap[loc] || 'de-DE';
     return d.toLocaleString(lang, {
       day: '2-digit',
       month: '2-digit',
+      year: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
     });
@@ -79,8 +81,8 @@
     return formatDuration(elapsed);
   }
 
-  function getActiveEnergy(transaction: Transaction): string {
-    return `${(transaction.meterStart / 1000).toFixed(2)} kWh`;
+  function getActiveEnergy(_transaction: Transaction): string {
+    return '–';
   }
 
   $: if (cpId) {
@@ -146,7 +148,7 @@
                 <tr class="tx-row-active">
                   <td class="tx-conn">{tx.connectorId}</td>
                   <td class="tx-idtag">{tx.idTag}</td>
-                  <td class="tx-time">{formatDateTime(tx.startTime)}</td>
+                  <td class="tx-time">{formatDateTime(tx.startTime, $locale)}</td>
                   <td class="tx-energy">{getActiveEnergy(tx)}</td>
                   <td class="tx-duration">
                     <span class="tx-live">
@@ -185,8 +187,8 @@
                 <tr>
                   <td class="tx-conn">{tx.connectorId}</td>
                   <td class="tx-idtag">{tx.idTag}</td>
-                  <td class="tx-time">{formatDateTime(tx.startTime)}</td>
-                  <td class="tx-time">{tx.stopTime ? formatDateTime(tx.stopTime) : '–'}</td>
+                  <td class="tx-time">{formatDateTime(tx.startTime, $locale)}</td>
+                  <td class="tx-time">{tx.stopTime ? formatDateTime(tx.stopTime, $locale) : '–'}</td>
                   <td class="tx-energy">{formatEnergy(tx.energyWh)}</td>
                   <td class="tx-duration">{formatDuration(tx.durationSeconds)}</td>
                   <td class="tx-reason">{tx.stopReason || '–'}</td>

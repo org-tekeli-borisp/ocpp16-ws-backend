@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { OcppMessage } from '$lib/types';
-  import { t } from '$lib/i18n';
+  import { t, locale } from '$lib/i18n';
   import { fetchMessages } from '$lib/api/ocpp';
 
   export let cpId: string;
@@ -40,8 +40,9 @@
     // Client-side filtering — no-op, reactive $: handles it
   }
 
-  function formatTime(iso: string): string {
-    const lang = document.documentElement.lang || 'de-DE';
+  function formatTime(iso: string, loc: string): string {
+    const langMap: Record<string, string> = { de: 'de-DE', en: 'en-US', fr: 'fr-FR' };
+    const lang = langMap[loc] || 'de-DE';
     return new Date(iso).toLocaleTimeString(lang, { hour:'2-digit', minute:'2-digit', second:'2-digit' });
   }
 
@@ -107,7 +108,7 @@
               class="msg-payload"
               title={escapeAttr(msg.payload || '')}
             >{escapeHtml(msg.payload ? (msg.payload.length > 300 ? msg.payload.substring(0, 300) + '…' : msg.payload) : '–')}</span>
-            <span class="msg-time">{formatTime(msg.timestamp)}</span>
+            <span class="msg-time">{formatTime(msg.timestamp, $locale)}</span>
           </div>
         {/each}
       {/if}

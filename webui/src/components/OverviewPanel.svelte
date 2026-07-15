@@ -1,19 +1,20 @@
 <script lang="ts">
   import type { ChargePoint } from '$lib/types';
-  import { t } from '$lib/i18n';
+  import { t, locale } from '$lib/i18n';
   import ConnectorChip from '$components/ConnectorChip.svelte';
 
   export let chargePoint: ChargePoint;
 
-  function formatDate(iso: string): string {
+  function formatDate(iso: string, loc: string): string {
     if (!iso) return '–';
     const d = new Date(iso);
-    const locale = document.documentElement.lang || 'de-DE';
-    return d.toLocaleDateString(locale, { day:'2-digit', month:'2-digit', year:'numeric' })
-      + ' ' + d.toLocaleTimeString(locale, { hour:'2-digit', minute:'2-digit' });
+    const langMap: Record<string, string> = { de: 'de-DE', en: 'en-US', fr: 'fr-FR' };
+    const lang = langMap[loc] || 'de-DE';
+    return d.toLocaleDateString(lang, { day:'2-digit', month:'2-digit', year:'numeric' })
+      + ' ' + d.toLocaleTimeString(lang, { hour:'2-digit', minute:'2-digit' });
   }
 
-  function timeAgo(iso: string): string {
+  function timeAgo(iso: string, loc: string): string {
     if (!iso) return '–';
     const diff = Date.now() - new Date(iso).getTime();
     const sec = Math.floor(diff / 1000);
@@ -22,7 +23,7 @@
     if (min < 60) return `${min} ${$t('time_unit_min')}`;
     const h = Math.floor(min / 60);
     if (h < 24) return `${h} ${$t('time_unit_hour')}`;
-    return formatDate(iso);
+    return formatDate(iso, loc);
   }
 </script>
 
@@ -47,11 +48,11 @@
       </div>
       <div class="info-card">
         <div class="info-label">{$t('label_connected_since')}</div>
-        <div class="info-value">{formatDate(chargePoint.createdAt)}</div>
+        <div class="info-value">{formatDate(chargePoint.createdAt, $locale)}</div>
       </div>
       <div class="info-card">
         <div class="info-label">{$t('label_last_seen')}</div>
-        <div class="info-value">{timeAgo(chargePoint.lastSeenAt)}</div>
+        <div class="info-value">{timeAgo(chargePoint.lastSeenAt, $locale)}</div>
       </div>
     </div>
     <div style="margin-top:1.2rem;">
