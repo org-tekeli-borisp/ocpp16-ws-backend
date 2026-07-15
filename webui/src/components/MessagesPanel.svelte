@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, afterUpdate } from 'svelte';
   import type { OcppMessage } from '$lib/types';
   import { t, locale } from '$lib/i18n';
   import { fetchMessages } from '$lib/api/ocpp';
@@ -13,9 +13,11 @@
     isAutoScroll = scrollHeight - scrollTop - clientHeight < 80;
   }
 
-  $: if (messageListEl && isAutoScroll) {
-    messageListEl.scrollTop = messageListEl.scrollHeight;
-  }
+  afterUpdate(() => {
+    if (messageListEl && isAutoScroll) {
+      messageListEl.scrollTop = messageListEl.scrollHeight;
+    }
+  });
 
   export let cpId: string;
 
