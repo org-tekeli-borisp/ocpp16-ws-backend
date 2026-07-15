@@ -16,7 +16,7 @@
     if (filterDirection && msg.direction !== filterDirection) return false;
     if (filterAction && !(msg.action || '').toLowerCase().includes(filterAction.toLowerCase())) return false;
     return true;
-  });
+  }).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   $: messageCount = messages.length;
 
