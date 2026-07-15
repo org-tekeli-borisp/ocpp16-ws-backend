@@ -4,6 +4,19 @@
   import { t, locale } from '$lib/i18n';
   import { fetchMessages } from '$lib/api/ocpp';
 
+  let messageListEl: HTMLElement;
+  let isAutoScroll = true;
+
+  function handleScroll() {
+    if (!messageListEl) return;
+    const { scrollTop, scrollHeight, clientHeight } = messageListEl;
+    isAutoScroll = scrollHeight - scrollTop - clientHeight < 80;
+  }
+
+  $: if (messageListEl && isAutoScroll) {
+    messageListEl.scrollTop = messageListEl.scrollHeight;
+  }
+
   export let cpId: string;
 
   let allMessages: OcppMessage[] = [];
@@ -16,7 +29,7 @@
     if (filterDirection && msg.direction !== filterDirection) return false;
     if (filterAction && !(msg.action || '').toLowerCase().includes(filterAction.toLowerCase())) return false;
     return true;
-  }).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  });
 
   $: messageCount = messages.length;
 
@@ -85,7 +98,7 @@
       </div>
     </div>
 
-    <div class="message-list">
+    <div class="message-list" bind:this={messageListEl} onscroll={handleScroll}>
       {#if messages.length === 0}
         <p class="empty-state">{$t('no_messages')}</p>
       {:else}
