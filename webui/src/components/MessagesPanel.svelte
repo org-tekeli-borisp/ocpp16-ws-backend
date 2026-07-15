@@ -43,7 +43,7 @@
   function formatTime(iso: string, loc: string): string {
     const langMap: Record<string, string> = { de: 'de-DE', en: 'en-US', fr: 'fr-FR' };
     const lang = langMap[loc] || 'de-DE';
-    return new Date(iso).toLocaleTimeString(lang, { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    return new Date(iso).toLocaleString(lang, { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit' });
   }
 
   function escapeHtml(s: string): string {
