@@ -46,15 +46,7 @@
     return new Date(iso).toLocaleString(lang, { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit' });
   }
 
-  function escapeHtml(s: string): string {
-    const d = document.createElement('div');
-    d.textContent = s;
-    return d.innerHTML;
-  }
 
-  function escapeAttr(s: string): string {
-    return s.replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
 
   $: if (msgTab === 'live' && cpId) {
     if (refreshTimer) clearInterval(refreshTimer);
@@ -106,8 +98,8 @@
             <span class="msg-action">{msg.action || '–'}</span>
             <span
               class="msg-payload"
-              title={escapeAttr(msg.payload || '')}
-            >{escapeHtml(msg.payload ? (msg.payload.length > 300 ? msg.payload.substring(0, 300) + '…' : msg.payload) : '–')}</span>
+              title={msg.payload || ''}
+            >{msg.payload || '–'}</span>
             <span class="msg-time">{formatTime(msg.timestamp, $locale)}</span>
           </div>
         {/each}
