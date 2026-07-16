@@ -18,11 +18,13 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  webServer: {
-    command: 'docker compose -f ../docker-compose.e2e.yml up -d --wait',
-    port: 8081,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-    cwd: '..',
-  },
+  webServer: process.env.E2E_ISOLATED
+    ? {
+        command: 'docker compose -f ../docker-compose.e2e.yml up -d --wait',
+        port: 8081,
+        reuseExistingServer: false,
+        timeout: 120_000,
+        cwd: '..',
+      }
+    : undefined,
 });
