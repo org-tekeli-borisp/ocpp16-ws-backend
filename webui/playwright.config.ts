@@ -8,7 +8,7 @@ export default defineConfig({
   workers: 1,
   reporter: 'line',
   use: {
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://localhost:8081',
     trace: 'on-first-retry',
     locale: 'en-US',
   },
@@ -19,9 +19,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'echo "Start the Quarkus server manually: mvn quarkus:dev"',
-    port: 8080,
-    reuseExistingServer: true,
-    timeout: 5_000,
+    command: 'docker compose -f ../docker-compose.e2e.yml up -d --wait',
+    port: 8081,
+    reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
+    cwd: '..',
   },
 });
