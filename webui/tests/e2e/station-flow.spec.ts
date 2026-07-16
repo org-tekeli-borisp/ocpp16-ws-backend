@@ -21,11 +21,19 @@ test.describe('Station Flow', () => {
   });
 
   test('shows empty sidebar when no stations connected', async ({ page }) => {
+    await page.route('**/api/chargepoints', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }),
+    );
+    await page.reload();
     await expect(page.locator('.sidebar .empty-state')).toBeVisible();
     await expect(page.locator('.no-selection')).toBeVisible();
   });
 
   test('switching tabs changes active tab', async ({ page }) => {
+    await page.route('**/api/chargepoints', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }),
+    );
+    await page.reload();
     const tabs = page.locator('.tabs .tab');
     await expect(tabs).toHaveCount(4);
 
@@ -43,6 +51,10 @@ test.describe('Station Flow', () => {
   });
 
   test('search box is visible in sidebar', async ({ page }) => {
+    await page.route('**/api/chargepoints', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }),
+    );
+    await page.reload();
     const searchBox = page.locator('.search-box');
     await expect(searchBox).toBeVisible();
 
