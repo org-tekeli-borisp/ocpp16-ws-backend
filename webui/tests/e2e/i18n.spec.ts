@@ -155,10 +155,13 @@ test.describe('i18n (Internationalization)', () => {
 
     const emptyState = page.locator('.sidebar .empty-state');
     await expect(emptyState).toBeVisible();
-    const deText = await emptyState.textContent();
 
     const langSelect = page.locator('.lang-select');
-    await langSelect.selectOption('en');
+
+    langSelect.selectOption('de');
+    const deText = await emptyState.textContent();
+
+    langSelect.selectOption('en');
     const enText = await emptyState.textContent();
 
     expect(enText).not.toBe(deText);
