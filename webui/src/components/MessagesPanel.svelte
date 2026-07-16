@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { onMount, afterUpdate } from 'svelte';
-  import type { OcppMessage } from '$lib/types';
-  import { t, locale } from '$lib/i18n';
-  import { fetchMessages } from '$lib/api/ocpp';
+import { onMount, afterUpdate } from 'svelte';
+import type { OcppMessage } from '$lib/types';
+import { t, locale } from '$lib/i18n';
+import { fetchMessages } from '$lib/api/ocpp';
+import { filterMessages } from '$lib/utils';
 
   let messageListEl: HTMLElement;
   let isAutoScroll = true;
@@ -27,11 +28,7 @@
   let filterAction: string = '';
   let refreshTimer: ReturnType<typeof setInterval> | null = null;
 
-  $: messages = allMessages.filter(msg => {
-    if (filterDirection && msg.direction !== filterDirection) return false;
-    if (filterAction && !(msg.action || '').toLowerCase().includes(filterAction.toLowerCase())) return false;
-    return true;
-  });
+  $: messages = filterMessages(allMessages, filterDirection, filterAction);
 
   $: messageCount = messages.length;
 

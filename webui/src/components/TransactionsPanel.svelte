@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
-  import type { Transaction } from '$lib/types';
-  import { t, locale } from '$lib/i18n';
-  import { fetchTransactions } from '$lib/api/ocpp';
+import { onDestroy } from 'svelte';
+import type { Transaction } from '$lib/types';
+import { t, locale } from '$lib/i18n';
+import { fetchTransactions } from '$lib/api/ocpp';
+import { formatDateTime, formatDuration, formatEnergy, getActiveDuration } from '$lib/utils';
 
   export let cpId: string;
 
@@ -42,43 +43,6 @@
 
   function switchTab(tab: 'active' | 'history') {
     txTab = tab;
-  }
-
-  function formatDateTime(iso: string, loc: string): string {
-    const d = new Date(iso);
-    const langMap: Record<string, string> = { de: 'de-DE', en: 'en-US', fr: 'fr-FR' };
-    const lang = langMap[loc] || 'de-DE';
-    return d.toLocaleString(lang, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  }
-
-  function formatDuration(seconds: number | null): string {
-    if (seconds == null || seconds < 0) return '–';
-    if (seconds < 60) return `${seconds}s`;
-    if (seconds < 3600) {
-      const m = Math.floor(seconds / 60);
-      const s = seconds % 60;
-      return `${m}m ${s}s`;
-    }
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    return `${h}h ${m}m`;
-  }
-
-  function formatEnergy(wh: number | null): string {
-    if (wh == null || wh <= 0) return '–';
-    const kWh = wh / 1000;
-    return `${kWh.toFixed(2)} kWh`;
-  }
-
-  function getActiveDuration(transaction: Transaction): string {
-    const elapsed = Math.floor((Date.now() - new Date(transaction.startTime).getTime()) / 1000);
-    return formatDuration(elapsed);
   }
 
   function getActiveEnergy(_transaction: Transaction): string {

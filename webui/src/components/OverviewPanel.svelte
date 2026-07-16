@@ -1,30 +1,10 @@
 <script lang="ts">
-  import type { ChargePoint } from '$lib/types';
-  import { t, locale } from '$lib/i18n';
-  import ConnectorChip from '$components/ConnectorChip.svelte';
+import type { ChargePoint } from '$lib/types';
+import { t, locale } from '$lib/i18n';
+import ConnectorChip from '$components/ConnectorChip.svelte';
+import { formatDate, timeAgo } from '$lib/utils';
 
   export let chargePoint: ChargePoint;
-
-  function formatDate(iso: string, loc: string): string {
-    if (!iso) return '–';
-    const d = new Date(iso);
-    const langMap: Record<string, string> = { de: 'de-DE', en: 'en-US', fr: 'fr-FR' };
-    const lang = langMap[loc] || 'de-DE';
-    return d.toLocaleDateString(lang, { day:'2-digit', month:'2-digit', year:'numeric' })
-      + ' ' + d.toLocaleTimeString(lang, { hour:'2-digit', minute:'2-digit' });
-  }
-
-  function timeAgo(iso: string, loc: string): string {
-    if (!iso) return '–';
-    const diff = Date.now() - new Date(iso).getTime();
-    const sec = Math.floor(diff / 1000);
-    if (sec < 60) return $t('just_now');
-    const min = Math.floor(sec / 60);
-    if (min < 60) return `${min} ${$t('time_unit_min')}`;
-    const h = Math.floor(min / 60);
-    if (h < 24) return `${h} ${$t('time_unit_hour')}`;
-    return formatDate(iso, loc);
-  }
 </script>
 
 <div class="panel">
@@ -52,7 +32,7 @@
       </div>
       <div class="info-card">
         <div class="info-label">{$t('label_last_seen')}</div>
-        <div class="info-value">{timeAgo(chargePoint.lastSeenAt, $locale)}</div>
+        <div class="info-value">{timeAgo(chargePoint.lastSeenAt, $t)}</div>
       </div>
     </div>
     <div style="margin-top:1.2rem;">

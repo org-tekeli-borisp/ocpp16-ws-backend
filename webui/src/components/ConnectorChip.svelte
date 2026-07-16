@@ -1,16 +1,10 @@
 <script lang="ts">
   import type { Connector } from '$lib/types';
+  import { getConnectorClass } from '$lib/utils';
 
   export let connector: Connector;
 
-  $: cls = (() => {
-    const s = connector.status.toLowerCase();
-    if (s === 'available' || s === 'preparing') return 'avail';
-    if (s === 'charging') return 'charg';
-    if (s === 'faulted') return 'fault';
-    if (s === 'unavailable') return 'unavail';
-    return 'other';
-  })();
+  $: cls = getConnectorClass(connector.status);
 </script>
 
 <span class="connector-chip {cls}">
