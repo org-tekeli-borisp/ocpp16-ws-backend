@@ -109,6 +109,11 @@
             <version>1.13.10</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>1.5.2</version>
+        </dependency>
     </dependencies>
 
     <build>
