@@ -10,6 +10,7 @@ import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
+import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
 import java.util.*
 
 @WebSocket(path = "/ocpp/{chargePointId}")
@@ -31,6 +32,9 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     @Inject
     var messageCaptureService: MessageCaptureService? = null
 
+    @Inject
+    open var schemaValidator: SchemaValidator? = null
+
     val activeConnection: WebSocketConnection
         get() = connection ?: throw IllegalStateException("Connection not initialized")
 
@@ -45,7 +49,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     override var chargePointId: String = ""
 
     private val dispatcher: MessageDispatcher by lazy {
-        MessageDispatcher(createHandlers(), messageCaptureService)
+        MessageDispatcher(createHandlers(), messageCaptureService, schemaValidator)
     }
 
     open fun createHandlers(): Map<String, OcppActionHandler> = mapOf(

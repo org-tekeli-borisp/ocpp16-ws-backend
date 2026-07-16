@@ -12,6 +12,8 @@ import org.tekeli.borisp.ocpp16.protocol.OcppMessageType
 import org.tekeli.borisp.ocpp16.protocol.OcppParseException
 import org.tekeli.borisp.ocpp16.protocol.callError
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
 import java.util.*
 
 /**
@@ -20,7 +22,9 @@ import java.util.*
 class MessageDispatcher(
     private val handlers: Map<String, OcppActionHandler>,
     private val messageCaptureService: MessageCaptureService? = null,
+    private val schemaValidator: SchemaValidator? = null,
 ) {
+    private val objectMapper = ObjectMapper()
     fun dispatch(
         message: String,
         context: OcppHandlerContext,
@@ -67,11 +71,16 @@ class MessageDispatcher(
                 "Action '${call.action}' is not implemented"
             )
         } else {
-            responseJson = try {
-                handler.handle(call, context)
-            } catch (e: FormationViolationException) {
-                val errorMsg = e.message ?: "Payload validation failed"
-                call.callError(OcppErrorCode.FORMATION_VIOLATION, errorMsg)
+            val schemaErrors = schemaValidator?.validate(call.action, objectMapper.writeValueAsString(call.payload ?: emptyMap<String, Any>()))
+            if (schemaErrors?.isNotEmpty() == true) {
+                responseJson = call.callError(OcppErrorCode.FORMATION_VIOLATION, "Schema validation failed: ${schemaErrors.joinToString("; ")}")
+            } else {
+                responseJson = try {
+                    handler.handle(call, context)
+                } catch (e: FormationViolationException) {
+                    val errorMsg = e.message ?: "Payload validation failed"
+                    call.callError(OcppErrorCode.FORMATION_VIOLATION, errorMsg)
+                }
             }
         }
         try {

@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.SpecVersion
+import jakarta.enterprise.context.ApplicationScoped
 import java.io.InputStream
 
+@ApplicationScoped
 class SchemaValidator {
 
     private val mapper = ObjectMapper()

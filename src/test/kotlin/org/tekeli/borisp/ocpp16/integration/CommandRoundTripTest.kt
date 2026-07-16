@@ -413,7 +413,7 @@ class CommandRoundTripTest {
 
         RestAssured.given()
             .contentType("application/json")
-            .body("""{"connectorId": 1, "csChargingProfiles": {"chargingSchedule": {"chargingRateUnit": "A", "chargingSchedulePeriod": [{"startPeriod": 0, "limit": 16}]}}}""")
+            .body("""{"connectorId": 1, "csChargingProfiles": {"chargingProfileId": 1, "stackLevel": 0, "chargingProfilePurpose": "TxProfile", "chargingProfileKind": "Relative", "chargingSchedule": {"chargingRateUnit": "A", "chargingSchedulePeriod": [{"startPeriod": 0, "limit": 16}]}}}""")
             .`when`().post("/api/chargepoints/$cpId/commands/set-charging-profile")
             .then()
             .statusCode(202)

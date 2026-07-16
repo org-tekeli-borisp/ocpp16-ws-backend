@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.Response
 import org.tekeli.borisp.ocpp16.command.OcppCommand
 import org.tekeli.borisp.ocpp16.command.PayloadValidators
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
 
 @Path("/api/chargepoints/{chargePointId}/commands")
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,8 +24,15 @@ class CommandResource {
     @Inject
     lateinit var commands: jakarta.enterprise.inject.Instance<OcppCommand>
 
+    @Inject
+    lateinit var schemaValidator: SchemaValidator
+
     private val commandMap: Map<String, OcppCommand> by lazy {
         commands.iterator().asSequence().associateBy { it.name }
+    }
+
+    private fun toActionName(commandName: String): String {
+        return commandName.split("-").joinToString("") { it.capitalize() }
     }
 
     @GET
@@ -50,6 +58,14 @@ class CommandResource {
                 .build()
 
         val payload = PayloadValidators.safeMap(objectMapper.readValue(body, Map::class.java))
+
+        val actionName = toActionName(command)
+        val schemaErrors = schemaValidator.validate(actionName, body)
+        if (schemaErrors.isNotEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                .entity(mapOf<String, Any>("error" to "Schema validation failed", "details" to schemaErrors))
+                .build()
+        }
 
         val validationError = cmd.validate(payload)
         if (validationError != null) return validationError
