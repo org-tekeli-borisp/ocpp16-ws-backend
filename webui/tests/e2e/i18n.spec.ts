@@ -159,11 +159,12 @@ test.describe('i18n (Internationalization)', () => {
     const langSelect = page.locator('.lang-select');
 
     langSelect.selectOption('de');
-    const deText = await emptyState.textContent();
+    await expect(emptyState).toHaveText('Keine Stationen vorhanden');
+
+    langSelect.selectOption('fr');
+    await expect(emptyState).toHaveText('Aucune station disponible');
 
     langSelect.selectOption('en');
-    const enText = await emptyState.textContent();
-
-    expect(enText).not.toBe(deText);
+    await expect(emptyState).toHaveText('No stations available');
   });
 });
