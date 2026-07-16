@@ -226,7 +226,7 @@ test.describe('Transactions Panel — Error Handling', () => {
     await page.locator('.station-item').first().click();
     await expect(page.locator('.station-badge')).toBeVisible();
     await page.waitForTimeout(500);
-    await page.locator('.tab').filter({ hasText: /Sessions|Ladevorgänge/i }).click();
+  await page.locator('.tab').nth(3).click();
     await expect(page.locator('.panel .empty-state')).toBeVisible();
   });
 });

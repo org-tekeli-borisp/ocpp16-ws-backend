@@ -56,7 +56,7 @@ test.describe('Deep Linking', () => {
     await page.waitForTimeout(500);
 
     const activeTab = page.locator('.tabs .tab.active');
-    await expect(activeTab).toContainText(/Commands|Commands/i);
+    await expect(activeTab).toContainText('Commands');
   });
 
   test('?cp=CP-001#messages loads messages tab', async ({ page }) => {
@@ -74,7 +74,7 @@ test.describe('Deep Linking', () => {
     await page.waitForTimeout(500);
 
     const activeTab = page.locator('.tabs .tab.active');
-    await expect(activeTab).toContainText(/Sessions|Ladevorgänge/i);
+    await expect(activeTab).toContainText('Sessions');
   });
 
   test('#overview without ?cp shows no selection', async ({ page }) => {
@@ -117,7 +117,7 @@ test.describe('Deep Linking', () => {
     await expect(page.locator('.station-badge')).toBeVisible();
     await page.waitForTimeout(500);
 
-    await page.locator('.tab').filter({ hasText: /Commands/i }).click();
+    await page.locator('.tab').nth(1).click();
     await page.waitForTimeout(200);
 
     const url = new URL(page.url());
