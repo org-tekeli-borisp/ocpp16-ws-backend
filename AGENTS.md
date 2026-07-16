@@ -24,7 +24,7 @@ If production code is committed without a preceding failing test, the agent MUST
 
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1264 tests, 24 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1318 tests, 24 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, JSON Schema validation.
 
 ## Tech Stack
 
@@ -92,6 +92,18 @@ WebSocket ← OcppResponse ← ResponseAwaiter ← Handler ← OcppWebSocketServ
 - **`OcppCommand`** (`command/OcppCommand.kt`): `name`, `validate(payload)`, `execute(chargePointId, payload)`
 - **`OcppActionHandler`** (`handler/OcppActionHandler.kt`): `handle(call, context)` → returns JSON response string
 - **`OcppHandlerContext`**: shared context for handlers (persistence, metrics, outbound)
+- **`SchemaValidator`** (`protocol/SchemaValidator.kt`): loads 39 JSON schemas (draft-04 + draft-06), `validate(actionName, payloadJson)` → `List<String>`
+
+### Two-Layer Validation
+
+All OCPP payloads go through two validation layers:
+
+1. **Schema Validation** (`SchemaValidator`): structural checks (required fields, types, additionalProperties, maxLength, enums) — runs in `MessageDispatcher` (WebSocket) and `CommandResource` (REST)
+2. **Manual Validation**: business logic (empty strings, connectorId ranges, custom constraints) — runs in each handler/command
+
+When adding new validation logic, determine which layer it belongs to:
+- Schema-level: update the JSON schema file
+- Business-level: add to handler/command validation
 
 ### Message Flow (Client→Server)
 
@@ -103,10 +115,11 @@ WebSocket ← OcppResponse ← ResponseAwaiter ← Handler ← OcppWebSocketServ
 ### Message Flow (Server→Client)
 
 1. REST API calls `CommandResource.execute()`
-2. `OcppCommand.validate()` checks payload
-3. `OcppCommand.execute()` calls `OcppOutboundService`
-4. `OutboundCallDispatcher` sends OCPP Call via WebSocket, waits for response
-5. `ResponseAwaiter` resolves when matching response arrives
+2. `SchemaValidator` validates payload against JSON schema
+3. `OcppCommand.validate()` checks business logic
+4. `OcppCommand.execute()` calls `OcppOutboundService`
+5. `OutboundCallDispatcher` sends OCPP Call via WebSocket, waits for response
+6. `ResponseAwaiter` resolves when matching response arrives
 
 ## Code Conventions
 

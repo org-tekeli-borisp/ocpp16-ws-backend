@@ -121,7 +121,7 @@ Generated: 2025-07-16
 
 | Category | Schemas Available | Schemas Used in Validation |
 |----------|------------------|---------------------------|
-| Standard (56 files) | ✅ All in `docs/spec/schemas/json/` | ❌ Not used — manual validation only |
-| Security (22 files) | ✅ All in `docs/spec/schemas/security/` | ❌ Not used — manual validation only |
+| Standard (56 files) | ✅ All in `docs/spec/schemas/json/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
+| Security (22 files) | ✅ All in `docs/spec/schemas/security/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
 
-**Opportunity:** JSON schemas could be used for automatic payload validation, reducing custom validation code.
+**Implementation:** `SchemaValidator` loads 28 standard schemas (draft-04) and 11 security schemas (draft-06) at startup, cached in a `Map<String, JsonSchema>`. Two-layer validation: schema validation runs first (structural checks: required fields, types, additionalProperties, maxLength, enums), followed by manual validation (business logic: empty strings, connectorId ranges, etc.).

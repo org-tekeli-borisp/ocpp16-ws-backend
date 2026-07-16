@@ -6,6 +6,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 
 - **OCPP 1.6J compliant** – all Client→Server and Server→Call messages
 - **OCPP 1.6 Security Edition 4** – 11 Security Messages (Certificate Management, Security Events, Signed Firmware)
+- **JSON Schema Validation** – automatic payload validation using official OCPP schemas (draft-04 + draft-06)
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
 - **24 Remote Commands** – 18 OCPP 1.6J + 6 Security Commands via REST API
 - **WebUI** – Svelte 5 single-page application (DE/EN/FR) with station overview, remote commands, and message log
@@ -13,7 +14,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (72% mutation score)
-- **1264 Unit & Integration Tests**
+- **1318 Unit & Integration Tests**
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
@@ -28,6 +29,9 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 │  └─ 6 security commands (SignedUpdateFirmware, GetLog,      │
 │     ExtendedTriggerMessage, InstallCertificate,              │
 │     GetInstalledCertificateIds, DeleteCertificate)           │
+├─────────────────────────────────────────────────────────────┤
+│  SchemaValidator → 39 JSON Schemas (draft-04 + draft-06)    │
+│  └─ Two-layer: schema validation + manual business rules    │
 ├─────────────────────────────────────────────────────────────┤
 │  OcppOutboundService → ChargePointRegistry                  │
 │  → OpenConnections → WebSocket                              │
@@ -375,7 +379,8 @@ mvn org.pitest:pitest-maven:mutationCoverage
 | Metrics | ~30 | Prometheus metrics service |
 | Integration | ~30 | CommandRoundTrip, FullFlowIntegration |
 | Protocol | ~18 | MessageCaptureService, OcppMessageDirection |
-| **Total** | **~1264** | 66 test files |
+| Schema Validation | ~31 | SchemaValidator, MessageDispatcher integration |
+| **Total** | **~1318** | 68 test files |
 
 ## CI/CD Pipeline
 
@@ -447,6 +452,7 @@ Key properties in `application.properties`:
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |
 | JSON | Jackson |
+| Schema Validation | networknt/json-schema-validator (draft-04 + draft-06) |
 | Testing | JUnit 5, RestAssured, MockK, PITest, Playwright |
 | Metrics | Micrometer + Prometheus |
 | Deployment | Docker Compose, GitHub Actions, GHCR |
