@@ -24,7 +24,7 @@ If production code is committed without a preceding failing test, the agent MUST
 
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1126 tests, 24 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1264 tests, 24 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support.
 
 ## Tech Stack
 
@@ -36,7 +36,7 @@ OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1126 tests
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |
 | JSON | Jackson |
-| Testing | JUnit 5, RestAssured, MockK, PITest |
+| Testing | JUnit 5, RestAssured, MockK, PITest, Playwright |
 | Metrics | Micrometer + Prometheus |
 
 ## Key Commands
@@ -72,7 +72,7 @@ src/main/kotlin/org/tekeli/borisp/ocpp16/
 ├── handler/            # 15 OcppActionHandler impls (10 standard + 5 security)
 ├── outbound/           # Server→ChargePoint service layer
 ├── persistence/        # Entities + repositories
-├── protocol/           # OCPP message types, ResponseAwaiter
+├── protocol/           # OCPP message types, ResponseAwaiter, MessageCaptureService
 ├── rest/               # REST API resources
 ├── websocket/          # WebSocket server, registry, dispatcher
 ├── health/             # Liveness + readiness checks
@@ -185,5 +185,6 @@ OcppWebSocketServer{Action}Test.kt     — per-handler tests
 
 ## CI/CD
 
-- All pushes/PRs: `mvn verify`
+- All pushes/PRs: `mvn verify`, E2E tests (Playwright), CRAP analysis
 - Pushes only: PITest mutation, Docker JVM/Native → GHCR
+- Main pushes only: JaCoCo + mutation reports → GitHub Pages

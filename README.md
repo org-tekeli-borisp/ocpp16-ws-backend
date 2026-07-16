@@ -13,7 +13,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (72% mutation score)
-- **1287 Unit & Integration Tests**
+- **1264 Unit & Integration Tests**
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
@@ -21,7 +21,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  REST API (ChargePointResource, CommandResource,            │
-│   TransactionResource, HealthResource)                      │
+│   TransactionResource, MessageResource)                     │
 ├─────────────────────────────────────────────────────────────┤
 │  Command Pattern (24 OcppCommand implementations)           │
 │  ├─ 18 standard OCPP 1.6J commands                          │
@@ -39,7 +39,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 │     SignCertificate, CertificateSigned)                      │
 ├─────────────────────────────────────────────────────────────┤
 │  Persistence (ChargePoint, Transaction, SecurityLog,        │
-│   SignedFirmware, ConnectorStatus → PostgreSQL)              │
+│   SignedFirmware, ConnectorStatus, OcppMessageLog → PG)     │
 │  Liquibase migrations in db/changelog/                      │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -48,7 +48,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 
 ### Prerequisites
 
-- JDK 21+
+- JDK 25+
 - Maven 3.8+
 - Docker (for PostgreSQL via Quarkus Dev Services)
 
@@ -161,6 +161,13 @@ java -jar target/quarkus-app/quarkus-run.jar \
 |--------|----------|-------------|
 | `GET` | `/metrics` | Prometheus metrics |
 
+### OpenAPI / Swagger UI
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/q/swagger-ui/` | Interactive API documentation |
+| `GET` | `/q/openapi` | OpenAPI 3.0 specification (JSON) |
+
 ### Charge Points
 
 | Method | Endpoint | Description |
@@ -178,7 +185,8 @@ java -jar target/quarkus-app/quarkus-run.jar \
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/api/messages` | List OCPP messages with pagination and filters |
+| `GET` | `/api/chargepoints/{id}/messages` | List OCPP messages for a charge point |
+| `GET` | `/api/chargepoints/{id}/messages/history` | Message history with pagination |
 
 ### Remote Commands
 
@@ -356,18 +364,18 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 | Category | Tests | Description |
 |---------|-------|-------------|
-| WebSocket & OCPP Messages | 295 | Handler Dispatch, Protocol, Error Paths, Infrastructure, Message Tests |
-| Commands | 485 | 18 Standard + 6 Security + Mutation Tests |
-| Handlers (unit) | 253 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
-| Mutation Tests | 125 | Targeted mutation coverage for commands and handlers |
-| Persistence | 72 | Repositories + Entities (ChargePoint, Transaction, SecurityLog, etc.) |
-| REST API | 27 | ChargePoints, Commands, Transactions, Messages |
-| Outbound & Protocol | 55 | Registry, Dispatcher, Awaiter, PayloadBuilder |
-| Health | 2 | Liveness + Readiness probes |
-| Metrics | 29 | Prometheus metrics service |
-| Integration | 29 | CommandRoundTrip, FullFlowIntegration |
-| Protocol | 18 | MessageCaptureService, OcppMessageDirection |
-| **Total** | **1287** | 66 test files |
+| WebSocket & OCPP Messages | ~290 | Handler Dispatch, Protocol, Error Paths, Infrastructure, Message Tests |
+| Commands | ~480 | 18 Standard + 6 Security + Mutation Tests |
+| Handlers (unit) | ~250 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
+| Mutation Tests | ~125 | Targeted mutation coverage for commands and handlers |
+| Persistence | ~70 | Repositories + Entities (ChargePoint, Transaction, SecurityLog, etc.) |
+| REST API | ~30 | ChargePoints, Commands, Transactions, Messages |
+| Outbound & Protocol | ~55 | Registry, Dispatcher, Awaiter, PayloadBuilder |
+| Health | ~2 | Liveness + Readiness probes |
+| Metrics | ~30 | Prometheus metrics service |
+| Integration | ~30 | CommandRoundTrip, FullFlowIntegration |
+| Protocol | ~18 | MessageCaptureService, OcppMessageDirection |
+| **Total** | **~1264** | 66 test files |
 
 ## CI/CD Pipeline
 
@@ -376,9 +384,12 @@ GitHub Actions triggered automatically on every push and pull request:
 | Job | Trigger | Description |
 |-----|---------|-------------|
 | **Test** | push + PR | `mvn verify` with PostgreSQL (Dev Services) |
+| **E2E Tests** | push + PR | Playwright end-to-end tests against Quarkus dev server |
+| **CRAP Analysis** | push + PR | Code complexity + coverage metrics (`mvn verify -Pcrap`) |
 | **Mutation Test** | push | PITest + HTML report as artifact |
 | **Docker JVM** | push | JVM Image → GHCR (`latest`, `sha-xxx`) |
 | **Docker Native** | push | GraalVM Native Image → GHCR (`latest-native`, `sha-xxx-native`) |
+| **Deploy Pages** | main push | JaCoCo + mutation reports → GitHub Pages |
 
 ### Docker Images von GHCR
 
@@ -436,7 +447,7 @@ Key properties in `application.properties`:
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |
 | JSON | Jackson |
-| Testing | JUnit 5, RestAssured, MockK, PITest |
+| Testing | JUnit 5, RestAssured, MockK, PITest, Playwright |
 | Metrics | Micrometer + Prometheus |
 | Deployment | Docker Compose, GitHub Actions, GHCR |
 | WebUI | Svelte 5 (bundled JS/CSS) |
