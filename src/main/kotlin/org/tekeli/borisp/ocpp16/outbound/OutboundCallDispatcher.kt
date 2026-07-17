@@ -16,7 +16,7 @@ class WsSender(
     override fun sendText(text: String): Uni<Void> {
         val conn = openConnections.findByConnectionId(connectionId).orElse(null)
         if (conn != null) return conn.sendText(text)
-        return Uni.createFrom().failure(IllegalStateException("WebSocket connection not found: $connectionId"))
+        return Uni.createFrom().failure(IllegalStateException("ChargePoint not connected: $connectionId"))
     }
 }
 

@@ -13,6 +13,7 @@ import org.tekeli.borisp.ocpp16.persistence.ChargePoint
 import org.tekeli.borisp.ocpp16.persistence.ChargePointStatus
 import org.tekeli.borisp.ocpp16.persistence.ConnectorStatusDto
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
 
 @Path("/api/chargepoints")
 @Produces(MediaType.APPLICATION_JSON)
@@ -20,6 +21,9 @@ class ChargePointResource {
 
     @Inject
     lateinit var persistenceService: PersistenceService
+
+    @Inject
+    lateinit var chargePointRegistry: ChargePointRegistry
 
     @GET
     fun getAll(@QueryParam("status") status: String? = null): List<ChargePointDto> {
@@ -49,12 +53,19 @@ class ChargePointResource {
         vendor = cp.vendor,
         model = cp.model,
         firmwareVersion = cp.firmwareVersion,
-        status = cp.status.name,
+        status = effectiveStatus(cp).name,
         sessionId = cp.sessionId,
         lastSeenAt = cp.lastSeenAt.toString(),
         createdAt = cp.createdAt.toString(),
         connectors = persistenceService.findConnectorStatusesByChargePointId(cp.chargePointId)
     )
+
+    private fun effectiveStatus(cp: ChargePoint): ChargePointStatus {
+        if (cp.status == ChargePointStatus.ONLINE && !chargePointRegistry.isConnected(cp.sessionId)) {
+            return ChargePointStatus.OFFLINE
+        }
+        return cp.status
+    }
 }
 
 data class ChargePointDto(

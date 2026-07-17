@@ -24,10 +24,12 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     companion object {
         private const val DEFAULT_PING_INTERVAL_SECONDS = 30
+        private const val DEFAULT_PONG_TIMEOUT_SECONDS = 60
     }
 
     // Overridable for testing
     open val pingIntervalSeconds: Long = DEFAULT_PING_INTERVAL_SECONDS.toLong()
+    open val pongTimeoutSeconds: Long = DEFAULT_PONG_TIMEOUT_SECONDS.toLong()
 
     @Inject
     var openConnections: OpenConnections? = null
@@ -72,6 +74,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     private val isPinging = AtomicBoolean(false)
     private var pingFuture: java.util.concurrent.ScheduledFuture<*>? = null
+    private var pongTimeoutFuture: java.util.concurrent.ScheduledFuture<*>? = null
 
     open fun createHandlers(): Map<String, OcppActionHandler> = mapOf(
         "BootNotification" to BootNotificationHandler(),
@@ -126,32 +129,81 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @OnPongMessage
     fun onPongMessage(buffer: Buffer) {
+        cancelPongTimeout()
         isPinging.set(false)
+    }
+
+    open fun triggerPingAndPongTimeout() {
+        sendPingAndScheduleTimeout()
+    }
+
+    open fun executePongTimeout() {
+        if (isPinging.compareAndSet(true, false)) {
+            handlePongTimeout()
+        }
     }
 
     private fun startPingScheduler() {
         stopPingScheduler()
         pingFuture = pingExecutor.scheduleAtFixedRate({
-            if (!isPinging.compareAndSet(false, true)) return@scheduleAtFixedRate
-            try {
-                activeConnection.sendPing(Buffer.buffer())
-                    .onFailure()
-                    .invoke { e: Throwable ->
-                        Log.warn("Ping failed for session $sessionId: ${e.message}")
-                        try {
-                            activeConnection.closeAndAwait(CloseReason(1001, "Ping timeout"))
-                        } catch (_: Exception) {}
-                    }
-                    .subscribe()
-            } catch (e: Exception) {
-                Log.warn("Failed to send ping for session $sessionId: ${e.message}")
-            }
+            sendPingAndScheduleTimeout()
         }, pingIntervalSeconds, pingIntervalSeconds, TimeUnit.SECONDS)
+    }
+
+    private fun sendPingAndScheduleTimeout() {
+        if (!isPinging.compareAndSet(false, true)) return
+        try {
+            activeConnection.sendPing(Buffer.buffer())
+                .onFailure()
+                .invoke { e: Throwable ->
+                    Log.warn("Ping failed for session $sessionId: ${e.message}")
+                    cancelPongTimeout()
+                    try {
+                        activeConnection.closeAndAwait(CloseReason(1001, "Ping failed"))
+                    } catch (_: Exception) {}
+                }
+                .subscribe()
+        } catch (e: Exception) {
+            Log.warn("Failed to send ping for session $sessionId: ${e.message}")
+            cancelPongTimeout()
+            isPinging.set(false)
+            return
+        }
+        schedulePongTimeout()
+    }
+
+    private fun schedulePongTimeout() {
+        pongTimeoutFuture = pingExecutor.schedule({
+            if (isPinging.compareAndSet(true, false)) {
+                Log.warn("Pong timeout for session $sessionId: no pong received within ${pongTimeoutSeconds}s")
+                handlePongTimeout()
+            }
+        }, pongTimeoutSeconds, TimeUnit.SECONDS)
+    }
+
+    private fun cancelPongTimeout() {
+        pongTimeoutFuture?.cancel(false)
+        pongTimeoutFuture = null
+    }
+
+    private fun handlePongTimeout() {
+        try {
+            activeConnection.closeAndAwait(CloseReason(1001, "Pong timeout"))
+        } catch (_: Exception) {}
+        try {
+            activePersistence.setChargePointOffline(sessionId)
+        } catch (_: Exception) {}
+        if (activeRegistry.isConnected(sessionId)) {
+            activeRegistry.unregister(sessionId)
+            responseAwaiter.rejectAll("WebSocket connection closed: pong timeout $sessionId")
+        }
+        Log.info("WebSocket connection closed due to pong timeout: session=$sessionId")
     }
 
     private fun stopPingScheduler() {
         pingFuture?.cancel(false)
         pingFuture = null
+        cancelPongTimeout()
         isPinging.set(false)
     }
 
