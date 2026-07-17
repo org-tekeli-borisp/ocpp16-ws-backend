@@ -36,7 +36,7 @@ class OcppWebSocketServerInfrastructureTest {
 
     @Test
     fun `activeConnection returns set connection when initialized`() {
-        val s = OcppWebSocketServer().also { it.connection = createWsProxy() }
+        val s = OcppWebSocketServer().also { it.currentConnection = createWsProxy() }
         assertDoesNotThrow({ s.activeConnection })
         assertEquals("proxy", s.activeConnection.id())
     }
@@ -53,7 +53,7 @@ class OcppWebSocketServerInfrastructureTest {
             }
             Uni.createFrom().voidItem()
         } as io.quarkus.websockets.next.WebSocketConnection
-        val s = OcppWebSocketServer().also { it.connection = proxy }
+        val s = OcppWebSocketServer().also { it.currentConnection = proxy }
         s.sendText("test")
         assertTrue(delegated, "sendText must delegate exact argument to set connection")
     }
@@ -148,7 +148,7 @@ class OcppWebSocketServerInfrastructureTest {
         } as io.quarkus.websockets.next.WebSocketConnection
 
         val s = OcppWebSocketServer().apply {
-            connection = proxy
+            currentConnection = proxy
             chargePointId = "CP1"
             sessionId = "stale-session-id"
             chargePointRegistry = registry

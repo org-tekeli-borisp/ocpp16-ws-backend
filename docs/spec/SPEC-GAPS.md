@@ -25,7 +25,7 @@ Generated: 2025-07-16
 | 4.1.3 | Message types: CALL(2), CALLRESULT(3), CALLERROR(4) | ✅ Implemented | `OcppMessageDto` |
 | 4.1.4 | Unique messageId | ✅ Implemented | UUID generation |
 | 4.2.3 | CallError codes (NotImplemented, ProtocolError, etc.) | ✅ Implemented | NotImplemented, ProtocolError, FormationViolation, InternalError all used |
-| 5.3 | **WebSocket Ping/Pong** | ❌ Missing | **Critical!** See §5.3: "can be used as substitute for most Heartbeat messages" |
+| 5.3 | **WebSocket Ping/Pong** | ✅ Implemented | Server sends periodic ping (30s interval), connection closed on failure |
 | 5.4 | Reconnecting: no duplicate BootNotification | ⚠️ Not enforced | Server accepts repeated BootNotification |
 | 6.2.1 | TLS support | ❌ Missing | No TLS/WSS implemented |
 | 6.2.2 | HTTP Basic Auth for charge points | ❌ Missing | No authorization key validation |
@@ -94,7 +94,6 @@ Generated: 2025-07-16
 
 | # | Gap | Impact | Effort |
 |---|-----|--------|--------|
-| 1 | **No WebSocket Ping/Pong** (5.3) | Connections hang after NAT timeout, stale ONLINE status | Medium |
 | 2 | **Stale Connection Detection** | ChargePoints remain ONLINE after disconnect (SNH764 bug) | Low |
 | 3 | **Missing WebSocketPingInterval** (Table 8) | ChangeConfiguration rejects valid config key | Low |
 
@@ -108,6 +107,7 @@ Generated: 2025-07-16
 
 | # | Gap | Resolution |
 |---|-----|------------|
+| 1 | **No WebSocket Ping/Pong** (5.3) | ✅ Server sends periodic ping (30s interval), connection closed on failure, validated by `OcppWebSocketServerPingPongTest` |
 | 4 | **Incomplete CallError codes** (4.2.3) | ✅ `InternalError` added for unexpected handler exceptions in `MessageDispatcher`, validated by `MessageDispatcherErrorCodesTest` |
 | 6 | **WebSocket subprotocol not enforced** (3.1.2) | ✅ Enforced in `OcppWebSocketServer.onOpen()`, validated by `OcppWebSocketServerSubProtocolTest` |
 

@@ -2,6 +2,8 @@ package org.tekeli.borisp.ocpp16.websocket
 
 import io.quarkus.logging.Log
 import io.quarkus.websockets.next.*
+import io.smallrye.mutiny.Uni
+import io.vertx.core.buffer.Buffer
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.tekeli.borisp.ocpp16.handler.*
@@ -12,13 +14,23 @@ import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
 import java.util.*
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 
 @WebSocket(path = "/ocpp/{chargePointId}")
 @ApplicationScoped
 open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
+    companion object {
+        private const val DEFAULT_PING_INTERVAL_SECONDS = 30
+    }
+
+    // Overridable for testing
+    open val pingIntervalSeconds: Long = DEFAULT_PING_INTERVAL_SECONDS.toLong()
+
     @Inject
-    var connection: WebSocketConnection? = null
+    var openConnections: OpenConnections? = null
 
     @Inject
     override var chargePointRegistry: ChargePointRegistry? = null
@@ -35,8 +47,10 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     @Inject
     open var schemaValidator: SchemaValidator? = null
 
+    open var currentConnection: WebSocketConnection? = null
+
     val activeConnection: WebSocketConnection
-        get() = connection ?: throw IllegalStateException("Connection not initialized")
+        get() = currentConnection ?: throw IllegalStateException("Connection not initialized")
 
     private val activeRegistry: ChargePointRegistry
         get() = chargePointRegistry ?: throw IllegalStateException("Registry not initialized")
@@ -51,6 +65,13 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     private val dispatcher: MessageDispatcher by lazy {
         MessageDispatcher(createHandlers(), messageCaptureService, schemaValidator)
     }
+
+    private val pingExecutor = Executors.newScheduledThreadPool(1) { r ->
+        Thread(r, "ocpp-ping-pinger").apply { isDaemon = true }
+    }
+
+    private val isPinging = AtomicBoolean(false)
+    private var pingFuture: java.util.concurrent.ScheduledFuture<*>? = null
 
     open fun createHandlers(): Map<String, OcppActionHandler> = mapOf(
         "BootNotification" to BootNotificationHandler(),
@@ -71,8 +92,9 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     )
 
     @OnOpen
-    fun onOpen() {
-        val subprotocol = activeConnection.subprotocol()
+    fun onOpen(conn: WebSocketConnection) {
+        currentConnection = conn
+        val subprotocol = conn.subprotocol()
         if (subprotocol != "ocpp1.6") {
             Log.warn("Rejecting WebSocket connection: unsupported subprotocol '$subprotocol' (expected 'ocpp1.6')")
             activeConnection.closeAndAwait(io.quarkus.websockets.next.CloseReason(4004, "Subprotocol ocpp1.6 required"))
@@ -83,6 +105,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         responseAwaiter = ResponseAwaiter()
         activeRegistry.register(sessionId, sessionId, this, chargePointId)
         activePersistence.setChargePointOnlineById(chargePointId, sessionId)
+        startPingScheduler()
         Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId")
     }
 
@@ -96,8 +119,44 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         )
     }
 
+    @OnPingMessage
+    fun onPingMessage(buffer: Buffer): Uni<Void> {
+        return activeConnection.sendPong(buffer)
+    }
+
+    @OnPongMessage
+    fun onPongMessage(buffer: Buffer) {
+        isPinging.set(false)
+    }
+
+    private fun startPingScheduler() {
+        stopPingScheduler()
+        pingFuture = pingExecutor.scheduleAtFixedRate({
+            if (!isPinging.compareAndSet(false, true)) return@scheduleAtFixedRate
+            try {
+                activeConnection.sendPing(Buffer.buffer())
+                    .onFailure()
+                    .invoke { e: Throwable ->
+                        Log.warn("Ping failed for session $sessionId: ${e.message}")
+                        try {
+                            activeConnection.closeAndAwait(CloseReason(1001, "Ping timeout"))
+                        } catch (_: Exception) {}
+                    }
+                    .subscribe()
+            } catch (e: Exception) {
+                Log.warn("Failed to send ping for session $sessionId: ${e.message}")
+            }
+        }, pingIntervalSeconds, pingIntervalSeconds, TimeUnit.SECONDS)
+    }
+
+    private fun stopPingScheduler() {
+        pingFuture?.cancel(false)
+        pingFuture = null
+        isPinging.set(false)
+    }
+
     override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> {
-        val conn = connection
+        val conn = currentConnection
         if (conn != null) return conn.sendText(text)
         return io.smallrye.mutiny.Uni.createFrom().voidItem()
     }
@@ -106,6 +165,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @OnClose
     fun onClose() {
+        stopPingScheduler()
         val connectionId = activeConnection.id() ?: return
         if (activeRegistry.isConnected(connectionId)) {
             activeRegistry.unregister(connectionId)
