@@ -8,7 +8,7 @@ export default defineConfig({
   workers: 1,
   reporter: 'line',
   use: {
-    baseURL: 'http://localhost:8081',
+    baseURL: process.env.E2E_BASE_URL || 'http://localhost:8080',
     trace: 'on-first-retry',
     locale: 'en-US',
   },
