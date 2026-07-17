@@ -80,6 +80,9 @@ class MessageDispatcher(
                 } catch (e: FormationViolationException) {
                     val errorMsg = e.message ?: "Payload validation failed"
                     call.callError(OcppErrorCode.FORMATION_VIOLATION, errorMsg)
+                } catch (e: Exception) {
+                    val errorMsg = e.message ?: "Internal error"
+                    call.callError(OcppErrorCode.INTERNAL_ERROR, errorMsg)
                 }
             }
         }

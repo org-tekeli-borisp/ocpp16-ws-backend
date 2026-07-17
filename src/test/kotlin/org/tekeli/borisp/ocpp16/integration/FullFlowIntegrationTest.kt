@@ -43,6 +43,12 @@ class FullFlowIntegrationTest {
 
     private fun testPort(): Int = ocppUri.port
 
+    private fun createWsOptions(uri: String): WebSocketConnectOptions = WebSocketConnectOptions()
+        .setHost("localhost")
+        .setPort(testPort())
+        .setURI(uri)
+        .setSubProtocols(listOf("ocpp1.6"))
+
     private fun waitForChargePoint(chargePointId: String, timeout: Long = 3000): org.tekeli.borisp.ocpp16.persistence.ChargePoint? {
         val start = System.currentTimeMillis()
         while (System.currentTimeMillis() - start < timeout) {
@@ -70,10 +76,7 @@ class FullFlowIntegrationTest {
         var ws: WebSocket? = null
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/integration-cp")
+        val options = createWsOptions("/ocpp/integration-cp")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {

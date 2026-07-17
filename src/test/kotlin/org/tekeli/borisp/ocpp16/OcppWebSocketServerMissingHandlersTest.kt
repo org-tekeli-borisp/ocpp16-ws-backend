@@ -64,6 +64,7 @@ class OcppWebSocketServerMissingHandlersTest {
             .setHost("localhost")
             .setPort(testPort())
             .setURI("/ocpp/handler-test-${System.currentTimeMillis()}")
+            .setSubProtocols(listOf("ocpp1.6"))
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {

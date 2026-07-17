@@ -72,6 +72,12 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @OnOpen
     fun onOpen() {
+        val subprotocol = activeConnection.subprotocol()
+        if (subprotocol != "ocpp1.6") {
+            Log.warn("Rejecting WebSocket connection: unsupported subprotocol '$subprotocol' (expected 'ocpp1.6')")
+            activeConnection.closeAndAwait(io.quarkus.websockets.next.CloseReason(4004, "Subprotocol ocpp1.6 required"))
+            return
+        }
         chargePointId = activeConnection.pathParam("chargePointId")
         sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
         responseAwaiter = ResponseAwaiter()

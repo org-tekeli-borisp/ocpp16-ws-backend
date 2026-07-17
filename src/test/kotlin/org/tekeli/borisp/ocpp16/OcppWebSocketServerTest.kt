@@ -91,6 +91,12 @@ class OcppWebSocketServerTest {
 
     private fun testPort(): Int = ocppUri.port
 
+    private fun createWsOptions(uri: String): WebSocketConnectOptions = WebSocketConnectOptions()
+        .setHost("localhost")
+        .setPort(testPort())
+        .setURI(uri)
+        .setSubProtocols(listOf("ocpp1.6"))
+
     @Test
     fun `should access connection property`() {
         assertDoesNotThrow {
@@ -112,10 +118,7 @@ class OcppWebSocketServerTest {
         val latch = CountDownLatch(1)
         
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
         
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -137,10 +140,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -174,10 +174,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -211,10 +208,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -248,10 +242,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -286,10 +277,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -324,10 +312,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -361,10 +346,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -398,10 +380,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -435,10 +414,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -472,10 +448,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -509,10 +482,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -546,10 +516,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -583,10 +550,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -620,10 +584,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -657,10 +618,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -694,10 +652,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -732,10 +687,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -769,10 +721,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -806,10 +755,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -843,10 +789,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -880,10 +823,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -917,10 +857,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -953,10 +890,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -990,10 +924,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -1027,10 +958,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -1064,10 +992,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -1101,10 +1026,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -1137,10 +1059,7 @@ class OcppWebSocketServerTest {
         val responses = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
-        val options = WebSocketConnectOptions()
-            .setHost("localhost")
-            .setPort(testPort())
-            .setURI("/ocpp/SNH764")
+        val options = createWsOptions("/ocpp/SNH764")
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {

@@ -19,12 +19,12 @@ Generated: 2025-07-16
 | Section | Requirement | Status | Notes |
 |---------|-------------|--------|-------|
 | 3.1.1 | Connection URL `/ocpp/{chargePointId}` | ✅ Implemented | WebSocket route |
-| 3.1.2 | WebSocket subprotocol `ocpp1.6` | ⚠️ Not enforced | Server accepts any subprotocol |
+| 3.1.2 | WebSocket subprotocol `ocpp1.6` | ✅ Implemented | Enforced in `@OnOpen`, rejects connections without or with wrong subprotocol |
 | 4.1.1 | Synchronicity: no overlapping CALL messages | ⚠️ Partial | `ResponseAwaiter` but no queue/enforcement |
 | 4.1.2 | UTF-8 encoding | ✅ Implemented | Jackson default |
 | 4.1.3 | Message types: CALL(2), CALLRESULT(3), CALLERROR(4) | ✅ Implemented | `OcppMessageDto` |
 | 4.1.4 | Unique messageId | ✅ Implemented | UUID generation |
-| 4.2.3 | CallError codes (NotImplemented, ProtocolError, etc.) | ⚠️ Partial | Only FormationViolation, InternalError used |
+| 4.2.3 | CallError codes (NotImplemented, ProtocolError, etc.) | ✅ Implemented | NotImplemented, ProtocolError, FormationViolation, InternalError all used |
 | 5.3 | **WebSocket Ping/Pong** | ❌ Missing | **Critical!** See §5.3: "can be used as substitute for most Heartbeat messages" |
 | 5.4 | Reconnecting: no duplicate BootNotification | ⚠️ Not enforced | Server accepts repeated BootNotification |
 | 6.2.1 | TLS support | ❌ Missing | No TLS/WSS implemented |
@@ -102,9 +102,14 @@ Generated: 2025-07-16
 
 | # | Gap | Impact | Effort |
 |---|-----|--------|--------|
-| 4 | **Incomplete CallError codes** (4.2.3) | Protocol compliance | Low |
 | 5 | **HeartbeatInterval not tracked** (9.1.10) | Cannot detect stale connections via heartbeat timeout | Medium |
-| 6 | **WebSocket subprotocol not enforced** (3.1.2) | Protocol compliance | Low |
+
+### Closed
+
+| # | Gap | Resolution |
+|---|-----|------------|
+| 4 | **Incomplete CallError codes** (4.2.3) | ✅ `InternalError` added for unexpected handler exceptions in `MessageDispatcher`, validated by `MessageDispatcherErrorCodesTest` |
+| 6 | **WebSocket subprotocol not enforced** (3.1.2) | ✅ Enforced in `OcppWebSocketServer.onOpen()`, validated by `OcppWebSocketServerSubProtocolTest` |
 
 ### P2 — Nice to Have
 

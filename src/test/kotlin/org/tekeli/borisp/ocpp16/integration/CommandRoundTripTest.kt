@@ -67,6 +67,7 @@ class CommandRoundTripTest {
             .setHost("localhost")
             .setPort(testPort())
             .setURI("/ocpp/$chargePointId")
+            .setSubProtocols(listOf("ocpp1.6"))
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
@@ -197,6 +198,7 @@ class CommandRoundTripTest {
             .setHost("localhost")
             .setPort(testPort())
             .setURI("/ocpp/$cpId")
+            .setSubProtocols(listOf("ocpp1.6"))
 
         client.connect(options).onComplete { ar ->
             if (ar.succeeded()) {
