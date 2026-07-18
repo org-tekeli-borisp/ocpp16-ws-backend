@@ -68,4 +68,29 @@ class MessageDispatcherCoverageTest {
 
         assertEquals("not-valid-json-{bad", response)
     }
+
+    @Test
+    fun `handleCall uses default error message when handler throws exception with null message`() {
+        val nullMessageHandler = object : OcppActionHandler {
+            override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
+                throw object : RuntimeException() {
+                    override val message: String? = null
+                }
+            }
+        }
+        val dispatcher = MessageDispatcher(
+            mapOf("NullMessageAction" to nullMessageHandler),
+            null,
+            null
+        )
+        val context = createTestContext()
+        val awaiter = ResponseAwaiter()
+        val message = """["2","msg-1","NullMessageAction",{}]"""
+
+        val response = dispatcher.dispatch(message, context, awaiter, null)
+
+        val parsed = OcppMessage.parse(response) as OcppMessage.CallError
+        assertEquals(OcppErrorCode.INTERNAL_ERROR, parsed.errorCode)
+        assertEquals("Internal error", parsed.errorDescription)
+    }
 }

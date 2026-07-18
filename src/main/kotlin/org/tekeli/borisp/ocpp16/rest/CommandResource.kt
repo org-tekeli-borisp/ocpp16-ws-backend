@@ -73,18 +73,22 @@ class CommandResource {
         return try {
             cmd.execute(chargePointId, payload)
         } catch (e: java.util.concurrent.ExecutionException) {
-            val cause = e.cause
-            if (cause is IllegalStateException) {
-                Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                    .entity(mapOf<String, Any>("error" to (cause.message ?: "ChargePoint not connected")))
-                    .build()
-            } else {
-                throw e
-            }
+            handleExecutionException(e)
         } catch (e: IllegalStateException) {
-            Response.status(Response.Status.SERVICE_UNAVAILABLE)
-                .entity(mapOf<String, Any>("error" to (e.message ?: "ChargePoint not connected")))
-                .build()
+            buildUnavailableResponse(e.message)
         }
+    }
+
+    private fun handleExecutionException(e: java.util.concurrent.ExecutionException): Response {
+        return when (val cause = e.cause) {
+            is IllegalStateException -> buildUnavailableResponse(cause.message)
+            else -> throw e
+        }
+    }
+
+    private fun buildUnavailableResponse(message: String?): Response {
+        return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+            .entity(mapOf<String, Any>("error" to (message ?: "ChargePoint not connected")))
+            .build()
     }
 }

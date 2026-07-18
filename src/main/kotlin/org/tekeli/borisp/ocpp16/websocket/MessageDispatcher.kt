@@ -63,34 +63,45 @@ class MessageDispatcher(
     }
 
     private fun handleCall(call: OcppMessage.Call, context: OcppHandlerContext): String {
-        val handler = handlers[call.action]
-        val responseJson: String
-        if (handler == null) {
-            responseJson = call.callError(
-                OcppErrorCode.NOT_IMPLEMENTED,
-                "Action '${call.action}' is not implemented"
-            )
-        } else {
-            val schemaErrors = schemaValidator?.validate(call.action, objectMapper.writeValueAsString(call.payload ?: emptyMap<String, Any>()))
-            if (schemaErrors?.isNotEmpty() == true) {
-                responseJson = call.callError(OcppErrorCode.FORMATION_VIOLATION, "Schema validation failed: ${schemaErrors.joinToString("; ")}")
-            } else {
-                responseJson = try {
-                    handler.handle(call, context)
-                } catch (e: FormationViolationException) {
-                    val errorMsg = e.message ?: "Payload validation failed"
-                    call.callError(OcppErrorCode.FORMATION_VIOLATION, errorMsg)
-                } catch (e: Exception) {
-                    val errorMsg = e.message ?: "Internal error"
-                    call.callError(OcppErrorCode.INTERNAL_ERROR, errorMsg)
-                }
-            }
+        val responseJson = handlers[call.action]
+            ?.let { invokeHandler(call, context, it) }
+            ?: call.callError(OcppErrorCode.NOT_IMPLEMENTED, "Action '${call.action}' is not implemented")
+        captureOutbound(context.chargePointId, responseJson)
+        return responseJson
+    }
+
+    private fun invokeHandler(call: OcppMessage.Call, context: OcppHandlerContext, handler: OcppActionHandler): String {
+        val schemaErrors = validateSchema(call)
+        if (schemaErrors != null) {
+            return schemaErrors
         }
+        return try {
+            handler.handle(call, context)
+        } catch (e: Exception) {
+            handleError(call, e)
+        }
+    }
+
+    private fun validateSchema(call: OcppMessage.Call): String? {
+        val schemaErrors = schemaValidator?.validate(call.action, objectMapper.writeValueAsString(call.payload ?: emptyMap<String, Any>()))
+        if (schemaErrors?.isNotEmpty() == true) {
+            return call.callError(OcppErrorCode.FORMATION_VIOLATION, "Schema validation failed: ${schemaErrors.joinToString("; ")}")
+        }
+        return null
+    }
+
+    private fun handleError(call: OcppMessage.Call, e: Exception): String {
+        return when (e) {
+            is FormationViolationException -> call.callError(OcppErrorCode.FORMATION_VIOLATION, e.message ?: "Payload validation failed")
+            else -> call.callError(OcppErrorCode.INTERNAL_ERROR, e.message ?: "Internal error")
+        }
+    }
+
+    private fun captureOutbound(chargePointId: String, responseJson: String) {
         try {
             val responseMsg = OcppMessage.parse(responseJson)
-            messageCaptureService?.capture(context.chargePointId, OcppMessageDirection.OUTBOUND, responseMsg)
+            messageCaptureService?.capture(chargePointId, OcppMessageDirection.OUTBOUND, responseMsg)
         } catch (_: Throwable) { }
-        return responseJson
     }
 
     private fun handleCallResult(callResult: OcppMessage.CallResult, responseAwaiter: ResponseAwaiter): String {

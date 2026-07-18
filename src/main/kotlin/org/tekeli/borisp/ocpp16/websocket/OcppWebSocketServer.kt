@@ -103,13 +103,21 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
             activeConnection.closeAndAwait(io.quarkus.websockets.next.CloseReason(4004, "Subprotocol ocpp1.6 required"))
             return
         }
+        initializeConnection()
+    }
+
+    open fun initializeConnection() {
         chargePointId = activeConnection.pathParam("chargePointId")
         sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
         responseAwaiter = ResponseAwaiter()
+        registerAndOnline()
+        Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId")
+    }
+
+    private fun registerAndOnline() {
         activeRegistry.register(sessionId, sessionId, this, chargePointId)
         activePersistence.setChargePointOnlineById(chargePointId, sessionId)
         startPingScheduler()
-        Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId")
     }
 
     @OnTextMessage
