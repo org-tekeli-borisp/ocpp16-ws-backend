@@ -62,7 +62,7 @@ class ChargePointResource {
     )
 
     private fun effectiveStatus(cp: ChargePoint): ChargePointStatus {
-        if (cp.status == ChargePointStatus.ONLINE && !chargePointRegistry.isConnected(cp.sessionId)) {
+        if (cp.status == ChargePointStatus.ONLINE && chargePointRegistry.getByChargePointId(cp.chargePointId) == null) {
             return ChargePointStatus.OFFLINE
         }
         return cp.status

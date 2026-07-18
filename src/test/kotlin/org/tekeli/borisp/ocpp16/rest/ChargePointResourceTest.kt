@@ -100,12 +100,35 @@ class ChargePointResourceTest {
         assertTrue(statuses.all { it == "ONLINE" })
     }
 
-   @Test
+    @Test
     fun `should return 400 for invalid status`() {
         RestAssured.given()
             .queryParam("status", "NONEXISTENT")
             .`when`().get("/api/chargepoints")
             .then()
             .statusCode(400)
+    }
+
+    @Test
+    fun `should report offline when DB says online but chargePointId not in registry`() {
+        chargePointRegistry.unregister("session-1")
+
+        RestAssured.given()
+            .`when`().get("/api/chargepoints/Tesla-Model3-1.0")
+            .then()
+            .statusCode(200)
+            .body("status", org.hamcrest.Matchers.equalTo("OFFLINE"))
+    }
+
+    @Test
+    fun `should report online when chargePointId is registered even with different sessionId`() {
+        chargePointRegistry.unregister("session-1")
+        chargePointRegistry.register("new-session-id", "new-connection-id", dummyConnection, "Tesla-Model3-1.0")
+
+        RestAssured.given()
+            .`when`().get("/api/chargepoints/Tesla-Model3-1.0")
+            .then()
+            .statusCode(200)
+            .body("status", org.hamcrest.Matchers.equalTo("ONLINE"))
     }
 }
