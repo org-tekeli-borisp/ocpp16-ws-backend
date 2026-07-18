@@ -37,6 +37,9 @@ class ChargePoint @JvmOverloads constructor(
     @Column(name = "last_seen_at")
     var lastSeenAt: Instant = Instant.now(),
 
+    @Column(name = "last_connected_at")
+    var lastConnectedAt: Instant = Instant.now(),
+
     @Column(name = "created_at")
     var createdAt: Instant = Instant.now()
 ) : PanacheEntity() {

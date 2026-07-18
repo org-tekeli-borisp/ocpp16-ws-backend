@@ -30,6 +30,7 @@ open class PersistenceService {
             val cp = existing[0] as ChargePoint
             cp.status = ChargePointStatus.ONLINE
             cp.sessionId = sessionId
+            cp.lastConnectedAt = Instant.now()
             cp.touch()
         } else {
             em.persist(ChargePoint(
@@ -38,7 +39,8 @@ open class PersistenceService {
                 model = model,
                 firmwareVersion = firmwareVersion,
                 status = ChargePointStatus.ONLINE,
-                sessionId = sessionId
+                sessionId = sessionId,
+                lastConnectedAt = Instant.now()
             ))
         }
         em.flush()
@@ -85,11 +87,13 @@ open class PersistenceService {
 
     @Transactional
     fun setChargePointOnlineById(chargePointId: String, sessionId: String) {
+        val now = Instant.now()
         em.createQuery(
-            "UPDATE ChargePoint c SET c.status = :status, c.sessionId = :sid, c.lastSeenAt = :now WHERE c.chargePointId = :cpId"
+            "UPDATE ChargePoint c SET c.status = :status, c.sessionId = :sid, c.lastSeenAt = :now, c.lastConnectedAt = :connNow WHERE c.chargePointId = :cpId"
         ).setParameter("status", ChargePointStatus.ONLINE)
          .setParameter("sid", sessionId)
-         .setParameter("now", Instant.now())
+         .setParameter("now", now)
+         .setParameter("connNow", now)
          .setParameter("cpId", chargePointId)
          .executeUpdate()
     }

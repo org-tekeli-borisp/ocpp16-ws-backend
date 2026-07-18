@@ -23,6 +23,7 @@ export interface ChargePoint {
   connectors: Connector[];
   createdAt: string;
   lastSeenAt: string;
+  lastConnectedAt: string;
 }
 
 export interface OcppMessage {

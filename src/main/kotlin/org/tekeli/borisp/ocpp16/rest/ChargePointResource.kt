@@ -56,6 +56,7 @@ class ChargePointResource {
         status = effectiveStatus(cp).name,
         sessionId = cp.sessionId,
         lastSeenAt = cp.lastSeenAt.toString(),
+        lastConnectedAt = cp.lastConnectedAt.toString(),
         createdAt = cp.createdAt.toString(),
         connectors = persistenceService.findConnectorStatusesByChargePointId(cp.chargePointId)
     )
@@ -77,6 +78,7 @@ data class ChargePointDto(
     val status: String,
     val sessionId: String,
     val lastSeenAt: String,
+    val lastConnectedAt: String,
     val createdAt: String,
     val connectors: List<ConnectorStatusDto> = emptyList()
 )

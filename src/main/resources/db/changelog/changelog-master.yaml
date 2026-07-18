@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/003-connector-status.sql
   - include:
       file: db/changelog/004-message-log.sql
+  - include:
+      file: db/changelog/005-last-connected-at.sql

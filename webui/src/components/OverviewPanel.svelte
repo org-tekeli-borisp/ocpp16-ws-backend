@@ -31,6 +31,10 @@ import { formatDate, timeAgo } from '$lib/utils';
         <div class="info-value">{formatDate(chargePoint.createdAt, $locale)}</div>
       </div>
       <div class="info-card">
+        <div class="info-label">{$t('label_last_connected')}</div>
+        <div class="info-value">{timeAgo(chargePoint.lastConnectedAt, $t)}</div>
+      </div>
+      <div class="info-card">
         <div class="info-label">{$t('label_last_seen')}</div>
         <div class="info-value">{timeAgo(chargePoint.lastSeenAt, $t)}</div>
       </div>

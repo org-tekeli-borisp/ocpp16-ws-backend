@@ -62,4 +62,32 @@ class ChargePointEntityTest {
         assertTrue(values.any { it == ChargePointStatus.ONLINE })
         assertTrue(values.any { it == ChargePointStatus.OFFLINE })
     }
+
+    @Test
+    fun `lastConnectedAt defaults to now`() {
+        val before = Instant.now()
+        val cp = ChargePoint(chargePointId = "CP-001")
+        val after = Instant.now()
+
+        assertTrue(cp.lastConnectedAt.isAfter(before) || cp.lastConnectedAt.equals(before))
+        assertTrue(cp.lastConnectedAt.isBefore(after) || cp.lastConnectedAt.equals(after))
+    }
+
+    @Test
+    fun `constructor with all params includes lastConnectedAt`() {
+        val now = Instant.now()
+        val cp = ChargePoint(
+            chargePointId = "CP-001",
+            vendor = "Vendor",
+            model = "Model",
+            firmwareVersion = "1.0",
+            status = ChargePointStatus.ONLINE,
+            sessionId = "session-1",
+            lastSeenAt = now,
+            lastConnectedAt = now,
+            createdAt = now
+        )
+
+        assertEquals(now, cp.lastConnectedAt)
+    }
 }
