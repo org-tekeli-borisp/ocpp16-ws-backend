@@ -86,6 +86,13 @@ open class PersistenceService {
     }
 
     @Transactional
+    fun touchLastSeenAt(chargePointId: String) {
+        em.createQuery(
+            "UPDATE ChargePoint c SET c.lastSeenAt = :now WHERE c.chargePointId = :cpId"
+        ).setParameter("now", Instant.now()).setParameter("cpId", chargePointId).executeUpdate()
+    }
+
+    @Transactional
     fun setChargePointOnlineById(chargePointId: String, sessionId: String) {
         val now = Instant.now()
         em.createQuery(

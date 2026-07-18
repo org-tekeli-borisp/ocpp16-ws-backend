@@ -134,6 +134,11 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     fun onTextMessage(message: String): String {
         cancelPongTimeout()
         isPinging.set(false)
+        try {
+            activePersistence.touchLastSeenAt(chargePointId)
+        } catch (e: Exception) {
+            Log.warn("touchLastSeenAt failed: ${e.message}")
+        }
         return dispatcher.dispatch(
             message,
             this,

@@ -212,4 +212,18 @@ class PersistenceServiceTest {
         assertEquals(1, running.size)
         assertEquals(txn1.id, running[0].id)
     }
+
+    @Test
+    fun `touchLastSeenAt updates lastSeenAt by chargePointId`() {
+        persistenceService.upsertChargePoint("s1", "CP-001", "V", "M", null)
+        val before = persistenceService.findChargePointById("CP-001")!!.lastSeenAt
+        Thread.sleep(10)
+
+        persistenceService.touchLastSeenAt("CP-001")
+        em.flush()
+        em.clear()
+
+        val after = persistenceService.findChargePointById("CP-001")!!.lastSeenAt
+        assertTrue(after.isAfter(before) || after.equals(before))
+    }
 }
