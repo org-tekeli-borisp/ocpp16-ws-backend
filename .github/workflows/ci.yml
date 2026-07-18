@@ -294,9 +294,7 @@ jobs:
           path: pages/mutation
 
       - name: Prepare Pages site
-        run: |
-          cp README.md pages/index.md
-          touch pages/.nojekyll
+        run: cp README.md pages/index.md
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
