@@ -111,7 +111,8 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
         responseAwaiter = ResponseAwaiter()
         registerAndOnline()
-        Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId")
+        val remoteAddress = activeConnection.handshakeRequest().remoteAddress()
+        Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId, remote=$remoteAddress")
     }
 
     private fun registerAndOnline() {
