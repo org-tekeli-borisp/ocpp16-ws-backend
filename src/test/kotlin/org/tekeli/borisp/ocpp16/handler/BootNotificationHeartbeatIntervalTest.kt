@@ -16,10 +16,11 @@ class BootNotificationHeartbeatIntervalTest {
         val server = object : OcppWebSocketServer() {
             override var chargePointRegistry: ChargePointRegistry? = null
             override var persistenceService: PersistenceService? = null
-            override var heartbeatIntervalSeconds: Long = 600
+            override var heartbeatIntervalSeconds: Long = 0
         }.apply {
             sessionId = "sess-hb-interval"
             chargePointId = "CP-HB"
+            heartbeatIntervalSeconds = 600
         }
 
         val call = OcppMessage.Call(
@@ -44,10 +45,11 @@ class BootNotificationHeartbeatIntervalTest {
         val server = object : OcppWebSocketServer() {
             override var chargePointRegistry: ChargePointRegistry? = null
             override var persistenceService: PersistenceService? = null
-            override var heartbeatIntervalSeconds: Long = 300
+            override var heartbeatIntervalSeconds: Long = 0
         }.apply {
             sessionId = "sess-hb-default"
             chargePointId = "CP-HB-DEFAULT"
+            heartbeatIntervalSeconds = 300
         }
 
         val call = OcppMessage.Call(
