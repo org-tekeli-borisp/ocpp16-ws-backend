@@ -89,6 +89,7 @@ jobs:
   crap-analysis:
     name: CRAP Analysis
     runs-on: ubuntu-latest
+    needs: e2e-test
     timeout-minutes: 15
     continue-on-error: true
     steps:
@@ -123,6 +124,7 @@ jobs:
   mutation-test:
     name: Mutation Test
     runs-on: ubuntu-latest
+    needs: crap-analysis
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
@@ -158,7 +160,7 @@ jobs:
     name: Docker JVM
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    needs: test
+    needs: mutation-test
     timeout-minutes: 15
     permissions:
       contents: read
@@ -210,7 +212,7 @@ jobs:
     name: Docker Native
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    needs: test
+    needs: mutation-test
     timeout-minutes: 45
     permissions:
       contents: read
@@ -270,7 +272,7 @@ jobs:
     name: Deploy Pages
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [crap-analysis, mutation-test]
+    needs: [docker-jvm, docker-native]
     timeout-minutes: 5
 
     permissions:
