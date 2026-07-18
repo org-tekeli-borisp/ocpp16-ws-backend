@@ -280,27 +280,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            docs/jacoco
-            docs/mutation
 
       - name: Download JaCoCo report
         uses: actions/download-artifact@v4
         with:
           name: jacoco-for-pages
-          path: reports/jacoco
+          path: pages/jacoco
 
       - name: Download mutation report
         uses: actions/download-artifact@v4
         with:
           name: mutation-for-pages
-          path: reports/mutation
+          path: pages/mutation
+
+      - name: Prepare Pages site
+        run: |
+          cp README.md pages/index.md
+          touch pages/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: reports
+          publish_dir: pages
           publish_branch: gh-pages
           force_orphan: true
