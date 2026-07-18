@@ -337,6 +337,8 @@
                         <param>XML</param>
                     </outputFormats>
                     <verbose>false</verbose>
+                    <historyInputFile>${project.build.directory}/pit-history.zip</historyInputFile>
+                    <historyOutputFile>${project.build.directory}/pit-history.zip</historyOutputFile>
                 </configuration>
             </plugin>
         </plugins>

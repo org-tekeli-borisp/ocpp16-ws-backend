@@ -133,13 +133,28 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '25'
-          distribution: 'temurin'
+          distribution: temurin
           cache: maven
+
+      - name: Restore PITest history cache
+        uses: actions/cache@v4
+        with:
+          path: target/pit-history.zip
+          key: pitest-history-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            pitest-history-${{ github.ref }}-
 
       - name: Run PITest mutation testing
         run: mvn -B verify org.pitest:pitest-maven:mutationCoverage
         env:
           MAVEN_OPTS: -Xmx4g -Dpitest.threads=2
+
+      - name: Save PITest history cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: target/pit-history.zip
+          key: pitest-history-${{ github.ref }}-${{ github.sha }}
 
       - name: Upload mutation test report
         uses: actions/upload-artifact@v4
