@@ -2145,6 +2145,144 @@ class OcppCommandTest {
         assertEquals("2025-01-01T00:00:00Z", service.lastFirmwareRetrieveDate)
     }
 
+    // ---- DataTransferCommand ----
+
+    @Test
+    fun `DataTransferCommand has correct name`() {
+        val cmd = DataTransferCommand(TestOutboundService())
+
+        assertEquals("data-transfer", cmd.name)
+    }
+
+    @Test
+    fun `DataTransferCommand rejects missing vendorId`() {
+        val cmd = DataTransferCommand(TestOutboundService())
+
+        val result = cmd.validate(emptyMap<String, Any>())
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+        val entity = PayloadValidators.safeMap(result.entity)
+        assertTrue(entity["error"].toString().contains("vendorId"))
+    }
+
+    @Test
+    fun `DataTransferCommand rejects empty vendorId`() {
+        val cmd = DataTransferCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("vendorId" to "")
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `DataTransferCommand accepts valid payload with vendorId only`() {
+        val cmd = DataTransferCommand(TestOutboundService())
+        val payload = mapOf<String, Any>("vendorId" to "MyVendor")
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `DataTransferCommand accepts valid payload with all fields`() {
+        val cmd = DataTransferCommand(TestOutboundService())
+        val payload = mapOf<String, Any>(
+            "vendorId" to "MyVendor",
+            "messageId" to "msg1",
+            "data" to "payload-data"
+        )
+
+        val result = cmd.validate(payload)
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `DataTransferCommand execute returns ACCEPTED on success`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = DataTransferCommand(service)
+        val payload = mapOf<String, Any>(
+            "vendorId" to "MyVendor",
+            "messageId" to "msg1",
+            "data" to "payload-data"
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        val entity = PayloadValidators.safeMap(result.entity)
+        assertEquals("sent", entity["status"])
+        assertEquals("data-transfer", entity["command"])
+    }
+
+    @Test
+    fun `DataTransferCommand execute returns BAD_GATEWAY on error`() {
+        val service = TestOutboundService(callResult = false)
+        val cmd = DataTransferCommand(service)
+        val payload = mapOf<String, Any>("vendorId" to "MyVendor")
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.BAD_GATEWAY.statusCode, result.status)
+        val entity = PayloadValidators.safeMap(result.entity)
+        assertEquals("rejected", entity["status"])
+        assertEquals("ChargePoint rejected command", entity["error"])
+    }
+
+    @Test
+    fun `DataTransferCommand execute uses correct vendorId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = DataTransferCommand(service)
+        val payload = mapOf<String, Any>("vendorId" to "TestVendor")
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals("TestVendor", service.lastDataTransferVendorId)
+    }
+
+    @Test
+    fun `DataTransferCommand execute uses correct messageId`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = DataTransferCommand(service)
+        val payload = mapOf<String, Any>(
+            "vendorId" to "TestVendor",
+            "messageId" to "test-msg"
+        )
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals("test-msg", service.lastDataTransferMessageId)
+    }
+
+    @Test
+    fun `DataTransferCommand execute uses correct data`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = DataTransferCommand(service)
+        val payload = mapOf<String, Any>(
+            "vendorId" to "TestVendor",
+            "data" to "test-payload"
+        )
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals("test-payload", service.lastDataTransferData)
+    }
+
+    @Test
+    fun `DataTransferCommand execute passes null for optional fields`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = DataTransferCommand(service)
+        val payload = mapOf<String, Any>("vendorId" to "TestVendor")
+
+        cmd.execute("CP-001", payload)
+
+        assertEquals("TestVendor", service.lastDataTransferVendorId)
+    }
+
     // ---- Mock ----
 
     private class TestOutboundService(
@@ -2177,6 +2315,9 @@ class OcppCommandTest {
         var lastTriggerMessageConnectorId: Int? = null
         var lastFirmwareLocation: String? = null
         var lastFirmwareRetrieveDate: String? = null
+        var lastDataTransferVendorId: String? = null
+        var lastDataTransferMessageId: String? = null
+        var lastDataTransferData: String? = null
 
         private fun makeResponse(): org.tekeli.borisp.ocpp16.protocol.OcppMessage =
             if (callResult) org.tekeli.borisp.ocpp16.protocol.OcppMessage.CallResult("id", mapOf())
@@ -2302,6 +2443,13 @@ class OcppCommandTest {
 
         override fun sendCertificateSigned(chargePointId: String, certificateChain: String): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> =
             java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+
+        override fun sendDataTransfer(chargePointId: String, vendorId: String, messageId: String?, data: String?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+            lastDataTransferVendorId = vendorId
+            lastDataTransferMessageId = messageId
+            lastDataTransferData = data
+            return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
+        }
     }
 
     // ---- Mutation kill tests: empty string validation ----

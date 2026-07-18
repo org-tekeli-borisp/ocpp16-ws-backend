@@ -112,5 +112,10 @@ class OcppOutboundService : ChargePointGateway {
     override fun sendCertificateSigned(chargePointId: String, certificateChain: String): CompletableFuture<OcppMessage> =
         chargePointRegistry.sendCall(chargePointId, "CertificateSigned", mapOf("certificateChain" to certificateChain))
 
-  
+    override fun sendDataTransfer(chargePointId: String, vendorId: String, messageId: String?, data: String?): CompletableFuture<OcppMessage> {
+        val payload = mapOf<String, Any?>("vendorId" to vendorId, "messageId" to messageId, "data" to data)
+            .filterNulls()
+        return chargePointRegistry.sendCall(chargePointId, "DataTransfer", payload)
+    }
+
 }
