@@ -2,6 +2,8 @@
 
 Generated: 2026-07-18
 
+**Coverage Reports**: [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
+
 ## References
 
 | Document | Location | Purpose |

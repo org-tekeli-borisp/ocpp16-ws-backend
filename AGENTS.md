@@ -209,3 +209,4 @@ OcppWebSocketServer{Action}Test.kt     — per-handler WebSocket tests
 - All pushes/PRs: `mvn verify`, E2E tests (Playwright), CRAP analysis
 - Pushes only: PITest mutation, Docker JVM/Native → GHCR
 - Main pushes only: JaCoCo + mutation reports → GitHub Pages
+- **Reports**: [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)

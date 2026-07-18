@@ -13,8 +13,9 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Connector Status Tracking** – real-time per-connector state (Available, Charging, Faulted, etc.)
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
-- **Mutation Testing** – PITest integration (72% mutation score)
+- **Mutation Testing** – PITest integration (96% mutation score)
 - **1323 Unit & Integration Tests** (74 test files)
+- **Coverage Reports** – [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
