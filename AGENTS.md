@@ -24,7 +24,7 @@ If production code is committed without a preceding failing test, the agent MUST
 
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1318 tests, 24 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, JSON Schema validation.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1323 tests (74 files), 24 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
 
 ## Tech Stack
 
@@ -92,7 +92,7 @@ WebSocket ← OcppResponse ← ResponseAwaiter ← Handler ← OcppWebSocketServ
 - **`OcppCommand`** (`command/OcppCommand.kt`): `name`, `validate(payload)`, `execute(chargePointId, payload)`
 - **`OcppActionHandler`** (`handler/OcppActionHandler.kt`): `handle(call, context)` → returns JSON response string
 - **`OcppHandlerContext`**: shared context for handlers (persistence, metrics, outbound)
-- **`SchemaValidator`** (`protocol/SchemaValidator.kt`): loads 39 JSON schemas (draft-04 + draft-06), `validate(actionName, payloadJson)` → `List<String>`
+- **`SchemaValidator`** (`protocol/SchemaValidator.kt`): loads 78 JSON schemas (66 standard + 22 security, draft-04 + draft-06), `validate(actionName, payloadJson)` → `List<String>`
 
 ### Two-Layer Validation
 
@@ -169,11 +169,20 @@ All new functionality must strictly follow the Red-Green-Refactor cycle:
 ### Test File Pattern
 
 ```
-OcppWebSocketServer{Action}Test.kt     — per-handler tests
+OcppWebSocketServer{Action}Test.kt     — per-handler WebSocket tests
 {Subject}CommandTest.kt                — command tests
 {Subject}HandlerTest.kt                — handler unit tests
-{Subject}RepositoryTest.kt             — persistence tests
+{Subject}RepositoryTest.kt             — repository persistence tests
+{Subject}EntityTest.kt                 — entity unit tests
+{Subject}ServiceTest.kt                — service tests
 {Subject}ResourceTest.kt               — REST endpoint tests
+{Subject}MutationTest.kt               — targeted PITest mutation tests
+{Subject}IntegrationTest.kt            — full-flow integration tests
+{Subject}HealthCheckTest.kt            — health probe tests
+{Subject}DispatcherTest.kt             — dispatcher tests
+{Subject}RegistryTest.kt               — registry tests
+{Subject}AwaiterTest.kt                — response awaiter tests
+{Subject}Test.kt                       — generic component tests (Metrics, Protocol, etc.)
 ```
 
 ## Adding a New Handler
@@ -186,9 +195,8 @@ OcppWebSocketServer{Action}Test.kt     — per-handler tests
 ## Adding a New Command
 
 1. Create `src/main/kotlin/.../command/{Name}Command.kt` implementing `OcppCommand`
-2. Register in `OutboundCallDispatcher` command map
-3. Add endpoint in `CommandResource.kt`
-4. Add tests in `src/test/kotlin/.../command/OcppCommandTest.kt`
+2. CDI discovers commands automatically via `Instance<OcppCommand>` — no manual registration needed
+3. Add tests in `src/test/kotlin/.../command/OcppCommandTest.kt`
 
 ## Database
 

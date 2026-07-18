@@ -6,7 +6,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 
 - **OCPP 1.6J compliant** – all Client→Server and Server→Call messages
 - **OCPP 1.6 Security Edition 4** – 11 Security Messages (Certificate Management, Security Events, Signed Firmware)
-- **JSON Schema Validation** – automatic payload validation using official OCPP schemas (draft-04 + draft-06)
+- **JSON Schema Validation** – automatic payload validation using 78 JSON schemas (66 standard + 22 security, draft-04 + draft-06)
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
 - **24 Remote Commands** – 18 OCPP 1.6J + 6 Security Commands via REST API
 - **WebUI** – Svelte 5 single-page application (DE/EN/FR) with station overview, remote commands, and message log
@@ -14,7 +14,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (72% mutation score)
-- **1318 Unit & Integration Tests**
+- **1323 Unit & Integration Tests** (74 test files)
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
@@ -30,7 +30,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 │     ExtendedTriggerMessage, InstallCertificate,              │
 │     GetInstalledCertificateIds, DeleteCertificate)           │
 ├─────────────────────────────────────────────────────────────┤
-│  SchemaValidator → 39 JSON Schemas (draft-04 + draft-06)    │
+│  SchemaValidator → 78 JSON Schemas (66 std + 22 sec, draft-04 + draft-06)  │
 │  └─ Two-layer: schema validation + manual business rules    │
 ├─────────────────────────────────────────────────────────────┤
 │  OcppOutboundService → ChargePointRegistry                  │
@@ -317,11 +317,11 @@ New migrations: add `00X-name.sql` to `db/changelog/` and include it in `changel
 
 ## WebUI
 
-Two vanilla HTML/CSS/JS pages served from the application root — no build step required.
+Svelte 5 single-page application built with Vite. Source code lives in `webui/` and is compiled during the Maven build via `frontend-maven-plugin` (Node.js v20.18.1, npm 10.8.2). The built output is placed in `src/main/resources/META-INF/resources/` and served by Quarkus.
 
 | Page | URL | Description |
 |------|-----|-------------|
-| **WebUI** | `/` | Svelte 5 SPA with tabs for station overview, remote commands (24), and OCPP message log |
+| **WebUI** | `/` | Svelte 5 SPA with tabs for station overview, remote commands (24), OCPP message log, and transactions |
 
 ### i18n (Internationalization)
 
@@ -366,21 +366,20 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 **Test Coverage:**
 
-| Category | Tests | Description |
+| Category | Files | Description |
 |---------|-------|-------------|
-| WebSocket & OCPP Messages | ~290 | Handler Dispatch, Protocol, Error Paths, Infrastructure, Message Tests |
-| Commands | ~480 | 18 Standard + 6 Security + Mutation Tests |
-| Handlers (unit) | ~250 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
-| Mutation Tests | ~125 | Targeted mutation coverage for commands and handlers |
-| Persistence | ~70 | Repositories + Entities (ChargePoint, Transaction, SecurityLog, etc.) |
-| REST API | ~30 | ChargePoints, Commands, Transactions, Messages |
-| Outbound & Protocol | ~55 | Registry, Dispatcher, Awaiter, PayloadBuilder |
-| Health | ~2 | Liveness + Readiness probes |
-| Metrics | ~30 | Prometheus metrics service |
-| Integration | ~30 | CommandRoundTrip, FullFlowIntegration |
-| Protocol | ~18 | MessageCaptureService, OcppMessageDirection |
-| Schema Validation | ~31 | SchemaValidator, MessageDispatcher integration |
-| **Total** | **~1318** | 68 test files |
+| WebSocket & MessageDispatcher | 21 | Handler Dispatch, Protocol, Error Codes, Infrastructure, Ping/Pong |
+| Commands | 5 | 18 Standard + 6 Security + Mutation Tests + Validators |
+| Handlers (unit) | 18 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
+| Persistence | 10 | Repositories, Entities, PersistenceService |
+| REST API | 5 | ChargePoints, Commands, Transactions, Messages |
+| Outbound | 2 | OcppOutboundService, PayloadBuilder |
+| Protocol | 3 | SchemaValidator, MessageCaptureService, OcppMessageDirection |
+| Health | 2 | Liveness + Readiness probes |
+| Metrics | 1 | Prometheus metrics service |
+| Integration | 2 | CommandRoundTrip, FullFlowIntegration |
+| Root-level | 5 | OcppMessage, Registry, ResponseAwaiter, OutboundCallDispatcher, Protocol |
+| **Total** | **1323 Tests** | 74 test files |
 
 ## CI/CD Pipeline
 
@@ -456,4 +455,4 @@ Key properties in `application.properties`:
 | Testing | JUnit 5, RestAssured, MockK, PITest, Playwright |
 | Metrics | Micrometer + Prometheus |
 | Deployment | Docker Compose, GitHub Actions, GHCR |
-| WebUI | Svelte 5 (bundled JS/CSS) |
+| WebUI | Svelte 5 + Vite (built via frontend-maven-plugin, source in webui/) |

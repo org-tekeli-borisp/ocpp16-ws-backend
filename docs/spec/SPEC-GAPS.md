@@ -1,6 +1,6 @@
 # OCPP 1.6J Specification Gap Analysis
 
-Generated: 2025-07-16
+Generated: 2026-07-18
 
 ## References
 
@@ -9,7 +9,7 @@ Generated: 2025-07-16
 | `ocpp-j-1.6-specification.pdf` | `docs/spec/` | OCPP-J transport, RPC, connection |
 | `ocpp-1.6-edition2.pdf` | `docs/spec/` | Main OCPP 1.6 message definitions |
 | `ocpp-1.6-security-e4.pdf` | `docs/spec/` | Security Edition 4 (certificates, signed firmware) |
-| JSON schemas (56 files) | `docs/spec/schemas/json/` | Standard message validation |
+| JSON schemas (66 files) | `docs/spec/schemas/json/` | Standard message validation |
 | Security schemas (22 files) | `docs/spec/schemas/security/` | Security message validation |
 
 ---
@@ -126,7 +126,7 @@ Generated: 2025-07-16
 
 | Category | Schemas Available | Schemas Used in Validation |
 |----------|------------------|---------------------------|
-| Standard (56 files) | ✅ All in `docs/spec/schemas/json/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
-| Security (22 files) | ✅ All in `docs/spec/schemas/security/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
+| Standard (66 files, 33 Call + 33 Response) | ✅ All in `docs/spec/schemas/json/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
+| Security (22 files, 11 Call + 11 Response) | ✅ All in `docs/spec/schemas/security/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
 
-**Implementation:** `SchemaValidator` loads 28 standard schemas (draft-04) and 11 security schemas (draft-06) at startup, cached in a `Map<String, JsonSchema>`. Two-layer validation: schema validation runs first (structural checks: required fields, types, additionalProperties, maxLength, enums), followed by manual validation (business logic: empty strings, connectorId ranges, etc.).
+**Implementation:** `SchemaValidator` loads 78 JSON schemas (66 standard draft-04 + 22 security draft-06) at startup, cached in a `Map<String, JsonSchema>`. Two-layer validation: schema validation runs first (structural checks: required fields, types, additionalProperties, maxLength, enums), followed by manual validation (business logic: empty strings, connectorId ranges, etc.).
