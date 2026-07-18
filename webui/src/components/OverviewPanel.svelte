@@ -27,7 +27,7 @@ import { formatDate, timeAgo } from '$lib/utils';
         <div class="info-value">{chargePoint.firmwareVersion || '–'}</div>
       </div>
       <div class="info-card">
-        <div class="info-label">{$t('label_connected_since')}</div>
+        <div class="info-label">{$t('label_first_registered')}</div>
         <div class="info-value">{formatDate(chargePoint.createdAt, $locale)}</div>
       </div>
       <div class="info-card">
