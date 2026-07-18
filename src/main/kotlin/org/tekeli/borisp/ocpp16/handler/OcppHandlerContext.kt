@@ -10,4 +10,5 @@ interface OcppHandlerContext {
     val chargePointRegistry: ChargePointRegistry?
     val persistenceService: PersistenceService?
     val metricsService: MetricsService?
+    val heartbeatIntervalSeconds: Long
 }

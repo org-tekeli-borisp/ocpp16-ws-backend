@@ -20,7 +20,7 @@ class BootNotificationHandler : OcppActionHandler {
         return call.callResult(
             mapOf(
                 "currentTime" to ZonedDateTime.now(ZoneOffset.UTC).toString(),
-                "interval" to OcppConstants.DEFAULT_HEARTBEAT_INTERVAL_SECONDS,
+                "interval" to context.heartbeatIntervalSeconds,
                 "status" to "Accepted"
             )
         )

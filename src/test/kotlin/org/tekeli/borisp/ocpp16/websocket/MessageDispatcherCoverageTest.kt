@@ -18,6 +18,7 @@ class MessageDispatcherCoverageTest {
         override var chargePointRegistry: ChargePointRegistry? = null
         override var persistenceService: org.tekeli.borisp.ocpp16.persistence.PersistenceService? = null
         override var metricsService: MetricsService? = null
+        override val heartbeatIntervalSeconds: Long = 300
     }
 
     @Test

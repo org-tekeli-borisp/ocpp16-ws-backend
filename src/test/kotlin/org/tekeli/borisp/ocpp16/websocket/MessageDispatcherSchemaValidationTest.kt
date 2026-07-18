@@ -18,6 +18,7 @@ class MessageDispatcherSchemaValidationTest {
         override val chargePointRegistry: Nothing? = null
         override val persistenceService: Nothing? = null
         override val metricsService: Nothing? = null
+        override val heartbeatIntervalSeconds: Long = 300
     }
 
     private val handlers = mapOf<String, OcppActionHandler>(

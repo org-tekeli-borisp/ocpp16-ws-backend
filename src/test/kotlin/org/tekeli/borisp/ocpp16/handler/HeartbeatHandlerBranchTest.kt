@@ -20,6 +20,7 @@ class HeartbeatHandlerBranchTest {
             override var chargePointRegistry: ChargePointRegistry? = null
             override var persistenceService: PersistenceService? = null
             override var metricsService: MetricsService? = null
+            override val heartbeatIntervalSeconds: Long = 300
         }
 
         val response = handler.handle(call, context)

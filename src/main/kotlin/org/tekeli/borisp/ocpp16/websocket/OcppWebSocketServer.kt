@@ -2,10 +2,13 @@ package org.tekeli.borisp.ocpp16.websocket
 
 import io.quarkus.logging.Log
 import io.quarkus.websockets.next.*
+import io.smallrye.config.ConfigMapping
 import io.smallrye.mutiny.Uni
 import io.vertx.core.buffer.Buffer
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.handler.*
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
@@ -24,12 +27,15 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     companion object {
         private const val DEFAULT_PING_INTERVAL_SECONDS = 30
-        private const val DEFAULT_PONG_TIMEOUT_SECONDS = 60
+        private const val DEFAULT_PONG_TIMEOUT_SECONDS = 360
+        private const val DEFAULT_HEARTBEAT_INTERVAL_SECONDS = 300
     }
 
-    // Overridable for testing
-    open val pingIntervalSeconds: Long = DEFAULT_PING_INTERVAL_SECONDS.toLong()
-    open val pongTimeoutSeconds: Long = DEFAULT_PONG_TIMEOUT_SECONDS.toLong()
+    @ConfigProperty(name = "ocpp.websocket.ping-interval-seconds", defaultValue = "${DEFAULT_PING_INTERVAL_SECONDS}")
+    var pingIntervalSeconds: Long = DEFAULT_PING_INTERVAL_SECONDS.toLong()
+
+    @ConfigProperty(name = "ocpp.websocket.pong-timeout-seconds", defaultValue = "${DEFAULT_PONG_TIMEOUT_SECONDS}")
+    var pongTimeoutSeconds: Long = DEFAULT_PONG_TIMEOUT_SECONDS.toLong()
 
     @Inject
     var openConnections: OpenConnections? = null
@@ -63,6 +69,9 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     override var responseAwaiter: ResponseAwaiter = ResponseAwaiter()
     open override var sessionId: String = ""
     override var chargePointId: String = ""
+
+    @ConfigProperty(name = "ocpp.heartbeat.interval-seconds", defaultValue = "${DEFAULT_HEARTBEAT_INTERVAL_SECONDS}")
+    override var heartbeatIntervalSeconds: Long = DEFAULT_HEARTBEAT_INTERVAL_SECONDS.toLong()
 
     private val dispatcher: MessageDispatcher by lazy {
         MessageDispatcher(createHandlers(), messageCaptureService, schemaValidator)
