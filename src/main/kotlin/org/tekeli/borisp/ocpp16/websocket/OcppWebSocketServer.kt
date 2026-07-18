@@ -123,6 +123,8 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @OnTextMessage
     fun onTextMessage(message: String): String {
+        cancelPongTimeout()
+        isPinging.set(false)
         return dispatcher.dispatch(
             message,
             this,
