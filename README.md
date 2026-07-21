@@ -4,17 +4,17 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 
 ## Features
 
-- **OCPP 1.6J compliant** – all Client→Server and Server→Call messages
+- **OCPP 1.6J compliant** – all Client→Server and Server→Client messages
 - **OCPP 1.6 Security Edition 4** – 11 Security Messages (Certificate Management, Security Events, Signed Firmware)
 - **JSON Schema Validation** – automatic payload validation using 78 JSON schemas (66 standard + 22 security, draft-04 + draft-06)
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
-- **24 Remote Commands** – 18 OCPP 1.6J + 6 Security Commands via REST API
+- **25 Remote Commands** – 19 OCPP 1.6J + 6 Security Commands via REST API
 - **WebUI** – Svelte 5 single-page application (DE/EN/FR) with station overview, remote commands, and message log
 - **Connector Status Tracking** – real-time per-connector state (Available, Charging, Faulted, etc.)
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
-- **Mutation Testing** – PITest integration (96% mutation score)
-- **1323 Unit & Integration Tests** (74 test files)
+- **Mutation Testing** – PITest integration
+- **1341 Unit & Integration Tests** (77 test files)
 - **Coverage Reports** – [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
@@ -25,26 +25,20 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 │  REST API (ChargePointResource, CommandResource,            │
 │   TransactionResource, MessageResource)                     │
 ├─────────────────────────────────────────────────────────────┤
-│  Command Pattern (24 OcppCommand implementations)           │
-│  ├─ 18 standard OCPP 1.6J commands                          │
-│  └─ 6 security commands (SignedUpdateFirmware, GetLog,      │
-│     ExtendedTriggerMessage, InstallCertificate,              │
-│     GetInstalledCertificateIds, DeleteCertificate)           │
+│  Command Pattern (25 OcppCommand implementations)           │
+│  ├─ 19 standard OCPP 1.6J commands                          │
+│  └─ 6 security commands                                     │
 ├─────────────────────────────────────────────────────────────┤
-│  SchemaValidator → 78 JSON Schemas (66 std + 22 sec, draft-04 + draft-06)  │
+│  SchemaValidator → 78 JSON Schemas (66 std + 22 sec)        │
 │  └─ Two-layer: schema validation + manual business rules    │
 ├─────────────────────────────────────────────────────────────┤
-│  OcppOutboundService → ChargePointRegistry                  │
-│  → OpenConnections → WebSocket                              │
+│  OcppOutboundService → ChargePointRegistry → WebSocket      │
 ├─────────────────────────────────────────────────────────────┤
-│  OcppWebSocketServer → Handlers (15 total)                  │
+│  OcppWebSocketServer → 15 Handlers                          │
 │  ├─ 10 standard OCPP 1.6J handlers                          │
-│  └─ 5 security handlers (SecurityEventNotification,         │
-│     SignedFirmwareStatusNotification, LogStatusNotification,│
-│     SignCertificate, CertificateSigned)                      │
+│  └─ 5 security handlers                                     │
 ├─────────────────────────────────────────────────────────────┤
-│  Persistence (ChargePoint, Transaction, SecurityLog,        │
-│   SignedFirmware, ConnectorStatus, OcppMessageLog → PG)     │
+│  Persistence (6 entities → PostgreSQL)                      │
 │  Liquibase migrations in db/changelog/                      │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -200,7 +194,7 @@ java -jar target/quarkus-app/quarkus-run.jar \
 | `GET` | `/api/chargepoints/{id}/commands` | List available commands |
 | `POST` | `/api/chargepoints/{id}/commands/{command}` | Execute remote command |
 
-**Available Commands (24):**
+**Available Commands (19 standard):**
 
 | Command | Payload | Description |
 |---------|---------|-------------|
@@ -209,6 +203,7 @@ java -jar target/quarkus-app/quarkus-run.jar \
 | `change-configuration` | `{"key": "Key", "value": "Value"}` | Change configuration |
 | `clear-cache` | `{}` | Clear local cache |
 | `clear-charging-profile` | `{"connectorId": 1}` | Clear charging profiles |
+| `data-transfer` | `{"vendorId": "VENDOR", "messageId": "M", "data": "D"}` | Vendor-specific data |
 | `get-composite-schedule` | `{"connectorId": 1, "duration": 3600}` | Get charging schedule |
 | `get-configuration` | `{"key": ["Key1", "Key2"]}` | Get configuration |
 | `get-diagnostics` | `{"location": "https://..."}` | Request diagnostics |
@@ -223,15 +218,15 @@ java -jar target/quarkus-app/quarkus-run.jar \
 | `unlock-connector` | `{"connectorId": 1}` | Unlock connector |
 | `update-firmware` | `{"location": "https://...", "retrieveDate": "..."}` | Update firmware |
 
-**Security Commands (OCPP 1.6 Security Edition 4):**
+**Security Commands (OCPP 1.6 Security Edition 4, 6 commands):**
 
 | Command | Payload | Description |
 |---------|---------|-------------|
-| `extended-trigger-message` | `{"requestedMessage": "SignChargePointCertificate"}` | Extended trigger (Security) |
-| `install-certificate` | `{"certificateType": "CentralSystemRootCertificate", "certificate": "..."}` | Install CA certificate |
-| `get-installed-certificate-ids` | `{"certificateType": "CentralSystemRootCertificate"}` | List installed certificates |
 | `delete-certificate` | `{"certificateHashData": {...}}` | Delete certificate by hash |
+| `extended-trigger-message` | `{"requestedMessage": "SignChargePointCertificate"}` | Extended trigger (Security) |
+| `get-installed-certificate-ids` | `{"certificateType": "CentralSystemRootCertificate"}` | List installed certificates |
 | `get-log` | `{"logType": "SecurityLog", "requestId": 1, "log": {...}}` | Request log upload |
+| `install-certificate` | `{"certificateType": "CentralSystemRootCertificate", "certificate": "..."}` | Install CA certificate |
 | `signed-update-firmware` | `{"requestId": 1, "firmware": {...}}` | Signed firmware update |
 
 **Example – Reset:**
@@ -269,9 +264,9 @@ curl -X POST http://localhost:8080/api/chargepoints/CP-001/commands/reset \
 | `SignCertificate` | CSR for ChargePoint certificate |
 | `CertificateSigned` | Signed certificate response |
 
-### Server → Client (24 commands)
+### Server → Client (25 commands)
 
-18 standard OCPP 1.6J remote calls + 6 Security Commands (see tables above).
+19 standard OCPP 1.6J remote calls + 6 Security Commands (see tables above).
 
 ## OCPP 1.6 Security (Edition 4)
 
@@ -307,22 +302,23 @@ Liquibase manages the database schema via SQL changelogs in `src/main/resources/
 
 ```
 db/changelog/
-├── changelog-master.yaml       # Master changelog
-├── 001-init.sql                # Initial schema (charge_points, transactions)
-├── 002-security.sql            # Security schema (security_logs, signed_firmware)
-├── 003-connector-status.sql    # Connector status tracking
-└── 004-message-log.sql         # OCPP message capture log
+├── changelog-master.yaml           # Master changelog
+├── 001-init.sql                    # Initial schema (charge_points, transactions)
+├── 002-security.sql                # Security schema (security_logs, signed_firmware)
+├── 003-connector-status.sql        # Connector status tracking
+├── 004-message-log.sql             # OCPP message capture log
+└── 005-last-connected-at.sql       # last_connected_at column on charge_points
 ```
 
 New migrations: add `00X-name.sql` to `db/changelog/` and include it in `changelog-master.yaml`.
 
 ## WebUI
 
-Svelte 5 single-page application built with Vite. Source code lives in `webui/` and is compiled during the Maven build via `frontend-maven-plugin` (Node.js v20.18.1, npm 10.8.2). The built output is placed in `src/main/resources/META-INF/resources/` and served by Quarkus.
+Svelte 5 single-page application built with Vite. Source code lives in `webui/` and is compiled during the Maven build via `frontend-maven-plugin` (Node.js v24.11.0, npm 11.6.0). The built output is placed in `src/main/resources/META-INF/resources/` and served by Quarkus.
 
 | Page | URL | Description |
 |------|-----|-------------|
-| **WebUI** | `/` | Svelte 5 SPA with tabs for station overview, remote commands (24), OCPP message log, and transactions |
+| **WebUI** | `/` | Svelte 5 SPA with tabs for station overview, remote commands (25), OCPP message log, and transactions |
 
 ### i18n (Internationalization)
 
@@ -338,7 +334,7 @@ The SPA supports three languages with client-side translation, auto-detected fro
 
 ```
 src/main/kotlin/org/tekeli/borisp/ocpp16/
-├── command/            # 24 OcppCommand implementations (18 standard + 6 security)
+├── command/            # 25 OcppCommand implementations (19 standard + 6 security)
 ├── handler/            # 15 C→P message handlers (10 standard + 5 security)
 ├── health/             # Liveness + Readiness health checks
 ├── metrics/            # Prometheus metrics service
@@ -370,17 +366,17 @@ mvn org.pitest:pitest-maven:mutationCoverage
 | Category | Files | Description |
 |---------|-------|-------------|
 | WebSocket & MessageDispatcher | 21 | Handler Dispatch, Protocol, Error Codes, Infrastructure, Ping/Pong |
-| Commands | 5 | 18 Standard + 6 Security + Mutation Tests + Validators |
-| Handlers (unit) | 18 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
-| Persistence | 10 | Repositories, Entities, PersistenceService |
+| Commands | 4 | Standard + Security + Mutation Tests + Validators |
+| Handlers (unit) | 15 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
+| Persistence | 8 | Repositories, Entities, PersistenceService |
 | REST API | 5 | ChargePoints, Commands, Transactions, Messages |
 | Outbound | 2 | OcppOutboundService, PayloadBuilder |
 | Protocol | 3 | SchemaValidator, MessageCaptureService, OcppMessageDirection |
 | Health | 2 | Liveness + Readiness probes |
 | Metrics | 1 | Prometheus metrics service |
 | Integration | 2 | CommandRoundTrip, FullFlowIntegration |
-| Root-level | 5 | OcppMessage, Registry, ResponseAwaiter, OutboundCallDispatcher, Protocol |
-| **Total** | **1323 Tests** | 74 test files |
+| Root-level | 14 | WebSocket Server, OcppMessage, Registry, ResponseAwaiter, Dispatcher, etc. |
+| **Total** | **1341 Tests** | 77 test files |
 
 ## CI/CD Pipeline
 
@@ -418,15 +414,15 @@ curl http://localhost:8080/metrics
 
 | Metric | Type | Description |
 |--------|-----|-------------|
-| `ocpp_transactions_started_total` | Counter | Started charging transactions |
-| `ocpp_transactions_stopped_total` | Counter | Stopped transactions |
-| `ocpp_energy_delivered_wh` | Counter | Delivered energy (Wh) |
-| `ocpp_messages_received_total` | Counter | C→S messages |
-| `ocpp_messages_sent_total` | Counter | S→C commands |
-| `ocpp_security_events_received_total` | Counter | Security events from charge points |
-| `ocpp_charge_points_connected` | Gauge | Active WebSocket connections |
-| `ocpp_transactions_active` | Gauge | Running transactions |
-| `ocpp_transaction_duration_seconds` | Timer | Transaction duration |
+| `ocpp.transactions.started` | Counter | Started charging transactions |
+| `ocpp.transactions.stopped` | Counter | Stopped transactions |
+| `ocpp.energy.delivered.wh` | Counter | Delivered energy (Wh) |
+| `ocpp.messages.received` | Counter | C→S messages |
+| `ocpp.messages.sent` | Counter | S→C commands |
+| `ocpp.security.events.received` | Counter | Security events from charge points |
+| `ocpp.charge.points.connected` | Gauge | Active WebSocket connections |
+| `ocpp.transactions.active` | Gauge | Running transactions |
+| `ocpp.transaction.duration.seconds` | Timer | Transaction duration |
 
 ## Configuration
 
@@ -438,6 +434,11 @@ Key properties in `application.properties`:
 | `quarkus.datasource.db-kind` | `postgresql` | Database type |
 | `quarkus.liquibase.migrate-at-start` | `true` | Run migrations on startup |
 | `quarkus.liquibase.change-log` | `db/changelog/changelog-master.yaml` | Master changelog |
+| `ocpp.websocket.ping-interval-seconds` | `30` | WebSocket ping interval (seconds) |
+| `ocpp.websocket.pong-timeout-seconds` | `360` | Pong timeout (seconds) |
+| `ocpp.heartbeat.interval-seconds` | `300` | Default heartbeat interval (seconds) |
+| `quarkus.smallrye-health.root-path` | `/health` | Health check root path |
+| `quarkus.micrometer.export.prometheus.path` | `/metrics` | Prometheus metrics path |
 
 > **Dev & Test:** Quarkus Dev Services automatically provisions a PostgreSQL container – no manual configuration needed.
 
@@ -448,12 +449,12 @@ Key properties in `application.properties`:
 | Language | Kotlin 2.3.21 (JVM target 25) |
 | Framework | Quarkus 3.36.2 |
 | Database | PostgreSQL 18 |
-| Migrations | Liquibase |
+| Migrations | Liquibase (5 migrations) |
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |
 | JSON | Jackson |
-| Schema Validation | networknt/json-schema-validator (draft-04 + draft-06) |
-| Testing | JUnit 5, RestAssured, MockK, PITest, Playwright |
+| Schema Validation | networknt/json-schema-validator 1.5.2 (draft-04 + draft-06) |
+| Testing | JUnit 5, RestAssured, MockK 1.13.10, PITest 1.23.0, Playwright, Vitest |
 | Metrics | Micrometer + Prometheus |
 | Deployment | Docker Compose, GitHub Actions, GHCR |
-| WebUI | Svelte 5 + Vite (built via frontend-maven-plugin, source in webui/) |
+| WebUI | Svelte 5 + Vite 6 + TypeScript 5.7 (built via frontend-maven-plugin) |

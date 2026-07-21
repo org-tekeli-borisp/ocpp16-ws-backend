@@ -24,14 +24,14 @@ If production code is committed without a preceding failing test, the agent MUST
 
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1323 tests (74 files), 24 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1341 tests (77 files), 25 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Language | Kotlin 2.3 (JVM target 25) |
-| Framework | Quarkus 3.36 |
+| Language | Kotlin 2.3.21 (JVM target 25) |
+| Framework | Quarkus 3.36.2 |
 | DB | PostgreSQL 18 + Liquibase |
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |
@@ -68,7 +68,7 @@ mvn package -Pnative
 
 ```
 src/main/kotlin/org/tekeli/borisp/ocpp16/
-├── command/            # 24 OcppCommand impls (18 standard + 6 security)
+├── command/            # 25 OcppCommand impls (19 standard + 6 security)
 ├── handler/            # 15 OcppActionHandler impls (10 standard + 5 security)
 ├── outbound/           # Server→ChargePoint service layer
 ├── persistence/        # Entities + repositories
@@ -91,7 +91,8 @@ WebSocket ← OcppResponse ← ResponseAwaiter ← Handler ← OcppWebSocketServ
 
 - **`OcppCommand`** (`command/OcppCommand.kt`): `name`, `validate(payload)`, `execute(chargePointId, payload)`
 - **`OcppActionHandler`** (`handler/OcppActionHandler.kt`): `handle(call, context)` → returns JSON response string
-- **`OcppHandlerContext`**: shared context for handlers (persistence, metrics, outbound)
+- **`OcppHandlerContext`**: shared context for handlers (chargePointId, sessionId, registry, persistence, metrics, heartbeatInterval)
+- **`ChargePointConnection`** (`websocket/ChargePointRegistry.kt`): `sendText()`, `responseAwaiter`
 - **`SchemaValidator`** (`protocol/SchemaValidator.kt`): loads 78 JSON schemas (66 standard + 22 security, draft-04 + draft-06), `validate(actionName, payloadJson)` → `List<String>`
 
 ### Two-Layer Validation
@@ -107,7 +108,7 @@ When adding new validation logic, determine which layer it belongs to:
 
 ### Message Flow (Client→Server)
 
-1. `OcppWebSocketServer.onMessage()` receives raw JSON
+1. `OcppWebSocketServer.onTextMessage()` receives raw JSON
 2. `MessageDispatcher` routes to the correct `OcppActionHandler` by action name
 3. Handler parses payload via `PayloadParser`, validates, processes, persists
 4. Handler returns JSON response string sent back over WebSocket
@@ -200,7 +201,7 @@ OcppWebSocketServer{Action}Test.kt     — per-handler WebSocket tests
 
 ## Database
 
-- Migrations in `src/main/resources/db/changelog/`
+- 5 migrations in `src/main/resources/db/changelog/`
 - New migration: add `00X-name.sql`, include in `changelog-master.yaml`
 - Dev/Test: Quarkus Dev Services auto-provisions PostgreSQL
 

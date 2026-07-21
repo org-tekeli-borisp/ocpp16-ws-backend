@@ -1,8 +1,23 @@
 # OCPP 1.6J Specification Gap Analysis
 
-Generated: 2026-07-18
+Generated: 2026-07-21
 
 **Coverage Reports**: [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
+
+## Current State
+
+| Metric | Count |
+|--------|-------|
+| Command implementations | 25 (19 standard + 6 security) |
+| Handler implementations | 15 (10 standard + 5 security) |
+| Persistence entities | 6 |
+| Test files | 77 |
+| Test methods | 1341 |
+| JSON schemas | 78 (66 standard + 22 security) |
+| Liquibase migrations | 5 |
+| REST resources | 4 |
+| Prometheus metrics | 8 |
+| Health checks | 2 (Liveness, Readiness) |
 
 ## References
 
@@ -24,7 +39,7 @@ Generated: 2026-07-18
 | 3.1.2 | WebSocket subprotocol `ocpp1.6` | ✅ Implemented | Enforced in `@OnOpen`, rejects connections without or with wrong subprotocol |
 | 4.1.1 | Synchronicity: no overlapping CALL messages | ⚠️ Partial | `ResponseAwaiter` but no queue/enforcement |
 | 4.1.2 | UTF-8 encoding | ✅ Implemented | Jackson default |
-| 4.1.3 | Message types: CALL(2), CALLRESULT(3), CALLERROR(4) | ✅ Implemented | `OcppMessageDto` |
+| 4.1.3 | Message types: CALL(2), CALLRESULT(3), CALLERROR(4) | ✅ Implemented | `OcppMessage` sealed class |
 | 4.1.4 | Unique messageId | ✅ Implemented | UUID generation |
 | 4.2.3 | CallError codes (NotImplemented, ProtocolError, etc.) | ✅ Implemented | NotImplemented, ProtocolError, FormationViolation, InternalError all used |
 | 5.3 | **WebSocket Ping/Pong** | ✅ Implemented | Server sends periodic ping (30s interval), connection closed on failure |
@@ -42,7 +57,8 @@ Generated: 2026-07-18
 | 4.1 | BootNotification | CP→CS | ✅ Implemented | Handler + persistence |
 | 4.2 | Heartbeat | CP→CS | ✅ Implemented | Updates lastSeenAt |
 | 4.3 | StatusNotification | CP→CS | ✅ Implemented | Connector status tracking |
-| 4.4 | TransactionEvents (Start/Stop) | CP→CS | ✅ Implemented | Transaction persistence |
+| 4.4 | StartTransaction | CP→CS | ✅ Implemented | Transaction persistence |
+| 4.4 | StopTransaction | CP→CS | ✅ Implemented | Transaction persistence |
 | 4.5 | MeterValues | CP→CS | ✅ Implemented | Energy tracking |
 | 4.7 | DiagnosticsStatusNotification | CP→CS | ✅ Implemented | Legacy diagnostics |
 | 4.8 | FirmwareStatusNotification | CP→CS | ✅ Implemented | Firmware update status |
@@ -59,15 +75,14 @@ Generated: 2026-07-18
 | 5.9 | SetChargingProfile | CS→CP | ✅ Implemented | |
 | 5.10 | ClearChargingProfile | CS→CP | ✅ Implemented | |
 | 5.11 | UpdateFirmware | CS→CP | ✅ Implemented | |
-| 5.12 | ResendLocalList | CS→CP | ✅ Implemented | |
+| 5.12 | SendLocalList | CS→CP | ✅ Implemented | |
 | 5.13 | ReserveNow | CS→CP | ✅ Implemented | |
 | 5.14 | TriggerMessage | CS→CP | ✅ Implemented | All 7 message types |
 | 5.15 | GetDiagnostics | CS→CP | ✅ Implemented | Legacy |
 | 5.16 | GetConfiguration | CS→CP | ✅ Implemented | |
-| 5.17 | RemoteStartTransaction | CS→CP | ✅ Implemented | |
-| 5.18 | RemoteStopTransaction | CS→CP | ✅ Implemented | |
-| 5.19 | GetLocalListVersion | CS→CP | ✅ Implemented | |
-| 5.20 | GetCompositeSchedule | CS→CP | ✅ Implemented | |
+| 5.17 | DataTransfer | CS→CP | ✅ Implemented | `DataTransferCommand` |
+| 5.18 | GetLocalListVersion | CS→CP | ✅ Implemented | |
+| 5.19 | GetCompositeSchedule | CS→CP | ✅ Implemented | |
 | 9.1.10 | HeartbeatInterval config key | ⚠️ Not tracked | **Stored but not used for stale detection** |
 
 ---
@@ -81,6 +96,7 @@ Generated: 2026-07-18
 | 7.4 | LogStatusNotification | CP→CS | ✅ Implemented | |
 | 7.5 | SignCertificate | CP→CS | ✅ Implemented | CSR handling |
 | 7.6 | CertificateSigned | CP→CS | ✅ Implemented | Signed cert installation |
+| 7.6 | CertificateSigned | CS→CP | ⚠️ Partial | `sendCertificateSigned` in `ChargePointGateway` but no `CertificateSignedCommand` |
 | 7.7 | ExtendedTriggerMessage | CS→CP | ✅ Implemented | SignChargePointCertificate, LogStatusNotification |
 | 7.8 | InstallCertificate | CS→CP | ✅ Implemented | CA cert installation |
 | 7.9 | GetInstalledCertificateIds | CS→CP | ✅ Implemented | |
@@ -96,7 +112,6 @@ Generated: 2026-07-18
 
 | # | Gap | Impact | Effort |
 |---|-----|--------|--------|
-| 2 | **Stale Connection Detection** | ChargePoints remain ONLINE after disconnect (SNH764 bug) | Low |
 | 3 | **Missing WebSocketPingInterval** (Table 8) | ChangeConfiguration rejects valid config key | Low |
 
 ### P1 — Should Fix
@@ -104,14 +119,16 @@ Generated: 2026-07-18
 | # | Gap | Impact | Effort |
 |---|-----|--------|--------|
 | 5 | **HeartbeatInterval not tracked** (9.1.10) | Cannot detect stale connections via heartbeat timeout | Medium |
+| 11 | **Missing CertificateSignedCommand** | `sendCertificateSigned` exists in `ChargePointGateway` but no REST-exposed command | Low |
 
 ### Closed
 
 | # | Gap | Resolution |
 |---|-----|------------|
-| 1 | **No WebSocket Ping/Pong** (5.3) | ✅ Server sends periodic ping (30s interval), connection closed on failure, validated by `OcppWebSocketServerPingPongTest` |
-| 4 | **Incomplete CallError codes** (4.2.3) | ✅ `InternalError` added for unexpected handler exceptions in `MessageDispatcher`, validated by `MessageDispatcherErrorCodesTest` |
-| 6 | **WebSocket subprotocol not enforced** (3.1.2) | ✅ Enforced in `OcppWebSocketServer.onOpen()`, validated by `OcppWebSocketServerSubProtocolTest` |
+| 1 | **No WebSocket Ping/Pong** (5.3) | ✅ Server sends periodic ping (30s interval), connection closed on failure |
+| 2 | **Stale Connection Detection** | ✅ Partially addressed: `last_connected_at` column added (migration 005), `lastSeenAt` updated on every message |
+| 4 | **Incomplete CallError codes** (4.2.3) | ✅ `InternalError` added for unexpected handler exceptions in `MessageDispatcher` |
+| 6 | **WebSocket subprotocol not enforced** (3.1.2) | ✅ Enforced in `OcppWebSocketServer.onOpen()` |
 
 ### P2 — Nice to Have
 
@@ -132,3 +149,7 @@ Generated: 2026-07-18
 | Security (22 files, 11 Call + 11 Response) | ✅ All in `docs/spec/schemas/security/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
 
 **Implementation:** `SchemaValidator` loads 78 JSON schemas (66 standard draft-04 + 22 security draft-06) at startup, cached in a `Map<String, JsonSchema>`. Two-layer validation: schema validation runs first (structural checks: required fields, types, additionalProperties, maxLength, enums), followed by manual validation (business logic: empty strings, connectorId ranges, etc.).
+
+### Error Codes (OcppErrorCode)
+
+10 values implemented: `NotImplemented`, `NotSupported`, `InternalError`, `ProtocolError`, `SecurityError`, `FormationViolation`, `PropertyConstraintViolation`, `OccurenceConstraintViolation`, `TypeConstraintViolation`, `GenericError`.
