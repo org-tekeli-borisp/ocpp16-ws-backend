@@ -799,6 +799,7 @@ class SecurityCommandTest {
         var lastExtendedTriggerMessage: String? = null
         var lastExtendedTriggerConnectorId: Int? = null
         var lastCertificateType: String? = null
+        var lastCertificateSignedChain: String? = null
 
         override fun sendExtendedTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): CompletableFuture<OcppMessage> {
             lastExtendedTriggerMessage = requestedMessage
@@ -823,8 +824,10 @@ class SecurityCommandTest {
         override fun sendSignedUpdateFirmware(chargePointId: String, requestId: Int, firmware: Map<String, Any>, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> =
             CompletableFuture.completedFuture(lastResponse!!)
 
-        override fun sendCertificateSigned(chargePointId: String, certificateChain: String): CompletableFuture<OcppMessage> =
-            CompletableFuture.completedFuture(lastResponse!!)
+        override fun sendCertificateSigned(chargePointId: String, certificateChain: String): CompletableFuture<OcppMessage> {
+            lastCertificateSignedChain = certificateChain
+            return CompletableFuture.completedFuture(lastResponse!!)
+        }
 
         override fun sendReset(chargePointId: String, type: String): CompletableFuture<OcppMessage> = TODO()
         override fun sendRemoteStartTransaction(chargePointId: String, idTag: String, connectorId: Int?): CompletableFuture<OcppMessage> = TODO()
@@ -1581,6 +1584,66 @@ class SecurityCommandTest {
         gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.GENERIC_ERROR, "Error", null)
         val cmd = ExtendedTriggerMessageCommand(gateway)
         val resp = cmd.execute("CP-1", mapOf("requestedMessage" to "SignChargePointCertificate"))
+        assertEquals(502, resp.status)
+    }
+
+    // ---- CertificateSignedCommand tests ----
+
+    @Test
+    fun `CertificateSigned - has correct name`() {
+        val cmd = CertificateSignedCommand(gateway)
+        assertEquals("send-certificate-signed", cmd.name)
+    }
+
+    @Test
+    fun `CertificateSigned - should accept valid certificateChain`() {
+        gateway.lastResponse = makeCallResult()
+        gateway.lastCertificateSignedChain = null
+        val cmd = CertificateSignedCommand(gateway)
+        val response = cmd.execute("CP-001", mapOf("certificateChain" to "MIIBkTCB..."))
+
+        assertEquals(202, response.status)
+        val entity = PayloadValidators.safeMap(response.entity)
+        assertEquals("sent", entity["status"])
+        assertEquals("send-certificate-signed", entity["command"])
+        assertEquals("MIIBkTCB...", gateway.lastCertificateSignedChain)
+    }
+
+    @Test
+    fun `CertificateSigned - should reject missing certificateChain`() {
+        val cmd = CertificateSignedCommand(gateway)
+        val response = cmd.validate(mapOf<String, Any>())
+
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+        val entity = PayloadValidators.safeMap(response.entity)
+        assertTrue(entity["error"].toString().contains("certificateChain"))
+    }
+
+    @Test
+    fun `CertificateSigned - should reject empty certificateChain`() {
+        val cmd = CertificateSignedCommand(gateway)
+        val response = cmd.validate(mapOf("certificateChain" to ""))
+
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `CertificateSigned - should reject certificateChain exceeding max length`() {
+        val cmd = CertificateSignedCommand(gateway)
+        val longChain = "X".repeat(10001)
+        val response = cmd.validate(mapOf("certificateChain" to longChain))
+
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
+    @Test
+    fun `CertificateSigned - execute returns BAD_GATEWAY on CallError`() {
+        gateway.lastResponse = OcppMessage.CallError("id", org.tekeli.borisp.ocpp16.protocol.OcppErrorCode.GENERIC_ERROR, "Error", null)
+        val cmd = CertificateSignedCommand(gateway)
+        val resp = cmd.execute("CP-1", mapOf("certificateChain" to "MIIBkTCB..."))
         assertEquals(502, resp.status)
     }
 }
