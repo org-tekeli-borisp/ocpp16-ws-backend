@@ -798,7 +798,7 @@ class OcppCommandTest {
     @Test
     fun `ChangeConfigurationCommand accepts valid payload`() {
         val cmd = ChangeConfigurationCommand(TestOutboundService())
-        val payload = mapOf<String, Any>("key" to "MyKey", "value" to "MyValue")
+        val payload = mapOf<String, Any>("key" to "WebSocketPingInterval", "value" to "30")
 
         val result = cmd.validate(payload)
 
@@ -2749,5 +2749,54 @@ class OcppCommandTest {
             )
         )
         assertEquals(Response.Status.ACCEPTED.statusCode, resp.status)
+    }
+
+    // ---- ChangeConfigurationCommand WebSocketPingInterval (SPEC-GAPS #3) ----
+
+    @Test
+    fun `ChangeConfigurationCommand validate accepts WebSocketPingInterval key`() {
+        val cmd = ChangeConfigurationCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf("key" to "WebSocketPingInterval", "value" to "30"))
+
+        assertNull(resp)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand validate accepts HeartbeatInterval key`() {
+        val cmd = ChangeConfigurationCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf("key" to "HeartbeatInterval", "value" to "60"))
+
+        assertNull(resp)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand validate rejects unknown config key`() {
+        val cmd = ChangeConfigurationCommand(TestOutboundService())
+        val resp = cmd.validate(mapOf("key" to "UnknownKey", "value" to "val"))
+
+        assertNotNull(resp)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+    }
+
+    @Test
+    fun `ChangeConfigurationCommand validate accepts all spec config keys`() {
+        val cmd = ChangeConfigurationCommand(TestOutboundService())
+        val keys = setOf(
+            "AllowZeroCurrencyRate", "AuthorizeRemoteTxRequests", "BlinkRepeat",
+            "ClockAlignedData", "ConnectionTimeOut", "GetConfigurationMaximumKeyLength",
+            "HeartbeatInterval", "LightSigningStandard", "LocalAuthListEnabled",
+            "LocalAuthListExchange", "MaxEnergyOnInvalidId", "MeterValueAlignedData",
+            "MeterValueSampledData", "MeterValueSampleInterval", "MinimumStatusDuration",
+            "NumberOfConnectors", "PowerMeterDuration", "PowerMeterLimit", "ResetRetries",
+            "SignatureHeuristicVerification", "StopTransactionOnEVSideDisconnect",
+            "StopTransactionOnInvalidId", "StopTxnAlignedData", "StopTxnSampledData",
+            "SupportUnscheduledTransactions", "TransactionMessageAttempts",
+            "TransactionMessageRetryInterval", "UnlockOnEvSideDisconnect", "WebSocketPingInterval"
+        )
+
+        for (key in keys) {
+            val resp = cmd.validate(mapOf("key" to key, "value" to "test"))
+            assertNull(resp, "Should accept config key: $key")
+        }
     }
 }

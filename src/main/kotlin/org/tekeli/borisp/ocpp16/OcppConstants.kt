@@ -84,6 +84,39 @@ object OcppConstants {
         "UnlockCommand"
     )
 
+    // ChangeConfiguration standard config keys (OCPP 1.6 Table 8)
+    val CONFIG_KEYS = setOf(
+        "AllowZeroCurrencyRate",
+        "AuthorizeRemoteTxRequests",
+        "BlinkRepeat",
+        "ClockAlignedData",
+        "ConnectionTimeOut",
+        "GetConfigurationMaximumKeyLength",
+        "HeartbeatInterval",
+        "LightSigningStandard",
+        "LocalAuthListEnabled",
+        "LocalAuthListExchange",
+        "MaxEnergyOnInvalidId",
+        "MeterValueAlignedData",
+        "MeterValueSampledData",
+        "MeterValueSampleInterval",
+        "MinimumStatusDuration",
+        "NumberOfConnectors",
+        "PowerMeterDuration",
+        "PowerMeterLimit",
+        "ResetRetries",
+        "SignatureHeuristicVerification",
+        "StopTransactionOnEVSideDisconnect",
+        "StopTransactionOnInvalidId",
+        "StopTxnAlignedData",
+        "StopTxnSampledData",
+        "SupportUnscheduledTransactions",
+        "TransactionMessageAttempts",
+        "TransactionMessageRetryInterval",
+        "UnlockOnEvSideDisconnect",
+        "WebSocketPingInterval"
+    )
+
     // SecurityEventNotification type valid values
     val SECURITY_EVENTS = setOf(
         "FirmwareUpdated",

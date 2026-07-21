@@ -2,6 +2,7 @@ package org.tekeli.borisp.ocpp16.command
 
 import jakarta.inject.Inject
 import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
 
 @jakarta.enterprise.context.ApplicationScoped
@@ -23,6 +24,11 @@ class ChangeConfigurationCommand @Inject constructor(
         if (value == null) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "value is required"))
+                .build()
+        }
+        if (!OcppConstants.CONFIG_KEYS.contains(key)) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                .entity(mapOf<String, Any>("error" to "unknown configuration key: $key"))
                 .build()
         }
         return null
