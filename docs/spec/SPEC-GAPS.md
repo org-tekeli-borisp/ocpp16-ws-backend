@@ -132,16 +132,16 @@ Generated: 2026-07-22
 | 4 | **Incomplete CallError codes** (4.2.3) | ✅ `InternalError` added for unexpected handler exceptions in `MessageDispatcher` |
 | 5 | **HeartbeatInterval not tracked** (9.1.10) | ✅ Closed: Ping/Pong mechanism (360s timeout) provides sufficient stale detection |
 | 6 | **WebSocket subprotocol not enforced** (3.1.2) | ✅ Enforced in `OcppWebSocketServer.onOpen()` |
+| 7 | **Synchronicity enforcement** (4.1.1) | ✅ Closed: Spec uses SHOULD (not MUST), 10s timeout prevents hanging calls, low practical risk |
+| 10 | **Reconnect deduplication** (5.4) | ✅ Closed: Spec requirement targets ChargePoint, not CSMS |
 | 11 | **Missing CertificateSignedCommand** | ✅ `CertificateSignedCommand` added with 6 tests |
 
 ### P2 — Nice to Have
 
 | # | Gap | Impact | Effort |
 |---|-----|--------|--------|
-| 7 | **Synchronicity enforcement** (4.1.1) | Prevents message overlap issues | High |
 | 8 | **TLS/WSS support** (6.2.1) | Security (required for production) | High |
 | 9 | **HTTP Basic Auth** (6.2.2) | Charge point authentication | High |
-| 10 | **Reconnect deduplication** (5.4) | Prevents duplicate BootNotification | Medium |
 
 ---
 
