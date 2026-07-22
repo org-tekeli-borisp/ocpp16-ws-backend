@@ -2,24 +2,18 @@ package org.tekeli.borisp.ocpp16.websocket
 
 import io.quarkus.logging.Log
 import io.quarkus.websockets.next.*
-import io.smallrye.config.ConfigMapping
 import io.smallrye.mutiny.Uni
 import io.vertx.core.buffer.Buffer
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
-import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.handler.*
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
-import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
 import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
 import java.util.*
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicBoolean
 
 @WebSocket(path = "/ocpp/{chargePointId}")
 @ApplicationScoped
@@ -77,13 +71,8 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         MessageDispatcher(createHandlers(), messageCaptureService, schemaValidator)
     }
 
-    private val pingExecutor = Executors.newScheduledThreadPool(1) { r ->
-        Thread(r, "ocpp-ping-pinger").apply { isDaemon = true }
-    }
-
-    private val isPinging = AtomicBoolean(false)
-    private var pingFuture: java.util.concurrent.ScheduledFuture<*>? = null
-    private var pongTimeoutFuture: java.util.concurrent.ScheduledFuture<*>? = null
+    private val scheduler = DefaultScheduler()
+    private var pingPongManager: PingPongManager? = null
 
     open fun createHandlers(): Map<String, OcppActionHandler> = mapOf(
         "BootNotification" to BootNotificationHandler(),
@@ -127,13 +116,23 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     private fun registerAndOnline() {
         activeRegistry.register(sessionId, sessionId, this, chargePointId)
         activePersistence.setChargePointOnlineById(chargePointId, sessionId)
-        startPingScheduler()
+        pingPongManager = PingPongManager(
+            target = WebSocketPingPongTarget(
+                connection = { activeConnection },
+                registry = activeRegistry,
+                persistence = activePersistence,
+                sessionId = sessionId
+            ) { responseAwaiter.rejectAll(it) },
+            sessionId = sessionId,
+            pingInterval = pingIntervalSeconds,
+            pongTimeout = pongTimeoutSeconds,
+            scheduler = scheduler
+        ).also { it.start() }
     }
 
     @OnTextMessage
     fun onTextMessage(message: String): String {
-        cancelPongTimeout()
-        isPinging.set(false)
+        pingPongManager?.messageReceived()
         try {
             activePersistence.touchLastSeenAt(chargePointId)
         } catch (e: Exception) {
@@ -154,95 +153,21 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @OnPongMessage
     fun onPongMessage(buffer: Buffer) {
-        cancelPongTimeout()
-        isPinging.set(false)
+        pingPongManager?.pongReceived()
     }
 
-    open fun triggerPingAndPongTimeout() {
-        sendPingAndScheduleTimeout()
-    }
-
-    open fun executePongTimeout() {
-        if (isPinging.compareAndSet(true, false)) {
-            handlePongTimeout()
-        }
-    }
-
-    private fun startPingScheduler() {
-        stopPingScheduler()
-        pingFuture = pingExecutor.scheduleAtFixedRate({
-            sendPingAndScheduleTimeout()
-        }, pingIntervalSeconds, pingIntervalSeconds, TimeUnit.SECONDS)
-    }
-
-    private fun sendPingAndScheduleTimeout() {
-        if (!isPinging.compareAndSet(false, true)) return
-        try {
-            activeConnection.sendPing(Buffer.buffer())
-                .onFailure()
-                .invoke { e: Throwable ->
-                    Log.warn("Ping failed for session $sessionId: ${e.message}")
-                    cancelPongTimeout()
-                    try {
-                        activeConnection.closeAndAwait(CloseReason(1001, "Ping failed"))
-                    } catch (_: Exception) {}
-                }
-                .subscribe()
-        } catch (e: Exception) {
-            Log.warn("Failed to send ping for session $sessionId: ${e.message}")
-            cancelPongTimeout()
-            isPinging.set(false)
-            return
-        }
-        schedulePongTimeout()
-    }
-
-    private fun schedulePongTimeout() {
-        pongTimeoutFuture = pingExecutor.schedule({
-            if (isPinging.compareAndSet(true, false)) {
-                Log.warn("Pong timeout for session $sessionId: no pong received within ${pongTimeoutSeconds}s")
-                handlePongTimeout()
-            }
-        }, pongTimeoutSeconds, TimeUnit.SECONDS)
-    }
-
-    private fun cancelPongTimeout() {
-        pongTimeoutFuture?.cancel(false)
-        pongTimeoutFuture = null
-    }
-
-    private fun handlePongTimeout() {
-        try {
-            activeConnection.closeAndAwait(CloseReason(1001, "Pong timeout"))
-        } catch (_: Exception) {}
-        try {
-            activePersistence.setChargePointOffline(sessionId)
-        } catch (_: Exception) {}
-        if (activeRegistry.isConnected(sessionId)) {
-            activeRegistry.unregister(sessionId)
-            responseAwaiter.rejectAll("WebSocket connection closed: pong timeout $sessionId")
-        }
-        Log.info("WebSocket connection closed due to pong timeout: session=$sessionId")
-    }
-
-    private fun stopPingScheduler() {
-        pingFuture?.cancel(false)
-        pingFuture = null
-        cancelPongTimeout()
-        isPinging.set(false)
-    }
-
-    override fun sendText(text: String): io.smallrye.mutiny.Uni<Void> {
+    override fun sendText(text: String): Uni<Void> {
         val conn = currentConnection
         if (conn != null) return conn.sendText(text)
-        return io.smallrye.mutiny.Uni.createFrom().voidItem()
+        return Uni.createFrom().voidItem()
     }
 
     private fun generateMessageId(): String = UUID.randomUUID().toString()
 
     @OnClose
     fun onClose() {
-        stopPingScheduler()
+        pingPongManager?.stop()
+        pingPongManager = null
         val connectionId = activeConnection.id() ?: return
         if (activeRegistry.isConnected(connectionId)) {
             activeRegistry.unregister(connectionId)

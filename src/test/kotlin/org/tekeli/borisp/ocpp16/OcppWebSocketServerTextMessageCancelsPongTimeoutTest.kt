@@ -1,48 +1,16 @@
 package org.tekeli.borisp.ocpp16
 
 import io.smallrye.mutiny.Uni
+import io.vertx.core.buffer.Buffer
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
-import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
-import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
-import java.lang.reflect.Proxy
+import org.tekeli.borisp.ocpp16.websocket.*
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 
 class OcppWebSocketServerTextMessageCancelsPongTimeoutTest {
-
-    private fun createWsProxy(
-        onId: () -> String = { "test-session" },
-        onCloseAction: () -> Unit = {},
-        closeCodeRef: AtomicReference<Int?> = AtomicReference(null),
-        closeReasonRef: AtomicReference<String?> = AtomicReference(null)
-    ): io.quarkus.websockets.next.WebSocketConnection =
-        Proxy.newProxyInstance(
-            io.quarkus.websockets.next.WebSocketConnection::class.java.classLoader,
-            arrayOf(io.quarkus.websockets.next.WebSocketConnection::class.java)
-        ) { _, method, args ->
-            when (method.name) {
-                "id" -> onId()
-                "closeAndAwait" -> {
-                    val cr = args?.get(0) as? io.quarkus.websockets.next.CloseReason
-                    if (cr != null) {
-                        closeCodeRef.set(cr.code)
-                        closeReasonRef.set(cr.message)
-                    }
-                    onCloseAction()
-                    null
-                }
-                "sendPing" -> Uni.createFrom().voidItem()
-                "sendPong" -> Uni.createFrom().voidItem()
-                else -> when (method.returnType) {
-                    String::class.java -> "proxy"
-                    Boolean::class.java -> false
-                    Uni::class.java -> Uni.createFrom().voidItem()
-                    else -> null
-                }
-            }
-        } as io.quarkus.websockets.next.WebSocketConnection
 
     @Test
     fun `incoming text message must cancel pong timeout so connection is not closed`() {
@@ -56,13 +24,7 @@ class OcppWebSocketServerTextMessageCancelsPongTimeoutTest {
         val registry = ChargePointRegistry()
         val closed = AtomicBoolean(false)
 
-        val proxy = createWsProxy(
-            onId = { "text-msg-session" },
-            onCloseAction = { closed.set(true) }
-        )
-
         val server = OcppWebSocketServer().apply {
-            currentConnection = proxy
             chargePointId = "TEXT-MSG-CP"
             sessionId = "text-msg-session"
             chargePointRegistry = registry
@@ -71,15 +33,30 @@ class OcppWebSocketServerTextMessageCancelsPongTimeoutTest {
 
         registry.register("text-msg-session", "text-msg-session", server, "TEXT-MSG-CP")
 
-        // Simulate: ping sent (isPinging = true), pong timeout scheduled
-        server.triggerPingAndPongTimeout()
+        val target = object : PingPongTarget {
+            override fun sendPing(buffer: Buffer): Uni<Void> = Uni.createFrom().voidItem()
+            override fun closeConnection(reason: String): Uni<Void> {
+                closed.set(true)
+                return Uni.createFrom().voidItem()
+            }
+            override fun setChargePointOffline(id: String) = ps.setChargePointOffline(id)
+            override fun unregisterFromRegistry(id: String) = registry.unregister(id)
+            override fun isConnected(id: String): Boolean = registry.isConnected(id)
+            override fun rejectAwaiter(message: String) {}
+            override fun executeAsync(runnable: Runnable) = runnable.run()
+        }
 
-        // ChargePoint sends an OCPP message (e.g. Heartbeat) instead of a WebSocket Pong
-        // This should cancel the pong timeout so connection is NOT closed
-        server.onTextMessage("""[2,"m1","Heartbeat",{}]""")
+        val scheduler = TestScheduler()
+        val manager = PingPongManager(target, "text-msg-session", 1, 2, scheduler)
+        manager.start()
 
-        // Execute the pong timeout handler — it must be a no-op since text message cancelled it
-        server.executePongTimeout()
+        scheduler.executeNext() // Execute ping (isPinging = true, schedules pong timeout)
+
+        // ChargePoint sends an OCPP message — should cancel the pong timeout
+        manager.messageReceived()
+
+        // Execute the pong timeout handler — must be no-op since message cancelled it
+        scheduler.executeNext()
 
         assertFalse(offlineCalled, "setChargePointOffline must NOT be called when text message cancelled pong timeout")
         assertFalse(closed.get(), "Connection must NOT be closed when text message cancelled pong timeout")
@@ -97,13 +74,7 @@ class OcppWebSocketServerTextMessageCancelsPongTimeoutTest {
         val registry = ChargePointRegistry()
         val closed = AtomicBoolean(false)
 
-        val proxy = createWsProxy(
-            onId = { "any-action-session" },
-            onCloseAction = { closed.set(true) }
-        )
-
         val server = OcppWebSocketServer().apply {
-            currentConnection = proxy
             chargePointId = "ANY-ACTION-CP"
             sessionId = "any-action-session"
             chargePointRegistry = registry
@@ -112,9 +83,23 @@ class OcppWebSocketServerTextMessageCancelsPongTimeoutTest {
 
         registry.register("any-action-session", "any-action-session", server, "ANY-ACTION-CP")
 
-        server.triggerPingAndPongTimeout()
+        val target = object : PingPongTarget {
+            override fun sendPing(buffer: Buffer): Uni<Void> = Uni.createFrom().voidItem()
+            override fun closeConnection(reason: String): Uni<Void> {
+                closed.set(true)
+                return Uni.createFrom().voidItem()
+            }
+            override fun setChargePointOffline(id: String) = ps.setChargePointOffline(id)
+            override fun unregisterFromRegistry(id: String) = registry.unregister(id)
+            override fun isConnected(id: String): Boolean = registry.isConnected(id)
+            override fun rejectAwaiter(message: String) {}
+            override fun executeAsync(runnable: Runnable) = runnable.run()
+        }
 
-        // Any valid OCPP message should cancel the pong timeout
+        val scheduler = TestScheduler()
+        val manager = PingPongManager(target, "any-action-session", 1, 2, scheduler)
+        manager.start()
+
         val messages = listOf(
             """[2,"m1","BootNotification",{"chargePointVendor":"V","chargePointModel":"M"}]""",
             """[2,"m2","StatusNotification",{"connectorId":1,"errorReason":"NoError","status":"Available","timestamp":"2024-01-01T00:00:00Z"}]""",
@@ -122,13 +107,11 @@ class OcppWebSocketServerTextMessageCancelsPongTimeoutTest {
         )
 
         for (msg in messages) {
-            server.onTextMessage(msg)
-            server.executePongTimeout()
+            scheduler.executeNext() // Execute ping
+            manager.messageReceived() // Simulate text message arrival
+            scheduler.executeNext() // Execute pong timeout — should be no-op
             assertFalse(offlineCalled, "Text message must cancel pong timeout for: $msg")
             assertFalse(closed.get(), "Connection must stay open for: $msg")
-
-            // Re-trigger for next iteration
-            server.triggerPingAndPongTimeout()
         }
     }
 }

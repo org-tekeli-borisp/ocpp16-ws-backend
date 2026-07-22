@@ -1,50 +1,17 @@
 package org.tekeli.borisp.ocpp16
 
 import io.smallrye.mutiny.Uni
+import io.vertx.core.buffer.Buffer
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
-import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
-import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
-import java.lang.reflect.Proxy
-import java.util.concurrent.CountDownLatch
+import org.tekeli.borisp.ocpp16.websocket.*
+import java.util.concurrent.Delayed
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 
 class OcppWebSocketServerPongTimeoutTest {
-
-    private fun createWsProxy(
-        onId: () -> String = { "test-session" },
-        onCloseAction: () -> Unit = {},
-        closeCodeRef: AtomicReference<Int?> = AtomicReference(null),
-        closeReasonRef: AtomicReference<String?> = AtomicReference(null)
-    ): io.quarkus.websockets.next.WebSocketConnection =
-        Proxy.newProxyInstance(
-            io.quarkus.websockets.next.WebSocketConnection::class.java.classLoader,
-            arrayOf(io.quarkus.websockets.next.WebSocketConnection::class.java)
-        ) { _, method, args ->
-            when (method.name) {
-                "id" -> onId()
-                "closeAndAwait" -> {
-                    val cr = args?.get(0) as? io.quarkus.websockets.next.CloseReason
-                    if (cr != null) {
-                        closeCodeRef.set(cr.code)
-                        closeReasonRef.set(cr.message)
-                    }
-                    onCloseAction()
-                    null
-                }
-                "sendPing" -> Uni.createFrom().voidItem()
-                "sendPong" -> Uni.createFrom().voidItem()
-                else -> when (method.returnType) {
-                    String::class.java -> "proxy"
-                    Boolean::class.java -> false
-                    Uni::class.java -> Uni.createFrom().voidItem()
-                    else -> null
-                }
-            }
-        } as io.quarkus.websockets.next.WebSocketConnection
 
     @Test
     fun `pong timeout must close connection and set charge point offline when no pong received`() {
@@ -62,15 +29,7 @@ class OcppWebSocketServerPongTimeoutTest {
         val closeCodeRef = AtomicReference<Int?>(null)
         val closeReasonRef = AtomicReference<String?>(null)
 
-        val proxy = createWsProxy(
-            onId = { "pong-timeout-session" },
-            onCloseAction = { closed.set(true) },
-            closeCodeRef = closeCodeRef,
-            closeReasonRef = closeReasonRef
-        )
-
         val server = OcppWebSocketServer().apply {
-            currentConnection = proxy
             chargePointId = "PONG-CP"
             sessionId = "pong-timeout-session"
             chargePointRegistry = registry
@@ -79,17 +38,33 @@ class OcppWebSocketServerPongTimeoutTest {
 
         registry.register("pong-timeout-session", "pong-timeout-session", server, "PONG-CP")
 
-        // Simulate: ping sent (isPinging = true), no pong received, timeout fires
-        server.triggerPingAndPongTimeout()
-        // Execute the pong timeout handler directly (simulates the scheduled task firing)
-        server.executePongTimeout()
+        val target = object : PingPongTarget {
+            override fun sendPing(buffer: Buffer): Uni<Void> = Uni.createFrom().voidItem()
+            override fun closeConnection(reason: String): Uni<Void> {
+                closeCodeRef.set(1001)
+                closeReasonRef.set(reason)
+                closed.set(true)
+                return Uni.createFrom().voidItem()
+            }
+            override fun setChargePointOffline(id: String) = ps.setChargePointOffline(id)
+            override fun unregisterFromRegistry(id: String) = registry.unregister(id)
+            override fun isConnected(id: String): Boolean = registry.isConnected(id)
+            override fun rejectAwaiter(message: String) {}
+            override fun executeAsync(runnable: Runnable) = runnable.run()
+        }
+
+        val scheduler = TestScheduler()
+        val manager = PingPongManager(target, "pong-timeout-session", 1, 2, scheduler)
+        manager.start()
+
+        scheduler.executeNext() // Execute ping (isPinging = true, schedules pong timeout)
+        scheduler.executeNext() // Execute pong timeout
 
         assertTrue(offlineCalled, "setChargePointOffline must be called when pong timeout fires")
-        assertEquals("pong-timeout-session", offlineSessionId, "Must call offline with correct session ID")
+        assertEquals("pong-timeout-session", offlineSessionId)
         assertTrue(closed.get(), "Connection should have been closed")
-        assertEquals("pong-timeout-session", offlineSessionId, "Must call offline with correct session ID")
-        assertEquals(1001, closeCodeRef.get(), "Must close with code 1001")
-        assertEquals("Pong timeout", closeReasonRef.get(), "Must close with 'Pong timeout' reason")
+        assertEquals(1001, closeCodeRef.get())
+        assertEquals("Pong timeout", closeReasonRef.get())
     }
 
     @Test
@@ -104,13 +79,7 @@ class OcppWebSocketServerPongTimeoutTest {
         val registry = ChargePointRegistry()
         val closed = AtomicBoolean(false)
 
-        val proxy = createWsProxy(
-            onId = { "pong-ok-session" },
-            onCloseAction = { closed.set(true) }
-        )
-
         val server = OcppWebSocketServer().apply {
-            currentConnection = proxy
             chargePointId = "PONG-OK-CP"
             sessionId = "pong-ok-session"
             chargePointRegistry = registry
@@ -119,14 +88,91 @@ class OcppWebSocketServerPongTimeoutTest {
 
         registry.register("pong-ok-session", "pong-ok-session", server, "PONG-OK-CP")
 
-        // Trigger ping, then simulate pong arrival before timeout
-        server.triggerPingAndPongTimeout()
-        server.onPongMessage(io.vertx.core.buffer.Buffer.buffer())
+        val target = object : PingPongTarget {
+            override fun sendPing(buffer: Buffer): Uni<Void> = Uni.createFrom().voidItem()
+            override fun closeConnection(reason: String): Uni<Void> {
+                closed.set(true)
+                return Uni.createFrom().voidItem()
+            }
+            override fun setChargePointOffline(id: String) = ps.setChargePointOffline(id)
+            override fun unregisterFromRegistry(id: String) = registry.unregister(id)
+            override fun isConnected(id: String): Boolean = registry.isConnected(id)
+            override fun rejectAwaiter(message: String) {}
+            override fun executeAsync(runnable: Runnable) = runnable.run()
+        }
 
-        // Now try to execute pong timeout - it should be a no-op since isPinging is false
-        server.executePongTimeout()
+        val scheduler = TestScheduler()
+        val manager = PingPongManager(target, "pong-ok-session", 1, 2, scheduler)
+        manager.start()
+
+        scheduler.executeNext() // Execute ping (isPinging = true)
+        manager.pongReceived() // Simulate pong arrival
+
+        scheduler.executeNext() // Execute pong timeout — should be no-op
 
         assertFalse(offlineCalled, "setChargePointOffline must NOT be called when pong is received in time")
         assertFalse(closed.get(), "Connection must NOT be closed when pong is received in time")
     }
+}
+
+class TestScheduler : Scheduler {
+    private val tasks = mutableListOf<TestScheduledTask<*>>()
+    var cancelledCount = 0
+
+    fun hasScheduledTasks(): Boolean = tasks.isNotEmpty()
+
+    fun executeNext() {
+        if (tasks.isEmpty()) return
+        val task = tasks.removeAt(0)
+        task.runnable.run()
+        if (task.period != null && !task.isCancelled) {
+            tasks.add(task)
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <V : Any?> schedule(
+        runnable: Runnable,
+        delay: Long,
+        unit: TimeUnit
+    ): java.util.concurrent.ScheduledFuture<V> {
+        val task = TestScheduledTask<V>(runnable, delay, unit, null) { cancelledCount++ }
+        tasks.add(task)
+        return task
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <V : Any?> scheduleAtFixedRate(
+        runnable: Runnable,
+        initialDelay: Long,
+        period: Long,
+        unit: TimeUnit
+    ): java.util.concurrent.ScheduledFuture<V> {
+        val task = TestScheduledTask<V>(runnable, initialDelay, unit, period) { cancelledCount++ }
+        tasks.add(task)
+        return task
+    }
+}
+
+class TestScheduledTask<V>(
+    val runnable: Runnable,
+    val delay: Long,
+    val unit: TimeUnit,
+    val period: Long?,
+    val onCancel: () -> Unit = {}
+) : java.util.concurrent.ScheduledFuture<V> {
+    private var cancelled = false
+
+    override fun get(): V { throw UnsupportedOperationException() }
+    override fun get(timeout: Long, unit: TimeUnit): V { throw UnsupportedOperationException() }
+    override fun isCancelled(): Boolean = cancelled
+    override fun isDone(): Boolean = cancelled
+    override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+        if (cancelled) return false
+        cancelled = true
+        onCancel()
+        return true
+    }
+    override fun getDelay(unit: TimeUnit): Long = 0
+    override fun compareTo(other: Delayed): Int = 0
 }
