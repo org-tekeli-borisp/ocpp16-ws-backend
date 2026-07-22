@@ -1,6 +1,6 @@
 # OCPP 1.6J Specification Gap Analysis
 
-Generated: 2026-07-21
+Generated: 2026-07-22
 
 **Coverage Reports**: [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 
@@ -8,16 +8,18 @@ Generated: 2026-07-21
 
 | Metric | Count |
 |--------|-------|
-| Command implementations | 25 (19 standard + 6 security) |
+| Command implementations | 26 (19 standard + 7 security) |
 | Handler implementations | 15 (10 standard + 5 security) |
 | Persistence entities | 6 |
 | Test files | 77 |
-| Test methods | 1341 |
+| Test methods | 1369 |
 | JSON schemas | 78 (66 standard + 22 security) |
 | Liquibase migrations | 5 |
 | REST resources | 4 |
 | Prometheus metrics | 8 |
 | Health checks | 2 (Liveness, Readiness) |
+| Mutation coverage | 95% (PITest) |
+| Line coverage | 97% (JaCoCo) |
 
 ## References
 
@@ -119,7 +121,6 @@ Generated: 2026-07-21
 | # | Gap | Impact | Effort |
 |---|-----|--------|--------|
 | 5 | **HeartbeatInterval not tracked** (9.1.10) | Cannot detect stale connections via heartbeat timeout | Medium |
-| 11 | **Missing CertificateSignedCommand** | `sendCertificateSigned` exists in `ChargePointGateway` but no REST-exposed command | Low |
 
 ### Closed
 
@@ -127,8 +128,11 @@ Generated: 2026-07-21
 |---|-----|------------|
 | 1 | **No WebSocket Ping/Pong** (5.3) | ✅ Server sends periodic ping (30s interval), connection closed on failure |
 | 2 | **Stale Connection Detection** | ✅ Partially addressed: `last_connected_at` column added (migration 005), `lastSeenAt` updated on every message |
+| 3 | **Missing WebSocketPingInterval** (Table 8) | ✅ CONFIG_KEYS whitelist (29 keys) added to `ChangeConfigurationCommand` |
 | 4 | **Incomplete CallError codes** (4.2.3) | ✅ `InternalError` added for unexpected handler exceptions in `MessageDispatcher` |
+| 5 | **HeartbeatInterval not tracked** (9.1.10) | ✅ Closed: Ping/Pong mechanism (360s timeout) provides sufficient stale detection |
 | 6 | **WebSocket subprotocol not enforced** (3.1.2) | ✅ Enforced in `OcppWebSocketServer.onOpen()` |
+| 11 | **Missing CertificateSignedCommand** | ✅ `CertificateSignedCommand` added with 6 tests |
 
 ### P2 — Nice to Have
 

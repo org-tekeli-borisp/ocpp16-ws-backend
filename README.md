@@ -8,13 +8,13 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **OCPP 1.6 Security Edition 4** – 11 Security Messages (Certificate Management, Security Events, Signed Firmware)
 - **JSON Schema Validation** – automatic payload validation using 78 JSON schemas (66 standard + 22 security, draft-04 + draft-06)
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
-- **25 Remote Commands** – 19 OCPP 1.6J + 6 Security Commands via REST API
+- **26 Remote Commands** – 19 OCPP 1.6J + 7 Security Commands via REST API
 - **WebUI** – Svelte 5 single-page application (DE/EN/FR) with station overview, remote commands, and message log
 - **Connector Status Tracking** – real-time per-connector state (Available, Charging, Faulted, etc.)
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
-- **Mutation Testing** – PITest integration
-- **1341 Unit & Integration Tests** (77 test files)
+- **Mutation Testing** – PITest integration (95% mutation coverage, 97% line coverage)
+- **1369 Unit & Integration Tests** (77 test files)
 - **Coverage Reports** – [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
@@ -25,9 +25,9 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 │  REST API (ChargePointResource, CommandResource,            │
 │   TransactionResource, MessageResource)                     │
 ├─────────────────────────────────────────────────────────────┤
-│  Command Pattern (25 OcppCommand implementations)           │
+│  Command Pattern (26 OcppCommand implementations)           │
 │  ├─ 19 standard OCPP 1.6J commands                          │
-│  └─ 6 security commands                                     │
+│  └─ 7 security commands                                     │
 ├─────────────────────────────────────────────────────────────┤
 │  SchemaValidator → 78 JSON Schemas (66 std + 22 sec)        │
 │  └─ Two-layer: schema validation + manual business rules    │
@@ -218,10 +218,11 @@ java -jar target/quarkus-app/quarkus-run.jar \
 | `unlock-connector` | `{"connectorId": 1}` | Unlock connector |
 | `update-firmware` | `{"location": "https://...", "retrieveDate": "..."}` | Update firmware |
 
-**Security Commands (OCPP 1.6 Security Edition 4, 6 commands):**
+**Security Commands (OCPP 1.6 Security Edition 4, 7 commands):**
 
 | Command | Payload | Description |
 |---------|---------|-------------|
+| `send-certificate-signed` | `{"certificateChain": "..."}` | Send signed certificate to ChargePoint |
 | `delete-certificate` | `{"certificateHashData": {...}}` | Delete certificate by hash |
 | `extended-trigger-message` | `{"requestedMessage": "SignChargePointCertificate"}` | Extended trigger (Security) |
 | `get-installed-certificate-ids` | `{"certificateType": "CentralSystemRootCertificate"}` | List installed certificates |
@@ -264,9 +265,9 @@ curl -X POST http://localhost:8080/api/chargepoints/CP-001/commands/reset \
 | `SignCertificate` | CSR for ChargePoint certificate |
 | `CertificateSigned` | Signed certificate response |
 
-### Server → Client (25 commands)
+### Server → Client (26 commands)
 
-19 standard OCPP 1.6J remote calls + 6 Security Commands (see tables above).
+19 standard OCPP 1.6J remote calls + 7 Security Commands (see tables above).
 
 ## OCPP 1.6 Security (Edition 4)
 
@@ -318,7 +319,7 @@ Svelte 5 single-page application built with Vite. Source code lives in `webui/` 
 
 | Page | URL | Description |
 |------|-----|-------------|
-| **WebUI** | `/` | Svelte 5 SPA with tabs for station overview, remote commands (25), OCPP message log, and transactions |
+| **WebUI** | `/` | Svelte 5 SPA with tabs for station overview, remote commands (26), OCPP message log, and transactions |
 
 ### i18n (Internationalization)
 
@@ -334,7 +335,7 @@ The SPA supports three languages with client-side translation, auto-detected fro
 
 ```
 src/main/kotlin/org/tekeli/borisp/ocpp16/
-├── command/            # 25 OcppCommand implementations (19 standard + 6 security)
+├── command/            # 26 OcppCommand implementations (19 standard + 7 security)
 ├── handler/            # 15 C→P message handlers (10 standard + 5 security)
 ├── health/             # Liveness + Readiness health checks
 ├── metrics/            # Prometheus metrics service
@@ -376,7 +377,7 @@ mvn org.pitest:pitest-maven:mutationCoverage
 | Metrics | 1 | Prometheus metrics service |
 | Integration | 2 | CommandRoundTrip, FullFlowIntegration |
 | Root-level | 14 | WebSocket Server, OcppMessage, Registry, ResponseAwaiter, Dispatcher, etc. |
-| **Total** | **1341 Tests** | 77 test files |
+| **Total** | **1369 Tests** | 77 test files |
 
 ## CI/CD Pipeline
 

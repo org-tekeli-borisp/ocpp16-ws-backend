@@ -24,7 +24,7 @@ If production code is committed without a preceding failing test, the agent MUST
 
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1341 tests (77 files), 25 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1369 tests (77 files), 26 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
 
 ## Tech Stack
 
@@ -68,7 +68,7 @@ mvn package -Pnative
 
 ```
 src/main/kotlin/org/tekeli/borisp/ocpp16/
-├── command/            # 25 OcppCommand impls (19 standard + 6 security)
+├── command/            # 26 OcppCommand impls (19 standard + 7 security)
 ├── handler/            # 15 OcppActionHandler impls (10 standard + 5 security)
 ├── outbound/           # Server→ChargePoint service layer
 ├── persistence/        # Entities + repositories
