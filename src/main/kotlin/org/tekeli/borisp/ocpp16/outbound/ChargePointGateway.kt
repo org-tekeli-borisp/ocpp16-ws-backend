@@ -15,7 +15,7 @@ interface ChargePointGateway {
     fun sendClearChargingProfile(chargePointId: String, connectorId: Int?, stackLevel: Int?): CompletableFuture<OcppMessage>
     fun sendGetCompositeSchedule(chargePointId: String, connectorId: Int, duration: Int): CompletableFuture<OcppMessage>
     fun sendGetConfiguration(chargePointId: String, keys: List<String>?): CompletableFuture<OcppMessage>
-    fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage>
+    fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?, startTime: String?, stopTime: String?): CompletableFuture<OcppMessage>
     fun sendGetLocalListVersion(chargePointId: String): CompletableFuture<OcppMessage>
     fun sendReserveNow(chargePointId: String, connectorId: Int, expiryDate: String, idTag: String, reservationId: Int): CompletableFuture<OcppMessage>
     fun sendSendLocalList(chargePointId: String, listVersion: Int, updateType: String): CompletableFuture<OcppMessage>

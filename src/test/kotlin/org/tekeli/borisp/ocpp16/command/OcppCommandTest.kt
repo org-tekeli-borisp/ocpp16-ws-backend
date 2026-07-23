@@ -1,7 +1,10 @@
 package org.tekeli.borisp.ocpp16.command
 
+import jakarta.enterprise.inject.Instance
 import jakarta.ws.rs.core.Response
 import org.junit.jupiter.api.Assertions.*
+import org.mockito.Mockito
+import org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsUrlGenerator
 import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
 import org.junit.jupiter.api.Test
 
@@ -1251,14 +1254,14 @@ class OcppCommandTest {
 
     @Test
     fun `GetDiagnosticsCommand has correct name`() {
-        val cmd = GetDiagnosticsCommand(TestOutboundService())
+        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null))
 
         assertEquals("get-diagnostics", cmd.name)
     }
 
     @Test
     fun `GetDiagnosticsCommand rejects missing location`() {
-        val cmd = GetDiagnosticsCommand(TestOutboundService())
+        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null))
 
         val result = cmd.validate(emptyMap<String, Any>())
 
@@ -1270,7 +1273,7 @@ class OcppCommandTest {
 
     @Test
     fun `GetDiagnosticsCommand accepts valid payload`() {
-        val cmd = GetDiagnosticsCommand(TestOutboundService())
+        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null))
         val payload = mapOf<String, Any>("location" to "http://example.com/diag")
 
         val result = cmd.validate(payload)
@@ -1281,7 +1284,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute returns ACCEPTED on success`() {
         val service = TestOutboundService(callResult = true)
-        val cmd = GetDiagnosticsCommand(service)
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
         val payload = mapOf<String, Any>("location" to "http://example.com/diag")
 
         val result = cmd.execute("CP-001", payload)
@@ -1295,7 +1298,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute returns BAD_GATEWAY on error`() {
         val service = TestOutboundService(callResult = false)
-        val cmd = GetDiagnosticsCommand(service)
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
         val payload = mapOf<String, Any>("location" to "http://example.com/diag")
 
         val result = cmd.execute("CP-001", payload)
@@ -1309,12 +1312,143 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute uses correct location`() {
         val service = TestOutboundService(callResult = true)
-        val cmd = GetDiagnosticsCommand(service)
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
         val payload = mapOf<String, Any>("location" to "http://diag.url")
 
         cmd.execute("CP-001", payload)
 
         assertEquals("http://diag.url", service.lastDiagnosticsLocation)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand accepts empty payload when urlGenerator is provided`() {
+        val service = TestOutboundService(callResult = true)
+        val generator = org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsUrlGenerator(
+            object : org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfig {
+                override fun enabled() = true
+                override fun port() = 2022
+                override fun host() = "127.0.0.1"
+                override fun username() = "ocpp"
+                override fun password() = "testpass"
+            },
+            object : org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfig {
+                override fun enabled() = true
+                override fun port() = 2021
+                override fun host() = "127.0.0.1"
+                override fun username() = "ocpp"
+                override fun password() = "testpass"
+            },
+            "sftp"
+        )
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
+        val payload = emptyMap<String, Any>()
+
+        val result = cmd.validate(payload)
+        assertNull(result)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand generates URL when location is missing`() {
+        val service = TestOutboundService(callResult = true)
+        val generator = org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsUrlGenerator(
+            object : org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfig {
+                override fun enabled() = true
+                override fun port() = 2022
+                override fun host() = "127.0.0.1"
+                override fun username() = "ocpp"
+                override fun password() = "testpass"
+            },
+            object : org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfig {
+                override fun enabled() = true
+                override fun port() = 2021
+                override fun host() = "127.0.0.1"
+                override fun username() = "ocpp"
+                override fun password() = "testpass"
+            },
+            "sftp"
+        )
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
+        val payload = emptyMap<String, Any>()
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        val expectedUrl = "sftp://ocpp:testpass@127.0.0.1:2022/CP-001"
+        assertEquals(expectedUrl, service.lastDiagnosticsLocation)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand rejects empty payload when no urlGenerator`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
+        val payload = emptyMap<String, Any>()
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand rejects when generator throws`() {
+        val service = TestOutboundService(callResult = true)
+        val generator = object : org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsUrlGenerator(
+            object : org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfig {
+                override fun enabled() = false
+                override fun port() = 2022
+                override fun host() = "127.0.0.1"
+                override fun username() = "ocpp"
+                override fun password() = "testpass"
+            },
+            object : org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfig {
+                override fun enabled() = false
+                override fun port() = 2021
+                override fun host() = "127.0.0.1"
+                override fun username() = "ocpp"
+                override fun password() = "testpass"
+            },
+            "sftp"
+        ) {}
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
+        val payload = emptyMap<String, Any>()
+
+        val result = cmd.validate(payload)
+
+        assertNotNull(result)
+        assertEquals(Response.Status.BAD_REQUEST.statusCode, result!!.status)
+    }
+
+    @Test
+    fun `GetDiagnosticsCommand uses startTime and stopTime when provided`() {
+        val service = TestOutboundService(callResult = true)
+        val generator = org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsUrlGenerator(
+            object : org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfig {
+                override fun enabled() = true
+                override fun port() = 2022
+                override fun host() = "127.0.0.1"
+                override fun username() = "ocpp"
+                override fun password() = "testpass"
+            },
+            object : org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfig {
+                override fun enabled() = true
+                override fun port() = 2021
+                override fun host() = "127.0.0.1"
+                override fun username() = "ocpp"
+                override fun password() = "testpass"
+            },
+            "sftp"
+        )
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
+        val payload = mapOf<String, Any>(
+            "startTime" to "2024-01-01T00:00:00Z",
+            "stopTime" to "2024-01-02T00:00:00Z"
+        )
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertEquals("2024-01-01T00:00:00Z", service.lastDiagnosticsStartTime)
+        assertEquals("2024-01-02T00:00:00Z", service.lastDiagnosticsStopTime)
     }
 
     // ---- GetLocalListVersionCommand ----
@@ -2303,6 +2437,8 @@ class OcppCommandTest {
         var lastCompositeScheduleDuration: Int? = null
         var lastGetConfigurationKeys: List<String>? = null
         var lastDiagnosticsLocation: String? = null
+        var lastDiagnosticsStartTime: String? = null
+        var lastDiagnosticsStopTime: String? = null
         var lastReserveNowConnectorId: Int? = null
         var lastReserveNowExpiryDate: String? = null
         var lastReserveNowIdTag: String? = null
@@ -2382,8 +2518,10 @@ class OcppCommandTest {
             return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
         }
 
-        override fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
+        override fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?, startTime: String?, stopTime: String?): java.util.concurrent.CompletableFuture<org.tekeli.borisp.ocpp16.protocol.OcppMessage> {
             lastDiagnosticsLocation = location
+            lastDiagnosticsStartTime = startTime
+            lastDiagnosticsStopTime = stopTime
             return java.util.concurrent.CompletableFuture.completedFuture(makeResponse())
         }
 
@@ -2500,7 +2638,7 @@ class OcppCommandTest {
 
     @Test
     fun `GetDiagnosticsCommand validate rejects empty location`() {
-        val cmd = GetDiagnosticsCommand(TestOutboundService())
+        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null))
         val resp = cmd.validate(mapOf("location" to ""))
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
@@ -2680,7 +2818,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError`() {
         val service = TestOutboundService(callResult = false)
-        val cmd = GetDiagnosticsCommand(service)
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
         val resp = cmd.execute("CP-1", mapOf("location" to "http://example.com/diag"))
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
     }
@@ -2725,7 +2863,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute with all params returns ACCEPTED`() {
         val service = TestOutboundService(callResult = true)
-        val cmd = GetDiagnosticsCommand(service)
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
         val resp = cmd.execute(
             "CP-1", mapOf(
                 "location" to "http://diag.com/log",
@@ -2798,5 +2936,15 @@ class OcppCommandTest {
             val resp = cmd.validate(mapOf("key" to key, "value" to "test"))
             assertNull(resp, "Should accept config key: $key")
         }
+    }
+
+    private fun createGeneratorInstance(generator: DiagnosticsUrlGenerator?): Instance<DiagnosticsUrlGenerator> {
+        val mock = Mockito.mock(Instance::class.java) as Instance<DiagnosticsUrlGenerator>
+        Mockito.`when`(mock.isUnsatisfied).thenReturn(generator == null)
+        Mockito.`when`(mock.isAmbiguous).thenReturn(false)
+        if (generator != null) {
+            Mockito.`when`(mock.get()).thenReturn(generator)
+        }
+        return mock
     }
 }

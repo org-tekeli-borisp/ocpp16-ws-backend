@@ -45,10 +45,10 @@ class OcppOutboundService : ChargePointGateway {
         return chargePointRegistry.sendCall(chargePointId, "UpdateFirmware", payload)
     }
 
-    override fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?): CompletableFuture<OcppMessage> {
-       val payload = mapOf<String, Any?>("location" to location, "retries" to retries, "retryInterval" to retryInterval)
-            .filterNulls()
-        return chargePointRegistry.sendCall(chargePointId, "GetDiagnostics", payload)
+    override fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?, startTime: String?, stopTime: String?): CompletableFuture<OcppMessage> {
+       val payload = mapOf<String, Any?>("location" to location, "retries" to retries, "retryInterval" to retryInterval, "startTime" to startTime, "stopTime" to stopTime)
+             .filterNulls()
+         return chargePointRegistry.sendCall(chargePointId, "GetDiagnostics", payload)
     }
 
     override fun sendGetLocalListVersion(chargePointId: String): CompletableFuture<OcppMessage> =

@@ -121,7 +121,7 @@ class OcppOutboundServiceTest {
 
     @Test
     fun `sendGetDiagnostics delegates with filtered payload`() {
-        service.sendGetDiagnostics("CP-001", "https://example.com/diag", 2, 30)
+        service.sendGetDiagnostics("CP-001", "https://example.com/diag", 2, 30, null, null)
 
         assertEquals("GetDiagnostics", testRegistry.lastAction)
         assertEquals("https://example.com/diag", testRegistry.lastPayload?.get("location"))
@@ -130,7 +130,7 @@ class OcppOutboundServiceTest {
 
     @Test
     fun `sendGetDiagnostics filters null retries`() {
-        service.sendGetDiagnostics("CP-001", "https://example.com/diag", null, null)
+        service.sendGetDiagnostics("CP-001", "https://example.com/diag", null, null, null, null)
 
         assertFalse(testRegistry.lastPayload?.containsKey("retries") == true)
     }
