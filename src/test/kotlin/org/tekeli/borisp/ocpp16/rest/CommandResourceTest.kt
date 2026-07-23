@@ -117,6 +117,18 @@ class CommandResourceTest {
     }
 
     @Test
+    fun `should auto-generate diagnostics location when empty payload`() {
+        // ChargePoint is not connected in this test, so we expect 503 (not 400)
+        // The important thing is that schema validation passes (no 400 "location required")
+        RestAssured.given()
+            .contentType("application/json")
+            .body("{}")
+            .`when`().post("/api/chargepoints/$chargePointId/commands/get-diagnostics")
+            .then()
+            .statusCode(503)
+    }
+
+    @Test
     fun `should return list of available commands`() {
         RestAssured.given()
             .`when`().get("/api/chargepoints/$chargePointId/commands")

@@ -478,6 +478,22 @@ class CommandRoundTripTest {
     }
 
     @Test
+    fun `should auto-generate diagnostics location when empty payload`() {
+        val cpId = "getdiag-auto-cp-${System.currentTimeMillis()}"
+        val (ws, _) = connectBootAndRespond(cpId, CommandResponseConfig("GetDiagnostics"))
+
+        RestAssured.given()
+            .contentType("application/json")
+            .body("{}")
+            .`when`().post("/api/chargepoints/$cpId/commands/get-diagnostics")
+            .then()
+            .statusCode(202)
+            .body("status", org.hamcrest.Matchers.equalTo("sent"))
+
+        ws.close()
+    }
+
+    @Test
     fun `should successfully execute updateFirmware command round trip`() {
         val cpId = "updatefirm-cp-${System.currentTimeMillis()}"
         val (ws, _) = connectBootAndRespond(cpId, CommandResponseConfig("UpdateFirmware"))

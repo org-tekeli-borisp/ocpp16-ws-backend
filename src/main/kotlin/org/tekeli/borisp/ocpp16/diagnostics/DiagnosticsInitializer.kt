@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.diagnostics
 
+import io.quarkus.arc.Unremovable
 import io.quarkus.logging.Log
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy

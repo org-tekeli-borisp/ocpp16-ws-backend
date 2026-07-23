@@ -8,7 +8,10 @@ import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import org.tekeli.borisp.ocpp16.command.OcppCommand
 import org.tekeli.borisp.ocpp16.command.PayloadValidators
+import org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig
 import org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsUrlGenerator
+import org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfig
+import org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfig
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
 
@@ -30,10 +33,23 @@ class CommandResource {
     lateinit var schemaValidator: SchemaValidator
 
     @Inject
-    lateinit var urlGeneratorInstance: Instance<DiagnosticsUrlGenerator>
+    lateinit var diagnosticsConfig: DiagnosticsConfig
+
+    @Inject
+    lateinit var sftpServerConfig: SftpServerConfig
+
+    @Inject
+    lateinit var ftpServerConfig: FtpServerConfig
+
+    @Inject
+    lateinit var diagnosticsInitializer: org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializer
 
     private val commandMap: Map<String, OcppCommand> by lazy {
         commands.iterator().asSequence().associateBy { it.name }
+    }
+
+    private val urlGenerator: DiagnosticsUrlGenerator by lazy {
+        DiagnosticsUrlGenerator(sftpServerConfig, ftpServerConfig, diagnosticsConfig.preferredProtocol())
     }
 
     private fun toActionName(commandName: String): String {
@@ -108,11 +124,8 @@ class CommandResource {
         val existingLocation = payload["location"] as String?
         if (existingLocation != null && existingLocation.isNotBlank()) return payload to body
 
-        val generator = resolveUrlGenerator()
-            ?: return payload to body
-
         return try {
-            val generatedUrl = generator.generate(chargePointId)
+            val generatedUrl = urlGenerator.generate(chargePointId)
             val updatedPayload = payload.toMutableMap()
             updatedPayload["location"] = generatedUrl
             val updatedBody = objectMapper.writeValueAsString(updatedPayload)
@@ -120,10 +133,5 @@ class CommandResource {
         } catch (e: Exception) {
             payload to body
         }
-    }
-
-    private fun resolveUrlGenerator(): DiagnosticsUrlGenerator? {
-        if (urlGeneratorInstance.isUnsatisfied || urlGeneratorInstance.isAmbiguous) return null
-        return try { urlGeneratorInstance.get() } catch (e: Exception) { null }
     }
 }
