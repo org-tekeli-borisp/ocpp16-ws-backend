@@ -1,4 +1,4 @@
-import type { ChargePoint, OcppMessage, CommandName, Transaction } from '$lib/types';
+import type { ChargePoint, OcppMessage, CommandName, Transaction, DiagnosticsFile } from '$lib/types';
 
 const API_BASE = '/api/chargepoints';
 
@@ -73,4 +73,36 @@ export async function fetchTransactions(
   );
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
+}
+
+export async function fetchDiagnostics(cpId: string): Promise<DiagnosticsFile[]> {
+  const res = await fetch(
+    `${API_BASE}/${encodeURIComponent(cpId)}/diagnostics`,
+  );
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+export async function downloadDiagnostic(cpId: string, fileName: string): Promise<void> {
+  const res = await fetch(
+    `${API_BASE}/${encodeURIComponent(cpId)}/diagnostics/${encodeURIComponent(fileName)}`,
+  );
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+export async function deleteDiagnostic(cpId: string, fileName: string): Promise<void> {
+  const res = await fetch(
+    `${API_BASE}/${encodeURIComponent(cpId)}/diagnostics/${encodeURIComponent(fileName)}`,
+    { method: 'DELETE' },
+  );
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
 }

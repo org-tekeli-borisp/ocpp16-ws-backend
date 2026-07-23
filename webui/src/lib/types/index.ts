@@ -94,4 +94,11 @@ export interface Transaction {
   energyWh: number | null;
 }
 
-export type TabKey = 'overview' | 'commands' | 'messages' | 'transactions';
+export type TabKey = 'overview' | 'commands' | 'messages' | 'transactions' | 'diagnostics';
+
+export interface DiagnosticsFile {
+  storedName: string;
+  originalName: string;
+  sizeBytes: number;
+  uploadedAt: string;
+}

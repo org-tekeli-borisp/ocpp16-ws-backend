@@ -4,6 +4,7 @@
   import { fetchChargePoints, fetchChargePoint, fetchCommands } from '$lib/api/ocpp';
   import { chargePoints, selectedCpId, activeTab, commandsCache } from '$stores/app';
   import type { ChargePoint, TabKey, CommandName } from '$lib/types';
+  import DiagnosticsPanel from '$components/DiagnosticsPanel.svelte';
   import Sidebar from '$components/Sidebar.svelte';
   import OverviewPanel from '$components/OverviewPanel.svelte';
   import CommandsPanel from '$components/CommandsPanel.svelte';
@@ -26,7 +27,7 @@
       const cpFromUrl = params.get('cp');
       const tabFromHash = window.location.hash.slice(1) as TabKey;
 
-      if (tabFromHash && ['overview', 'commands', 'messages', 'transactions'].includes(tabFromHash)) {
+      if (tabFromHash && ['overview', 'commands', 'messages', 'transactions', 'diagnostics'].includes(tabFromHash)) {
         activeTab.set(tabFromHash);
       }
 
@@ -131,6 +132,9 @@
       <button class="tab {$activeTab === 'transactions' ? 'active' : ''}" onclick={() => handleTabChange('transactions')}>
         {$t('tab_transactions')}
       </button>
+      <button class="tab {$activeTab === 'diagnostics' ? 'active' : ''}" onclick={() => handleTabChange('diagnostics')}>
+        {$t('tab_diagnostics')}
+      </button>
     </div>
 
     <div class="content">
@@ -146,6 +150,8 @@
         <MessagesPanel cpId={$selectedCpId} />
       {:else if $activeTab === 'transactions'}
         <TransactionsPanel cpId={$selectedCpId} />
+      {:else if $activeTab === 'diagnostics'}
+        <DiagnosticsPanel cpId={$selectedCpId} />
       {/if}
     </div>
   </main>
