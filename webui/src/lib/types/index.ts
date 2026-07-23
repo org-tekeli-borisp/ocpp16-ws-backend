@@ -67,6 +67,7 @@ export interface CommandField {
   required: boolean;
   options?: string[];
   hintKey?: string;
+  defaultValue?: string;
 }
 
 export interface CommandDefinition {

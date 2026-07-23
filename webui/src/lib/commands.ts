@@ -75,7 +75,7 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
   'get-diagnostics': {
     labelKey: 'cmd_get_diagnostics',
     fields: [
-      { name: 'location', labelKey: 'field_upload_url', type: 'text', required: false },
+      { name: 'location', labelKey: 'field_upload_url', type: 'text', required: false, hintKey: 'field_upload_url_hint' },
       { name: 'retries', labelKey: 'field_retries', type: 'number', required: false },
       { name: 'retryInterval', labelKey: 'field_retry_interval', type: 'number', required: false },
     ],

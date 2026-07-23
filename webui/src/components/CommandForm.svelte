@@ -57,7 +57,7 @@
     {:else if f.type === 'number'}
       <input type="number" id="f_{f.name}" {...(f.required ? { required: true } : {})} />
     {:else}
-      <input type="text" id="f_{f.name}" {...(f.required ? { required: true } : {})} />
+      <input type="text" id="f_{f.name}" {...(f.required ? { required: true } : {})} value={f.defaultValue || ''} />
     {/if}
     {#if f.hintKey}<div class="hint">{$t(f.hintKey)}</div>{/if}
   </div>
