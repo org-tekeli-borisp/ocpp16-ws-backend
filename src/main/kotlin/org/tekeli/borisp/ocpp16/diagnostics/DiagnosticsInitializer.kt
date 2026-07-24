@@ -2,9 +2,10 @@ package org.tekeli.borisp.ocpp16.diagnostics
 
 import io.quarkus.arc.Unremovable
 import io.quarkus.logging.Log
-import jakarta.annotation.PostConstruct
+import io.quarkus.runtime.StartupEvent
 import jakarta.annotation.PreDestroy
 import jakarta.enterprise.context.ApplicationScoped
+import jakarta.enterprise.event.Observes
 import jakarta.enterprise.inject.Produces
 import jakarta.inject.Inject
 import java.nio.file.Files
@@ -13,6 +14,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 @ApplicationScoped
+@Unremovable
 class DiagnosticsInitializer {
 
     @Inject
@@ -35,8 +37,7 @@ class DiagnosticsInitializer {
         return storage ?: throw IllegalStateException("FileSystemStorage not yet initialized")
     }
 
-    @PostConstruct
-    fun init() {
+    fun onStart(@Observes startupEvent: StartupEvent) {
         Log.info("Initializing diagnostics upload service")
         val baseDir = diagnosticsConfig.uploadDir()
         val maxFileSizeBytes = diagnosticsConfig.maxFileSizeBytes()
