@@ -9,13 +9,14 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **JSON Schema Validation** – automatic payload validation using 78 JSON schemas (66 standard + 22 security, draft-04 + draft-06)
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
 - **26 Remote Commands** – 19 OCPP 1.6J + 7 Security Commands via REST API
-- **WebUI** – Svelte 5 single-page application (DE/EN/FR) with station overview, remote commands, and message log
+- **WebUI** – Svelte 5 single-page application (DE/EN/FR) with station overview, remote commands, message log, transactions, and diagnostics
 - **Connector Status Tracking** – real-time per-connector state (Available, Charging, Faulted, etc.)
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (95% mutation coverage, 97% line coverage)
 - **1369 Unit & Integration Tests** (77 test files)
 - **Coverage Reports** – [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
+- **Diagnostics Upload** – FTP (2021) + SFTP (2022) servers for receiving firmware/diagnostic files from charge points
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
 
 ## Architecture
@@ -187,6 +188,14 @@ java -jar target/quarkus-app/quarkus-run.jar \
 | `GET` | `/api/chargepoints/{id}/messages` | List OCPP messages for a charge point |
 | `GET` | `/api/chargepoints/{id}/messages/history` | Message history with pagination |
 
+### Diagnostics
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/chargepoints/{id}/diagnostics` | List uploaded diagnostics files |
+| `GET` | `/api/chargepoints/{id}/diagnostics/{fileName}` | Download diagnostics file |
+| `DELETE` | `/api/chargepoints/{id}/diagnostics/{fileName}` | Delete diagnostics file |
+
 ### Remote Commands
 
 | Method | Endpoint | Description |
@@ -319,7 +328,7 @@ Svelte 5 single-page application built with Vite. Source code lives in `webui/` 
 
 | Page | URL | Description |
 |------|-----|-------------|
-| **WebUI** | `/` | Svelte 5 SPA with tabs for station overview, remote commands (26), OCPP message log, and transactions |
+| **WebUI** | `/` | Svelte 5 SPA with 5 tabs: station overview, remote commands (26), OCPP message log, transactions, and diagnostics |
 
 ### i18n (Internationalization)
 
@@ -336,13 +345,14 @@ The SPA supports three languages with client-side translation, auto-detected fro
 ```
 src/main/kotlin/org/tekeli/borisp/ocpp16/
 ├── command/            # 26 OcppCommand implementations (19 standard + 7 security)
+├── diagnostics/        # FTP/SFTP servers, FileSystemStorage, DiagnosticsUrlGenerator
 ├── handler/            # 15 C→P message handlers (10 standard + 5 security)
 ├── health/             # Liveness + Readiness health checks
 ├── metrics/            # Prometheus metrics service
 ├── outbound/           # S→C service layer
 ├── persistence/        # Entities (ChargePoint, Transaction, SecurityLog, SignedFirmware, ConnectorStatus, MessageLog)
 ├── protocol/           # OCPP message types, ResponseAwaiter, MessageCaptureService
-├── rest/               # REST API resources (ChargePoint, Command, Transaction, Message)
+├── rest/               # REST API resources (ChargePoint, Command, Transaction, Message, Diagnostics)
 └── websocket/          # WebSocket server, registry, ChargePointInfo
 
 src/main/resources/META-INF/resources/
