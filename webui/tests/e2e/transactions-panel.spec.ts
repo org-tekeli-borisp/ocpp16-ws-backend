@@ -105,7 +105,7 @@ async function selectStationAndGoToTransactions(page: Page) {
   await expect(page.locator('.station-badge')).toBeVisible();
   await page.waitForTimeout(500);
   await page.locator('.tab').filter({ hasText: /Sessions|Ladevorgänge/i }).click();
-  await expect(page.locator('.tx-tab')).toHaveCount(2);
+  await expect(page.locator('.msg-tab')).toHaveCount(2);
 }
 
 test.describe('Transactions Panel', () => {
@@ -116,7 +116,7 @@ test.describe('Transactions Panel', () => {
   });
 
   test('shows Active tab selected by default', async ({ page }) => {
-    const activeTab = page.locator('.tx-tab').first();
+    const activeTab = page.locator('.msg-tab').first();
     await expect(activeTab).toHaveClass(/active/);
   });
 
@@ -141,13 +141,13 @@ test.describe('Transactions Panel', () => {
   });
 
   test('switching to History tab shows history rows', async ({ page }) => {
-    await page.locator('.tx-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await expect(page.locator('.tx-table tbody tr')).toHaveCount(2);
+    await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
+    await expect(page.locator('.msg-table tbody tr')).toHaveCount(2);
   });
 
   test('history row shows all columns', async ({ page }) => {
-    await page.locator('.tx-tab').filter({ hasText: /History|Verlauf/i }).click();
-    const row = page.locator('.tx-table tbody tr').first();
+    await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
+    const row = page.locator('.msg-table tbody tr').first();
 
     await expect(row.locator('.tx-conn')).toBeVisible();
     await expect(row.locator('.tx-idtag')).toBeVisible();
@@ -158,18 +158,18 @@ test.describe('Transactions Panel', () => {
   });
 
   test('history shows energy in kWh', async ({ page }) => {
-    await page.locator('.tx-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await expect(page.locator('.tx-table .tx-energy').first()).toContainText('45.00 kWh');
+    await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
+    await expect(page.locator('.msg-table .tx-energy').first()).toContainText('45.00 kWh');
   });
 
   test('history shows duration formatted', async ({ page }) => {
-    await page.locator('.tx-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await expect(page.locator('.tx-table .tx-duration').first()).toContainText('1h 30m');
+    await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
+    await expect(page.locator('.msg-table .tx-duration').first()).toContainText('1h 30m');
   });
 
   test('history shows stop reason', async ({ page }) => {
-    await page.locator('.tx-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await expect(page.locator('.tx-table .tx-reason').first()).toContainText('Local');
+    await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
+    await expect(page.locator('.msg-table .tx-reason').first()).toContainText('Local');
   });
 
   test('connector filter dropdown is populated', async ({ page }) => {
@@ -178,17 +178,17 @@ test.describe('Transactions Panel', () => {
   });
 
   test('filtering by connector 1 in history', async ({ page }) => {
-    await page.locator('.tx-tab').filter({ hasText: /History|Verlauf/i }).click();
+    await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
     await page.locator('.tx-filters select').selectOption('1');
-    await expect(page.locator('.tx-table tbody tr')).toHaveCount(1);
-    await expect(page.locator('.tx-table .tx-conn').first()).toContainText('1');
+    await expect(page.locator('.msg-table tbody tr')).toHaveCount(1);
+    await expect(page.locator('.msg-table .tx-conn').first()).toContainText('1');
   });
 
   test('filtering by connector 2 in history', async ({ page }) => {
-    await page.locator('.tx-tab').filter({ hasText: /History|Verlauf/i }).click();
+    await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
     await page.locator('.tx-filters select').selectOption('2');
-    await expect(page.locator('.tx-table tbody tr')).toHaveCount(1);
-    await expect(page.locator('.tx-table .tx-conn').first()).toContainText('2');
+    await expect(page.locator('.msg-table tbody tr')).toHaveCount(1);
+    await expect(page.locator('.msg-table .tx-conn').first()).toContainText('2');
   });
 
   test('refresh button is visible', async ({ page }) => {
@@ -208,7 +208,7 @@ test.describe('Transactions Panel — Empty States', () => {
     await setupRoutes(page, null, []);
     await page.goto('/');
     await selectStationAndGoToTransactions(page);
-    await page.locator('.tx-tab').filter({ hasText: /History|Verlauf/i }).click();
+    await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
     await expect(page.locator('.panel .empty-state')).toBeVisible();
   });
 });
