@@ -39,8 +39,11 @@ class GetDiagnosticsCommand @Inject constructor(
     }
 
     override fun execute(chargePointId: String, payload: Map<String, Any>): Response {
+        val protocol = (payload["protocol"] as String?)?.lowercase()
         val location = (payload["location"] as String?)
-            ?: resolveGenerator()?.generate(chargePointId)
+            ?: resolveGenerator()?.let { gen ->
+                if (protocol != null) gen.generate(chargePointId, protocol) else gen.generate(chargePointId)
+            }
             ?: throw IllegalStateException("location is required and no auto-generation available")
 
         ensureDirectory(chargePointId)

@@ -8,8 +8,12 @@ open class DiagnosticsUrlGenerator(
 
     fun generate(chargePointId: String): String {
         val protocol = diagnosticsConfig.preferredProtocol().lowercase()
+        return generate(chargePointId, protocol)
+    }
+
+    fun generate(chargePointId: String, protocol: String): String {
         val publicHost = diagnosticsConfig.publicHost()
-        return when (protocol) {
+        return when (protocol.lowercase()) {
             "sftp" -> {
                 if (!sftpConfig.enabled()) throw IllegalStateException("SFTP server is disabled")
                 "sftp://${sftpConfig.username()}:${sftpConfig.password()}@$publicHost:${sftpConfig.port()}/$chargePointId"

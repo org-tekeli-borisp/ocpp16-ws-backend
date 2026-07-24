@@ -12,6 +12,9 @@
       let val: unknown;
       if (f.type === 'number') {
         val = el.value !== '' ? Number(el.value) : null;
+      } else if (f.type === 'radio') {
+        const checked = document.querySelector(`input[name="f_${f.name}"]:checked`);
+        val = checked ? checked.value : null;
       } else if (f.type === 'select') {
         val = el.value || null;
       } else if (f.type === 'json') {
@@ -52,6 +55,15 @@
           <option value={opt}>{opt}</option>
         {/each}
       </select>
+    {:else if f.type === 'radio'}
+      <div class="radio-group">
+        {#each f.options || [] as opt}
+          <label class="radio-label">
+            <input type="radio" name="f_{f.name}" value={opt} checked={opt === (f.defaultValue || '')} />
+            {$t(`field_upload_protocol_opt_${opt}`) || opt}
+          </label>
+        {/each}
+      </div>
     {:else if f.type === 'textarea' || f.type === 'json'}
       <textarea id="f_{f.name}" rows={f.type === 'json' ? 4 : 3}></textarea>
     {:else if f.type === 'number'}

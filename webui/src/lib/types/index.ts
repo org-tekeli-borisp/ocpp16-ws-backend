@@ -63,7 +63,7 @@ export type CommandName =
 export interface CommandField {
   name: string;
   labelKey: string;
-  type: 'text' | 'number' | 'select' | 'textarea' | 'json';
+  type: 'text' | 'number' | 'select' | 'textarea' | 'json' | 'radio';
   required: boolean;
   options?: string[];
   hintKey?: string;

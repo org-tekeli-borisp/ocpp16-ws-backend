@@ -29,8 +29,8 @@ class DiagnosticsConfigTest {
     }
 
     @Test
-    fun `should have default preferred protocol sftp`() {
-        assertEquals("sftp", diagnosticsConfig.preferredProtocol())
+    fun `should have default preferred protocol ftp`() {
+        assertEquals("ftp", diagnosticsConfig.preferredProtocol())
     }
 
     @Test

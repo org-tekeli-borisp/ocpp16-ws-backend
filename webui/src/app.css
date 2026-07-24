@@ -141,6 +141,9 @@ header h1 { font-size: 1.3rem; font-weight: 600; letter-spacing: .02em; }
   outline: none; border-color: #4a9eff; box-shadow: 0 0 0 3px rgba(74, 158, 255, .15);
 }
 .form-group .hint { font-size: .75rem; color: #6c757d; margin-top: .25rem; }
+.radio-group { display: flex; gap: 1rem; padding: .35rem 0; }
+.radio-label { display: inline-flex; align-items: center; gap: .35rem; font-size: .88rem; cursor: pointer; color: #212529; }
+.radio-label input[type="radio"] { width: auto; margin: 0; cursor: pointer; }
 select:invalid { color: #6c757d; }
 
 /* ── Buttons ──────────────────────────────── */
