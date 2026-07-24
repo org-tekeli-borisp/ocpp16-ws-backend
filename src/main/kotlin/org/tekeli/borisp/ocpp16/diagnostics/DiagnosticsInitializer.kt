@@ -37,20 +37,26 @@ class DiagnosticsInitializer {
 
     @PostConstruct
     fun init() {
+        Log.info("Initializing diagnostics upload service")
         val baseDir = diagnosticsConfig.uploadDir()
         val maxFileSizeBytes = diagnosticsConfig.maxFileSizeBytes()
         Files.createDirectories(Path.of(baseDir))
         storage = FileSystemStorage(baseDir, maxFileSizeBytes)
 
-        // Start SFTP server
-        sftpService = SftpServerService(sftpServerConfig, storage!!)
-        sftpService!!.start()
+        try {
+            sftpService = SftpServerService(sftpServerConfig, storage!!)
+            sftpService!!.start()
+        } catch (e: Exception) {
+            Log.error("Failed to start SFTP server: ${e.message}", e)
+        }
 
-        // Start FTP server
-        ftpService = FtpServerService(ftpServerConfig, storage!!)
-        ftpService!!.start()
+        try {
+            ftpService = FtpServerService(ftpServerConfig, storage!!)
+            ftpService!!.start()
+        } catch (e: Exception) {
+            Log.error("Failed to start FTP server: ${e.message}", e)
+        }
 
-        // Start scheduled cleanup
         val retentionDays = diagnosticsConfig.retentionDays()
         if (retentionDays > 0) {
             scheduler = Executors.newSingleThreadScheduledExecutor { r ->
@@ -69,7 +75,9 @@ class DiagnosticsInitializer {
                 24,
                 TimeUnit.HOURS
             )
+            Log.info("Scheduled diagnostics cleanup every 24 hours (retention: $retentionDays days)")
         }
+        Log.info("Diagnostics upload service initialized (upload-dir: $baseDir)")
     }
 
     @PreDestroy
