@@ -1,6 +1,7 @@
 package org.tekeli.borisp.ocpp16.diagnostics
 
 import io.quarkus.logging.Log
+import org.apache.sshd.common.io.BuiltinIoServiceFactoryFactories
 import org.apache.sshd.server.SshServer
 import org.apache.sshd.server.auth.password.PasswordAuthenticator
 import org.apache.sshd.server.auth.pubkey.RejectAllPublickeyAuthenticator
@@ -25,6 +26,7 @@ class SftpServerService(
             return
         }
         val server = SshServer.setUpDefaultServer()
+        server.ioServiceFactoryFactory = BuiltinIoServiceFactoryFactories.MINA.create()
         server.port = config.port()
         server.host = config.host()
 
