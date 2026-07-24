@@ -7,14 +7,17 @@
   function buildPayload(): Record<string, unknown> | null {
     const payload: Record<string, unknown> = {};
     for (const f of fields) {
+      if (f.type === 'radio') {
+        const checked = document.querySelector(`input[name="f_${f.name}"]:checked`);
+        if (!checked) continue;
+        payload[f.name] = checked.value;
+        continue;
+      }
       const el = document.getElementById(`f_${f.name}`);
       if (!el) continue;
       let val: unknown;
       if (f.type === 'number') {
         val = el.value !== '' ? Number(el.value) : null;
-      } else if (f.type === 'radio') {
-        const checked = document.querySelector(`input[name="f_${f.name}"]:checked`);
-        val = checked ? checked.value : null;
       } else if (f.type === 'select') {
         val = el.value || null;
       } else if (f.type === 'json') {
