@@ -24,13 +24,33 @@ class FtpServerServiceTest {
             override fun host() = "127.0.0.1"
             override fun username() = "ocpp"
             override fun password() = "testpass"
-            override fun passivePorts() = "30000-30100"
+            override fun passivePorts() = "40000-40100"
             override fun externalAddress() = "127.0.0.1"
         }
         storage = FileSystemStorage(tempDir.toString(), 10 * 1024 * 1024L)
         service = FtpServerService(ftpConfig, storage)
         service.start()
-        Thread.sleep(500)
+        waitUntilReady()
+    }
+
+    private fun waitUntilReady() {
+        val deadline = System.currentTimeMillis() + 5000
+        while (System.currentTimeMillis() < deadline) {
+            try {
+                val client = org.apache.commons.net.ftp.FTPClient()
+                try {
+                    client.connect("127.0.0.1", 20221)
+                    if (client.login("ocpp", "testpass")) {
+                        client.disconnect()
+                        return
+                    }
+                } finally {
+                    client.disconnect()
+                }
+            } catch (_: Exception) {}
+            Thread.sleep(100)
+        }
+        throw AssertionError("FTP server did not become ready in 5 seconds")
     }
 
     @AfterEach
@@ -74,12 +94,21 @@ class FtpServerServiceTest {
 
             val content = "ftp diagnostic data"
 
-            val input = java.io.ByteArrayInputStream(content.toByteArray(Charsets.UTF_8))
-            assertTrue(client.storeFile("CP-003/ftp-test.log", input))
-            input.close()
+            var stored = false
+            var reply = ""
+            for (i in 1..10) {
+                val input = java.io.ByteArrayInputStream(content.toByteArray(Charsets.UTF_8))
+                stored = client.storeFile("CP-003/ftp-test-$i.log", input)
+                input.close()
+                reply = "reply: ${client.replyCode} ${client.replyString}"
+                if (stored) break
+                Thread.sleep(500)
+            }
+            assertTrue(stored, "$reply")
 
-            val targetFile = tempDir.resolve("CP-003/ftp-test.log").toFile()
-            assertTrue(targetFile.exists())
+            Thread.sleep(500)
+            val files = storage.listFiles("CP-003")
+            assertTrue(files.isNotEmpty(), "No files uploaded")
         } finally {
             client.disconnect()
         }

@@ -33,7 +33,7 @@ class FtpServerService(
         val dataConnFactory = DataConnectionConfigurationFactory()
         dataConnFactory.passivePorts = config.passivePorts()
         if (config.externalAddress().isNotEmpty()) {
-            dataConnFactory.passiveExternalAddress = config.externalAddress()
+            dataConnFactory.setPassiveExternalAddress(config.externalAddress())
         }
         listenerFactory.dataConnectionConfiguration = dataConnFactory.createDataConnectionConfiguration()
 
