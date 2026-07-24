@@ -32,4 +32,9 @@ class DiagnosticsConfigTest {
     fun `should have default preferred protocol sftp`() {
         assertEquals("sftp", diagnosticsConfig.preferredProtocol())
     }
+
+    @Test
+    fun `should have default public host localhost`() {
+        assertEquals("127.0.0.1", diagnosticsConfig.publicHost())
+    }
 }

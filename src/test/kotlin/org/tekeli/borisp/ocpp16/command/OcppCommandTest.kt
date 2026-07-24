@@ -1338,7 +1338,13 @@ class OcppCommandTest {
                 override fun username() = "ocpp"
                 override fun password() = "testpass"
             },
-            "sftp"
+            object : org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig {
+                override fun uploadDir() = "/tmp/ocpp-diagnostics"
+                override fun maxFileSizeBytes() = 104857600L
+                override fun retentionDays() = 30
+                override fun preferredProtocol() = "sftp"
+                override fun publicHost() = "127.0.0.1"
+            }
         )
         val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
         val payload = emptyMap<String, Any>()
@@ -1365,7 +1371,13 @@ class OcppCommandTest {
                 override fun username() = "ocpp"
                 override fun password() = "testpass"
             },
-            "sftp"
+            object : org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig {
+                override fun uploadDir() = "/tmp/ocpp-diagnostics"
+                override fun maxFileSizeBytes() = 104857600L
+                override fun retentionDays() = 30
+                override fun preferredProtocol() = "sftp"
+                override fun publicHost() = "127.0.0.1"
+            }
         )
         val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
         val payload = emptyMap<String, Any>()
@@ -1407,7 +1419,13 @@ class OcppCommandTest {
                 override fun username() = "ocpp"
                 override fun password() = "testpass"
             },
-            "sftp"
+            object : org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig {
+                override fun uploadDir() = "/tmp/ocpp-diagnostics"
+                override fun maxFileSizeBytes() = 104857600L
+                override fun retentionDays() = 30
+                override fun preferredProtocol() = "sftp"
+                override fun publicHost() = "127.0.0.1"
+            }
         ) {}
         val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
         val payload = emptyMap<String, Any>()
@@ -1436,7 +1454,13 @@ class OcppCommandTest {
                 override fun username() = "ocpp"
                 override fun password() = "testpass"
             },
-            "sftp"
+            object : org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig {
+                override fun uploadDir() = "/tmp/ocpp-diagnostics"
+                override fun maxFileSizeBytes() = 104857600L
+                override fun retentionDays() = 30
+                override fun preferredProtocol() = "sftp"
+                override fun publicHost() = "127.0.0.1"
+            }
         )
         val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
         val payload = mapOf<String, Any>(

@@ -16,4 +16,7 @@ interface DiagnosticsConfig {
 
     @WithDefault("sftp")
     fun preferredProtocol(): String
+
+    @WithDefault("127.0.0.1")
+    fun publicHost(): String
 }

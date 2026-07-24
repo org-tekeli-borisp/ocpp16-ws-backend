@@ -49,7 +49,7 @@ class CommandResource {
     }
 
     private val urlGenerator: DiagnosticsUrlGenerator by lazy {
-        DiagnosticsUrlGenerator(sftpServerConfig, ftpServerConfig, diagnosticsConfig.preferredProtocol())
+        DiagnosticsUrlGenerator(sftpServerConfig, ftpServerConfig, diagnosticsConfig)
     }
 
     private fun toActionName(commandName: String): String {
