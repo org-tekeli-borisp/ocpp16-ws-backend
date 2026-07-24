@@ -83,8 +83,23 @@ class DiagnosticsInitializer {
 
     @PreDestroy
     fun stop() {
-        scheduler?.run { shutdown(); awaitTermination(5, TimeUnit.SECONDS) }
+        stopScheduler()
+        stopSftpServer()
+        stopFtpServer()
+    }
+
+    private fun stopScheduler() {
+        scheduler?.let {
+            it.shutdown()
+            it.awaitTermination(5, TimeUnit.SECONDS)
+        }
+    }
+
+    private fun stopSftpServer() {
         sftpService?.stop()
+    }
+
+    private fun stopFtpServer() {
         ftpService?.stop()
     }
 }
