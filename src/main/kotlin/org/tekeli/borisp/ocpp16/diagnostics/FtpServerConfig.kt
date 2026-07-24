@@ -19,4 +19,10 @@ interface FtpServerConfig {
 
     @WithDefault("ocpp")
     fun password(): String
+
+    @WithDefault("30000-30100")
+    fun passivePorts(): String
+
+    @WithDefault("127.0.0.1")
+    fun externalAddress(): String
 }

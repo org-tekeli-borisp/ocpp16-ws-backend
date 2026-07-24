@@ -24,6 +24,8 @@ class FtpServerServiceTest {
             override fun host() = "127.0.0.1"
             override fun username() = "ocpp"
             override fun password() = "testpass"
+            override fun passivePorts() = "30000-30100"
+            override fun externalAddress() = "127.0.0.1"
         }
         storage = FileSystemStorage(tempDir.toString(), 10 * 1024 * 1024L)
         service = FtpServerService(ftpConfig, storage)

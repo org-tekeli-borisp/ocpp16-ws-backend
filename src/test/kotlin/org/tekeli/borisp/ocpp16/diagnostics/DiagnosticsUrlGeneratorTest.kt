@@ -19,6 +19,8 @@ class DiagnosticsUrlGeneratorTest {
         override fun host() = "127.0.0.1"
         override fun username() = "ocpp"
         override fun password() = "testpass"
+        override fun passivePorts() = "30000-30100"
+        override fun externalAddress() = ""
     }
 
     private val diagnosticsConfig = object : DiagnosticsConfig {
@@ -109,6 +111,8 @@ class DiagnosticsUrlGeneratorTest {
             override fun host() = "127.0.0.1"
             override fun username() = "ocpp"
             override fun password() = "ocpp"
+            override fun passivePorts() = "30000-30100"
+            override fun externalAddress() = ""
         }
         val generator = DiagnosticsUrlGenerator(sftpConfig, disabledFtp, diagnosticsFtpConfig)
         assertThrows(IllegalStateException::class.java) {
@@ -131,6 +135,8 @@ class DiagnosticsUrlGeneratorTest {
             override fun host() = "127.0.0.1"
             override fun username() = "ocpp"
             override fun password() = "ocpp"
+            override fun passivePorts() = "30000-30100"
+            override fun externalAddress() = ""
         }
         val generator = DiagnosticsUrlGenerator(disabledSftp, disabledFtp, diagnosticsConfig)
         assertThrows(IllegalStateException::class.java) {

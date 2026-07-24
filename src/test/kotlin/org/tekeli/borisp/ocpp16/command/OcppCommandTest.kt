@@ -1337,6 +1337,8 @@ class OcppCommandTest {
                 override fun host() = "127.0.0.1"
                 override fun username() = "ocpp"
                 override fun password() = "testpass"
+                override fun passivePorts() = "30000-30100"
+                override fun externalAddress() = ""
             },
             object : org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig {
                 override fun uploadDir() = "/tmp/ocpp-diagnostics"
@@ -1370,6 +1372,8 @@ class OcppCommandTest {
                 override fun host() = "127.0.0.1"
                 override fun username() = "ocpp"
                 override fun password() = "testpass"
+                override fun passivePorts() = "30000-30100"
+                override fun externalAddress() = ""
             },
             object : org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig {
                 override fun uploadDir() = "/tmp/ocpp-diagnostics"
@@ -1418,6 +1422,8 @@ class OcppCommandTest {
                 override fun host() = "127.0.0.1"
                 override fun username() = "ocpp"
                 override fun password() = "testpass"
+                override fun passivePorts() = "30000-30100"
+                override fun externalAddress() = ""
             },
             object : org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig {
                 override fun uploadDir() = "/tmp/ocpp-diagnostics"
@@ -1453,6 +1459,8 @@ class OcppCommandTest {
                 override fun host() = "127.0.0.1"
                 override fun username() = "ocpp"
                 override fun password() = "testpass"
+                override fun passivePorts() = "30000-30100"
+                override fun externalAddress() = ""
             },
             object : org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig {
                 override fun uploadDir() = "/tmp/ocpp-diagnostics"

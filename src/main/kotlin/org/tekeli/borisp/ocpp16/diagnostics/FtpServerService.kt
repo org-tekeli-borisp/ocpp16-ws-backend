@@ -1,6 +1,7 @@
 package org.tekeli.borisp.ocpp16.diagnostics
 
 import io.quarkus.logging.Log
+import org.apache.ftpserver.DataConnectionConfigurationFactory
 import org.apache.ftpserver.FtpServer
 import org.apache.ftpserver.FtpServerFactory
 import org.apache.ftpserver.ConnectionConfigFactory
@@ -28,6 +29,13 @@ class FtpServerService(
         val listenerFactory = ListenerFactory()
         listenerFactory.port = config.port()
         listenerFactory.serverAddress = config.host()
+
+        val dataConnFactory = DataConnectionConfigurationFactory()
+        dataConnFactory.passivePorts = config.passivePorts()
+        if (config.externalAddress().isNotEmpty()) {
+            dataConnFactory.passiveExternalAddress = config.externalAddress()
+        }
+        listenerFactory.dataConnectionConfiguration = dataConnFactory.createDataConnectionConfiguration()
 
         // Create user manager programmatically
         val tempDir = File.createTempFile("ftpserver-", "dir")
