@@ -58,7 +58,9 @@ export type CommandName =
   | 'delete-certificate'
   | 'get-log'
   | 'set-charging-profile'
-  | 'signed-update-firmware';
+  | 'signed-update-firmware'
+  | 'data-transfer'
+  | 'send-certificate-signed';
 
 export interface CommandField {
   name: string;

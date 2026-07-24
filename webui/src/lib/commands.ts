@@ -42,9 +42,8 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     labelKey: 'cmd_trigger_message',
     fields: [
       { name: 'requestedMessage', labelKey: 'field_requested_message', type: 'select', required: true,
-        options: ['BootNotification', 'DiagnosticsStatusNotification', 'FirmwareStatusNotification',
-                  'Heartbeat', 'MeterValues', 'StatusNotification', 'LogStatusNotification',
-                  'SignChargePointCertificate'] },
+    options: ['BootNotification', 'DiagnosticsStatusNotification', 'FirmwareStatusNotification',
+              'Heartbeat', 'MeterValues', 'StatusNotification'] },
       { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: false },
     ],
   },
@@ -152,6 +151,20 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
       { name: 'firmware', labelKey: 'field_firmware_json', type: 'json', required: true, hintKey: 'field_firmware_json_hint' },
       { name: 'retries', labelKey: 'field_retries', type: 'number', required: false },
       { name: 'retryInterval', labelKey: 'field_retry_interval', type: 'number', required: false },
+    ],
+  },
+  'data-transfer': {
+    labelKey: 'cmd_data_transfer',
+    fields: [
+      { name: 'vendorId', labelKey: 'field_vendor_id', type: 'text', required: true },
+      { name: 'messageId', labelKey: 'field_message_id', type: 'text', required: false },
+      { name: 'data', labelKey: 'field_data', type: 'text', required: false },
+    ],
+  },
+  'send-certificate-signed': {
+    labelKey: 'cmd_send_certificate_signed',
+    fields: [
+      { name: 'certificateChain', labelKey: 'field_certificate_chain', type: 'textarea', required: true, hintKey: 'field_cert_chain_hint' },
     ],
   },
 };

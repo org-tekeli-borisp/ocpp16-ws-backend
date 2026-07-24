@@ -13,6 +13,7 @@ describe('COMMAND_DEFINITIONS', () => {
       'clear-charging-profile', 'get-installed-certificate-ids',
       'install-certificate', 'delete-certificate', 'get-log',
       'set-charging-profile', 'signed-update-firmware',
+      'data-transfer', 'send-certificate-signed',
     ];
     for (const cmd of expected) {
       expect(COMMAND_DEFINITIONS[cmd]).toBeDefined();
@@ -38,5 +39,21 @@ describe('COMMAND_DEFINITIONS', () => {
     const def = COMMAND_DEFINITIONS['unlock-connector'];
     expect(def.fields).toHaveLength(1);
     expect(def.fields[0].required).toBe(true);
+  });
+
+  it('data-transfer has vendorId required field', () => {
+    const def = COMMAND_DEFINITIONS['data-transfer'];
+    expect(def.fields.length).toBeGreaterThanOrEqual(1);
+    const vendorId = def.fields.find(f => f.name === 'vendorId');
+    expect(vendorId).toBeDefined();
+    expect(vendorId!.required).toBe(true);
+  });
+
+  it('send-certificate-signed has certificateChain required field', () => {
+    const def = COMMAND_DEFINITIONS['send-certificate-signed'];
+    expect(def.fields.length).toBeGreaterThanOrEqual(1);
+    const certChain = def.fields.find(f => f.name === 'certificateChain');
+    expect(certChain).toBeDefined();
+    expect(certChain!.required).toBe(true);
   });
 });
