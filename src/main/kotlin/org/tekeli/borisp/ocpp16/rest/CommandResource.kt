@@ -122,11 +122,13 @@ class CommandResource {
     ): Pair<Map<String, Any>, String> {
         if (command != "get-diagnostics") return payload to body
         val existingLocation = payload["location"] as String?
-        if (existingLocation != null && existingLocation.isNotBlank()) return payload to body
+        val protocol = (payload["protocol"] as String?)?.lowercase()
+        val updatedPayload = payload.toMutableMap()
+        updatedPayload.remove("protocol")
+        if (existingLocation != null && existingLocation.isNotBlank()) return updatedPayload to objectMapper.writeValueAsString(updatedPayload)
 
         return try {
-            val generatedUrl = urlGenerator.generate(chargePointId)
-            val updatedPayload = payload.toMutableMap()
+            val generatedUrl = if (protocol != null) urlGenerator.generate(chargePointId, protocol) else urlGenerator.generate(chargePointId)
             updatedPayload["location"] = generatedUrl
             val updatedBody = objectMapper.writeValueAsString(updatedPayload)
             updatedPayload to updatedBody
