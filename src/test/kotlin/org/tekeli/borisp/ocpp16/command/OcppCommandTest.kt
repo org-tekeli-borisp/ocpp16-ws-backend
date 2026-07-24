@@ -1254,14 +1254,14 @@ class OcppCommandTest {
 
     @Test
     fun `GetDiagnosticsCommand has correct name`() {
-        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null), createStorageInstance(null))
 
         assertEquals("get-diagnostics", cmd.name)
     }
 
     @Test
     fun `GetDiagnosticsCommand rejects missing location`() {
-        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null), createStorageInstance(null))
 
         val result = cmd.validate(emptyMap<String, Any>())
 
@@ -1273,7 +1273,7 @@ class OcppCommandTest {
 
     @Test
     fun `GetDiagnosticsCommand accepts valid payload`() {
-        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null), createStorageInstance(null))
         val payload = mapOf<String, Any>("location" to "http://example.com/diag")
 
         val result = cmd.validate(payload)
@@ -1284,7 +1284,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute returns ACCEPTED on success`() {
         val service = TestOutboundService(callResult = true)
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null), createStorageInstance(null))
         val payload = mapOf<String, Any>("location" to "http://example.com/diag")
 
         val result = cmd.execute("CP-001", payload)
@@ -1298,7 +1298,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute returns BAD_GATEWAY on error`() {
         val service = TestOutboundService(callResult = false)
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null), createStorageInstance(null))
         val payload = mapOf<String, Any>("location" to "http://example.com/diag")
 
         val result = cmd.execute("CP-001", payload)
@@ -1312,7 +1312,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute uses correct location`() {
         val service = TestOutboundService(callResult = true)
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null), createStorageInstance(null))
         val payload = mapOf<String, Any>("location" to "http://diag.url")
 
         cmd.execute("CP-001", payload)
@@ -1348,7 +1348,7 @@ class OcppCommandTest {
                 override fun publicHost() = "127.0.0.1"
             }
         )
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator), createStorageInstance(null))
         val payload = emptyMap<String, Any>()
 
         val result = cmd.validate(payload)
@@ -1383,7 +1383,7 @@ class OcppCommandTest {
                 override fun publicHost() = "127.0.0.1"
             }
         )
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator), createStorageInstance(null))
         val payload = emptyMap<String, Any>()
 
         val result = cmd.execute("CP-001", payload)
@@ -1396,7 +1396,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand rejects empty payload when no urlGenerator`() {
         val service = TestOutboundService(callResult = true)
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null), createStorageInstance(null))
         val payload = emptyMap<String, Any>()
 
         val result = cmd.validate(payload)
@@ -1433,7 +1433,7 @@ class OcppCommandTest {
                 override fun publicHost() = "127.0.0.1"
             }
         ) {}
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator), createStorageInstance(null))
         val payload = emptyMap<String, Any>()
 
         val result = cmd.validate(payload)
@@ -1470,7 +1470,7 @@ class OcppCommandTest {
                 override fun publicHost() = "127.0.0.1"
             }
         )
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(generator), createStorageInstance(null))
         val payload = mapOf<String, Any>(
             "startTime" to "2024-01-01T00:00:00Z",
             "stopTime" to "2024-01-02T00:00:00Z"
@@ -2670,7 +2670,7 @@ class OcppCommandTest {
 
     @Test
     fun `GetDiagnosticsCommand validate rejects empty location`() {
-        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(TestOutboundService(), createGeneratorInstance(null), createStorageInstance(null))
         val resp = cmd.validate(mapOf("location" to ""))
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
@@ -2850,7 +2850,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError`() {
         val service = TestOutboundService(callResult = false)
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null), createStorageInstance(null))
         val resp = cmd.execute("CP-1", mapOf("location" to "http://example.com/diag"))
         assertEquals(Response.Status.BAD_GATEWAY.statusCode, resp.status)
     }
@@ -2895,7 +2895,7 @@ class OcppCommandTest {
     @Test
     fun `GetDiagnosticsCommand execute with all params returns ACCEPTED`() {
         val service = TestOutboundService(callResult = true)
-        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null))
+        val cmd = GetDiagnosticsCommand(service, createGeneratorInstance(null), createStorageInstance(null))
         val resp = cmd.execute(
             "CP-1", mapOf(
                 "location" to "http://diag.com/log",
@@ -2976,6 +2976,16 @@ class OcppCommandTest {
         Mockito.`when`(mock.isAmbiguous).thenReturn(false)
         if (generator != null) {
             Mockito.`when`(mock.get()).thenReturn(generator)
+        }
+        return mock
+    }
+
+    private fun createStorageInstance(storage: org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorage?): Instance<org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorage> {
+        val mock = Mockito.mock(Instance::class.java) as Instance<org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorage>
+        Mockito.`when`(mock.isUnsatisfied).thenReturn(storage == null)
+        Mockito.`when`(mock.isAmbiguous).thenReturn(false)
+        if (storage != null) {
+            Mockito.`when`(mock.get()).thenReturn(storage)
         }
         return mock
     }

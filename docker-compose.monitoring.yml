@@ -14,7 +14,7 @@ services:
       QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-ocpp}
       QUARKUS_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       QUARKUS_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      OCPP_FTP_EXTERNAL_ADDRESS: ${OCPP_FTP_EXTERNAL_ADDRESS:-192.168.150.180}
+      OCPP_FTP_EXTERNAL_ADDRESS: ${OCPP_FTP_EXTERNAL_ADDRESS:-127.0.0.1}
     depends_on:
       postgres:
         condition: service_healthy
