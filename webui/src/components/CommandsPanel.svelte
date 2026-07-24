@@ -10,6 +10,7 @@
   export let cpId: string;
   export let commands: CommandName[];
   export let connectors: Array<{connectorId: number; status: string}> = [];
+  export let onRefresh: (() => Promise<void>) | null = null;
 
   let selectedCommand: string = '';
   let response: string = '';
@@ -50,7 +51,14 @@
 </script>
 
 <div class="panel">
-  <h2>{$t('label_command')}</h2>
+  <h2>
+    <span>{$t('label_command')}</span>
+    {#if onRefresh}
+      <div class="panel-header-right">
+        <button class="btn btn-sm btn-outline" onclick={onRefresh}>{$t('diag_btn_refresh')}</button>
+      </div>
+    {/if}
+  </h2>
   <div class="panel-body">
     {#if connectors.length > 0}
       <div class="connector-list" style="margin-bottom:1rem;">

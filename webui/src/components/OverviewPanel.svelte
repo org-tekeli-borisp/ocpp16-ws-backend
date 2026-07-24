@@ -5,10 +5,18 @@ import ConnectorChip from '$components/ConnectorChip.svelte';
 import { formatDate, timeAgo } from '$lib/utils';
 
   export let chargePoint: ChargePoint;
+  export let onRefresh: (() => Promise<void>) | null = null;
 </script>
 
 <div class="panel">
-  <h2>{chargePoint.chargePointId}</h2>
+  <h2>
+    <span>{chargePoint.chargePointId}</span>
+    {#if onRefresh}
+      <div class="panel-header-right">
+        <button class="btn btn-sm btn-outline" onclick={onRefresh}>{$t('diag_btn_refresh')}</button>
+      </div>
+    {/if}
+  </h2>
   <div class="panel-body">
     <div class="overview-grid">
       <div class="info-card">

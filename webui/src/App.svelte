@@ -59,6 +59,24 @@
     }
   }
 
+  async function refreshCurrent() {
+    if (!$selectedCpId) return;
+    try {
+      const updated = await fetchChargePoint($selectedCpId);
+      currentCp = updated;
+      const list = $chargePoints;
+      const idx = list.findIndex(c => c.chargePointId === $selectedCpId);
+      if (idx >= 0) {
+        list[idx] = updated;
+        chargePoints.set([...list]);
+      }
+      currentCommands = await fetchCommands($selectedCpId);
+      const cache = $commandsCache;
+      cache[$selectedCpId] = currentCommands;
+      commandsCache.set({ ...cache });
+    } catch { /* ignore */ }
+  }
+
   function updateUrl(cpId: string, tab: TabKey) {
     const url = new URL(window.location);
     url.searchParams.set('cp', cpId);
@@ -143,9 +161,9 @@
       {:else if !$selectedCpId}
         <div class="no-selection">{$t('select_station_hint')}</div>
       {:else if $activeTab === 'overview' && currentCp}
-        <OverviewPanel chargePoint={currentCp} />
+        <OverviewPanel chargePoint={currentCp} onRefresh={refreshCurrent} />
       {:else if $activeTab === 'commands'}
-        <CommandsPanel cpId={$selectedCpId} commands={currentCommands} connectors={currentCp?.connectors || []} />
+        <CommandsPanel cpId={$selectedCpId} commands={currentCommands} connectors={currentCp?.connectors || []} onRefresh={refreshCurrent} />
       {:else if $activeTab === 'messages'}
         <MessagesPanel cpId={$selectedCpId} />
       {:else if $activeTab === 'transactions'}

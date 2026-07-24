@@ -72,7 +72,12 @@ import { filterMessages } from '$lib/utils';
 </script>
 
 <div class="panel">
-  <h2>{$t('label_messages')}</h2>
+  <h2>
+    <span>{$t('label_messages')}</span>
+    <div class="panel-header-right">
+      <button class="btn btn-sm btn-outline" onclick={loadMessages}>{$t('diag_btn_refresh')}</button>
+    </div>
+  </h2>
   <div class="panel-body">
     <div class="msg-tabs">
       <button class="msg-tab {msgTab === 'live' ? 'active' : ''}" onclick={() => switchTab('live')}>Live</button>
