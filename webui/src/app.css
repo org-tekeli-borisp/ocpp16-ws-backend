@@ -95,8 +95,9 @@ header h1 { font-size: 1.3rem; font-weight: 600; letter-spacing: .02em; }
 .panel h2 {
   font-size: .85rem; text-transform: uppercase; letter-spacing: .05em;
   padding: .8rem 1.2rem; background: #f8f9fa; border-bottom: 1px solid #eee;
-  color: #495057; font-weight: 600;
+  color: #495057; font-weight: 600; display: flex; align-items: center; justify-content: space-between;
 }
+.panel-header-right { display: flex; align-items: center; gap: .5rem; }
 .panel-body { padding: 1.2rem; }
 
 /* ── Overview ─────────────────────────────── */
@@ -157,6 +158,8 @@ select:invalid { color: #6c757d; }
 .btn-sm { padding: .3rem .6rem; font-size: .78rem; }
 .btn-outline { background: transparent; border: 1px solid #ced4da; color: #495057; }
 .btn-outline:hover { background: #f8f9fa; }
+.btn-danger { color: #e74c3c; border-color: #e74c3c; }
+.btn-danger:hover { background: #fff3f3; }
 
 /* ── Response ─────────────────────────────── */
 .response-area {
@@ -282,6 +285,15 @@ select:invalid { color: #6c757d; }
 .tx-energy { font-weight: 600; color: #28a745; white-space: nowrap; }
 .tx-duration { white-space: nowrap; }
 .tx-reason { font-size: .78rem; color: #6c757d; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── Diagnostics ──────────────────────────── */
+.diag-filename {
+  display: flex; align-items: center; gap: .4rem; max-width: 350px;
+}
+.diag-filename span {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.diag-actions { white-space: nowrap; }
 .tx-live { display: inline-flex; align-items: center; gap: .3rem; font-weight: 600; color: #28a745; }
 .tx-running-badge {
   display: inline-block; background: #d4edda; color: #155724;

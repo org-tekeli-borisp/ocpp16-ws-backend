@@ -63,20 +63,27 @@ import { formatDateTime, formatDuration, formatEnergy, getActiveDuration } from 
 </script>
 
 <div class="panel">
-  <div class="tx-header">
-    <div class="tx-tabs">
-      <button class="tx-tab {txTab === 'active' ? 'active' : ''}" onclick={() => switchTab('active')}>
-        <span class="tx-tab-dot" style="display: {txTab === 'active' && activeFiltered.length > 0 ? 'inline-block' : 'none'}"></span>
+  <h2>
+    <span>{$t('label_transactions')}</span>
+    <div class="panel-header-right">
+      <button class="btn btn-sm btn-outline" onclick={loadAll}>{$t('tx_btn_refresh')}</button>
+    </div>
+  </h2>
+  <div class="panel-body">
+    <div class="msg-tabs">
+      <button class="msg-tab {txTab === 'active' ? 'active' : ''}" onclick={() => switchTab('active')}>
+        <span class="live-dot" style="display: {txTab === 'active' && activeFiltered.length > 0 ? 'inline-block' : 'none'}"></span>
         {$t('tx_tab_active')}
         {#if activeFiltered.length > 0}
-          <span class="tx-badge">{activeFiltered.length}</span>
+          <span style="background:#1a73e8;color:#fff;border-radius:10px;padding:.1rem .4rem;font-size:.7rem;margin-left:.3rem;">{activeFiltered.length}</span>
         {/if}
       </button>
-      <button class="tx-tab {txTab === 'history' ? 'active' : ''}" onclick={() => switchTab('history')}>
+      <button class="msg-tab {txTab === 'history' ? 'active' : ''}" onclick={() => switchTab('history')}>
         {$t('tx_tab_history')}
       </button>
     </div>
-    <div class="tx-filters">
+
+    <div class="filters">
       <label style="font-size:.78rem;font-weight:600;">{$t('tx_filter_connector')}:</label>
       <select bind:value={filterConnector}>
         <option value="">{$t('tx_filter_all_connectors')}</option>
@@ -84,11 +91,7 @@ import { formatDateTime, formatDuration, formatEnergy, getActiveDuration } from 
           <option value={id}>{id}</option>
         {/each}
       </select>
-      <button class="btn btn-sm btn-outline" onclick={loadAll}>{$t('tx_btn_refresh')}</button>
     </div>
-  </div>
-
-  <div class="panel-body">
     {#if loading}
       <p class="loading">{$t('tx_loading')}</p>
     {:else if txTab === 'active'}
