@@ -3,6 +3,7 @@ package org.tekeli.borisp.ocpp16.persistence
 import io.quarkus.test.junit.QuarkusTest
 import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -238,5 +239,18 @@ class PersistenceServiceTest {
 
         val after = persistenceService.findChargePointById("CP-001")!!.lastSeenAt
         assertTrue(after.isAfter(before) || after.equals(before))
+    }
+
+    @Test
+    fun `charge_points unique constraint prevents duplicate chargePointId`() {
+        persistenceService.upsertChargePoint("s1", "CP-001", "V", "M", null)
+        em.flush()
+
+        assertThrows(PersistenceException::class.java) {
+            em.createNativeQuery(
+                "INSERT INTO charge_points (id, charge_point_id, vendor, model, status, session_id, last_seen_at, created_at) " +
+                    "VALUES (999, 'CP-001', 'V2', 'M2', 'ONLINE', 's2', NOW(), NOW())"
+            ).executeUpdate()
+        }
     }
 }
