@@ -178,10 +178,10 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
             activeRegistry.unregister(connectionId)
             responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
             try {
-                activePersistence.setChargePointOffline(connectionId)
+                activePersistence.setChargePointOfflineByChargePointId(chargePointId)
             } catch (_: Exception) {
             }
-            Log.info("WebSocket connection closed: session=$connectionId")
+            Log.info("WebSocket connection closed: session=$connectionId, chargePoint=$chargePointId")
         }
     }
 }

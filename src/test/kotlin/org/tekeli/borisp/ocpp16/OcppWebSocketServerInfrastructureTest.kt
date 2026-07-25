@@ -124,10 +124,10 @@ class OcppWebSocketServerInfrastructureTest {
 
     @Test
     fun `onClose must use activeConnection id not stale sessionId field`() {
-        var offlineSessionId: String? = null
+        var offlineChargePointId: String? = null
         val ps = object : PersistenceService() {
-            override fun setChargePointOffline(sid: String) {
-                offlineSessionId = sid
+            override fun setChargePointOfflineByChargePointId(cpId: String) {
+                offlineChargePointId = cpId
             }
         }
         val registry = org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry()
@@ -159,8 +159,8 @@ class OcppWebSocketServerInfrastructureTest {
 
         s.onClose()
 
-        assertEquals("actual-connection-id", offlineSessionId,
-            "onClose must derive session ID from activeConnection.id(), not from stale sessionId field")
+        assertEquals("CP1", offlineChargePointId,
+            "onClose must use chargePointId to set offline, not connection ID")
     }
 
     @Test

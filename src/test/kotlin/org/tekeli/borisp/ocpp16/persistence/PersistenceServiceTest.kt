@@ -161,6 +161,19 @@ class PersistenceServiceTest {
     }
 
     @Test
+    fun `setChargePointOfflineByChargePointId works regardless of sessionId`() {
+        persistenceService.upsertChargePoint("s1", "CP-001", "V", "M", null)
+        em.flush()
+
+        persistenceService.setChargePointOfflineByChargePointId("CP-001")
+        em.flush()
+
+        em.clear()
+        val refreshed = persistenceService.findChargePointBySessionId("s1")
+        assertEquals(ChargePointStatus.OFFLINE, refreshed!!.status)
+    }
+
+    @Test
     fun `setChargePointOnline updates status`() {
         persistenceService.upsertChargePoint("s1", "CP-001", "V", "M", null)
         persistenceService.setChargePointOffline("s1")
