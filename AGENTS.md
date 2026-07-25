@@ -24,7 +24,7 @@ If production code is committed without a preceding failing test, the agent MUST
 
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1369 tests (77 files), 26 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1433 tests (86 files), 26 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
 
 ## Tech Stack
 
@@ -36,7 +36,7 @@ OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1369 tests
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |
 | JSON | Jackson |
-| Testing | JUnit 5, RestAssured, MockK, PITest, Playwright |
+| Testing | JUnit 5, RestAssured, Mockito, PITest, Playwright |
 | Metrics | Micrometer + Prometheus |
 
 ## Key Commands
@@ -135,7 +135,7 @@ When adding new validation logic, determine which layer it belongs to:
 
 ## Testing Conventions
 
-- **Unit tests**: Mock external dependencies with MockK
+- **Unit tests**: Mock external dependencies with Mockito
 - **Integration tests**: `@QuarkusTest` with Dev Services PostgreSQL
 - **WebSocket tests**: Vertx WebSocket client against running server
 - **REST tests**: RestAssured against running server

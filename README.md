@@ -14,7 +14,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (95% mutation coverage, 97% line coverage)
-- **1369 Unit & Integration Tests** (77 test files)
+- **1433 Unit & Integration Tests** (86 test files)
 - **Coverage Reports** – [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 - **Diagnostics Upload** – FTP (2021) + SFTP (2022) servers for receiving firmware/diagnostic files from charge points
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
@@ -387,7 +387,7 @@ mvn org.pitest:pitest-maven:mutationCoverage
 | Metrics | 1 | Prometheus metrics service |
 | Integration | 2 | CommandRoundTrip, FullFlowIntegration |
 | Root-level | 14 | WebSocket Server, OcppMessage, Registry, ResponseAwaiter, Dispatcher, etc. |
-| **Total** | **1369 Tests** | 77 test files |
+| **Total** | **1433 Tests** | 86 test files |
 
 ## CI/CD Pipeline
 
@@ -465,7 +465,7 @@ Key properties in `application.properties`:
 | Persistence | Hibernate ORM + Panache |
 | JSON | Jackson |
 | Schema Validation | networknt/json-schema-validator 1.5.2 (draft-04 + draft-06) |
-| Testing | JUnit 5, RestAssured, MockK 1.13.10, PITest 1.23.0, Playwright, Vitest |
+| Testing | JUnit 5, RestAssured, Mockito 5.18.0, PITest 1.23.0, Playwright, Vitest |
 | Metrics | Micrometer + Prometheus |
 | Deployment | Docker Compose, GitHub Actions, GHCR |
 | WebUI | Svelte 5 + Vite 6 + TypeScript 5.7 (built via frontend-maven-plugin) |
