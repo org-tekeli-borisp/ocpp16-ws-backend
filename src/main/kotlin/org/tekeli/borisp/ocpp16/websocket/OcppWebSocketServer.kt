@@ -3,6 +3,7 @@ package org.tekeli.borisp.ocpp16.websocket
 import io.quarkus.logging.Log
 import io.quarkus.websockets.next.*
 import io.smallrye.mutiny.Uni
+import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -49,6 +50,9 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     @Inject
     open var schemaValidator: SchemaValidator? = null
 
+    @Inject
+    var vertx: Vertx? = null
+
     open var currentConnection: WebSocketConnection? = null
 
     val activeConnection: WebSocketConnection
@@ -71,7 +75,8 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         MessageDispatcher(createHandlers(), messageCaptureService, schemaValidator)
     }
 
-    private val scheduler = DefaultScheduler()
+    private val scheduler: Scheduler
+        get() = VertxScheduler(vertx!!)
     private var pingPongManager: PingPongManager? = null
 
     open fun createHandlers(): Map<String, OcppActionHandler> = mapOf(

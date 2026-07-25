@@ -1,6 +1,7 @@
 package org.tekeli.borisp.ocpp16.websocket
 
 import io.vertx.core.buffer.Buffer
+import java.util.concurrent.Delayed
 import java.util.concurrent.TimeUnit
 
 interface Scheduler {
@@ -19,29 +20,49 @@ interface Scheduler {
     ): java.util.concurrent.ScheduledFuture<V>
 }
 
-class DefaultScheduler(
-    threadName: String = "ocpp-ping-pinger"
+class VertxScheduler(
+    private val vertx: io.vertx.core.Vertx
 ) : Scheduler {
-
-    private val executor = java.util.concurrent.Executors.newScheduledThreadPool(1) { r ->
-        Thread(r, threadName).apply { isDaemon = true }
-    }
 
     override fun <V : Any?> schedule(
         runnable: Runnable,
         delay: Long,
         unit: TimeUnit
-    ): java.util.concurrent.ScheduledFuture<V> =
-        executor.schedule<V?>(runnable as () -> V?, delay, unit)
+    ): java.util.concurrent.ScheduledFuture<V> {
+        val timerId = vertx.setTimer(unit.toMillis(delay)) { runnable.run() }
+        return VertxScheduledFuture<V>(timerId) { vertx.cancelTimer(timerId) }
+    }
 
-    @Suppress("UNCHECKED_CAST")
     override fun <V : Any?> scheduleAtFixedRate(
         runnable: Runnable,
         initialDelay: Long,
         period: Long,
         unit: TimeUnit
-    ): java.util.concurrent.ScheduledFuture<V> =
-        executor.scheduleAtFixedRate(runnable, initialDelay, period, unit) as java.util.concurrent.ScheduledFuture<V>
+    ): java.util.concurrent.ScheduledFuture<V> {
+        val timerId = vertx.setPeriodic(unit.toMillis(initialDelay), unit.toMillis(period)) { runnable.run() }
+        return VertxScheduledFuture<V>(timerId) { vertx.cancelTimer(timerId) }
+    }
+}
+
+private class VertxScheduledFuture<V : Any?>(
+    private val timerId: Long,
+    private val cancelAction: () -> Unit
+) : java.util.concurrent.ScheduledFuture<V> {
+    private var cancelled = false
+
+    override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+        if (cancelled) return false
+        cancelled = true
+        cancelAction()
+        return true
+    }
+
+    override fun isCancelled(): Boolean = cancelled
+    override fun isDone(): Boolean = cancelled
+    override fun get(): V = throw java.util.concurrent.CancellationException("VertxScheduledFuture.get() not supported")
+    override fun get(timeout: Long, unit: TimeUnit?): V = throw java.util.concurrent.CancellationException("VertxScheduledFuture.get() not supported")
+    override fun getDelay(unit: TimeUnit?): Long = 0
+    override fun compareTo(other: Delayed?): Int = 0
 }
 
 interface PingPongTarget {
