@@ -56,7 +56,6 @@ Tracks implemented vs. missing features relative to the OCPP 1.6J spec and OCPP 
 | Rate limiting | ❌ | No request rate limiting on REST or WebSocket |
 | Audit logging | ❌ | No CS-side audit trail for admin actions |
 | Role-based access control | ❌ | REST API has no authentication/authorization |
-| WebSocket close codes | ❌ | Doesn't use OCPP-specified close codes (4001-4999) |
 | `Authorize` with LocalAuthList | ❌ | Always returns `Accepted` — no external authorization service |
 | Transaction pre-validation | ❌ | No validation of `StopTransaction` against active transaction state |
 | MeterValues sampling configuration | ❌ | Doesn't respond to `ChangeConfiguration` for `MeterValueSampleInterval` |

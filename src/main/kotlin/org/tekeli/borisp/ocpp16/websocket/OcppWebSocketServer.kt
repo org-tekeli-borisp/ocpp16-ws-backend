@@ -103,7 +103,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         val subprotocol = conn.subprotocol()
         if (subprotocol != "ocpp1.6") {
             Log.warn("Rejecting WebSocket connection: unsupported subprotocol '$subprotocol' (expected 'ocpp1.6')")
-            activeConnection.closeAndAwait(io.quarkus.websockets.next.CloseReason(4004, "Subprotocol ocpp1.6 required"))
+            activeConnection.closeAndAwait(io.quarkus.websockets.next.CloseReason(1003, "Subprotocol ocpp1.6 required"))
             return
         }
         initializeConnection()
