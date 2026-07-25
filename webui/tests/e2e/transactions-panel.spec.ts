@@ -142,12 +142,12 @@ test.describe('Transactions Panel', () => {
 
   test('switching to History tab shows history rows', async ({ page }) => {
     await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await expect(page.locator('.msg-table tbody tr')).toHaveCount(2);
+    await expect(page.locator('.tx-table tbody tr')).toHaveCount(2);
   });
 
   test('history row shows all columns', async ({ page }) => {
     await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
-    const row = page.locator('.msg-table tbody tr').first();
+    const row = page.locator('.tx-table tbody tr').first();
 
     await expect(row.locator('.tx-conn')).toBeVisible();
     await expect(row.locator('.tx-idtag')).toBeVisible();
@@ -159,40 +159,40 @@ test.describe('Transactions Panel', () => {
 
   test('history shows energy in kWh', async ({ page }) => {
     await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await expect(page.locator('.msg-table .tx-energy').first()).toContainText('45.00 kWh');
+    await expect(page.locator('.tx-table .tx-energy').first()).toContainText('45.00 kWh');
   });
 
   test('history shows duration formatted', async ({ page }) => {
     await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await expect(page.locator('.msg-table .tx-duration').first()).toContainText('1h 30m');
+    await expect(page.locator('.tx-table .tx-duration').first()).toContainText('1h 30m');
   });
 
   test('history shows stop reason', async ({ page }) => {
     await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await expect(page.locator('.msg-table .tx-reason').first()).toContainText('Local');
+    await expect(page.locator('.tx-table .tx-reason').first()).toContainText('Local');
   });
 
   test('connector filter dropdown is populated', async ({ page }) => {
-    const options = page.locator('.tx-filters select option');
+    const options = page.locator('.filters select option');
     await expect(options).toHaveCount(3);
   });
 
   test('filtering by connector 1 in history', async ({ page }) => {
     await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await page.locator('.tx-filters select').selectOption('1');
-    await expect(page.locator('.msg-table tbody tr')).toHaveCount(1);
-    await expect(page.locator('.msg-table .tx-conn').first()).toContainText('1');
+    await page.locator('.filters select').selectOption('1');
+    await expect(page.locator('.tx-table tbody tr')).toHaveCount(1);
+    await expect(page.locator('.tx-table .tx-conn').first()).toContainText('1');
   });
 
   test('filtering by connector 2 in history', async ({ page }) => {
     await page.locator('.msg-tab').filter({ hasText: /History|Verlauf/i }).click();
-    await page.locator('.tx-filters select').selectOption('2');
-    await expect(page.locator('.msg-table tbody tr')).toHaveCount(1);
-    await expect(page.locator('.msg-table .tx-conn').first()).toContainText('2');
+    await page.locator('.filters select').selectOption('2');
+    await expect(page.locator('.tx-table tbody tr')).toHaveCount(1);
+    await expect(page.locator('.tx-table .tx-conn').first()).toContainText('2');
   });
 
   test('refresh button is visible', async ({ page }) => {
-    await expect(page.locator('.tx-filters .btn-outline')).toBeVisible();
+    await expect(page.locator('.panel-header-right .btn-outline')).toBeVisible();
   });
 });
 

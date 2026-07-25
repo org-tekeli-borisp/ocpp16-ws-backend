@@ -116,19 +116,19 @@ test.describe('Messages Panel', () => {
 
   test('filter by direction works', async ({ page }) => {
     await page.locator('.filters select').selectOption('INBOUND');
-    await page.locator('.btn.btn-sm').click();
+    await page.locator('.filters .btn-outline').click();
     await expect(page.locator('.message-item')).toHaveCount(2);
   });
 
   test('filter by action works', async ({ page }) => {
     await page.locator('.filters input[type="text"]').fill('Heartbeat');
-    await page.locator('.btn.btn-sm').click();
+    await page.locator('.filters .btn-outline').click();
     await expect(page.locator('.message-item')).toHaveCount(2);
   });
 
   test('empty filter shows no messages state', async ({ page }) => {
     await page.locator('.filters input[type="text"]').fill('NONEXISTENT');
-    await page.locator('.btn.btn-sm').click();
+    await page.locator('.filters .btn-outline').click();
     await expect(page.locator('.message-list .empty-state')).toBeVisible();
   });
 });
