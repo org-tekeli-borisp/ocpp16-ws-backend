@@ -121,9 +121,10 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     private fun registerAndOnline() {
         activeRegistry.register(sessionId, sessionId, this, chargePointId)
         activePersistence.setChargePointOnlineById(chargePointId, sessionId)
+        val conn = activeConnection
         pingPongManager = PingPongManager(
             target = WebSocketPingPongTarget(
-                connection = { activeConnection },
+                connection = { conn },
                 registry = activeRegistry,
                 persistence = activePersistence,
                 sessionId = sessionId
