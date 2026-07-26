@@ -126,18 +126,18 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         val subprotocol = conn.subprotocol()
         if (subprotocol != "ocpp1.6") {
             Log.warn("Rejecting WebSocket connection: unsupported subprotocol '$subprotocol' (expected 'ocpp1.6')")
-            activeConnection.closeAndAwait(io.quarkus.websockets.next.CloseReason(1003, "Subprotocol ocpp1.6 required"))
+            conn.closeAndAwait(io.quarkus.websockets.next.CloseReason(1003, "Subprotocol ocpp1.6 required"))
             return
         }
-        initializeConnection()
+        initializeConnection(conn)
     }
 
-    open fun initializeConnection() {
-        val chargePointId = activeConnection.pathParam("chargePointId")
-        val sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
+    open fun initializeConnection(conn: WebSocketConnection) {
+        val chargePointId = conn.pathParam("chargePointId")
+        val sessionId = conn.id() ?: throw IllegalStateException("Connection id not available")
         val responseAwaiter = ResponseAwaiter()
         registerAndOnline(sessionId, chargePointId, responseAwaiter)
-        val remoteAddress = activeConnection.handshakeRequest().remoteAddress()
+        val remoteAddress = conn.handshakeRequest().remoteAddress()
         Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId, remote=$remoteAddress")
     }
 
@@ -162,29 +162,37 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     }
 
     @OnTextMessage
-    fun onTextMessage(message: String): String {
-        activePingPongManager?.messageReceived()
+    fun onTextMessage(message: String, conn: WebSocketConnection): String {
+        val sessionCtx = activeRegistry.getContext(conn.id()) ?: return "[4,\"${UUID.randomUUID()}\",\"ProtocolError\",\"No session context\"]"
+        val pingPongMgr = activeRegistry.getPingPongManager(sessionCtx.sessionId)
+        pingPongMgr?.messageReceived()
         try {
-            activePersistence.touchLastSeenAt(chargePointId)
+            activePersistence.touchLastSeenAt(sessionCtx.chargePointId)
         } catch (e: Exception) {
             Log.warn("touchLastSeenAt failed: ${e.message}")
         }
         return dispatcher.dispatch(
             message,
             this,
-            responseAwaiter,
-            metricsService
+            sessionCtx.responseAwaiter,
+            metricsService,
+            sessionCtx.chargePointId
         )
     }
 
+    fun onTextMessage(message: String): String {
+        return dispatcher.dispatch(message, this, responseAwaiter, metricsService)
+    }
+
     @OnPingMessage
-    fun onPingMessage(buffer: Buffer): Uni<Void> {
-        return activeConnection.sendPong(buffer)
+    fun onPingMessage(buffer: Buffer, conn: WebSocketConnection): Uni<Void> {
+        return conn.sendPong(buffer)
     }
 
     @OnPongMessage
-    fun onPongMessage(buffer: Buffer) {
-        activePingPongManager?.pongReceived()
+    fun onPongMessage(buffer: Buffer, conn: WebSocketConnection) {
+        val sessionCtx = activeRegistry.getContext(conn.id()) ?: return
+        activeRegistry.getPingPongManager(sessionCtx.sessionId)?.pongReceived()
     }
 
     override fun sendText(text: String): Uni<Void> {
@@ -193,6 +201,21 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     }
 
     @OnClose
+    fun onClose(conn: WebSocketConnection) {
+        val sessionId = conn.id()
+        activeRegistry.getPingPongManager(sessionId)?.stop()
+        val ctx = activeRegistry.getContext(sessionId) ?: return
+        if (activeRegistry.isConnected(sessionId)) {
+            activeRegistry.unregister(sessionId)
+            ctx.responseAwaiter.rejectAll("WebSocket connection closed: $sessionId")
+            try {
+                activePersistence.setChargePointOfflineByChargePointId(ctx.chargePointId)
+            } catch (_: Exception) {
+            }
+            Log.info("WebSocket connection closed: session=$sessionId, chargePoint=${ctx.chargePointId}")
+        }
+    }
+
     fun onClose() {
         val connectionId = activeConnection.id()
         activePingPongManager?.stop()

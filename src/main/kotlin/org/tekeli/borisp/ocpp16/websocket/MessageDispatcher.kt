@@ -31,9 +31,19 @@ class MessageDispatcher(
         responseAwaiter: ResponseAwaiter,
         metricsService: MetricsService?
     ): String {
+        return dispatch(message, context, responseAwaiter, metricsService, context.chargePointId)
+    }
+
+    fun dispatch(
+        message: String,
+        context: OcppHandlerContext,
+        responseAwaiter: ResponseAwaiter,
+        metricsService: MetricsService?,
+        chargePointId: String
+    ): String {
         return try {
             val ocppMessage = OcppMessage.parse(message)
-            dispatchParsed(ocppMessage, context, responseAwaiter, metricsService)
+            dispatchParsed(ocppMessage, context, responseAwaiter, metricsService, chargePointId)
         } catch (e: OcppParseException) {
             val errorMsg = e.message ?: "Parse error"
             OcppMessage.CallError(
@@ -49,24 +59,25 @@ class MessageDispatcher(
         ocppMessage: OcppMessage,
         context: OcppHandlerContext,
         responseAwaiter: ResponseAwaiter,
-        metricsService: MetricsService?
+        metricsService: MetricsService?,
+        chargePointId: String
     ): String {
         return when (ocppMessage.type) {
             OcppMessageType.CALL -> {
-                messageCaptureService?.capture(context.chargePointId, OcppMessageDirection.INBOUND, ocppMessage)
+                messageCaptureService?.capture(chargePointId, OcppMessageDirection.INBOUND, ocppMessage)
                 metricsService?.messagesReceived?.increment()
-                handleCall(ocppMessage as OcppMessage.Call, context)
+                handleCall(ocppMessage as OcppMessage.Call, context, chargePointId)
             }
             OcppMessageType.CALLRESULT -> handleCallResult(ocppMessage as OcppMessage.CallResult, responseAwaiter)
             OcppMessageType.CALLERROR -> handleCallError(ocppMessage as OcppMessage.CallError, responseAwaiter)
         }
     }
 
-    private fun handleCall(call: OcppMessage.Call, context: OcppHandlerContext): String {
+    private fun handleCall(call: OcppMessage.Call, context: OcppHandlerContext, chargePointId: String): String {
         val responseJson = handlers[call.action]
             ?.let { invokeHandler(call, context, it) }
             ?: call.callError(OcppErrorCode.NOT_IMPLEMENTED, "Action '${call.action}' is not implemented")
-        captureOutbound(context.chargePointId, responseJson)
+        captureOutbound(chargePointId, responseJson)
         return responseJson
     }
 
