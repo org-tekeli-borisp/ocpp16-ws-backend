@@ -35,9 +35,8 @@ class BootNotificationHeartbeatIntervalTest {
         val response = handler.handle(call, server)
 
         assertTrue(response.startsWith("[3,"), "Must return CallResult")
-        assertTrue(response.contains("\"interval\""), "Must contain interval field")
-        assertTrue(response.contains("600"), "interval must be 600 from context")
-        assertFalse(response.contains("300"), "interval must NOT be default 300")
+        assertTrue(response.contains("\"interval\":600"), "interval must be 600 from context")
+        assertFalse(response.contains("\"interval\":300"), "interval must NOT be default 300")
     }
 
     @Test
