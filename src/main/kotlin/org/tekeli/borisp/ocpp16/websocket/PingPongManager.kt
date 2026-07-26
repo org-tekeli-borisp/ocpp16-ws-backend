@@ -11,13 +11,6 @@ interface Scheduler {
         delay: Long,
         unit: TimeUnit
     ): java.util.concurrent.ScheduledFuture<V>
-
-    fun <V : Any?> scheduleAtFixedRate(
-        runnable: Runnable,
-        initialDelay: Long,
-        period: Long,
-        unit: TimeUnit
-    ): java.util.concurrent.ScheduledFuture<V>
 }
 
 class VertxScheduler(
@@ -30,16 +23,6 @@ class VertxScheduler(
         unit: TimeUnit
     ): java.util.concurrent.ScheduledFuture<V> {
         val timerId = vertx.setTimer(unit.toMillis(delay)) { runnable.run() }
-        return VertxScheduledFuture<V>(timerId) { vertx.cancelTimer(timerId) }
-    }
-
-    override fun <V : Any?> scheduleAtFixedRate(
-        runnable: Runnable,
-        initialDelay: Long,
-        period: Long,
-        unit: TimeUnit
-    ): java.util.concurrent.ScheduledFuture<V> {
-        val timerId = vertx.setPeriodic(unit.toMillis(initialDelay), unit.toMillis(period)) { runnable.run() }
         return VertxScheduledFuture<V>(timerId) { vertx.cancelTimer(timerId) }
     }
 }
@@ -99,26 +82,37 @@ class PingPongManager(
 
     fun start() {
         stop()
-        pingFuture = scheduler.scheduleAtFixedRate<Unit>({
-            sendPingAndScheduleTimeout()
-        }, pingInterval, pingInterval, TimeUnit.SECONDS)
+        schedulePing()
     }
 
     fun stop() {
-        pingFuture?.cancel(false)
-        pingFuture = null
+        cancelPing()
         cancelPongTimeout()
         isPingingFlag.set(false)
+    }
+
+    private fun schedulePing() {
+        cancelPing()
+        pingFuture = scheduler.schedule<Unit>({
+            sendPingAndScheduleTimeout()
+        }, pingInterval, TimeUnit.SECONDS)
+    }
+
+    private fun cancelPing() {
+        pingFuture?.cancel(false)
+        pingFuture = null
     }
 
     fun pongReceived() {
         cancelPongTimeout()
         isPingingFlag.set(false)
+        schedulePing()
     }
 
     fun messageReceived() {
         cancelPongTimeout()
         isPingingFlag.set(false)
+        schedulePing()
     }
 
     private fun sendPingAndScheduleTimeout() {
@@ -165,6 +159,8 @@ class PingPongManager(
         target.executeAsync {
             try {
                 target.closeConnection("Pong timeout")
+                    .subscribe()
+                    .with({}, { })
             } catch (_: Exception) {}
             try {
                 target.setChargePointOffline(sessionId)

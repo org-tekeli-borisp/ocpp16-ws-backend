@@ -21,9 +21,9 @@ import java.util.*
 open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     companion object {
-        private const val DEFAULT_PING_INTERVAL_SECONDS = 30
-        private const val DEFAULT_PONG_TIMEOUT_SECONDS = 360
         private const val DEFAULT_HEARTBEAT_INTERVAL_SECONDS = 300
+        private const val DEFAULT_PING_INTERVAL_SECONDS = 360
+        private const val DEFAULT_PONG_TIMEOUT_SECONDS = 720
     }
 
     @ConfigProperty(name = "ocpp.websocket.ping-interval-seconds", defaultValue = "${DEFAULT_PING_INTERVAL_SECONDS}")

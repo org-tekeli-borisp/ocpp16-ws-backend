@@ -56,7 +56,7 @@ class PingPongManagerTest {
     }
 
     @Test
-    fun `pongReceived cancels timeout and resets isPinging`() {
+    fun `pongReceived cancels timeout and reschedules ping`() {
         manager.start()
         scheduler.executeNext() // Execute ping
         assertTrue(manager.isPinging)
@@ -64,10 +64,11 @@ class PingPongManagerTest {
         manager.pongReceived()
         assertFalse(manager.isPinging, "isPinging should be false after pong")
         assertTrue(scheduler.hasCancelledTasks(), "Should have cancelled pong timeout")
+        assertTrue(scheduler.hasScheduledTasks(), "Should have rescheduled ping after pong")
     }
 
     @Test
-    fun `messageReceived cancels timeout and resets isPinging`() {
+    fun `messageReceived cancels timeout and reschedules ping`() {
         manager.start()
         scheduler.executeNext() // Execute ping
         assertTrue(manager.isPinging)
@@ -75,6 +76,7 @@ class PingPongManagerTest {
         manager.messageReceived()
         assertFalse(manager.isPinging, "isPinging should be false after message")
         assertTrue(scheduler.hasCancelledTasks(), "Should have cancelled pong timeout")
+        assertTrue(scheduler.hasScheduledTasks(), "Should have rescheduled ping after message")
     }
 
     @Test
@@ -83,12 +85,14 @@ class PingPongManagerTest {
         scheduler.executeNext() // Execute ping
         assertEquals(1, target.pingSendCount)
 
-        scheduler.executeNext() // This is the pong timeout, not another ping
-        // After the pong timeout executes, isPinging is false again
+        scheduler.executeNext() // This is the pong timeout
+        // After pong timeout, isPinging is false but no new ping is scheduled automatically
+        // A new ping is only scheduled when messageReceived() or pongReceived() is called
 
-        // The next scheduled ping should only send one ping
+        // Simulate receiving a message to trigger reschedule
+        manager.messageReceived()
         scheduler.executeNext() // Next ping
-        assertEquals(2, target.pingSendCount, "Should not have sent extra pings")
+        assertEquals(2, target.pingSendCount, "Should only have sent expected pings")
     }
 
     @Test
@@ -178,9 +182,6 @@ class TestingScheduler : Scheduler {
         if (tasks.isEmpty()) return
         val task = tasks.removeAt(0)
         task.runnable.run()
-        if (task.period != null && !task.isCancelled) {
-            tasks.add(task)
-        }
     }
 
     override fun <V : Any?> schedule(
@@ -188,20 +189,7 @@ class TestingScheduler : Scheduler {
         delay: Long,
         unit: TimeUnit
     ): ScheduledTask<V> {
-        val task = ScheduledTask<V>(runnable, delay, unit, null) {
-            cancelledCount++
-        }
-        tasks.add(task)
-        return task
-    }
-
-    override fun <V : Any?> scheduleAtFixedRate(
-        runnable: Runnable,
-        initialDelay: Long,
-        period: Long,
-        unit: TimeUnit
-    ): ScheduledTask<V> {
-        val task = ScheduledTask<V>(runnable, initialDelay, unit, period) {
+        val task = ScheduledTask<V>(runnable, delay, unit) {
             cancelledCount++
         }
         tasks.add(task)
@@ -213,7 +201,6 @@ class ScheduledTask<V>(
     val runnable: Runnable,
     val delay: Long,
     val unit: TimeUnit,
-    val period: Long?,
     val onCancel: () -> Unit = {}
 ) : java.util.concurrent.ScheduledFuture<V> {
     private var cancelled = false

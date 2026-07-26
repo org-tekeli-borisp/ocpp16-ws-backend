@@ -55,7 +55,7 @@ class OcppWebSocketServerTextMessageCancelsPongTimeoutTest {
         // ChargePoint sends an OCPP message — should cancel the pong timeout
         manager.messageReceived()
 
-        // Execute the pong timeout handler — must be no-op since message cancelled it
+        // Execute the rescheduled ping — pong timeout was cancelled
         scheduler.executeNext()
 
         assertFalse(offlineCalled, "setChargePointOffline must NOT be called when text message cancelled pong timeout")
@@ -109,7 +109,7 @@ class OcppWebSocketServerTextMessageCancelsPongTimeoutTest {
         for (msg in messages) {
             scheduler.executeNext() // Execute ping
             manager.messageReceived() // Simulate text message arrival
-            scheduler.executeNext() // Execute pong timeout — should be no-op
+            scheduler.executeNext() // Execute rescheduled ping — pong timeout was cancelled
             assertFalse(offlineCalled, "Text message must cancel pong timeout for: $msg")
             assertFalse(closed.get(), "Connection must stay open for: $msg")
         }

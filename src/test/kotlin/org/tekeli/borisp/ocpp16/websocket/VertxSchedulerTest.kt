@@ -43,18 +43,4 @@ class VertxSchedulerTest {
 
         Thread.sleep(100)
     }
-
-    @Test
-    fun `scheduleAtFixedRate executes multiple times`() {
-        val scheduler = VertxScheduler(vertx)
-        val count = java.util.concurrent.atomic.AtomicInteger(0)
-        val future = scheduler.scheduleAtFixedRate<Unit>({
-            count.incrementAndGet()
-        }, 10, 20, TimeUnit.MILLISECONDS)
-
-        Thread.sleep(65)
-        future.cancel(true)
-
-        assertTrue(count.get() >= 2, "Should have executed at least twice, was: ${count.get()}")
-    }
 }

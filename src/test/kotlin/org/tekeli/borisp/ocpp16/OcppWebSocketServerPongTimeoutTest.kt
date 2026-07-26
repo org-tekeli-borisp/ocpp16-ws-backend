@@ -108,7 +108,7 @@ class OcppWebSocketServerPongTimeoutTest {
         scheduler.executeNext() // Execute ping (isPinging = true)
         manager.pongReceived() // Simulate pong arrival
 
-        scheduler.executeNext() // Execute pong timeout — should be no-op
+        scheduler.executeNext() // Execute rescheduled ping — pong timeout was cancelled, no-op expected
 
         assertFalse(offlineCalled, "setChargePointOffline must NOT be called when pong is received in time")
         assertFalse(closed.get(), "Connection must NOT be closed when pong is received in time")
@@ -125,9 +125,6 @@ class TestScheduler : Scheduler {
         if (tasks.isEmpty()) return
         val task = tasks.removeAt(0)
         task.runnable.run()
-        if (task.period != null && !task.isCancelled) {
-            tasks.add(task)
-        }
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -136,19 +133,7 @@ class TestScheduler : Scheduler {
         delay: Long,
         unit: TimeUnit
     ): java.util.concurrent.ScheduledFuture<V> {
-        val task = TestScheduledTask<V>(runnable, delay, unit, null) { cancelledCount++ }
-        tasks.add(task)
-        return task
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    override fun <V : Any?> scheduleAtFixedRate(
-        runnable: Runnable,
-        initialDelay: Long,
-        period: Long,
-        unit: TimeUnit
-    ): java.util.concurrent.ScheduledFuture<V> {
-        val task = TestScheduledTask<V>(runnable, initialDelay, unit, period) { cancelledCount++ }
+        val task = TestScheduledTask<V>(runnable, delay, unit) { cancelledCount++ }
         tasks.add(task)
         return task
     }
@@ -158,7 +143,6 @@ class TestScheduledTask<V>(
     val runnable: Runnable,
     val delay: Long,
     val unit: TimeUnit,
-    val period: Long?,
     val onCancel: () -> Unit = {}
 ) : java.util.concurrent.ScheduledFuture<V> {
     private var cancelled = false
