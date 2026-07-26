@@ -12,15 +12,15 @@ class OcppWebSocketServerConfigTest {
     lateinit var server: OcppWebSocketServer
 
     @Test
-    fun `pong timeout default is 360 seconds`() {
-        assertEquals(360, server.pongTimeoutSeconds,
-            "pong-timeout-seconds must default to 360 (larger than heartbeat interval)")
+    fun `pong timeout default is 720 seconds`() {
+        assertEquals(720, server.pongTimeoutSeconds,
+            "pong-timeout-seconds must default to 720 (larger than heartbeat interval)")
     }
 
     @Test
-    fun `ping interval default is 30 seconds`() {
-        assertEquals(30, server.pingIntervalSeconds,
-            "ping-interval-seconds must default to 30")
+    fun `ping interval default is 360 seconds`() {
+        assertEquals(360, server.pingIntervalSeconds,
+            "ping-interval-seconds must default to 360 (heartbeat interval + delta)")
     }
 
     @Test
