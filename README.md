@@ -6,7 +6,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 
 - **OCPP 1.6J compliant** – all Client→Server and Server→Client messages
 - **OCPP 1.6 Security Edition 4** – 11 Security Messages (Certificate Management, Security Events, Signed Firmware)
-- **JSON Schema Validation** – automatic payload validation using 78 JSON schemas (66 standard + 22 security, draft-04 + draft-06)
+- **JSON Schema Validation** – automatic payload validation using 78 JSON schemas (56 standard + 22 security, draft-04 + draft-06)
 - **WebSocket transport** – `ws://localhost:8080/ocpp/{chargePointId}`
 - **26 Remote Commands** – 19 OCPP 1.6J + 7 Security Commands via REST API
 - **WebUI** – Svelte 5 single-page application (DE/EN/FR) with station overview, remote commands, message log, transactions, and diagnostics
@@ -14,7 +14,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (95% mutation coverage, 97% line coverage)
-- **1433 Unit & Integration Tests** (86 test files)
+- **1421 Unit & Integration Tests** (87 test files)
 - **Coverage Reports** – [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 - **Diagnostics Upload** – FTP (2021) + SFTP (2022) servers for receiving firmware/diagnostic files from charge points
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
@@ -30,7 +30,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 │  ├─ 19 standard OCPP 1.6J commands                          │
 │  └─ 7 security commands                                     │
 ├─────────────────────────────────────────────────────────────┤
-│  SchemaValidator → 78 JSON Schemas (66 std + 22 sec)        │
+│  SchemaValidator → 78 JSON Schemas (56 std + 22 sec)        │
 │  └─ Two-layer: schema validation + manual business rules    │
 ├─────────────────────────────────────────────────────────────┤
 │  OcppOutboundService → ChargePointRegistry → WebSocket      │
@@ -387,7 +387,7 @@ mvn org.pitest:pitest-maven:mutationCoverage
 | Metrics | 1 | Prometheus metrics service |
 | Integration | 2 | CommandRoundTrip, FullFlowIntegration |
 | Root-level | 14 | WebSocket Server, OcppMessage, Registry, ResponseAwaiter, Dispatcher, etc. |
-| **Total** | **1433 Tests** | 86 test files |
+| **Total** | **1421 Tests** | 87 test files |
 
 ## CI/CD Pipeline
 

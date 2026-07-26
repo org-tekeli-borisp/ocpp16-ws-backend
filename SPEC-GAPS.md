@@ -12,7 +12,7 @@ Tracks implemented vs. missing features relative to the OCPP 1.6J spec and OCPP 
 | JSON Message Protocol (Call, CallResult, CallError) | ✅ | Types 2, 3, 4 |
 | 10 Client→Server messages | ✅ | All handlers implemented |
 | 19 Server→Client commands | ✅ | All commands implemented |
-| JSON Schema validation (draft-04) | ✅ | 66 standard schemas |
+| JSON Schema validation (draft-04) | ✅ | 56 standard schemas |
 | Connector status tracking | ✅ | Per-connector state persistence |
 | Transaction lifecycle | ✅ | Start/Stop with meter values |
 | Heartbeat + Keep-alive | ✅ | Ping/Pong + configurable interval |

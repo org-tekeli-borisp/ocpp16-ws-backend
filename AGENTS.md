@@ -24,7 +24,7 @@ If production code is committed without a preceding failing test, the agent MUST
 
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1433 tests (86 files), 26 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1421 tests (87 files), 26 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
 
 ## Tech Stack
 
@@ -94,7 +94,7 @@ WebSocket ← OcppResponse ← ResponseAwaiter ← Handler ← OcppWebSocketServ
 - **`OcppActionHandler`** (`handler/OcppActionHandler.kt`): `handle(call, context)` → returns JSON response string
 - **`OcppHandlerContext`**: shared context for handlers (chargePointId, sessionId, registry, persistence, metrics, heartbeatInterval)
 - **`ChargePointConnection`** (`websocket/ChargePointRegistry.kt`): `sendText()`, `responseAwaiter`
-- **`SchemaValidator`** (`protocol/SchemaValidator.kt`): loads 78 JSON schemas (66 standard + 22 security, draft-04 + draft-06), `validate(actionName, payloadJson)` → `List<String>`
+- **`SchemaValidator`** (`protocol/SchemaValidator.kt`): loads 78 JSON schemas (56 standard + 22 security, draft-04 + draft-06), `validate(actionName, payloadJson)` → `List<String>`
 
 ### Two-Layer Validation
 
@@ -202,7 +202,7 @@ OcppWebSocketServer{Action}Test.kt     — per-handler WebSocket tests
 
 ## Database
 
-- 5 migrations in `src/main/resources/db/changelog/`
+- 6 migrations in `src/main/resources/db/changelog/`
 - New migration: add `00X-name.sql`, include in `changelog-master.yaml`
 - Dev/Test: Quarkus Dev Services auto-provisions PostgreSQL
 
