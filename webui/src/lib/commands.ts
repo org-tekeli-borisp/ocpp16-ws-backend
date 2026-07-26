@@ -141,7 +141,16 @@ export const COMMAND_DEFINITIONS: Record<string, CommandDefinition> = {
     labelKey: 'cmd_set_charging_profile',
     fields: [
       { name: 'connectorId', labelKey: 'field_connector_id', type: 'number', required: true },
-      { name: 'csChargingProfiles', labelKey: 'field_charging_profile', type: 'json', required: true, hintKey: 'field_charging_profile_hint' },
+      { name: 'chargingProfileId', labelKey: 'field_charging_profile_id', type: 'number', required: true },
+      { name: 'stackLevel', labelKey: 'field_stack_level', type: 'number', required: false, defaultValue: '0' },
+      { name: 'chargingProfilePurpose', labelKey: 'field_charging_profile_purpose', type: 'select', required: true,
+        options: ['ChargePointMaxProfile', 'TxProfile', 'TxDefaultProfile'] },
+      { name: 'chargingProfileKind', labelKey: 'field_charging_profile_kind', type: 'select', required: true,
+        options: ['Absolute', 'Relative'] },
+      { name: 'duration', labelKey: 'field_duration_seconds', type: 'number', required: false },
+      { name: 'chargingRateUnit', labelKey: 'field_charging_rate_unit', type: 'select', required: true,
+        options: ['A', 'W'] },
+      { name: 'limit', labelKey: 'field_charging_limit', type: 'number', required: true },
     ],
   },
   'signed-update-firmware': {

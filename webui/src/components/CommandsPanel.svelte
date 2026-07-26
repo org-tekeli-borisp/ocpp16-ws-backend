@@ -24,6 +24,28 @@
     responseInfo = '';
   }
 
+  function buildChargingProfilePayload(p: Record<string, unknown>): Record<string, unknown> {
+    const profile: Record<string, unknown> = {
+      chargingProfileId: p.chargingProfileId,
+      stackLevel: p.stackLevel ?? 0,
+      chargingProfilePurpose: p.chargingProfilePurpose,
+      chargingProfileKind: p.chargingProfileKind,
+      chargingSchedule: {
+        chargingRateUnit: p.chargingRateUnit,
+        chargingSchedulePeriod: [
+          { startPeriod: 0, limit: p.limit },
+        ],
+      },
+    };
+    if (p.duration && Number(p.duration) > 0) {
+      profile.chargingSchedule.duration = Number(p.duration);
+    }
+    return {
+      connectorId: p.connectorId,
+      csChargingProfiles: profile,
+    };
+  }
+
   async function handleSend() {
     if (!selectedCommand || !cpId) return;
     sending = true;
@@ -33,8 +55,12 @@
     const payload = formRef?.getPayload() ?? {};
     if (payload === null) { sending = false; return; }
 
+    const finalPayload = selectedCommand === 'set-charging-profile'
+      ? buildChargingProfilePayload(payload)
+      : payload;
+
     try {
-      const result = await sendCommand(cpId, selectedCommand as CommandName, payload || {});
+      const result = await sendCommand(cpId, selectedCommand as CommandName, finalPayload);
       let formatted;
       try { formatted = JSON.stringify(JSON.parse(result.body), null, 2); }
       catch { formatted = result.body; }
