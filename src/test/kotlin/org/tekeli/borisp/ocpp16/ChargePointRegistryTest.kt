@@ -10,6 +10,7 @@ import io.quarkus.websockets.next.OpenConnections
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.websocket.ChargePointConnection
 import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
+import org.tekeli.borisp.ocpp16.websocket.SessionContext
 import java.util.stream.Stream
 
 class ChargePointRegistryTest {
@@ -233,7 +234,7 @@ class ChargePointRegistryTest {
 
         val conn = registry.getConnection("session-1")
         assertNotNull(conn)
-        assertSame(connection, conn)
+        assertSame(connection.responseAwaiter, conn!!.responseAwaiter)
     }
 
     @Test
@@ -349,7 +350,7 @@ class ChargePointRegistryTest {
 
         val conn = registry.getConnection("session-1")
         assertNotNull(conn)
-        assertSame(connection2, conn)
+        assertSame(connection2.responseAwaiter, conn!!.responseAwaiter)
 
         val cpInfo = registry.getByChargePointId("CP-001")
         assertNotNull(cpInfo)
@@ -485,18 +486,18 @@ class ChargePointRegistryTest {
     }
 
     @Test
-    fun `sendCall throws IllegalStateException with correct sessionId when sessionConnection is missing`() {
+    fun `sendCall throws IllegalStateException with correct sessionId when session context is missing`() {
         val registry = ChargePointRegistry()
         val connection = mockChargePointConnection()
 
         registry.register("s1", "c1", connection)
         registry.updateChargePointInfo("s1", "CP-001", "V1", "M1")
 
-        // Remove the connection from sessionConnections while keeping sessionInfo
-        val sessionConnectionsField = registry::class.java.getDeclaredField("sessionConnections")
-        sessionConnectionsField.isAccessible = true
-        val sessionConnections = @Suppress("UNCHECKED_CAST") sessionConnectionsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, ChargePointConnection>
-        sessionConnections.remove("s1")
+        // Remove the context from sessionContexts while keeping sessionInfo
+        val sessionContextsField = registry::class.java.getDeclaredField("sessionContexts")
+        sessionContextsField.isAccessible = true
+        val sessionContexts = @Suppress("UNCHECKED_CAST") sessionContextsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, SessionContext>
+        sessionContexts.remove("s1")
 
         val ex = assertThrows(IllegalStateException::class.java) {
             registry.sendCall("CP-001", "Reset", mapOf("type" to "Hard"))

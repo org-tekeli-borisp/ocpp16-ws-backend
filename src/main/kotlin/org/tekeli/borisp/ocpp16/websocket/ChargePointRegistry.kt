@@ -30,7 +30,7 @@ class ChargePointRegistry {
     var messageCaptureService: MessageCaptureService? = null
 
     private val sessionInfos = ConcurrentHashMap<String, ChargePointInfo>()
-    private val sessionConnections = ConcurrentHashMap<String, ChargePointConnection>()
+    private val sessionContexts = ConcurrentHashMap<String, SessionContext>()
     private val chargePointIdIndex = ConcurrentHashMap<String, String>()
     private val testSenders = ConcurrentHashMap<String, TextSender>()
 
@@ -38,16 +38,24 @@ class ChargePointRegistry {
     val connectedSessionIds: Set<String> get() = Collections.unmodifiableSet(sessionInfos.keys)
     val connectedChargePointIds: Set<String> get() = Collections.unmodifiableSet(chargePointIdIndex.keys)
 
-    fun register(sessionId: String, connectionId: String, connection: ChargePointConnection, chargePointId: String? = null) {
+    fun register(sessionId: String, connectionId: String, chargePointId: String?, responseAwaiter: ResponseAwaiter) {
         sessionInfos[sessionId] = ChargePointInfo(
             sessionId = sessionId,
             connectionId = connectionId
         )
-        sessionConnections[sessionId] = connection
+        sessionContexts[sessionId] = SessionContext(
+            sessionId = sessionId,
+            chargePointId = chargePointId ?: "",
+            responseAwaiter = responseAwaiter
+        )
         if (chargePointId != null) {
             chargePointIdIndex[chargePointId] = sessionId
         }
         metricsService?.onChargePointConnected()
+    }
+
+    fun register(sessionId: String, connectionId: String, connection: ChargePointConnection, chargePointId: String? = null) {
+        register(sessionId, connectionId, chargePointId, connection.responseAwaiter)
     }
 
     fun setTestSender(sessionId: String, sender: TextSender) {
@@ -56,11 +64,26 @@ class ChargePointRegistry {
 
     fun unregister(sessionId: String) {
         sessionInfos.remove(sessionId)
-        sessionConnections.remove(sessionId)
+        sessionContexts.remove(sessionId)
         testSenders.remove(sessionId)
         chargePointIdIndex.entries.removeAll { it.value == sessionId }
         metricsService?.onChargePointDisconnected()
     }
+
+    fun getContext(sessionId: String): SessionContext? = sessionContexts[sessionId]
+
+    fun setPingPongManager(sessionId: String, manager: PingPongManager) {
+        sessionContexts[sessionId]?.pingPongManager = manager
+    }
+
+    fun getPingPongManager(sessionId: String): PingPongManager? =
+        sessionContexts[sessionId]?.pingPongManager
+
+    fun getResponseAwaiter(sessionId: String): ResponseAwaiter? =
+        sessionContexts[sessionId]?.responseAwaiter
+
+    fun getChargePointId(sessionId: String): String? =
+        sessionContexts[sessionId]?.chargePointId
 
     fun updateChargePointInfo(sessionId: String, chargePointId: String, vendor: String, model: String) {
         val existing = sessionInfos[sessionId]
@@ -81,17 +104,23 @@ class ChargePointRegistry {
         return sessionInfos[sessionId]
     }
 
-    fun getConnection(sessionId: String): ChargePointConnection? = sessionConnections[sessionId]
-
     fun isConnected(sessionId: String): Boolean = sessionInfos.containsKey(sessionId)
+
+    fun getConnection(sessionId: String): ChargePointConnection? {
+        val context = sessionContexts[sessionId] ?: return null
+        return object : ChargePointConnection {
+            override val responseAwaiter = context.responseAwaiter
+            override fun sendText(text: String) = io.smallrye.mutiny.Uni.createFrom().voidItem()
+        }
+    }
 
     fun sendCall(chargePointId: String, action: String, payload: Map<String, Any>?): java.util.concurrent.CompletableFuture<OcppMessage> {
         val info = getByChargePointId(chargePointId)
             ?: throw IllegalStateException("ChargePoint not connected: $chargePointId")
-        val connection = sessionConnections[info.sessionId]
-            ?: throw IllegalStateException("ChargePoint connection not available for session: ${info.sessionId}")
+        val context = sessionContexts[info.sessionId]
+            ?: throw IllegalStateException("ChargePoint context not available for session: ${info.sessionId}")
         val sender = testSenders[info.sessionId] ?: WsSender(openConnections, info.connectionId)
-        val dispatcher = OutboundCallDispatcher(sender, connection.responseAwaiter, messageCaptureService)
+        val dispatcher = OutboundCallDispatcher(sender, context.responseAwaiter, messageCaptureService)
         metricsService?.messagesSent?.increment()
         return dispatcher.sendCall(chargePointId, action, payload)
     }

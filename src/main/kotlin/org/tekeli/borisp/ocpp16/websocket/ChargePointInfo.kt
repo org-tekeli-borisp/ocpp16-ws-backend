@@ -10,3 +10,10 @@ data class ChargePointInfo(
     val model: String? = null,
     val connectedAt: Instant = Instant.now()
 )
+
+class SessionContext(
+    val sessionId: String,
+    val chargePointId: String,
+    val responseAwaiter: org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter,
+    var pingPongManager: PingPongManager? = null
+)

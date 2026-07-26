@@ -64,9 +64,33 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     private val activePersistence: PersistenceService
         get() = persistenceService ?: throw IllegalStateException("Persistence not initialized")
 
-    override var responseAwaiter: ResponseAwaiter = ResponseAwaiter()
-    open override var sessionId: String = ""
-    override var chargePointId: String = ""
+    private var _chargePointId: String = ""
+    private var _sessionId: String = ""
+    private var _responseAwaiter: ResponseAwaiter = ResponseAwaiter()
+
+    private val activeSessionContext: SessionContext?
+        get() {
+            val connId = currentConnection?.id() ?: return null
+            return activeRegistry.getContext(connId)
+        }
+
+    override var responseAwaiter: ResponseAwaiter
+        get() = activeSessionContext?.responseAwaiter ?: _responseAwaiter
+        set(value) { _responseAwaiter = value }
+
+    override var chargePointId: String
+        get() = activeSessionContext?.chargePointId ?: _chargePointId
+        set(value) { _chargePointId = value }
+
+    override var sessionId: String
+        get() = activeSessionContext?.sessionId ?: _sessionId
+        set(value) { _sessionId = value }
+
+    private val activePingPongManager: PingPongManager?
+        get() {
+            val ctx = activeSessionContext
+            return ctx?.let { activeRegistry.getPingPongManager(ctx.sessionId) }
+        }
 
     @ConfigProperty(name = "ocpp.heartbeat.interval-seconds", defaultValue = "${DEFAULT_HEARTBEAT_INTERVAL_SECONDS}")
     override var heartbeatIntervalSeconds: Long = DEFAULT_HEARTBEAT_INTERVAL_SECONDS.toLong()
@@ -77,7 +101,6 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     private val scheduler: Scheduler
         get() = VertxScheduler(vertx!!)
-    private var pingPongManager: PingPongManager? = null
 
     open fun createHandlers(): Map<String, OcppActionHandler> = mapOf(
         "BootNotification" to BootNotificationHandler(),
@@ -110,19 +133,19 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     }
 
     open fun initializeConnection() {
-        chargePointId = activeConnection.pathParam("chargePointId")
-        sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
-        responseAwaiter = ResponseAwaiter()
-        registerAndOnline()
+        val chargePointId = activeConnection.pathParam("chargePointId")
+        val sessionId = activeConnection.id() ?: throw IllegalStateException("Connection id not available")
+        val responseAwaiter = ResponseAwaiter()
+        registerAndOnline(sessionId, chargePointId, responseAwaiter)
         val remoteAddress = activeConnection.handshakeRequest().remoteAddress()
         Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId, remote=$remoteAddress")
     }
 
-    private fun registerAndOnline() {
-        activeRegistry.register(sessionId, sessionId, this, chargePointId)
+    private fun registerAndOnline(sessionId: String, chargePointId: String, responseAwaiter: ResponseAwaiter) {
+        activeRegistry.register(sessionId, sessionId, chargePointId, responseAwaiter)
         activePersistence.setChargePointOnlineById(chargePointId, sessionId)
         val conn = activeConnection
-        pingPongManager = PingPongManager(
+        val manager = PingPongManager(
             target = WebSocketPingPongTarget(
                 connection = { conn },
                 registry = activeRegistry,
@@ -133,12 +156,14 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
             pingInterval = pingIntervalSeconds,
             pongTimeout = pongTimeoutSeconds,
             scheduler = scheduler
-        ).also { it.start() }
+        )
+        manager.start()
+        activeRegistry.setPingPongManager(sessionId, manager)
     }
 
     @OnTextMessage
     fun onTextMessage(message: String): String {
-        pingPongManager?.messageReceived()
+        activePingPongManager?.messageReceived()
         try {
             activePersistence.touchLastSeenAt(chargePointId)
         } catch (e: Exception) {
@@ -159,24 +184,20 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @OnPongMessage
     fun onPongMessage(buffer: Buffer) {
-        pingPongManager?.pongReceived()
+        activePingPongManager?.pongReceived()
     }
 
     override fun sendText(text: String): Uni<Void> {
         val conn = currentConnection
-        if (conn != null) return conn.sendText(text)
-        return Uni.createFrom().voidItem()
+        return if (conn != null) conn.sendText(text) else Uni.createFrom().voidItem()
     }
-
-    private fun generateMessageId(): String = UUID.randomUUID().toString()
 
     @OnClose
     fun onClose() {
-        pingPongManager?.stop()
-        pingPongManager = null
-        val connectionId = activeConnection.id() ?: return
-        if (activeRegistry.isConnected(connectionId)) {
-            activeRegistry.unregister(connectionId)
+        val connectionId = activeConnection.id()
+        activePingPongManager?.stop()
+        if (activeRegistry.isConnected(sessionId)) {
+            activeRegistry.unregister(sessionId)
             responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
             try {
                 activePersistence.setChargePointOfflineByChargePointId(chargePointId)
