@@ -58,7 +58,7 @@ class ChargePointResource {
         lastSeenAt = cp.lastSeenAt.toString(),
         lastConnectedAt = cp.lastConnectedAt.toString(),
         createdAt = cp.createdAt.toString(),
-        connectors = persistenceService.findConnectorStatusesByChargePointId(cp.chargePointId)
+        connectors = persistenceService.findConnectorStatusesByChargePointId(cp.chargePointId).filter { it.connectorId > 0 }
     )
 
     private fun effectiveStatus(cp: ChargePoint): ChargePointStatus {
