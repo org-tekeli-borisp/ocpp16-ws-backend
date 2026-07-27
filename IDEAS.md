@@ -20,6 +20,7 @@ Kanban-Board für Features, Verbesserungen und langfristige Pläne.
 | #012 | **OpenTelemetry tracing** — correlation IDs per charge point |
 | #013 | **Fleet-wide bulk commands** — `POST /api/commands/bulk` for multiple charge points |
 | #014 | **Configuration reconciliation** — validate applied config via GetConfiguration audits |
+| #015 | **Manual WebSocket disconnect** — `DELETE /api/chargepoints/{id}/connection` (single), `POST /api/chargepoints/reconnect-all` (bulk); simple force disconnect |
 
 ## 🟡 Priorisiert
 
