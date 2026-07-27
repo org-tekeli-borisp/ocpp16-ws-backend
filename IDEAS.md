@@ -1,10 +1,10 @@
 # Ideas & Roadmap
 
-Kanban-Board für Features, Verbesserungen und langfristige Pläne.
+Kanban board for features, improvements, and long-term plans.
 
 ## 🔴 Backlog
 
-| Issue | Beschreibung |
+| Issue | Description |
 |-------|-------------|
 | #001 | **Real authorization logic** — AuthorizeHandler always returns `Accepted`; add `IdToken` entity, whitelist/blacklist, validation |
 | #002 | **WSS/TLS support** — add secure WebSocket for Security Edition 4 compliance |
@@ -22,22 +22,22 @@ Kanban-Board für Features, Verbesserungen und langfristige Pläne.
 | #014 | **Configuration reconciliation** — validate applied config via GetConfiguration audits |
 | #015 | **Manual WebSocket disconnect** — `DELETE /api/chargepoints/{id}/connection` (single), `POST /api/chargepoints/reconnect-all` (bulk); simple force disconnect |
 
-## 🟡 Priorisiert
+## 🟡 Prioritized
 
-| Issue | Beschreibung |
+| Issue | Description |
 |-------|-------------|
 
-## 🟢 In Arbeit
+## 🟢 In Progress
 
-| Issue | Beschreibung |
+| Issue | Description |
 |-------|-------------|
 
 ## 🔵 Review
 
-| Issue | Beschreibung |
+| Issue | Description |
 |-------|-------------|
 
-## ✅ Erledigt
+## ✅ Done
 
-| Issue | Beschreibung |
+| Issue | Description |
 |-------|-------------|
