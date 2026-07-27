@@ -96,6 +96,27 @@ class PingPongManagerTest {
     }
 
     @Test
+    fun `pong timeout should call unregister when charge point is connected`() {
+        manager.start()
+        scheduler.executeNext() // Execute ping
+        scheduler.executeNext() // Execute pong timeout
+
+        assertEquals(1, target.setOfflineCount)
+        assertEquals(1, target.unregisterCount)
+        assertEquals(1, target.rejectAwaiterCount)
+    }
+
+    @Test
+    fun `stop cancels pong timeout future`() {
+        manager.start()
+        scheduler.executeNext() // Execute ping, which schedules pong timeout
+        assertTrue(scheduler.hasScheduledTasks())
+
+        manager.stop()
+        assertTrue(scheduler.hasCancelledTasks())
+    }
+
+    @Test
     fun `ping failure triggers connection close`() {
         target.failNextPing = true
         manager.start()
@@ -126,16 +147,48 @@ class PingPongManagerTest {
         assertTrue(scheduler.hasCancelledTasks())
         assertFalse(manager.isPinging)
     }
+
+    @Test
+    fun `pong timeout does not unregister when charge point already disconnected`() {
+        target.connected = false
+        manager.start()
+        scheduler.executeNext()
+        scheduler.executeNext()
+
+        assertEquals(1, target.closeCount)
+        assertEquals(0, target.unregisterCount, "Should NOT unregister when already disconnected")
+        assertEquals(0, target.rejectAwaiterCount, "Should NOT reject awaiter when already disconnected")
+    }
+
+    @Test
+    fun `pong timeout unsubscribes closeConnection properly`() {
+        manager.start()
+        scheduler.executeNext()
+        scheduler.executeNext()
+
+        assertEquals(1, target.closeCount)
+    }
+
+    @Test
+    fun `ping success callback is invoked`() {
+        manager.start()
+        scheduler.executeNext()
+
+        assertEquals(1, target.pingSuccessCallbackCount)
+    }
 }
 
 class MockPingPongTarget : PingPongTarget {
     var pingSendCount = 0
+    var pingSuccessCallbackCount = 0
     var closeCount = 0
+    var closeConnectionReasonCount = 0
     var setOfflineCount = 0
     var unregisterCount = 0
     var rejectAwaiterCount = 0
     var failNextPing = false
     var connected = true
+    var closeThrows = false
 
     override fun sendPing(buffer: Buffer): io.smallrye.mutiny.Uni<Void> {
         pingSendCount++
@@ -144,11 +197,17 @@ class MockPingPongTarget : PingPongTarget {
             return io.smallrye.mutiny.Uni.createFrom().failure(RuntimeException("Ping failed"))
         }
         return io.smallrye.mutiny.Uni.createFrom().voidItem()
+            .onItem().invoke(Runnable { pingSuccessCallbackCount++ })
     }
 
     override fun closeConnection(reason: String): io.smallrye.mutiny.Uni<Void> {
         closeCount++
+        closeConnectionReasonCount++
+        if (closeThrows) {
+            return io.smallrye.mutiny.Uni.createFrom().failure(RuntimeException("Close failed"))
+        }
         return io.smallrye.mutiny.Uni.createFrom().voidItem()
+            .onItem().invoke(Runnable { closeConnectionReasonCount++ })
     }
 
     override fun setChargePointOffline(sessionId: String) {

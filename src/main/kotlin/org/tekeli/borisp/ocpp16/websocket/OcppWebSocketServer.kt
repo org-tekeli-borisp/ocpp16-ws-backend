@@ -218,15 +218,19 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     fun onClose() {
         val connectionId = activeConnection.id()
-        activePingPongManager?.stop()
-        if (activeRegistry.isConnected(sessionId)) {
-            activeRegistry.unregister(sessionId)
-            responseAwaiter.rejectAll("WebSocket connection closed: $connectionId")
+        val pingPongMgr = activePingPongManager
+        val id = sessionId
+        val cpId = chargePointId
+        val awaiter = responseAwaiter
+        pingPongMgr?.stop()
+        if (activeRegistry.isConnected(id)) {
+            activeRegistry.unregister(id)
+            awaiter.rejectAll("WebSocket connection closed: $connectionId")
             try {
-                activePersistence.setChargePointOfflineByChargePointId(chargePointId)
+                activePersistence.setChargePointOfflineByChargePointId(cpId)
             } catch (_: Exception) {
             }
-            Log.info("WebSocket connection closed: session=$connectionId, chargePoint=$chargePointId")
+            Log.info("WebSocket connection closed: session=$connectionId, chargePoint=$cpId")
         }
     }
 }
