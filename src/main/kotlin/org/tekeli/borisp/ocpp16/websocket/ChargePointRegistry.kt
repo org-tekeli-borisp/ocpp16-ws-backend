@@ -1,5 +1,7 @@
 package org.tekeli.borisp.ocpp16.websocket
 
+import io.quarkus.logging.Log
+import io.quarkus.websockets.next.CloseReason
 import io.quarkus.websockets.next.OpenConnections
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -7,6 +9,7 @@ import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher
 import org.tekeli.borisp.ocpp16.outbound.TextSender
 import org.tekeli.borisp.ocpp16.outbound.WsSender
+import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
 import org.tekeli.borisp.ocpp16.protocol.OcppMessage
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
@@ -28,6 +31,9 @@ class ChargePointRegistry {
 
     @Inject
     var messageCaptureService: MessageCaptureService? = null
+
+    @Inject
+    var persistenceService: PersistenceService? = null
 
     private val sessionInfos = ConcurrentHashMap<String, ChargePointInfo>()
     private val sessionContexts = ConcurrentHashMap<String, SessionContext>()
@@ -68,6 +74,51 @@ class ChargePointRegistry {
         testSenders.remove(sessionId)
         chargePointIdIndex.entries.removeAll { it.value == sessionId }
         metricsService?.onChargePointDisconnected()
+    }
+
+    fun disconnect(chargePointId: String) {
+        val info = getByChargePointId(chargePointId)
+            ?: throw IllegalStateException("ChargePoint not connected: $chargePointId")
+        disconnectSession(info.sessionId, info.connectionId)
+    }
+
+    fun disconnectAll(): Int {
+        val sessionInfosCopy = sessionInfos.values.toSet()
+        var count = 0
+        for (info in sessionInfosCopy) {
+            disconnectSession(info.sessionId, info.connectionId)
+            count++
+        }
+        return count
+    }
+
+    private fun disconnectSession(sessionId: String, connectionId: String) {
+        val context = sessionContexts[sessionId] ?: return
+        val pingPongMgr = getPingPongManager(sessionId)
+        val chargePointId = context.chargePointId
+
+        Log.info("Disconnecting session=$sessionId, chargePoint=$chargePointId")
+
+        try {
+            pingPongMgr?.stop()
+        } catch (_: Exception) {
+        }
+
+        val conn = openConnections.findByConnectionId(connectionId).orElse(null)
+        if (conn != null) {
+            try {
+                conn.close(CloseReason(1001, "Disconnected via REST API"))
+                return
+            } catch (_: Exception) {
+            }
+        }
+
+        unregister(sessionId)
+        context.responseAwaiter.rejectAll("Disconnected via REST API")
+        try {
+            persistenceService?.setChargePointOfflineByChargePointId(chargePointId)
+        } catch (_: Exception) {
+        }
     }
 
     fun getContext(sessionId: String): SessionContext? = sessionContexts[sessionId]

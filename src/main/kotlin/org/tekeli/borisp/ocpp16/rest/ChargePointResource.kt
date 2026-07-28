@@ -2,8 +2,10 @@ package org.tekeli.borisp.ocpp16.rest
 
 import jakarta.inject.Inject
 import jakarta.ws.rs.BadRequestException
+import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.NotFoundException
+import jakarta.ws.rs.POST
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.PathParam
 import jakarta.ws.rs.QueryParam
@@ -47,6 +49,23 @@ class ChargePointResource {
         return toDto(cp)
     }
 
+    @DELETE
+    @Path("/{chargePointId}/connection")
+    fun disconnect(@PathParam("chargePointId") chargePointId: String): DisconnectResponse {
+        if (chargePointRegistry.getByChargePointId(chargePointId) == null) {
+            throw NotFoundException("ChargePoint not connected: $chargePointId")
+        }
+        chargePointRegistry.disconnect(chargePointId)
+        return DisconnectResponse(disconnected = true, chargePointId = chargePointId)
+    }
+
+    @POST
+    @Path("/reconnect-all")
+    fun reconnectAll(): ReconnectAllResponse {
+        val count = chargePointRegistry.disconnectAll()
+        return ReconnectAllResponse(disconnectedCount = count)
+    }
+
     private fun toDto(cp: ChargePoint): ChargePointDto = ChargePointDto(
         id = cp.id,
         chargePointId = cp.chargePointId,
@@ -81,4 +100,13 @@ data class ChargePointDto(
     val lastConnectedAt: String,
     val createdAt: String,
     val connectors: List<ConnectorStatusDto> = emptyList()
+)
+
+data class DisconnectResponse(
+    val disconnected: Boolean,
+    val chargePointId: String
+)
+
+data class ReconnectAllResponse(
+    val disconnectedCount: Int
 )

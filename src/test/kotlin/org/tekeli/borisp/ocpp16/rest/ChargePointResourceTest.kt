@@ -131,4 +131,66 @@ class ChargePointResourceTest {
             .statusCode(200)
             .body("status", org.hamcrest.Matchers.equalTo("ONLINE"))
     }
+
+    @Test
+    fun `should disconnect single chargePoint`() {
+        assertTrue(chargePointRegistry.connectedChargePointIds.contains("Tesla-Model3-1.0"))
+
+        RestAssured.given()
+            .`when`().delete("/api/chargepoints/Tesla-Model3-1.0/connection")
+            .then()
+            .statusCode(200)
+            .body("disconnected", org.hamcrest.Matchers.equalTo(true))
+            .body("chargePointId", org.hamcrest.Matchers.equalTo("Tesla-Model3-1.0"))
+
+        assertFalse(chargePointRegistry.connectedChargePointIds.contains("Tesla-Model3-1.0"))
+
+        RestAssured.given()
+            .`when`().get("/api/chargepoints/Tesla-Model3-1.0")
+            .then()
+            .statusCode(200)
+            .body("status", org.hamcrest.Matchers.equalTo("OFFLINE"))
+    }
+
+    @Test
+    fun `should return 404 when disconnecting non-existent chargePoint`() {
+        RestAssured.given()
+            .`when`().delete("/api/chargepoints/NONEXISTENT/connection")
+            .then()
+            .statusCode(404)
+    }
+
+    @Test
+    fun `should return 404 when disconnecting offline chargePoint`() {
+        RestAssured.given()
+            .`when`().delete("/api/chargepoints/ABB-Terra-2.1/connection")
+            .then()
+            .statusCode(404)
+    }
+
+    @Test
+    fun `should disconnect all chargePoints`() {
+        assertEquals(2, chargePointRegistry.connectionCount)
+
+        val response = RestAssured.given()
+            .`when`().post("/api/chargepoints/reconnect-all")
+            .then()
+            .statusCode(200)
+            .extract()
+            .jsonPath()
+
+        assertEquals(2, response.getInt("disconnectedCount"))
+        assertTrue(chargePointRegistry.connectionCount == 0)
+
+        val statuses = RestAssured.given()
+            .`when`().get("/api/chargepoints")
+            .then()
+            .statusCode(200)
+            .extract()
+            .jsonPath()
+            .getList("status", String::class.java)
+
+        assertEquals(3, statuses.size)
+        assertTrue(statuses.all { it == "OFFLINE" })
+    }
 }
