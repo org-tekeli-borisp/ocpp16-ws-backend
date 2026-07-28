@@ -136,4 +136,35 @@ class OcppWebSocketServerSessionContextTest {
         assertFalse(registry.isConnected(sessionId), "Should NOT be connected after onClose")
         assertEquals(chargePointId, spyPersistence.offlineChargePointId, "Should use chargePointId from context")
     }
+
+    @Test
+    fun `responseAwaiter returns fallback when no session context`() {
+        server.currentConnection = createWsConnectionProxy("no-context")
+
+        val fallback = server.responseAwaiter
+
+        assertNotNull(fallback)
+        assertTrue(fallback is ResponseAwaiter)
+    }
+
+    @Test
+    fun `chargePointId returns fallback when no session context`() {
+        server.chargePointId = "fallback-cp"
+        server.currentConnection = createWsConnectionProxy("no-context")
+
+        val result = server.chargePointId
+
+        assertEquals("fallback-cp", result)
+    }
+
+    @Test
+    fun `sessionId returns fallback when no session context`() {
+        server.sessionId = "fallback-session"
+        server.currentConnection = createWsConnectionProxy("no-context")
+
+        val result = server.sessionId
+
+        assertEquals("fallback-session", result)
+    }
+
 }

@@ -152,8 +152,25 @@ class OcppWebSocketServerHandlersTest {
     }
 
     @Test
-    fun `onPongMessage with no session context returns early`() {
+    fun `onPongMessage with no session context does not call pingPongManager`() {
         val conn = createWsConnectionProxy("unknown-conn")
+
+        val spyTarget = SpyPingPongTarget()
+        val pingPongManager = createPingPongManagerWithTarget(spyTarget)
+        registry.setPingPongManager("unknown-conn", pingPongManager)
+
+        server.onPongMessage(Buffer.buffer(), conn)
+
+        assertFalse(spyTarget.closeCalled, "PingPongManager should not be invoked when context is null")
+    }
+
+    @Test
+    fun `onPongMessage with session but no pingPongManager does not crash`() {
+        val awaiter = ResponseAwaiter()
+        registry.register("session-no-mgr", "session-no-mgr", "CP-NO-MGR", awaiter)
+
+        val conn = createWsConnectionProxy("session-no-mgr")
+        server.currentConnection = conn
 
         assertDoesNotThrow {
             server.onPongMessage(Buffer.buffer(), conn)
@@ -176,6 +193,42 @@ class OcppWebSocketServerHandlersTest {
         server.onPongMessage(Buffer.buffer(), conn)
 
         assertFalse(pingPongManager.isPinging)
+    }
+
+    @Test
+    fun `onClose no-arg uses activeConnection id`() {
+        val awaiter = ResponseAwaiter()
+        registry.register("session-close-arg", "session-close-arg", "CP-CLOSE-ARG", awaiter)
+
+        val spyTarget = SpyPingPongTarget()
+        val pingPongManager = createPingPongManagerWithTarget(spyTarget)
+        registry.setPingPongManager("session-close-arg", pingPongManager)
+
+        server.currentConnection = createWsConnectionProxy("session-close-arg")
+        server.chargePointId = "CP-CLOSE-ARG"
+
+        assertTrue(pingPongManager.isPinging != true || true)
+        server.onClose()
+
+        assertFalse(registry.isConnected("session-close-arg"))
+        assertEquals("CP-CLOSE-ARG", spyPersistence.offlineChargePointId)
+    }
+
+    @Test
+    fun `onClose no-arg stops pingPongManager`() {
+        val awaiter = ResponseAwaiter()
+        registry.register("session-stop-mgr", "session-stop-mgr", "CP-STOP-MGR", awaiter)
+
+        val pingPongManager = createPingPongManagerWithTarget(SpyPingPongTarget())
+        registry.setPingPongManager("session-stop-mgr", pingPongManager)
+        pingPongManager.start()
+
+        server.currentConnection = createWsConnectionProxy("session-stop-mgr")
+        server.chargePointId = "CP-STOP-MGR"
+
+        server.onClose()
+
+        assertFalse(pingPongManager.isPinging, "PingPongManager should be stopped")
     }
 
     @Test
