@@ -77,6 +77,19 @@
     } catch { /* ignore */ }
   }
 
+  async function refreshAll() {
+    try {
+      const stations = await fetchChargePoints();
+      chargePoints.set(stations);
+      if ($selectedCpId) {
+        const idx = stations.findIndex(c => c.chargePointId === $selectedCpId);
+        if (idx >= 0) {
+          currentCp = stations[idx];
+        }
+      }
+    } catch { /* ignore */ }
+  }
+
   function updateUrl(cpId: string, tab: TabKey) {
     const url = new URL(window.location);
     url.searchParams.set('cp', cpId);
@@ -134,7 +147,7 @@
 </header>
 
 <div class="layout">
-  <Sidebar stations={$chargePoints} onSelectStation={selectStation} />
+  <Sidebar stations={$chargePoints} onSelectStation={selectStation} onRefresh={refreshAll} />
 
   <main class="main">
     <div class="tabs">

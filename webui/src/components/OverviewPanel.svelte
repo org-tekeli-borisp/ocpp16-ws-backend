@@ -3,9 +3,26 @@ import type { ChargePoint } from '$lib/types';
 import { t, locale } from '$lib/i18n';
 import ConnectorChip from '$components/ConnectorChip.svelte';
 import { formatDate, timeAgo } from '$lib/utils';
+import { disconnectChargePoint } from '$lib/api/ocpp';
 
   export let chargePoint: ChargePoint;
   export let onRefresh: (() => Promise<void>) | null = null;
+
+  let disconnecting = false;
+
+  async function handleDisconnect() {
+    if (!$t('disconnect_confirm')) return;
+    if (!confirm($t('disconnect_confirm'))) return;
+    disconnecting = true;
+    try {
+      await disconnectChargePoint(chargePoint.chargePointId);
+      await onRefresh?.();
+    } catch (err) {
+      alert($t('network_error') + ': ' + (err as Error).message);
+    } finally {
+      disconnecting = false;
+    }
+  }
 </script>
 
 <div class="panel">
@@ -13,6 +30,11 @@ import { formatDate, timeAgo } from '$lib/utils';
     <span>{chargePoint.chargePointId}</span>
     {#if onRefresh}
       <div class="panel-header-right">
+        {#if chargePoint.status === 'ONLINE'}
+          <button class="btn btn-sm btn-danger" onclick={handleDisconnect} disabled={disconnecting}>
+            {disconnecting ? $t('btn_disconnecting') : $t('btn_disconnect')}
+          </button>
+        {/if}
         <button class="btn btn-sm btn-outline" onclick={onRefresh}>{$t('diag_btn_refresh')}</button>
       </div>
     {/if}

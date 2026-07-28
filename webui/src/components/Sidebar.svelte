@@ -3,9 +3,27 @@
   import { t } from '$lib/i18n';
   import StationItem from '$components/StationItem.svelte';
   import { chargePoints, selectedCpId, searchQuery } from '$stores/app';
+  import { reconnectAllChargePoints } from '$lib/api/ocpp';
 
   export let stations: ChargePoint[];
   export let onSelectStation: ((cpId: string) => void) | null = null;
+  export let onRefresh: (() => Promise<void>) | null = null;
+
+  let disconnecting = false;
+
+  async function handleDisconnectAll() {
+    if (onlineCount === 0) return;
+    if (!confirm($t('disconnect_all_confirm'))) return;
+    disconnecting = true;
+    try {
+      await reconnectAllChargePoints();
+      await onRefresh?.();
+    } catch (err) {
+      alert($t('network_error') + ': ' + (err as Error).message);
+    } finally {
+      disconnecting = false;
+    }
+  }
 
   $: filtered = stations.filter(cp => {
     if (!$searchQuery) return true;
@@ -37,6 +55,11 @@
       placeholder={$t('search_placeholder')}
       bind:value={$searchQuery}
     />
+    {#if onlineCount > 0}
+      <button class="btn btn-sm btn-danger" onclick={handleDisconnectAll} disabled={disconnecting}>
+        {disconnecting ? $t('btn_disconnecting') : $t('btn_disconnect_all')}
+      </button>
+    {/if}
   </div>
   <div class="sidebar-list">
     {#if filtered.length === 0}

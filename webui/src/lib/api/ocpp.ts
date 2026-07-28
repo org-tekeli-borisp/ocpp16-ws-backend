@@ -106,3 +106,16 @@ export async function deleteDiagnostic(cpId: string, fileName: string): Promise<
   );
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
 }
+
+export async function disconnectChargePoint(cpId: string): Promise<void> {
+  const res = await fetch(
+    `${API_BASE}/${encodeURIComponent(cpId)}/connection`,
+    { method: 'DELETE' },
+  );
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+}
+
+export async function reconnectAllChargePoints(): Promise<void> {
+  const res = await fetch(`${API_BASE}/reconnect-all`, { method: 'POST' });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+}

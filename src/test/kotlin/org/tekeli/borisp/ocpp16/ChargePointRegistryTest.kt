@@ -11,6 +11,9 @@ import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.websocket.ChargePointConnection
 import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry
 import org.tekeli.borisp.ocpp16.websocket.SessionContext
+import io.quarkus.websockets.next.WebSocketConnection
+import org.mockito.Mockito.*
+import java.util.Optional
 import java.util.stream.Stream
 
 class ChargePointRegistryTest {
@@ -822,5 +825,267 @@ class ChargePointRegistryTest {
         registry.register("session-1", "conn-1", connection, "CP-001")
 
         assertEquals("CP-001", registry.connectedChargePointIds.single())
+    }
+
+    @Test
+    fun `disconnectSession early returns when context is missing`() {
+        val registry = ChargePointRegistry()
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        registry.openConnections = mockOpenConnections
+
+        val sessionInfosField = registry::class.java.getDeclaredField("sessionInfos")
+        sessionInfosField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionInfos = sessionInfosField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.ChargePointInfo>
+        sessionInfos["s1"] = org.tekeli.borisp.ocpp16.websocket.ChargePointInfo("s1", "c1")
+
+        val disconnectMethod = registry::class.java.getDeclaredMethod("disconnectSession", String::class.java, String::class.java)
+        disconnectMethod.isAccessible = true
+
+        assertDoesNotThrow {
+            disconnectMethod.invoke(registry, "s1", "c1")
+        }
+
+        verifyNoInteractions(mockOpenConnections)
+    }
+
+    @Test
+    fun `disconnect closes connection and returns early when connection exists`() {
+        val mockConnection = mock(WebSocketConnection::class.java)
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.of(mockConnection))
+
+        val mockPersistence = mock(org.tekeli.borisp.ocpp16.persistence.PersistenceService::class.java)
+        val mockAwaiter = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+        registry.persistenceService = mockPersistence
+
+        val context = org.tekeli.borisp.ocpp16.websocket.SessionContext("s1", "CP-001", mockAwaiter)
+        val sessionContextsField = registry::class.java.getDeclaredField("sessionContexts")
+        sessionContextsField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionContexts = sessionContextsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.SessionContext>
+        sessionContexts["s1"] = context
+
+        val disconnectMethod = registry::class.java.getDeclaredMethod("disconnectSession", String::class.java, String::class.java)
+        disconnectMethod.isAccessible = true
+        disconnectMethod.invoke(registry, "s1", "c1")
+
+        verify(mockConnection).close(io.quarkus.websockets.next.CloseReason(1001, "Disconnected via REST API"))
+        verifyNoMoreInteractions(mockConnection)
+        verify(mockPersistence, never()).setChargePointOfflineByChargePointId(anyString())
+        verify(mockAwaiter, never()).rejectAll(anyString())
+        assertTrue(sessionContexts.containsKey("s1"))
+    }
+
+    @Test
+    fun `disconnectSession calls unregister and rejectAll when connection is missing`() {
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.empty())
+
+        val mockPersistence = mock(org.tekeli.borisp.ocpp16.persistence.PersistenceService::class.java)
+        val mockAwaiter = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+        registry.persistenceService = mockPersistence
+
+        val context = org.tekeli.borisp.ocpp16.websocket.SessionContext("s1", "CP-001", mockAwaiter)
+        val sessionContextsField = registry::class.java.getDeclaredField("sessionContexts")
+        sessionContextsField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionContexts = sessionContextsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.SessionContext>
+        sessionContexts["s1"] = context
+
+        val disconnectMethod = registry::class.java.getDeclaredMethod("disconnectSession", String::class.java, String::class.java)
+        disconnectMethod.isAccessible = true
+        disconnectMethod.invoke(registry, "s1", "c1")
+
+        verify(mockAwaiter).rejectAll("Disconnected via REST API")
+        verify(mockPersistence).setChargePointOfflineByChargePointId("CP-001")
+        assertFalse(sessionContexts.containsKey("s1"))
+    }
+
+    @Test
+    fun `disconnectSession handles pingPongManager stop exception gracefully`() {
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.empty())
+
+        val mockPersistence = mock(org.tekeli.borisp.ocpp16.persistence.PersistenceService::class.java)
+        val mockAwaiter = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+        val mockPingPongManager = mock(org.tekeli.borisp.ocpp16.websocket.PingPongManager::class.java)
+        `when`(mockPingPongManager.stop()).thenThrow(RuntimeException("stop failed"))
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+        registry.persistenceService = mockPersistence
+
+        val context = org.tekeli.borisp.ocpp16.websocket.SessionContext("s1", "CP-001", mockAwaiter)
+        context.pingPongManager = mockPingPongManager
+        val sessionContextsField = registry::class.java.getDeclaredField("sessionContexts")
+        sessionContextsField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionContexts = sessionContextsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.SessionContext>
+        sessionContexts["s1"] = context
+
+        val disconnectMethod = registry::class.java.getDeclaredMethod("disconnectSession", String::class.java, String::class.java)
+        disconnectMethod.isAccessible = true
+        assertDoesNotThrow {
+            disconnectMethod.invoke(registry, "s1", "c1")
+        }
+
+        verify(mockPingPongManager).stop()
+        verify(mockAwaiter).rejectAll("Disconnected via REST API")
+    }
+
+    @Test
+    fun `disconnectSession handles connection close exception and proceeds to cleanup`() {
+        val mockConnection = mock(WebSocketConnection::class.java)
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.of(mockConnection))
+        `when`(mockConnection.close(any())).thenThrow(RuntimeException("close failed"))
+
+        val mockPersistence = mock(org.tekeli.borisp.ocpp16.persistence.PersistenceService::class.java)
+        val mockAwaiter = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+        registry.persistenceService = mockPersistence
+
+        val context = org.tekeli.borisp.ocpp16.websocket.SessionContext("s1", "CP-001", mockAwaiter)
+        val sessionContextsField = registry::class.java.getDeclaredField("sessionContexts")
+        sessionContextsField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionContexts = sessionContextsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.SessionContext>
+        sessionContexts["s1"] = context
+
+        val disconnectMethod = registry::class.java.getDeclaredMethod("disconnectSession", String::class.java, String::class.java)
+        disconnectMethod.isAccessible = true
+        assertDoesNotThrow {
+            disconnectMethod.invoke(registry, "s1", "c1")
+        }
+
+        verify(mockConnection).close(any())
+        verify(mockAwaiter).rejectAll("Disconnected via REST API")
+        verify(mockPersistence).setChargePointOfflineByChargePointId("CP-001")
+        assertFalse(sessionContexts.containsKey("s1"))
+    }
+
+    @Test
+    fun `disconnectSession handles persistenceService exception gracefully`() {
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.empty())
+
+        val mockPersistence = mock(org.tekeli.borisp.ocpp16.persistence.PersistenceService::class.java)
+        `when`(mockPersistence.setChargePointOfflineByChargePointId(anyString()))
+            .thenThrow(RuntimeException("persistence failed"))
+
+        val mockAwaiter = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+        registry.persistenceService = mockPersistence
+
+        val context = org.tekeli.borisp.ocpp16.websocket.SessionContext("s1", "CP-001", mockAwaiter)
+        val sessionContextsField = registry::class.java.getDeclaredField("sessionContexts")
+        sessionContextsField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionContexts = sessionContextsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.SessionContext>
+        sessionContexts["s1"] = context
+
+        val disconnectMethod = registry::class.java.getDeclaredMethod("disconnectSession", String::class.java, String::class.java)
+        disconnectMethod.isAccessible = true
+        assertDoesNotThrow {
+            disconnectMethod.invoke(registry, "s1", "c1")
+        }
+
+        verify(mockAwaiter).rejectAll("Disconnected via REST API")
+        verify(mockPersistence).setChargePointOfflineByChargePointId("CP-001")
+    }
+
+    @Test
+    fun `disconnect by chargePointId throws when not connected`() {
+        val registry = ChargePointRegistry()
+
+        val ex = assertThrows(IllegalStateException::class.java) {
+            registry.disconnect("UNKNOWN")
+        }
+        assertEquals("ChargePoint not connected: UNKNOWN", ex.message)
+    }
+
+    @Test
+    fun `disconnect by chargePointId disconnects registered session`() {
+        val mockConnection = mock(WebSocketConnection::class.java)
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.of(mockConnection))
+
+        val mockPersistence = mock(org.tekeli.borisp.ocpp16.persistence.PersistenceService::class.java)
+        val mockAwaiter = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+        registry.persistenceService = mockPersistence
+
+        val context = org.tekeli.borisp.ocpp16.websocket.SessionContext("s1", "CP-001", mockAwaiter)
+        val sessionContextsField = registry::class.java.getDeclaredField("sessionContexts")
+        sessionContextsField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionContexts = sessionContextsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.SessionContext>
+        sessionContexts["s1"] = context
+
+        val sessionInfosField = registry::class.java.getDeclaredField("sessionInfos")
+        sessionInfosField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionInfos = sessionInfosField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.ChargePointInfo>
+        sessionInfos["s1"] = org.tekeli.borisp.ocpp16.websocket.ChargePointInfo("s1", "c1", "CP-001", "V", "M")
+
+        val chargePointIdIndexField = registry::class.java.getDeclaredField("chargePointIdIndex")
+        chargePointIdIndexField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val chargePointIdIndex = chargePointIdIndexField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, String>
+        chargePointIdIndex["CP-001"] = "s1"
+
+        registry.disconnect("CP-001")
+
+        verify(mockConnection).close(io.quarkus.websockets.next.CloseReason(1001, "Disconnected via REST API"))
+    }
+
+    @Test
+    fun `disconnectAll disconnects all registered sessions`() {
+        val mockConn1 = mock(WebSocketConnection::class.java)
+        val mockConn2 = mock(WebSocketConnection::class.java)
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.of(mockConn1))
+        `when`(mockOpenConnections.findByConnectionId("c2")).thenReturn(Optional.of(mockConn2))
+
+        val mockAwaiter1 = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+        val mockAwaiter2 = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+
+        val context1 = org.tekeli.borisp.ocpp16.websocket.SessionContext("s1", "CP-001", mockAwaiter1)
+        val context2 = org.tekeli.borisp.ocpp16.websocket.SessionContext("s2", "CP-002", mockAwaiter2)
+        val sessionContextsField = registry::class.java.getDeclaredField("sessionContexts")
+        sessionContextsField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionContexts = sessionContextsField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.SessionContext>
+        sessionContexts["s1"] = context1
+        sessionContexts["s2"] = context2
+
+        val sessionInfosField = registry::class.java.getDeclaredField("sessionInfos")
+        sessionInfosField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val sessionInfos = sessionInfosField.get(registry) as java.util.concurrent.ConcurrentHashMap<String, org.tekeli.borisp.ocpp16.websocket.ChargePointInfo>
+        sessionInfos["s1"] = org.tekeli.borisp.ocpp16.websocket.ChargePointInfo("s1", "c1")
+        sessionInfos["s2"] = org.tekeli.borisp.ocpp16.websocket.ChargePointInfo("s2", "c2")
+
+        val count = registry.disconnectAll()
+
+        assertEquals(2, count)
+        verify(mockConn1).close(io.quarkus.websockets.next.CloseReason(1001, "Disconnected via REST API"))
+        verify(mockConn2).close(io.quarkus.websockets.next.CloseReason(1001, "Disconnected via REST API"))
     }
 }
