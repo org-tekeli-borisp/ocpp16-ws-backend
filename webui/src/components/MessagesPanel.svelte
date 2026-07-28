@@ -22,25 +22,42 @@ import { filterMessages } from '$lib/utils';
 
   export let cpId: string;
 
-  let allMessages: OcppMessage[] = [];
-  let msgTab: 'live' | 'history' = 'live';
-  let filterDirection: string = '';
-  let filterAction: string = '';
-  let refreshTimer: ReturnType<typeof setInterval> | null = null;
+   let allMessages: OcppMessage[] = [];
+   let msgTab: 'live' | 'history' = 'live';
+   let filterDirection: string = '';
+   let filterAction: string = '';
+   let refreshTimer: ReturnType<typeof setInterval> | null = null;
+   let refreshing = false;
+   let refreshOk = false;
+   let isManualRefresh = false;
 
   $: messages = filterMessages(allMessages, filterDirection, filterAction);
 
   $: messageCount = messages.length;
 
-  async function loadMessages() {
+   async function loadMessages() {
     if (!cpId) return;
+    refreshing = true;
+    refreshOk = false;
     try {
       allMessages = await fetchMessages(cpId, msgTab === 'history', {
         limit: 200,
       });
+      if (isManualRefresh) {
+        refreshOk = true;
+        setTimeout(() => { refreshOk = false; }, 1500);
+      }
     } catch {
       allMessages = [];
+    } finally {
+      refreshing = false;
+      isManualRefresh = false;
     }
+  }
+
+  function triggerManualRefresh() {
+    isManualRefresh = true;
+    loadMessages();
   }
 
   function switchTab(tab: 'live' | 'history') {
@@ -75,7 +92,9 @@ import { filterMessages } from '$lib/utils';
   <h2>
     <span>{$t('label_messages')}</span>
     <div class="panel-header-right">
-      <button class="btn btn-sm btn-outline" onclick={loadMessages}>{$t('diag_btn_refresh')}</button>
+      <button class="btn btn-sm btn-outline" onclick={triggerManualRefresh} disabled={refreshing}>
+          {refreshing ? '...' : refreshOk ? '✓' : $t('diag_btn_refresh')}
+        </button>
     </div>
   </h2>
   <div class="panel-body">

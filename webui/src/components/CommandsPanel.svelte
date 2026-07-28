@@ -12,6 +12,24 @@
   export let connectors: Array<{connectorId: number; status: string}> = [];
   export let onRefresh: (() => Promise<void>) | null = null;
 
+  let refreshing = false;
+  let refreshOk = false;
+
+  async function handleRefresh() {
+    if (!onRefresh) return;
+    refreshing = true;
+    refreshOk = false;
+    try {
+      await onRefresh();
+      refreshOk = true;
+      setTimeout(() => { refreshOk = false; }, 1500);
+    } catch {
+      refreshOk = false;
+    } finally {
+      refreshing = false;
+    }
+  }
+
   let selectedCommand: string = '';
   let response: string = '';
   let responseInfo: string = '';
@@ -81,7 +99,9 @@
     <span>{$t('label_command')}</span>
     {#if onRefresh}
       <div class="panel-header-right">
-        <button class="btn btn-sm btn-outline" onclick={onRefresh}>{$t('diag_btn_refresh')}</button>
+        <button class="btn btn-sm btn-outline" onclick={handleRefresh} disabled={refreshing}>
+          {refreshing ? '...' : refreshOk ? '✓' : $t('diag_btn_refresh')}
+        </button>
       </div>
     {/if}
   </h2>

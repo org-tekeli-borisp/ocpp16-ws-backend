@@ -7,12 +7,15 @@ import { formatDateTime, formatDuration, formatEnergy, getActiveDuration } from 
 
   export let cpId: string;
 
-  let txTab: 'active' | 'history' = 'active';
-  let activeTransactions: Transaction[] = [];
-  let historyTransactions: Transaction[] = [];
-  let loading = true;
-  let filterConnector = '';
-  let refreshTimer: ReturnType<typeof setInterval> | null = null;
+   let txTab: 'active' | 'history' = 'active';
+   let activeTransactions: Transaction[] = [];
+   let historyTransactions: Transaction[] = [];
+   let loading = true;
+   let filterConnector = '';
+   let refreshTimer: ReturnType<typeof setInterval> | null = null;
+   let refreshing = false;
+   let refreshOk = false;
+   let isManualRefresh = false;
 
   $: activeFiltered = activeTransactions.filter(tx =>
     filterConnector ? tx.connectorId === parseInt(filterConnector) : true
@@ -26,19 +29,32 @@ import { formatDateTime, formatDuration, formatEnergy, getActiveDuration } from 
     [...activeTransactions, ...historyTransactions].map(tx => tx.connectorId)
   )].sort((a, b) => a - b);
 
-  async function loadAll() {
+   async function loadAll() {
     loading = true;
+    refreshing = true;
+    refreshOk = false;
     try {
       [activeTransactions, historyTransactions] = await Promise.all([
         fetchTransactions(cpId, true),
         fetchTransactions(cpId, false),
       ]);
+      if (isManualRefresh) {
+        refreshOk = true;
+        setTimeout(() => { refreshOk = false; }, 1500);
+      }
     } catch {
       activeTransactions = [];
       historyTransactions = [];
     } finally {
       loading = false;
+      refreshing = false;
+      isManualRefresh = false;
     }
+  }
+
+  function triggerManualRefresh() {
+    isManualRefresh = true;
+    loadAll();
   }
 
   function switchTab(tab: 'active' | 'history') {
@@ -66,7 +82,9 @@ import { formatDateTime, formatDuration, formatEnergy, getActiveDuration } from 
   <h2>
     <span>{$t('label_transactions')}</span>
     <div class="panel-header-right">
-      <button class="btn btn-sm btn-outline" onclick={loadAll}>{$t('tx_btn_refresh')}</button>
+      <button class="btn btn-sm btn-outline" onclick={triggerManualRefresh} disabled={refreshing}>
+          {refreshing ? '...' : refreshOk ? '✓' : $t('tx_btn_refresh')}
+        </button>
     </div>
   </h2>
   <div class="panel-body">

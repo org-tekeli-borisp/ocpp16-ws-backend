@@ -9,6 +9,23 @@ import { disconnectChargePoint } from '$lib/api/ocpp';
   export let onRefresh: (() => Promise<void>) | null = null;
 
   let disconnecting = false;
+  let refreshing = false;
+  let refreshOk = false;
+
+  async function handleRefresh() {
+    if (!onRefresh) return;
+    refreshing = true;
+    refreshOk = false;
+    try {
+      await onRefresh();
+      refreshOk = true;
+      setTimeout(() => { refreshOk = false; }, 1500);
+    } catch {
+      refreshOk = false;
+    } finally {
+      refreshing = false;
+    }
+  }
 
   async function handleDisconnect() {
     if (!$t('disconnect_confirm')) return;
@@ -35,7 +52,9 @@ import { disconnectChargePoint } from '$lib/api/ocpp';
             {disconnecting ? $t('btn_disconnecting') : $t('btn_disconnect')}
           </button>
         {/if}
-        <button class="btn btn-sm btn-outline" onclick={onRefresh}>{$t('diag_btn_refresh')}</button>
+        <button class="btn btn-sm btn-outline" onclick={handleRefresh} disabled={refreshing}>
+          {refreshing ? '...' : refreshOk ? '✓' : $t('diag_btn_refresh')}
+        </button>
       </div>
     {/if}
   </h2>

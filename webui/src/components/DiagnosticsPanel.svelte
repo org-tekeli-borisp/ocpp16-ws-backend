@@ -6,22 +6,38 @@
 
   export let cpId: string;
 
-  let files: DiagnosticsFile[] = [];
-  let loading = false;
-  let error: string | null = null;
+   let files: DiagnosticsFile[] = [];
+   let loading = false;
+   let error: string | null = null;
+   let refreshing = false;
+   let refreshOk = false;
+   let isManualRefresh = false;
 
-  async function loadFiles() {
+   async function loadFiles() {
     if (!cpId) return;
     loading = true;
+    refreshing = true;
+    refreshOk = false;
     error = null;
     try {
       files = await fetchDiagnostics(cpId);
+      if (isManualRefresh) {
+        refreshOk = true;
+        setTimeout(() => { refreshOk = false; }, 1500);
+      }
     } catch (err) {
       error = (err as Error).message;
       files = [];
     } finally {
       loading = false;
+      refreshing = false;
+      isManualRefresh = false;
     }
+  }
+
+  function triggerManualRefresh() {
+    isManualRefresh = true;
+    loadFiles();
   }
 
   async function handleDownload(fileName: string) {
@@ -48,8 +64,8 @@
 <div class="panel">
   <h2>
     <span>{$t('diag_title')}</span>
-    <button class="btn btn-sm btn-outline" style="float:right" onclick={loadFiles} disabled={loading}>
-      {$t('diag_btn_refresh')}
+    <button class="btn btn-sm btn-outline" style="float:right" onclick={triggerManualRefresh} disabled={loading || refreshing}>
+      {refreshing ? '...' : refreshOk ? '✓' : $t('diag_btn_refresh')}
     </button>
   </h2>
   <div class="panel-body">

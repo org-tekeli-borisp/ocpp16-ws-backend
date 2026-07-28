@@ -95,6 +95,17 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     @ConfigProperty(name = "ocpp.heartbeat.interval-seconds", defaultValue = "${DEFAULT_HEARTBEAT_INTERVAL_SECONDS}")
     override var heartbeatIntervalSeconds: Long = DEFAULT_HEARTBEAT_INTERVAL_SECONDS.toLong()
 
+    private inner class SessionContextWrapper(
+        private val sessionCtx: SessionContext,
+    ) : OcppHandlerContext {
+        override val chargePointId: String get() = sessionCtx.chargePointId
+        override val sessionId: String get() = sessionCtx.sessionId
+        override val chargePointRegistry: ChargePointRegistry? get() = this@OcppWebSocketServer.chargePointRegistry
+        override val persistenceService: PersistenceService? get() = this@OcppWebSocketServer.persistenceService
+        override val metricsService: MetricsService? get() = this@OcppWebSocketServer.metricsService
+        override val heartbeatIntervalSeconds: Long get() = this@OcppWebSocketServer.heartbeatIntervalSeconds
+    }
+
     private val dispatcher: MessageDispatcher by lazy {
         MessageDispatcher(createHandlers(), messageCaptureService, schemaValidator)
     }
@@ -171,9 +182,10 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         } catch (e: Exception) {
             Log.warn("touchLastSeenAt failed: ${e.message}")
         }
+        val context = SessionContextWrapper(sessionCtx)
         return dispatcher.dispatch(
             message,
-            this,
+            context,
             sessionCtx.responseAwaiter,
             metricsService,
             sessionCtx.chargePointId
@@ -204,15 +216,15 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     fun onClose(conn: WebSocketConnection) {
         val sessionId = conn.id()
         activeRegistry.getPingPongManager(sessionId)?.stop()
-        val ctx = activeRegistry.getContext(sessionId) ?: return
+        val sessionCtx = activeRegistry.getContext(sessionId) ?: return
         if (activeRegistry.isConnected(sessionId)) {
             activeRegistry.unregister(sessionId)
-            ctx.responseAwaiter.rejectAll("WebSocket connection closed: $sessionId")
+            sessionCtx.responseAwaiter.rejectAll("WebSocket connection closed: $sessionId")
             try {
-                activePersistence.setChargePointOfflineByChargePointId(ctx.chargePointId)
+                activePersistence.setChargePointOfflineByChargePointId(sessionCtx.chargePointId)
             } catch (_: Exception) {
             }
-            Log.info("WebSocket connection closed: session=$sessionId, chargePoint=${ctx.chargePointId}")
+            Log.info("WebSocket connection closed: session=$sessionId, chargePoint=${sessionCtx.chargePointId}")
         }
     }
 
