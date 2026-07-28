@@ -850,7 +850,7 @@ class ChargePointRegistryTest {
     }
 
     @Test
-    fun `disconnect closes connection and returns early when connection exists`() {
+    fun `disconnect closes connection and cleans up session`() {
         val mockConnection = mock(WebSocketConnection::class.java)
         val mockOpenConnections = mock(OpenConnections::class.java)
         `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.of(mockConnection))
@@ -873,11 +873,10 @@ class ChargePointRegistryTest {
         disconnectMethod.isAccessible = true
         disconnectMethod.invoke(registry, "s1", "c1")
 
-        verify(mockConnection).close(io.quarkus.websockets.next.CloseReason(1001, "Disconnected via REST API"))
-        verifyNoMoreInteractions(mockConnection)
-        verify(mockPersistence, never()).setChargePointOfflineByChargePointId(anyString())
-        verify(mockAwaiter, never()).rejectAll(anyString())
-        assertTrue(sessionContexts.containsKey("s1"))
+        verify(mockConnection).closeAndAwait(any())
+        verify(mockAwaiter).rejectAll("Disconnected via REST API")
+        verify(mockPersistence).setChargePointOfflineByChargePointId("CP-001")
+        assertFalse(sessionContexts.containsKey("s1"))
     }
 
     @Test
@@ -945,7 +944,7 @@ class ChargePointRegistryTest {
         val mockConnection = mock(WebSocketConnection::class.java)
         val mockOpenConnections = mock(OpenConnections::class.java)
         `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.of(mockConnection))
-        `when`(mockConnection.close(any())).thenThrow(RuntimeException("close failed"))
+        `when`(mockConnection.closeAndAwait(any())).thenThrow(RuntimeException("close failed"))
 
         val mockPersistence = mock(org.tekeli.borisp.ocpp16.persistence.PersistenceService::class.java)
         val mockAwaiter = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
@@ -967,7 +966,7 @@ class ChargePointRegistryTest {
             disconnectMethod.invoke(registry, "s1", "c1")
         }
 
-        verify(mockConnection).close(any())
+        verify(mockConnection).closeAndAwait(any())
         verify(mockAwaiter).rejectAll("Disconnected via REST API")
         verify(mockPersistence).setChargePointOfflineByChargePointId("CP-001")
         assertFalse(sessionContexts.containsKey("s1"))
@@ -1049,7 +1048,7 @@ class ChargePointRegistryTest {
 
         registry.disconnect("CP-001")
 
-        verify(mockConnection).close(io.quarkus.websockets.next.CloseReason(1001, "Disconnected via REST API"))
+        verify(mockConnection).closeAndAwait(any())
     }
 
     @Test
@@ -1085,7 +1084,7 @@ class ChargePointRegistryTest {
         val count = registry.disconnectAll()
 
         assertEquals(2, count)
-        verify(mockConn1).close(io.quarkus.websockets.next.CloseReason(1001, "Disconnected via REST API"))
-        verify(mockConn2).close(io.quarkus.websockets.next.CloseReason(1001, "Disconnected via REST API"))
+        verify(mockConn1).closeAndAwait(any())
+        verify(mockConn2).closeAndAwait(any())
     }
 }

@@ -104,19 +104,24 @@ class ChargePointRegistry {
         } catch (_: Exception) {
         }
 
-        val conn = openConnections.findByConnectionId(connectionId).orElse(null)
-        if (conn != null) {
-            try {
-                conn.close(CloseReason(1001, "Disconnected via REST API"))
-                return
-            } catch (_: Exception) {
-            }
+        try {
+            unregister(sessionId)
+        } catch (_: Exception) {
         }
 
-        unregister(sessionId)
         context.responseAwaiter.rejectAll("Disconnected via REST API")
+
         try {
             persistenceService?.setChargePointOfflineByChargePointId(chargePointId)
+        } catch (_: Exception) {
+        }
+
+        try {
+            val conn = openConnections.findByConnectionId(connectionId).orElse(null)
+            if (conn != null) {
+                conn.closeAndAwait(CloseReason(1001, "Disconnected via REST API"))
+                Log.info("WebSocket connection closed by REST API: session=$sessionId, chargePoint=$chargePointId")
+            }
         } catch (_: Exception) {
         }
     }
