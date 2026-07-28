@@ -633,6 +633,31 @@ class ChargePointRegistryTest {
 
     private fun mockChargePointConnection(): TestChargePointConnection = TestChargePointConnection()
 
+    private fun mockPingPongManager(): org.tekeli.borisp.ocpp16.websocket.PingPongManager {
+        val target = object : org.tekeli.borisp.ocpp16.websocket.PingPongTarget {
+            override fun sendPing(buffer: io.vertx.core.buffer.Buffer): io.smallrye.mutiny.Uni<Void> = io.smallrye.mutiny.Uni.createFrom().voidItem()
+            override fun closeConnection(reason: String): io.smallrye.mutiny.Uni<Void> = io.smallrye.mutiny.Uni.createFrom().voidItem()
+            override fun setChargePointOffline(sessionId: String) {}
+            override fun unregisterFromRegistry(sessionId: String) {}
+            override fun isConnected(sessionId: String): Boolean = false
+            override fun rejectAwaiter(message: String) {}
+            override fun executeAsync(runnable: Runnable) {}
+        }
+        val scheduler = object : org.tekeli.borisp.ocpp16.websocket.Scheduler {
+            override fun <V : Any?> schedule(runnable: Runnable, delay: Long, unit: java.util.concurrent.TimeUnit): java.util.concurrent.ScheduledFuture<V> =
+                object : java.util.concurrent.ScheduledFuture<V> {
+                    override fun get(): V = throw UnsupportedOperationException()
+                    override fun get(timeout: Long, unit: java.util.concurrent.TimeUnit): V = throw UnsupportedOperationException()
+                    override fun isCancelled(): Boolean = false
+                    override fun isDone(): Boolean = false
+                    override fun cancel(mayInterruptIfRunning: Boolean): Boolean = true
+                    override fun getDelay(unit: java.util.concurrent.TimeUnit): Long = 0
+                    override fun compareTo(other: java.util.concurrent.Delayed): Int = 0
+                }
+        }
+        return org.tekeli.borisp.ocpp16.websocket.PingPongManager(target, "test", 1, 2, scheduler)
+    }
+
     private class TestChargePointConnection(
         val sentMessages: MutableList<String> = mutableListOf()
     ) : ChargePointConnection {
@@ -661,5 +686,141 @@ class ChargePointRegistryTest {
         registry.updateChargePointInfo("s-reg", "CP-REG", "V", "M")
 
         assertDoesNotThrow { registry.sendCall("CP-REG", "Heartbeat", emptyMap()) }
+    }
+
+    @Test
+    fun `getResponseAwaiter returns awaiter for known session`() {
+        val registry = ChargePointRegistry()
+        val awaiter = ResponseAwaiter()
+        registry.register("session-1", "conn-1", null, awaiter)
+
+        val result = registry.getResponseAwaiter("session-1")
+
+        assertSame(awaiter, result)
+    }
+
+    @Test
+    fun `getResponseAwaiter returns null for unknown session`() {
+        val registry = ChargePointRegistry()
+
+        val result = registry.getResponseAwaiter("unknown")
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `getChargePointId returns chargePointId for known session`() {
+        val registry = ChargePointRegistry()
+        val awaiter = ResponseAwaiter()
+        registry.register("session-1", "conn-1", "CP-001", awaiter)
+
+        val result = registry.getChargePointId("session-1")
+
+        assertEquals("CP-001", result)
+    }
+
+    @Test
+    fun `getChargePointId returns null for unknown session`() {
+        val registry = ChargePointRegistry()
+
+        val result = registry.getChargePointId("unknown")
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `getChargePointId returns empty string when registered without chargePointId`() {
+        val registry = ChargePointRegistry()
+        val awaiter = ResponseAwaiter()
+        registry.register("session-1", "conn-1", null, awaiter)
+
+        val result = registry.getChargePointId("session-1")
+
+        assertEquals("", result)
+    }
+
+    @Test
+    fun `getConnection returns connection with correct responseAwaiter`() {
+        val registry = ChargePointRegistry()
+        val awaiter = ResponseAwaiter()
+        registry.register("session-1", "conn-1", null, awaiter)
+
+        val result = registry.getConnection("session-1")
+
+        assertNotNull(result)
+        assertSame(awaiter, result!!.responseAwaiter)
+    }
+
+    @Test
+    fun `getConnection returns null for unknown session`() {
+        val registry = ChargePointRegistry()
+
+        val result = registry.getConnection("unknown")
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `getConnection sendText returns void Uni`() {
+        val registry = ChargePointRegistry()
+        val connection = mockChargePointConnection()
+        registry.register("session-1", "conn-1", connection)
+
+        val conn = registry.getConnection("session-1")
+
+        assertNotNull(conn)
+        val result = conn!!.sendText("test")
+        assertNotNull(result)
+        assertTrue(result is io.smallrye.mutiny.Uni<*>)
+    }
+
+    @Test
+    fun `setPingPongManager updates manager for known session`() {
+        val registry = ChargePointRegistry()
+        val awaiter = ResponseAwaiter()
+        registry.register("session-1", "conn-1", null, awaiter)
+
+        val manager = mockPingPongManager()
+        registry.setPingPongManager("session-1", manager)
+
+        assertSame(manager, registry.getPingPongManager("session-1"))
+    }
+
+    @Test
+    fun `setPingPongManager does nothing for unknown session`() {
+        val registry = ChargePointRegistry()
+
+        val manager = mockPingPongManager()
+        assertDoesNotThrow { registry.setPingPongManager("unknown", manager) }
+    }
+
+    @Test
+    fun `getPingPongManager returns null for session without manager`() {
+        val registry = ChargePointRegistry()
+        val awaiter = ResponseAwaiter()
+        registry.register("session-1", "conn-1", null, awaiter)
+
+        val result = registry.getPingPongManager("session-1")
+
+        assertNull(result)
+    }
+
+    @Test
+    fun `register with null chargePointId does not add to chargePointIdIndex`() {
+        val registry = ChargePointRegistry()
+        val connection = mockChargePointConnection()
+        registry.register("session-1", "conn-1", connection, null)
+
+        assertTrue(registry.isConnected("session-1"))
+        assertNull(registry.getByChargePointId("CP-001"))
+    }
+
+    @Test
+    fun `register with non-null chargePointId adds to chargePointIdIndex`() {
+        val registry = ChargePointRegistry()
+        val connection = mockChargePointConnection()
+        registry.register("session-1", "conn-1", connection, "CP-001")
+
+        assertEquals("CP-001", registry.connectedChargePointIds.single())
     }
 }
