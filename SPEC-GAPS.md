@@ -53,7 +53,7 @@ Tracks implemented vs. missing features relative to the OCPP 1.6J spec and OCPP 
 | Local Auth List caching | ❌ | ChargePoint-side ACL not mirrored by CS |
 | Smart Charging profiles (complex) | ⚠️ | Basic `SetChargingProfile` supported, but complex schedule validation is minimal |
 | OCPP-J Message Queue | ❌ | No offline message queue for disconnected charge points |
-| Multiple concurrent connections | ❌ | Only one routing entry per chargePointId; new registration silently overwrites the index. Old WebSocket is NOT actively closed and remains alive until timeout or natural close. |
+| Multiple concurrent connections | ❌ | Only one routing entry per chargePointId; new registration actively disconnects the old session (PingPongManager stopped, WebSocket closed, awaiters rejected). |
 | Rate limiting | ❌ | No request rate limiting on REST or WebSocket |
 | Audit logging | ❌ | No CS-side audit trail for admin actions |
 | Role-based access control | ❌ | REST API has no authentication/authorization |

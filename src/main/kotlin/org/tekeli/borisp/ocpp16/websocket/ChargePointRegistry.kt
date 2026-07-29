@@ -45,6 +45,10 @@ class ChargePointRegistry {
     val connectedChargePointIds: Set<String> get() = Collections.unmodifiableSet(chargePointIdIndex.keys)
 
     fun register(sessionId: String, connectionId: String, chargePointId: String?, responseAwaiter: ResponseAwaiter) {
+        val oldInfo = chargePointId?.let { getByChargePointId(it) }
+        if (oldInfo != null && oldInfo.sessionId != sessionId) {
+            disconnectSession(oldInfo.sessionId, oldInfo.connectionId)
+        }
         sessionInfos[sessionId] = ChargePointInfo(
             sessionId = sessionId,
             connectionId = connectionId

@@ -1087,4 +1087,65 @@ class ChargePointRegistryTest {
         verify(mockConn1).closeAndAwait(any())
         verify(mockConn2).closeAndAwait(any())
     }
+
+    @Test
+    fun `register with existing chargePointId disconnects old session`() {
+        val mockOldConnection = mock(WebSocketConnection::class.java)
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        `when`(mockOpenConnections.findByConnectionId("c1")).thenReturn(Optional.of(mockOldConnection))
+
+        val mockPersistence = mock(org.tekeli.borisp.ocpp16.persistence.PersistenceService::class.java)
+        val mockOldAwaiter = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+        val mockNewAwaiter = mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java)
+        val mockPingPongManager = mock(org.tekeli.borisp.ocpp16.websocket.PingPongManager::class.java)
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+        registry.persistenceService = mockPersistence
+
+        registry.register("s1", "c1", "CP-001", mockOldAwaiter)
+        registry.setPingPongManager("s1", mockPingPongManager)
+
+        registry.register("s2", "c2", "CP-001", mockNewAwaiter)
+
+        assertFalse(registry.isConnected("s1"))
+        assertTrue(registry.isConnected("s2"))
+        val info = registry.getByChargePointId("CP-001")
+        assertNotNull(info)
+        assertEquals("s2", info!!.sessionId)
+        verify(mockPingPongManager).stop()
+        verify(mockOldAwaiter).rejectAll("Disconnected via REST API")
+        verify(mockOldConnection).closeAndAwait(any())
+        verify(mockPersistence).setChargePointOfflineByChargePointId("CP-001")
+    }
+
+    @Test
+    fun `register without chargePointId does not trigger disconnect`() {
+        val mockOldConnection = mock(WebSocketConnection::class.java)
+        val mockOpenConnections = mock(OpenConnections::class.java)
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+
+        registry.register("s1", "c1", mockChargePointConnection())
+        registry.register("s2", "c2", mockChargePointConnection())
+
+        assertTrue(registry.isConnected("s1"))
+        assertTrue(registry.isConnected("s2"))
+        verifyNoInteractions(mockOldConnection)
+    }
+
+    @Test
+    fun `register with different chargePointId does not disconnect other session`() {
+        val mockOpenConnections = mock(OpenConnections::class.java)
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+
+        registry.register("s1", "c1", "CP-001", mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java))
+        registry.register("s2", "c2", "CP-002", mock(org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter::class.java))
+
+        assertTrue(registry.isConnected("s1"))
+        assertTrue(registry.isConnected("s2"))
+    }
 }
