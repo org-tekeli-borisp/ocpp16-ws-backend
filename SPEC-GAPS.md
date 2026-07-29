@@ -22,6 +22,7 @@ Tracks implemented vs. missing features relative to the OCPP 1.6J spec and OCPP 
 | Firmware update (legacy) | ✅ | UpdateFirmware |
 | Reservation management | ✅ | ReserveNow, CancelReservation |
 | DataTransfer | ✅ | Vendor-specific data |
+| Connection management | ✅ | `DELETE /{id}/connection` + `POST /reconnect-all` (non-standard, operational) |
 
 ### OCPP 1.6 Security Edition 4
 
@@ -52,7 +53,7 @@ Tracks implemented vs. missing features relative to the OCPP 1.6J spec and OCPP 
 | Local Auth List caching | ❌ | ChargePoint-side ACL not mirrored by CS |
 | Smart Charging profiles (complex) | ⚠️ | Basic `SetChargingProfile` supported, but complex schedule validation is minimal |
 | OCPP-J Message Queue | ❌ | No offline message queue for disconnected charge points |
-| Multiple concurrent connections | ❌ | Only one WebSocket per chargePointId (oldest disconnected on new connect) |
+| Multiple concurrent connections | ❌ | Only one routing entry per chargePointId; new registration silently overwrites the index. Old WebSocket is NOT actively closed and remains alive until timeout or natural close. |
 | Rate limiting | ❌ | No request rate limiting on REST or WebSocket |
 | Audit logging | ❌ | No CS-side audit trail for admin actions |
 | Role-based access control | ❌ | REST API has no authentication/authorization |
@@ -92,7 +93,7 @@ Per `schemas/security/ExtendedTriggerMessage.json`:
 
 ## Known Limitations
 
-1. **Single WebSocket per chargePointId** — If a charge point reconnects, the old connection is dropped silently.
+1. **Single WebSocket per chargePointId** — If a charge point reconnects, the old connection is silently orphaned (not actively closed). It remains alive until timeout or natural close.
 2. **No message persistence for offline charge points** — Commands sent to disconnected charge points fail immediately.
 3. **No authentication on REST API** — Any client with network access can execute commands.
 4. **FTP passive ports require system-level availability** — Ports 40000-40100 must be free for test execution.
