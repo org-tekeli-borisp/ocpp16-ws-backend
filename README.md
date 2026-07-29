@@ -14,7 +14,7 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
 - **Mutation Testing** – PITest integration (95% mutation coverage, 97% line coverage)
-- **1421 Unit & Integration Tests** (87 test files)
+- **1499 Unit & Integration Tests** (90 test files)
 - **Coverage Reports** – [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 - **Diagnostics Upload** – FTP (2021) + SFTP (2022) servers for receiving firmware/diagnostic files from charge points
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
@@ -312,33 +312,91 @@ Liquibase manages the database schema via SQL changelogs in `src/main/resources/
 
 ```
 db/changelog/
-├── changelog-master.yaml           # Master changelog
-├── 001-init.sql                    # Initial schema (charge_points, transactions)
-├── 002-security.sql                # Security schema (security_logs, signed_firmware)
-├── 003-connector-status.sql        # Connector status tracking
-├── 004-message-log.sql             # OCPP message capture log
-└── 005-last-connected-at.sql       # last_connected_at column on charge_points
+├── changelog-master.yaml                    # Master changelog
+├── 001-init.sql                             # Initial schema (charge_points, transactions)
+├── 002-security.sql                         # Security schema (security_logs, signed_firmware)
+├── 003-connector-status.sql                 # Connector status tracking
+├── 004-message-log.sql                      # OCPP message capture log
+├── 005-last-connected-at.sql                # last_connected_at column on charge_points
+└── 006-unique-charge-point-id.sql           # Unique constraint on charge_point_id
 ```
 
 New migrations: add `00X-name.sql` to `db/changelog/` and include it in `changelog-master.yaml`.
 
 ## WebUI
 
-Svelte 5 single-page application built with Vite. Source code lives in `webui/` and is compiled during the Maven build via `frontend-maven-plugin` (Node.js v24.11.0, npm 11.6.0). The built output is placed in `src/main/resources/META-INF/resources/` and served by Quarkus.
+Svelte 5 single-page application built with Vite and TypeScript. Source code lives in `webui/` and is compiled during the Maven build via `frontend-maven-plugin`. The built output is placed in `src/main/resources/META-INF/resources/` and served by Quarkus.
 
-| Page | URL | Description |
-|------|-----|-------------|
-| **WebUI** | `/` | Svelte 5 SPA with 5 tabs: station overview, remote commands (26), OCPP message log, transactions, and diagnostics |
+### Panels
+
+| Panel | Description |
+|-------|-------------|
+| **Overview** | Station details: vendor, model, firmware, connectors with live status, timestamps |
+| **Commands** | 26 remote commands with dynamic forms, live status chips, auto-generated SFTP/FTP URLs for diagnostics |
+| **Messages** | Live & history tabs, filters by direction (inbound/outbound) and action, auto-scroll with 10s refresh |
+| **Transactions** | Active sessions & history tabs, connector filter, duration & energy formatting, auto-refresh |
+| **Diagnostics** | File list with size/upload date, download & delete actions |
+
+### Features
+
+- **Deep Linking**: URL supports `?cp={chargePointId}` and `#{tab}` for direct navigation (e.g., `/?cp=CP-001#commands`)
+- **Auto-Refresh**: 10s polling for selected station data, 10s polling for messages/transactions
+- **Station Search**: Filter stations by ID, vendor, or model
+- **Disconnect**: Per-station disconnect and "disconnect all" button in sidebar
+- **Command Forms**: Dynamic field generation with validation, JSON payloads, and type-specific inputs (text, number, select, textarea, radio, json)
+- **Reconnect API**: `POST /api/chargepoints/reconnect-all` to force reconnection of all charge points
 
 ### i18n (Internationalization)
 
-The SPA supports three languages with client-side translation, auto-detected from browser locale, selectable via dropdown, and persisted in `localStorage`:
+Client-side translations in `$lib/i18n/` with 3 languages (150+ keys each), auto-detected from `navigator.language`, selectable via header dropdown:
 
 | Language | Code |
 |----------|------|
-| Deutsch | `de` |
+| Deutsch | `de` (default) |
 | English | `en` |
 | Français | `fr` |
+
+### Architecture
+
+```
+webui/
+├── src/
+│   ├── App.svelte              # Root component with header, sidebar, tabs
+│   ├── components/             # 11 Svelte components
+│   │   ├── Sidebar.svelte      # Station list, search, disconnect all
+│   │   ├── StationItem.svelte  # Single station with status badge
+│   │   ├── OverviewPanel.svelte
+│   │   ├── CommandsPanel.svelte
+│   │   ├── CommandSelector.svelte
+│   │   ├── CommandForm.svelte
+│   │   ├── MessagesPanel.svelte
+│   │   ├── TransactionsPanel.svelte
+│   │   ├── DiagnosticsPanel.svelte
+│   │   └── ConnectorChip.svelte
+│   ├── lib/
+│   │   ├── api/ocpp.ts         # REST API client (fetchChargePoints, sendCommand, etc.)
+│   │   ├── commands.ts         # Command field definitions for all 26 commands
+│   │   ├── i18n/index.ts       # Translations + locale store
+│   │   ├── types/index.ts      # TypeScript interfaces (ChargePoint, Transaction, etc.)
+│   │   └── utils.ts            # Formatting (timeAgo, formatDuration, formatEnergy, filterMessages)
+│   └── stores/app.ts           # Svelte stores (chargePoints, selectedCpId, activeTab, searchQuery)
+├── tests/
+│   ├── unit/                   # 5 Vitest test files (api, commands, i18n, stores, utils)
+│   └── e2e/                    # 9 Playwright test files
+│       ├── deep-linking.spec.ts
+│       ├── overview-panel.spec.ts
+│       ├── commands-panel.spec.ts
+│       ├── messages-panel.spec.ts
+│       ├── transactions-panel.spec.ts
+│       ├── station-selection.spec.ts
+│       ├── station-flow.spec.ts
+│       ├── error-states.spec.ts
+│       └── i18n.spec.ts
+├── package.json
+├── playwright.config.ts
+├── vitest.config.ts
+└── tsconfig.json
+```
 
 ## Project Structure
 
@@ -387,7 +445,7 @@ mvn org.pitest:pitest-maven:mutationCoverage
 | Metrics | 1 | Prometheus metrics service |
 | Integration | 2 | CommandRoundTrip, FullFlowIntegration |
 | Root-level | 14 | WebSocket Server, OcppMessage, Registry, ResponseAwaiter, Dispatcher, etc. |
-| **Total** | **1421 Tests** | 87 test files |
+| **Total** | **1499 Tests** | 90 test files |
 
 ## CI/CD Pipeline
 
@@ -460,7 +518,7 @@ Key properties in `application.properties`:
 | Language | Kotlin 2.3.21 (JVM target 25) |
 | Framework | Quarkus 3.36.2 |
 | Database | PostgreSQL 18 |
-| Migrations | Liquibase (5 migrations) |
+| Migrations | Liquibase (6 migrations) |
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |
 | JSON | Jackson |
