@@ -93,7 +93,7 @@ Per `schemas/security/ExtendedTriggerMessage.json`:
 
 ## Known Limitations
 
-1. **Single WebSocket per chargePointId** — If a charge point reconnects, the old connection is silently orphaned (not actively closed). It remains alive until timeout or natural close.
+1. **Single WebSocket per chargePointId** — If a charge point reconnects, the old connection is actively closed by `register()`.
 2. **No message persistence for offline charge points** — Commands sent to disconnected charge points fail immediately.
 3. **No authentication on REST API** — Any client with network access can execute commands.
 4. **FTP passive ports require system-level availability** — Ports 40000-40100 must be free for test execution.
