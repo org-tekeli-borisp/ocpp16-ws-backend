@@ -2,35 +2,52 @@
 
 Kanban board for features, improvements, and long-term plans.
 
-## 🔴 Backlog
+## 🔴 Critical (Sicherheit)
 
 | Issue | Description |
 |-------|-------------|
-| #001 | **Real authorization logic** — AuthorizeHandler always returns `Accepted`; add `IdToken` entity, whitelist/blacklist, validation |
-| #002 | **WSS/TLS support** — add secure WebSocket for Security Edition 4 compliance |
-| #003 | **Persist MeterValues** — currently acknowledged but lost; add entity with configurable retention |
-| #004 | **Webhook/event system** — notifications for transactions, faults, offline charge points |
-| #005 | **Local authorization list** — SendLocalList has no backing store; add entity + REST endpoints |
-| #006 | **Smart charging engine** — load balancing across charge points, grid capacity management |
-| #007 | **Firmware upload endpoint** — `POST /api/chargepoints/{id}/firmware` with validation |
-| #008 | **Security logs API** — expose existing `SecurityLog` entity via REST |
-| #009 | **Reservation persistence** — ReserveNow creates no persistent record |
-| #010 | **Multi-instance support** — shared `ChargePointRegistry` via Redis |
-| #011 | **Offline message queue** — commands delivered when charge point reconnects |
-| #012 | **OpenTelemetry tracing** — correlation IDs per charge point |
-| #013 | **Fleet-wide bulk commands** — `POST /api/commands/bulk` for multiple charge points |
-| #014 | **Configuration reconciliation** — validate applied config via GetConfiguration audits |
-| #015 | **Manual WebSocket disconnect** — `DELETE /api/chargepoints/{id}/connection` (single), `POST /api/chargepoints/reconnect-all` (bulk); simple force disconnect |
+| #001 | **Real authorization logic** — `AuthorizeHandler` always returns `Accepted`; add `IdToken` entity, whitelist/blacklist, per-charge-point ACL |
+| #016 | **REST API Authentication** — kein Auth/Authorization auf REST-Endpoints; jeder mit Netzwerkkontakt kann Commands ausführen |
+| #017 | **Rate Limiting** — kein Schutz gegen Missbrauch auf REST und WebSocket |
 
-## 🟡 Prioritized
+## 🟠 High (Kernfunktionalität)
 
 | Issue | Description |
 |-------|-------------|
+| #003 | **Persist MeterValues** — aktuell acknowledged but lost; `MeterValue` entity mit konfigurierbarer Retention hinzufügen |
+| #011 | **Offline message queue** — Commands an disconnectete Charge Points schlagen sofort fehl; Queue für nachgelieferte delivery |
+| #008 | **Security logs REST + WebUI** — `SecurityLog` entity existiert, ist aber über REST und UI nicht zugreifbar; Panel + Filter hinzufügen |
+| #007 | **Firmware upload endpoint** — `POST /api/chargepoints/{id}/firmware/upload` mit Binary-Upload und Validierung; `FirmwareArtifact` entity |
+| #018 | **IdToken REST + WebUI** — CRUD-Endpoints für ID-Tokens + Management-Panel in der WebUI |
 
-## 🟢 In Progress
+## 🟡 Medium (Operative Reife)
 
 | Issue | Description |
 |-------|-------------|
+| #004 | **Webhook/event system** — notifications für Transaktionen, Fehler, offline Charge Points; konfigurierbare Endpoints |
+| #019 | **Audit Logging** — kein Trail für Admin-Aktionen (wer, welche Command, welcher ChargePoint, wann) |
+| #013 | **Fleet-wide bulk commands** — `POST /api/commands/bulk` für mehrere Charge Points gleichzeitig |
+| #009 | **Reservation persistence** — `ReserveNow` erstellt keinen persistenten Eintrag; `Reservation` entity + expiry monitoring |
+| #020 | **Connector Status History** — nur letzter Status gespeichert; History-Tabelle für Zeitverlauf der Connector-Zustände |
+| #021 | **StopTransaction validation** — nicht gegen aktiven Transaktionszustand geprüft; `transactionId` muss zu laufender Transaktion passen |
+| #012 | **OpenTelemetry tracing** — correlation IDs pro Charge Point für Request-Tracing |
+| #014 | **Configuration reconciliation** — validierte, angewendete Konfiguration via `GetConfiguration` audits |
+| #005 | **Local authorization list** — `SendLocalList` hat keine backing store; `LocalAuthListEntry` entity + REST endpoints |
+| #022 | **Fleet Dashboard** — Gesamtübersicht aller Ladepunkte mit aggregierten Charts (online count, active transactions, total energy) |
+| #023 | **Certificate Management WebUI** — Panel für Install, Query, Delete von Zertifikaten über die UI |
+| #024 | **Analytics & Reports** — Energieverbrauch-Charts, Transaktionsberichte, CSV/Excel Export |
+| #025 | **Scheduled Operations** — cron-ähnliche Tasks für Firmware-Updates, Diagnostics Collection, Configuration Changes |
+
+## 🟢 Nice-to-Have
+
+| Issue | Description |
+|-------|-------------|
+| #006 | **Smart charging engine** — load balancing über Charge Points, grid capacity management |
+| #002 | **WSS/TLS support** — secure WebSocket für Security Edition 4 Compliance (in Prod via reverse proxy) |
+| #010 | **Multi-instance support** — shared `ChargePointRegistry` via Redis für horizontales Scaling |
+| #026 | **OCSP/CRL Validation** — Zertifikate werden gespeichert, aber nicht aktiv validiert |
+| #027 | **Dark Mode** — UI theme toggle |
+| #028 | **Mobile Responsive Design** — aktuelles Layout ist desktop-fokussiert |
 
 ## 🔵 Review
 
@@ -41,3 +58,4 @@ Kanban board for features, improvements, and long-term plans.
 
 | Issue | Description |
 |-------|-------------|
+| #015 | **Manual WebSocket disconnect** — `DELETE /api/chargepoints/{id}/connection` (single), `POST /api/chargepoints/reconnect-all` (bulk) + WebUI disconnect buttons |
