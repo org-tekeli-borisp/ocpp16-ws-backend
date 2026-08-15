@@ -56,6 +56,12 @@ class SftpServerServiceTest {
     }
 
     @Test
+    fun `should use nio2 io service factory`() {
+        val factoryName = service.ioServiceFactoryFactory?.javaClass?.name
+        assertTrue(factoryName?.startsWith("org.apache.sshd.common.io.nio2") == true, "expected Nio2 factory but was $factoryName")
+    }
+
+    @Test
     fun `should reject wrong password`() {
         val jsch = JSch()
         val badSession = jsch.getSession("ocpp", "127.0.0.1", 22022)

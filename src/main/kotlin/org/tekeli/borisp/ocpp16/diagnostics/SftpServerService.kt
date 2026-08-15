@@ -20,13 +20,16 @@ class SftpServerService(
 
     private var sshd: SshServer? = null
 
+    val ioServiceFactoryFactory: org.apache.sshd.common.io.IoServiceFactoryFactory?
+        get() = sshd?.ioServiceFactoryFactory
+
     fun start() {
         if (!config.enabled()) {
             Log.info("SFTP server is disabled")
             return
         }
         val server = SshServer.setUpDefaultServer()
-        server.ioServiceFactoryFactory = BuiltinIoServiceFactoryFactories.MINA.create()
+        server.ioServiceFactoryFactory = BuiltinIoServiceFactoryFactories.NIO2.create()
         server.port = config.port()
         server.host = config.host()
 
