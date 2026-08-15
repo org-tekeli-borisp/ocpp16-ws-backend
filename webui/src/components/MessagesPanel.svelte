@@ -104,14 +104,14 @@ import { filterMessages } from '$lib/utils';
     </div>
 
     <div class="filters">
-      <label style="font-size:.78rem;font-weight:600;">{$t('filter_direction')}:</label>
-      <select bind:value={filterDirection}>
+      <label for="messages-filter-direction" style="font-size:.78rem;font-weight:600;">{$t('filter_direction')}:</label>
+      <select id="messages-filter-direction" bind:value={filterDirection}>
         <option value="">{$t('filter_all')}</option>
         <option value="INBOUND">C→S {$t('filter_inbound')}</option>
         <option value="OUTBOUND">S→C {$t('filter_outbound')}</option>
       </select>
-      <label style="font-size:.78rem;font-weight:600;">{$t('filter_action')}:</label>
-      <input type="text" bind:value={filterAction} placeholder="z.B. Heartbeat" />
+      <label for="messages-filter-action" style="font-size:.78rem;font-weight:600;">{$t('filter_action')}:</label>
+      <input id="messages-filter-action" type="text" bind:value={filterAction} placeholder="z.B. Heartbeat" />
       <button class="btn btn-sm btn-outline" onclick={applyFilters}>{$t('btn_apply')}</button>
       <div class="status-bar" style="margin-left:auto;">
         <span>{messageCount} {$t('label_messages_lower')}</span>

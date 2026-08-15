@@ -10,6 +10,7 @@ export default defineConfig({
       $components: resolve('./src/components'),
       $stores: resolve('./src/stores'),
     },
+    conditions: ['browser'],
   },
   test: {
     globals: true,

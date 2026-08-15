@@ -11,12 +11,11 @@
   }
 </script>
 
-<div
+<button
+  type="button"
   class="station-item {isActive ? 'active' : ''}"
   onclick={handleClick}
-  role="button"
-  tabindex={0}
-  aria-selected={isActive}
+  aria-current={isActive ? 'true' : undefined}
 >
   <div>
     <div class="station-name">
@@ -26,4 +25,4 @@
     <div class="station-meta">{station.vendor} {station.model}</div>
   </div>
   <span class="status-label">{station.status === 'ONLINE' ? $t('label_online') : $t('label_offline')}</span>
-</div>
+</button>

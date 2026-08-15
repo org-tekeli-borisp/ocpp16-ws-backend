@@ -19,8 +19,8 @@
 </script>
 
 <div class="form-group">
-  <label>{$t('label_command')}</label>
-  <select value={selectedCommand} onchange={handleChange}>
+  <label for="command-select">{$t('label_command')}</label>
+  <select id="command-select" value={selectedCommand} onchange={handleChange}>
     <option value="">{$t('select_command_pick')}</option>
     {#each commands as cmd}
       <option value={cmd}>{getLabel(cmd)}</option>

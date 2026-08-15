@@ -58,8 +58,10 @@ header h1 { font-size: 1.3rem; font-weight: 600; letter-spacing: .02em; }
 .sidebar-list { flex: 1; overflow-y: auto; padding: .4rem 0; }
 .station-item {
   display: flex; align-items: center; justify-content: space-between;
-  padding: .6rem 1rem; cursor: pointer; transition: background .1s;
+  width: 100%; padding: .6rem 1rem; cursor: pointer; transition: background .1s;
+  background: none; border: none; font: inherit; color: inherit; text-align: left;
 }
+.station-item:focus-visible { outline: 2px solid #1a73e8; outline-offset: -2px; }
 .station-item:hover { background: #f8f9ff; }
 .station-item.active { background: #e8f0fe; border-left: 3px solid #1a73e8; padding-left: .7rem; }
 .station-name { font-weight: 600; font-size: .85rem; display: flex; align-items: center; gap: .35rem; }

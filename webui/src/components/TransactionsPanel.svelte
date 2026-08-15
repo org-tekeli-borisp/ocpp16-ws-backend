@@ -102,8 +102,8 @@ import { formatDateTime, formatDuration, formatEnergy, getActiveDuration } from 
     </div>
 
     <div class="filters">
-      <label style="font-size:.78rem;font-weight:600;">{$t('tx_filter_connector')}:</label>
-      <select bind:value={filterConnector}>
+      <label for="tx-filter-connector" style="font-size:.78rem;font-weight:600;">{$t('tx_filter_connector')}:</label>
+      <select id="tx-filter-connector" bind:value={filterConnector}>
         <option value="">{$t('tx_filter_all_connectors')}</option>
         {#each connectorIds as id}
           <option value={id}>{id}</option>
