@@ -21,9 +21,9 @@ describe('i18n', () => {
 
     it('all locales have the same set of keys', async () => {
       const { translations } = await import('$lib/i18n');
-      const deKeys = Object.keys(translations.de).sort();
-      const enKeys = Object.keys(translations.en).sort();
-      const frKeys = Object.keys(translations.fr).sort();
+      const deKeys = Object.keys(translations.de ?? {}).sort();
+      const enKeys = Object.keys(translations.en ?? {}).sort();
+      const frKeys = Object.keys(translations.fr ?? {}).sort();
 
       expect(enKeys).toEqual(deKeys);
       expect(frKeys).toEqual(deKeys);
@@ -32,7 +32,7 @@ describe('i18n', () => {
     it('has at least 120 translation keys per locale', async () => {
       const { translations } = await import('$lib/i18n');
       for (const locale of Object.keys(translations)) {
-        expect(Object.keys(translations[locale]).length).toBeGreaterThanOrEqual(120);
+        expect(Object.keys(translations[locale] ?? {}).length).toBeGreaterThanOrEqual(120);
       }
     });
   });
@@ -76,7 +76,7 @@ describe('i18n', () => {
       const mod = await import('$lib/i18n');
 
       delete (mod.translations.en as Record<string, unknown>)['__test_missing_key__'];
-      mod.translations.de['__test_missing_key__'] = 'German fallback value';
+      (mod.translations.de ??= {})['__test_missing_key__'] = 'German fallback value';
 
       mod.locale.set('en');
       expect(get(mod.t)('__test_missing_key__')).toBe('German fallback value');

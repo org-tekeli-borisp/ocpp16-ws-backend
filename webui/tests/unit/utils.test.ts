@@ -302,7 +302,7 @@ describe('filterMessages', () => {
     ];
     const result = filterMessages(msgs, '', 'boot');
     expect(result).toHaveLength(1);
-    expect(result[0].action).toBe('BootNotification');
+    expect(result[0]?.action).toBe('BootNotification');
   });
 
   it('filters by both direction and action', () => {
@@ -329,5 +329,34 @@ describe('filterMessages', () => {
     ];
     const result = filterMessages(msgs, '', 'Heartbeat');
     expect(result).toHaveLength(1);
+  });
+});
+
+describe('buildStationUrl', () => {
+  let buildStationUrl: (base: string, cpId: string, tab: string) => string;
+
+  beforeEach(async () => {
+    const mod = await import('$lib/utils');
+    buildStationUrl = mod.buildStationUrl;
+  });
+
+  it('sets cp parameter and tab hash on a clean base url', () => {
+    expect(buildStationUrl('http://localhost:8080/webui/', 'CP-001', 'commands'))
+      .toBe('http://localhost:8080/webui/?cp=CP-001#commands');
+  });
+
+  it('replaces an existing cp parameter and preserves other parameters', () => {
+    expect(buildStationUrl('http://localhost:8080/webui/?cp=OLD&x=1', 'CP-001', 'messages'))
+      .toBe('http://localhost:8080/webui/?cp=CP-001&x=1#messages');
+  });
+
+  it('replaces an existing hash', () => {
+    expect(buildStationUrl('http://localhost:8080/webui/?x=1#overview', 'CP-001', 'transactions'))
+      .toBe('http://localhost:8080/webui/?x=1&cp=CP-001#transactions');
+  });
+
+  it('encodes the charge point id', () => {
+    expect(buildStationUrl('http://localhost:8080/', 'CP/01', 'overview'))
+      .toBe('http://localhost:8080/?cp=CP%2F01#overview');
   });
 });

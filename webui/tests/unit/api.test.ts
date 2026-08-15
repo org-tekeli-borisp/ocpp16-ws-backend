@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import type { Mock } from 'vitest';
 import type { OcppMessage, Transaction, CommandResponse } from '$lib/types';
 
 const API_BASE = '/api/chargepoints';
@@ -137,7 +138,7 @@ describe('OCPP API Client', () => {
       const { sendCommand } = await import('$lib/api/ocpp');
       await sendCommand('CP/001', 'reset', {});
 
-      const callUrl = (fetch as vi.Mock).mock.calls[0][0];
+      const callUrl = (fetch as unknown as Mock).mock.calls[0]?.[0];
       expect(callUrl).toContain('CP%2F001');
     });
   });
@@ -153,7 +154,7 @@ describe('OCPP API Client', () => {
       const result = await fetchMessages('CP-001', false);
 
       expect(result).toEqual(mockMessages);
-      const url = (fetch as vi.Mock).mock.calls[0][0];
+      const url = (fetch as unknown as Mock).mock.calls[0]?.[0];
       expect(url).toContain('/messages?');
       expect(url).toContain('limit=200');
     });
@@ -168,7 +169,7 @@ describe('OCPP API Client', () => {
       const result = await fetchMessages('CP-001', true);
 
       expect(result).toEqual(mockMessages);
-      const url = (fetch as vi.Mock).mock.calls[0][0];
+      const url = (fetch as unknown as Mock).mock.calls[0]?.[0];
       expect(url).toContain('/messages/history?');
     });
 
@@ -178,7 +179,7 @@ describe('OCPP API Client', () => {
       const { fetchMessages } = await import('$lib/api/ocpp');
       await fetchMessages('CP-001', false, { direction: 'OUTBOUND' });
 
-      const url = (fetch as vi.Mock).mock.calls[0][0];
+      const url = (fetch as unknown as Mock).mock.calls[0]?.[0];
       expect(url).toContain('direction=OUTBOUND');
     });
 
@@ -188,7 +189,7 @@ describe('OCPP API Client', () => {
       const { fetchMessages } = await import('$lib/api/ocpp');
       await fetchMessages('CP-001', false, { action: 'BootNotification' });
 
-      const url = (fetch as vi.Mock).mock.calls[0][0];
+      const url = (fetch as unknown as Mock).mock.calls[0]?.[0];
       expect(url).toContain('action=BootNotification');
     });
 
@@ -198,7 +199,7 @@ describe('OCPP API Client', () => {
       const { fetchMessages } = await import('$lib/api/ocpp');
       await fetchMessages('CP-001', false, { limit: 50 });
 
-      const url = (fetch as vi.Mock).mock.calls[0][0];
+      const url = (fetch as unknown as Mock).mock.calls[0]?.[0];
       expect(url).toContain('limit=50');
     });
 
@@ -225,7 +226,7 @@ describe('OCPP API Client', () => {
       const result = await fetchTransactions('CP-001');
 
       expect(result).toEqual(mockTransactions);
-      const url = (fetch as vi.Mock).mock.calls[0][0];
+      const url = (fetch as unknown as Mock).mock.calls[0]?.[0];
       expect(url).toBe(`${API_BASE}/CP-001/transactions`);
     });
 
@@ -235,7 +236,7 @@ describe('OCPP API Client', () => {
       const { fetchTransactions } = await import('$lib/api/ocpp');
       await fetchTransactions('CP-001', true);
 
-      const url = (fetch as vi.Mock).mock.calls[0][0];
+      const url = (fetch as unknown as Mock).mock.calls[0]?.[0];
       expect(url).toContain('?running=true');
     });
 

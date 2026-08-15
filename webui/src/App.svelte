@@ -2,6 +2,7 @@
   import './app.css';
   import { locale, t } from '$lib/i18n';
   import { fetchChargePoints, fetchChargePoint, fetchCommands } from '$lib/api/ocpp';
+import { buildStationUrl } from '$lib/utils';
   import { chargePoints, selectedCpId, activeTab, commandsCache } from '$stores/app';
   import type { ChargePoint, TabKey, CommandName } from '$lib/types';
   import DiagnosticsPanel from '$components/DiagnosticsPanel.svelte';
@@ -84,17 +85,14 @@
       if ($selectedCpId) {
         const idx = stations.findIndex(c => c.chargePointId === $selectedCpId);
         if (idx >= 0) {
-          currentCp = stations[idx];
+          currentCp = stations[idx] ?? null;
         }
       }
     } catch { /* ignore */ }
   }
 
   function updateUrl(cpId: string, tab: TabKey) {
-    const url = new URL(window.location);
-    url.searchParams.set('cp', cpId);
-    url.hash = tab;
-    window.history.replaceState({}, '', url);
+    window.history.replaceState({}, '', buildStationUrl(window.location.href, cpId, tab));
   }
 
   function handleTabChange(tab: TabKey) {

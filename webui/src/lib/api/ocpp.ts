@@ -1,4 +1,4 @@
-import type { ChargePoint, OcppMessage, CommandName, Transaction, DiagnosticsFile } from '$lib/types';
+import type { ChargePoint, OcppMessage, CommandName, CommandResponse, Transaction, DiagnosticsFile } from '$lib/types';
 
 const API_BASE = '/api/chargepoints';
 

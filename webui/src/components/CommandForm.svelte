@@ -4,16 +4,18 @@
 
   export let fields: CommandField[];
 
+  type FormInput = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+
   function buildPayload(): Record<string, unknown> | null {
     const payload: Record<string, unknown> = {};
     for (const f of fields) {
       if (f.type === 'radio') {
-        const checked = document.querySelector(`input[name="f_${f.name}"]:checked`);
+        const checked = document.querySelector<HTMLInputElement>(`input[name="f_${f.name}"]:checked`);
         if (!checked) continue;
         payload[f.name] = checked.value;
         continue;
       }
-      const el = document.getElementById(`f_${f.name}`);
+      const el = document.getElementById(`f_${f.name}`) as FormInput | null;
       if (!el) continue;
       let val: unknown;
       if (f.type === 'number') {

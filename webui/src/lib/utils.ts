@@ -92,3 +92,10 @@ export function formatBytes(bytes: number): string {
 export function formatDateTimeDefault(iso: string): string {
   return formatDateTime(iso, 'de');
 }
+
+export function buildStationUrl(base: string, cpId: string, tab: string): string {
+  const url = new URL(base);
+  url.searchParams.set('cp', cpId);
+  url.hash = tab;
+  return url.href;
+}

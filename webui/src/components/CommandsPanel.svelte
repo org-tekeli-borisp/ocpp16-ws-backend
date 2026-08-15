@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CommandName } from '$lib/types';
+  import type { CommandName, Connector } from '$lib/types';
   import { t } from '$lib/i18n';
   import { COMMAND_DEFINITIONS } from '$lib/commands';
   import { sendCommand } from '$lib/api/ocpp';
@@ -9,7 +9,7 @@
 
   export let cpId: string;
   export let commands: CommandName[];
-  export let connectors: Array<{connectorId: number; status: string}> = [];
+  export let connectors: Connector[] = [];
   export let onRefresh: (() => Promise<void>) | null = null;
 
   let refreshing = false;
@@ -43,21 +43,22 @@
   }
 
   function buildChargingProfilePayload(p: Record<string, unknown>): Record<string, unknown> {
+    const chargingSchedule: Record<string, unknown> = {
+      chargingRateUnit: p.chargingRateUnit,
+      chargingSchedulePeriod: [
+        { startPeriod: 0, limit: p.limit },
+      ],
+    };
+    if (p.duration && Number(p.duration) > 0) {
+      chargingSchedule.duration = Number(p.duration);
+    }
     const profile: Record<string, unknown> = {
       chargingProfileId: p.chargingProfileId,
       stackLevel: p.stackLevel ?? 0,
       chargingProfilePurpose: p.chargingProfilePurpose,
       chargingProfileKind: p.chargingProfileKind,
-      chargingSchedule: {
-        chargingRateUnit: p.chargingRateUnit,
-        chargingSchedulePeriod: [
-          { startPeriod: 0, limit: p.limit },
-        ],
-      },
+      chargingSchedule,
     };
-    if (p.duration && Number(p.duration) > 0) {
-      profile.chargingSchedule.duration = Number(p.duration);
-    }
     return {
       connectorId: p.connectorId,
       csChargingProfiles: profile,

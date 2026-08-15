@@ -19,8 +19,8 @@ describe('stores/app', () => {
     it('is writable with charge points', async () => {
       const { chargePoints } = await import('$stores/app');
       const points = [
-        { chargePointId: 'CP-001', status: 'ONLINE' as const, connectors: [], createdAt: '', lastSeenAt: '' },
-        { chargePointId: 'CP-002', status: 'OFFLINE' as const, connectors: [], createdAt: '', lastSeenAt: '' },
+        { chargePointId: 'CP-001', status: 'ONLINE' as const, connectors: [], createdAt: '', lastSeenAt: '', lastConnectedAt: '' },
+        { chargePointId: 'CP-002', status: 'OFFLINE' as const, connectors: [], createdAt: '', lastSeenAt: '', lastConnectedAt: '' },
       ];
       chargePoints.set(points);
       expect(get(chargePoints)).toEqual(points);
@@ -30,7 +30,7 @@ describe('stores/app', () => {
     it('supports update', async () => {
       const { chargePoints } = await import('$stores/app');
       chargePoints.update(pts => [
-        { chargePointId: 'CP-001', status: 'ONLINE' as const, connectors: [], createdAt: '', lastSeenAt: '' },
+        { chargePointId: 'CP-001', status: 'ONLINE' as const, connectors: [], createdAt: '', lastSeenAt: '', lastConnectedAt: '' },
         ...pts,
       ]);
       expect(get(chargePoints)).toHaveLength(1);
