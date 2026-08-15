@@ -12,7 +12,7 @@
     "test:e2e": "playwright test",
     "test:e2e:start": "docker compose -f ../docker-compose.e2e.yml up -d --wait",
     "test:e2e:stop": "docker compose -f ../docker-compose.e2e.yml down --remove-orphans",
-    "test:e2e:docker": "docker run --rm --network host -v ${PWD}/..:/repo -w /repo/webui mcr.microsoft.com/playwright:v1.61.1-jammy npx playwright test",
+    "test:e2e:docker": "docker run --rm --network host ${E2E_BASE_URL:+--env E2E_BASE_URL=$E2E_BASE_URL} -v ${PWD}/..:/repo -w /repo/webui mcr.microsoft.com/playwright:v1.61.1-jammy npx playwright test",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {

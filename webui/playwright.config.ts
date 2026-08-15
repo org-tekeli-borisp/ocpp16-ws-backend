@@ -20,7 +20,7 @@ export default defineConfig({
   ],
   webServer: process.env.E2E_ISOLATED
     ? {
-        command: 'docker compose -f ../docker-compose.e2e.yml up -d --wait',
+        command: 'docker compose -f docker-compose.e2e.yml up -d --wait',
         port: 8081,
         reuseExistingServer: false,
         timeout: 120_000,

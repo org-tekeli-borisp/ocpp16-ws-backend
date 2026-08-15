@@ -76,7 +76,7 @@ async function setupRoutes(
   });
 }
 
-const cmdSelector = '.main select:not([id])';
+const cmdSelector = '#command-select';
 
 async function selectStationAndGoToCommands(page: Page) {
   await page.locator('.station-item').first().click();

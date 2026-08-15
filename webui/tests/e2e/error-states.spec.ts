@@ -12,7 +12,7 @@ const mockCp = {
 };
 
 const mockCommands = ['reset', 'clear-cache'];
-const cmdSelector = '.main select:not([id])';
+const cmdSelector = '#command-select';
 
 function fulfillJson(route: import('@playwright/test').Route, data: unknown) {
   route.fulfill({
