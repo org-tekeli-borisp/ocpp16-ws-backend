@@ -24,14 +24,14 @@ If production code is committed without a preceding failing test, the agent MUST
 
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1499 tests (90 files), 26 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1503 tests (90 files), 26 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Language | Kotlin 2.3.21 (JVM target 25) |
-| Framework | Quarkus 3.36.2 |
+| Language | Kotlin 2.4.10 (JVM target 25) |
+| Framework | Quarkus 3.38.1 |
 | DB | PostgreSQL 18 + Liquibase |
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |

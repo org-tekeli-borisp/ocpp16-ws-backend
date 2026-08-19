@@ -13,8 +13,8 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Connector Status Tracking** – real-time per-connector state (Available, Charging, Faulted, etc.)
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
-- **Mutation Testing** – PITest integration (95% mutation coverage, 97% line coverage)
-- **1499 Unit & Integration Tests** (90 test files)
+- **Mutation Testing** – PITest integration (93% mutation coverage, 96% line coverage)
+- **1503 Unit & Integration Tests** (90 test files)
 - **Coverage Reports** – [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 - **Diagnostics Upload** – FTP (2021) + SFTP (2022) servers for receiving firmware/diagnostic files from charge points
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
@@ -434,18 +434,20 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 | Category | Files | Description |
 |---------|-------|-------------|
-| WebSocket & MessageDispatcher | 21 | Handler Dispatch, Protocol, Error Codes, Infrastructure, Ping/Pong |
-| Commands | 4 | Standard + Security + Mutation Tests + Validators |
-| Handlers (unit) | 15 | BootNotification, Start/StopTransaction, Heartbeat, Security, Certificates |
-| Persistence | 8 | Repositories, Entities, PersistenceService |
-| REST API | 5 | ChargePoints, Commands, Transactions, Messages |
-| Outbound | 2 | OcppOutboundService, PayloadBuilder |
+| WebSocket server | 21 | Per-handler `OcppWebSocketServer*` tests, Protocol, Ping/Pong, Session context, Subprotocol |
+| Handlers (unit) | 19 | BootNotification, Start/StopTransaction, Heartbeat, StatusNotification, Security, Certificates, PayloadParser |
+| Persistence | 10 | Entities, Repositories, PersistenceService |
+| MessageDispatcher & WebSocket infra | 8 | Dispatch, Protocol, Error codes, Schema validation, PingPongManager, Scheduler |
+| Diagnostics | 7 | FTP/SFTP config + service, FileSystem storage, URL generator |
+| REST API | 6 | ChargePoints, Commands, Transactions, Messages, Diagnostics |
+| Commands | 5 | Standard + Security commands, PayloadValidators, PITest mutation tests |
 | Protocol | 3 | SchemaValidator, MessageCaptureService, OcppMessageDirection |
+| Outbound | 2 | OcppOutboundService, PayloadBuilder |
 | Health | 2 | Liveness + Readiness probes |
-| Metrics | 1 | Prometheus metrics service |
 | Integration | 2 | CommandRoundTrip, FullFlowIntegration |
-| Root-level | 14 | WebSocket Server, OcppMessage, Registry, ResponseAwaiter, Dispatcher, etc. |
-| **Total** | **1499 Tests** | 90 test files |
+| Metrics | 1 | Prometheus metrics service |
+| Root-level infra | 4 | ChargePointRegistry, ResponseAwaiter, OutboundCallDispatcher, OcppMessage |
+| **Total** | **90 test files** | **1503 Tests** |
 
 ## CI/CD Pipeline
 
@@ -515,15 +517,15 @@ Key properties in `application.properties`:
 
 | Layer | Technology |
 |-------|------------|
-| Language | Kotlin 2.3.21 (JVM target 25) |
-| Framework | Quarkus 3.36.2 |
+| Language | Kotlin 2.4.10 (JVM target 25) |
+| Framework | Quarkus 3.38.1 |
 | Database | PostgreSQL 18 |
 | Migrations | Liquibase (6 migrations) |
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |
 | JSON | Jackson |
-| Schema Validation | networknt/json-schema-validator 1.5.2 (draft-04 + draft-06) |
-| Testing | JUnit 5, RestAssured, Mockito 5.18.0, PITest 1.23.0, Playwright, Vitest |
+| Schema Validation | networknt/json-schema-validator 1.5.9 (draft-04 + draft-06) |
+| Testing | JUnit 5, RestAssured, Mockito 5.23.0, PITest 1.25.9, Playwright, Vitest |
 | Metrics | Micrometer + Prometheus |
 | Deployment | Docker Compose, GitHub Actions, GHCR |
 | WebUI | Svelte 5 + Vite 6 + TypeScript 5.7 (built via frontend-maven-plugin) |
