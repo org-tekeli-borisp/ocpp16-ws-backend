@@ -31,7 +31,7 @@ OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1503 tests
 | Layer | Technology |
 |-------|-----------|
 | Language | Kotlin 2.4.10 (JVM target 25) |
-| Framework | Quarkus 3.38.1 |
+| Framework | Quarkus 3.38.2 |
 | DB | PostgreSQL 18 + Liquibase |
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |

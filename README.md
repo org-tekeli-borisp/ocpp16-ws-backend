@@ -518,14 +518,14 @@ Key properties in `application.properties`:
 | Layer | Technology |
 |-------|------------|
 | Language | Kotlin 2.4.10 (JVM target 25) |
-| Framework | Quarkus 3.38.1 |
+| Framework | Quarkus 3.38.2 |
 | Database | PostgreSQL 18 |
 | Migrations | Liquibase (6 migrations) |
 | WebSocket | Quarkus WebSocket Next |
 | Persistence | Hibernate ORM + Panache |
 | JSON | Jackson |
-| Schema Validation | networknt/json-schema-validator 1.5.9 (draft-04 + draft-06) |
+| Schema Validation | networknt/json-schema-validator 2.0.1 (draft-04 + draft-06) |
 | Testing | JUnit 5, RestAssured, Mockito 5.23.0, PITest 1.25.9, Playwright, Vitest |
 | Metrics | Micrometer + Prometheus |
 | Deployment | Docker Compose, GitHub Actions, GHCR |
-| WebUI | Svelte 5 + Vite 6 + TypeScript 5.7 (built via frontend-maven-plugin) |
+| WebUI | Svelte 5 + Vite 8 + TypeScript 6 (built via frontend-maven-plugin) |
