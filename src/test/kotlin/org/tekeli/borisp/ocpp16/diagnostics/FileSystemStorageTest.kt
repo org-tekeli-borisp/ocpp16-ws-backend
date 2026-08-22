@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
+import java.nio.file.Files
 import java.nio.file.Path
 import java.time.Instant
 
@@ -126,5 +127,160 @@ class FileSystemStorageTest {
         storage.uploadFile("CP-001", "b.log", ByteArray(200).inputStream())
         val size = storage.getDirectorySize("CP-001")
         assertEquals(300L, size)
+    }
+
+    @Test
+    fun `baseDir returns the configured base directory`() {
+        assertEquals(tempDir.toString(), storage.baseDir())
+    }
+
+    @Test
+    fun `uploadFile allows file exactly at max size`() {
+        val smallStorage = FileSystemStorage(tempDir.resolve("small-base").toString(), 10L)
+        assertDoesNotThrow {
+            smallStorage.uploadFile("CP-001", "exact.log", ByteArray(10).inputStream())
+        }
+    }
+
+    @Test
+    fun `uploadFile stores file prefixed with current epoch second`() {
+        val before = Instant.now().epochSecond
+        val storedName = storage.uploadFile("CP-001", "diag.log", byteArrayOf(1).inputStream())
+        val after = Instant.now().epochSecond
+        val prefix = storedName.substringBefore('_').toLong()
+        assertTrue(prefix in before..after, "stored name should start with the current epoch second")
+    }
+
+    @Test
+    fun `listFiles excludes subdirectories`() {
+        storage.uploadFile("CP-001", "diag.log", byteArrayOf(1).inputStream())
+        val dir = storage.ensureDirectory("CP-001")
+        Files.createDirectory(dir.resolve("subdir"))
+        assertEquals(1, storage.listFiles("CP-001").size, "only regular files should be listed")
+    }
+
+    @Test
+    fun `listFiles extracts original name from stored name`() {
+        storage.uploadFile("CP-001", "diag.log", byteArrayOf(1).inputStream())
+        assertEquals("diag.log", storage.listFiles("CP-001")[0].originalName)
+    }
+
+    @Test
+    fun `listFiles keeps stored name starting with underscore`() {
+        val dir = storage.ensureDirectory("CP-001")
+        Files.write(dir.resolve("_diag.log"), byteArrayOf(1))
+        assertEquals("_diag.log", storage.listFiles("CP-001")[0].originalName)
+    }
+
+    @Test
+    fun `listFiles returns a recent uploadedAt timestamp`() {
+        storage.uploadFile("CP-001", "diag.log", byteArrayOf(1).inputStream())
+        val info = storage.listFiles("CP-001")[0]
+        val ageMillis = System.currentTimeMillis() - info.uploadedAt.toEpochMilli()
+        assertTrue(ageMillis in 0..60_000, "uploadedAt should reflect the file's recent last-modified time")
+    }
+
+    @Test
+    fun `listFiles returns files sorted newest first`() {
+        val dir = storage.ensureDirectory("CP-001")
+        val base = System.currentTimeMillis() - 50_000
+        for (i in 0 until 5) {
+            val file = dir.resolve("file$i.log")
+            Files.write(file, byteArrayOf(1))
+            file.toFile().setLastModified(base + i * 10_000)
+        }
+
+        val files = storage.listFiles("CP-001")
+
+        assertEquals(5, files.size)
+        for (i in 0 until files.size - 1) {
+            assertTrue(files[i].uploadedAt >= files[i + 1].uploadedAt, "files must be sorted newest first")
+        }
+    }
+
+    @Test
+    fun `cleanupExpired uses days as retention unit`() {
+        storage.uploadFile("CP-001", "onehour.log", byteArrayOf(1).inputStream())
+        val path = storage.getFile("CP-001", storage.listFiles("CP-001")[0].storedName)!!
+        path.toFile().setLastModified(System.currentTimeMillis() - 60 * 60 * 1000)
+        storage.cleanupExpired(30)
+        assertEquals(1, storage.listFiles("CP-001").size, "a 1-hour-old file must survive 30-day retention")
+    }
+
+    @Test
+    fun `cleanupExpired returns 0 when base directory does not exist`() {
+        val missingStorage = FileSystemStorage(tempDir.resolve("missing").toString(), 1024)
+        assertEquals(0, missingStorage.cleanupExpired(30))
+    }
+
+    @Test
+    fun `cleanupExpired does not delete subdirectories during file cleanup`() {
+        val dir = storage.ensureDirectory("CP-001")
+        val subdir = Files.createDirectory(dir.resolve("subdir"))
+        storage.uploadFile("CP-001", "old.log", byteArrayOf(1).inputStream())
+        val oldFile = storage.getFile("CP-001", storage.listFiles("CP-001")[0].storedName)!!
+        val oldTime = System.currentTimeMillis() - 367L * 24 * 60 * 60 * 1000
+        oldFile.toFile().setLastModified(oldTime)
+        subdir.toFile().setLastModified(oldTime)
+
+        val count = storage.cleanupExpired(30)
+
+        assertEquals(1, count, "only the old regular file should be deleted")
+        assertTrue(Files.exists(subdir), "subdirectory should remain after file cleanup")
+    }
+
+    @Test
+    fun `cleanupExpired does not touch empty directories when nothing expired`() {
+        val emptyDir = storage.ensureDirectory("CP-EMPTY")
+        storage.cleanupExpired(30)
+        assertTrue(Files.exists(emptyDir), "pre-existing empty dir should be kept when no files expired")
+    }
+
+    @Test
+    fun `cleanupExpired returns the number of deleted files`() {
+        storage.uploadFile("CP-001", "old.log", byteArrayOf(1).inputStream())
+        val file = storage.getFile("CP-001", storage.listFiles("CP-001")[0].storedName)!!
+        file.toFile().setLastModified(System.currentTimeMillis() - 367L * 24 * 60 * 60 * 1000)
+        assertEquals(1, storage.cleanupExpired(30))
+    }
+
+    @Test
+    fun `cleanupExpired deletes emptied CP directories`() {
+        val dir = storage.ensureDirectory("CP-001")
+        storage.uploadFile("CP-001", "old.log", byteArrayOf(1).inputStream())
+        val file = storage.getFile("CP-001", storage.listFiles("CP-001")[0].storedName)!!
+        file.toFile().setLastModified(System.currentTimeMillis() - 367L * 24 * 60 * 60 * 1000)
+
+        storage.cleanupExpired(30)
+
+        assertFalse(Files.exists(dir), "emptied CP directory should be deleted")
+    }
+
+    @Test
+    fun `cleanupExpired keeps non-empty CP directories`() {
+        val oldDir = storage.ensureDirectory("CP-OLD")
+        val recentDir = storage.ensureDirectory("CP-RECENT")
+        storage.uploadFile("CP-OLD", "old.log", byteArrayOf(1).inputStream())
+        storage.uploadFile("CP-RECENT", "recent.log", byteArrayOf(1).inputStream())
+        val oldFile = storage.getFile("CP-OLD", storage.listFiles("CP-OLD")[0].storedName)!!
+        oldFile.toFile().setLastModified(System.currentTimeMillis() - 367L * 24 * 60 * 60 * 1000)
+
+        storage.cleanupExpired(30)
+
+        assertFalse(Files.exists(oldDir), "emptied CP-OLD should be deleted")
+        assertTrue(Files.exists(recentDir), "non-empty CP-RECENT should be kept")
+    }
+
+    @Test
+    fun `getDirectorySize returns 0 for non-existent directory`() {
+        assertEquals(0L, storage.getDirectorySize("NO-SUCH-CP"))
+    }
+
+    @Test
+    fun `getDirectorySize excludes subdirectories`() {
+        storage.uploadFile("CP-001", "a.log", ByteArray(100).inputStream())
+        val dir = storage.ensureDirectory("CP-001")
+        Files.createDirectory(dir.resolve("subdir"))
+        assertEquals(100L, storage.getDirectorySize("CP-001"))
     }
 }
