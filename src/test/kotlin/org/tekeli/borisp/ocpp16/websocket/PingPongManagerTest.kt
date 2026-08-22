@@ -176,13 +176,61 @@ class PingPongManagerTest {
 
         assertEquals(1, target.pingSuccessCallbackCount)
     }
+
+    @Test
+    fun `does not send duplicate ping when ping task fires while already pinging`() {
+        manager.start()
+        val pingTask = scheduler.firstTask()
+
+        pingTask.runnable.run()
+        assertEquals(1, target.pingSendCount)
+        assertTrue(manager.isPinging)
+
+        pingTask.runnable.run()
+        assertEquals(1, target.pingSendCount, "should not send a duplicate ping while already pinging")
+    }
+
+    @Test
+    fun `pongReceived cancels the pending pong timeout task`() {
+        manager.start()
+        scheduler.executeNext()
+        val pongTimeoutTask = scheduler.firstPendingTask()
+        assertFalse(pongTimeoutTask.isCancelled)
+
+        manager.pongReceived()
+
+        assertTrue(pongTimeoutTask.isCancelled, "pong timeout task should be cancelled")
+    }
+
+    @Test
+    fun `pong timeout subscribes to closeConnection`() {
+        manager.start()
+        scheduler.executeNext()
+        scheduler.executeNext()
+
+        assertEquals(1, target.closeCount)
+        assertEquals(1, target.closeSubscribedCount, "closeConnection should be subscribed on pong timeout")
+    }
+
+    @Test
+    fun `pong timeout does not close connection when no longer pinging`() {
+        manager.start()
+        scheduler.executeNext()
+        val pongTimeoutTask = scheduler.firstPendingTask()
+
+        manager.pongReceived()
+        assertFalse(manager.isPinging)
+
+        pongTimeoutTask.runnable.run()
+        assertEquals(0, target.closeCount, "should not close connection when no longer pinging")
+    }
 }
 
 class MockPingPongTarget : PingPongTarget {
     var pingSendCount = 0
     var pingSuccessCallbackCount = 0
     var closeCount = 0
-    var closeConnectionReasonCount = 0
+    var closeSubscribedCount = 0
     var setOfflineCount = 0
     var unregisterCount = 0
     var rejectAwaiterCount = 0
@@ -202,12 +250,11 @@ class MockPingPongTarget : PingPongTarget {
 
     override fun closeConnection(reason: String): io.smallrye.mutiny.Uni<Void> {
         closeCount++
-        closeConnectionReasonCount++
         if (closeThrows) {
             return io.smallrye.mutiny.Uni.createFrom().failure(RuntimeException("Close failed"))
         }
         return io.smallrye.mutiny.Uni.createFrom().voidItem()
-            .onItem().invoke(Runnable { closeConnectionReasonCount++ })
+            .onItem().invoke(Runnable { closeSubscribedCount++ })
     }
 
     override fun setChargePointOffline(sessionId: String) {
@@ -231,15 +278,17 @@ class MockPingPongTarget : PingPongTarget {
 }
 
 class TestingScheduler : Scheduler {
-    private val tasks = mutableListOf<ScheduledTask<*>>()
-    private var cancelledCount = 0
+    private val pendingTasks = mutableListOf<ScheduledTask<*>>()
+    private val allTasks = mutableListOf<ScheduledTask<*>>()
 
-    fun hasScheduledTasks(): Boolean = tasks.isNotEmpty()
-    fun hasCancelledTasks(): Boolean = cancelledCount > 0
+    fun hasScheduledTasks(): Boolean = pendingTasks.isNotEmpty()
+    fun hasCancelledTasks(): Boolean = allTasks.any { it.isCancelled }
+    fun firstTask(): ScheduledTask<*> = allTasks.first()
+    fun firstPendingTask(): ScheduledTask<*> = pendingTasks.first()
 
     fun executeNext() {
-        if (tasks.isEmpty()) return
-        val task = tasks.removeAt(0)
+        if (pendingTasks.isEmpty()) return
+        val task = pendingTasks.removeAt(0)
         task.runnable.run()
     }
 
@@ -248,10 +297,9 @@ class TestingScheduler : Scheduler {
         delay: Long,
         unit: TimeUnit
     ): ScheduledTask<V> {
-        val task = ScheduledTask<V>(runnable, delay, unit) {
-            cancelledCount++
-        }
-        tasks.add(task)
+        val task = ScheduledTask<V>(runnable, delay, unit)
+        pendingTasks.add(task)
+        allTasks.add(task)
         return task
     }
 }
@@ -259,8 +307,7 @@ class TestingScheduler : Scheduler {
 class ScheduledTask<V>(
     val runnable: Runnable,
     val delay: Long,
-    val unit: TimeUnit,
-    val onCancel: () -> Unit = {}
+    val unit: TimeUnit
 ) : java.util.concurrent.ScheduledFuture<V> {
     private var cancelled = false
 
@@ -271,7 +318,6 @@ class ScheduledTask<V>(
     override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
         if (cancelled) return false
         cancelled = true
-        onCancel()
         return true
     }
     override fun getDelay(unit: TimeUnit): Long = 0

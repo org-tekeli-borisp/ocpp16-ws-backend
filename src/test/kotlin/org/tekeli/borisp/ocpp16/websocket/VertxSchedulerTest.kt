@@ -1,23 +1,35 @@
 package org.tekeli.borisp.ocpp16.websocket
 
-import io.quarkus.test.junit.QuarkusTest
 import io.vertx.core.Vertx
-import jakarta.inject.Inject
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
-@QuarkusTest
 class VertxSchedulerTest {
 
-    @Inject
-    lateinit var vertx: Vertx
+    private lateinit var vertx: Vertx
+    private lateinit var scheduler: VertxScheduler
+
+    @BeforeEach
+    fun setUp() {
+        vertx = Vertx.vertx()
+        scheduler = VertxScheduler(vertx)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        try {
+            vertx.close().toCompletionStage().toCompletableFuture().get(5, TimeUnit.SECONDS)
+        } catch (_: Exception) {
+        }
+    }
 
     @Test
     fun `schedules task after delay`() {
-        val scheduler = VertxScheduler(vertx)
         val executed = AtomicBoolean(false)
         val latch = CountDownLatch(1)
 
@@ -26,21 +38,51 @@ class VertxSchedulerTest {
             latch.countDown()
         }, 50, TimeUnit.MILLISECONDS)
 
-        assertTrue(latch.await(500, TimeUnit.MILLISECONDS), "Task should have executed")
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Task should have executed")
         assertTrue(executed.get(), "Task runnable should have been called")
     }
 
     @Test
     fun `scheduled task runs on vertx event loop`() {
-        val scheduler = VertxScheduler(vertx)
+        val latch = CountDownLatch(1)
 
         scheduler.schedule<Unit>({
-            assertTrue(
-                io.vertx.core.Context.isOnEventLoopThread(),
-                "Task must run on Vert.x event loop, not custom thread"
-            )
+            assertTrue(io.vertx.core.Context.isOnEventLoopThread(), "Task must run on Vert.x event loop")
+            latch.countDown()
         }, 10, TimeUnit.MILLISECONDS)
 
-        Thread.sleep(100)
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Task should have executed")
+    }
+
+    @Test
+    fun `cancel prevents task from running`() {
+        val executed = AtomicBoolean(false)
+        val future = scheduler.schedule<Unit>({ executed.set(true) }, 100, TimeUnit.MILLISECONDS)
+
+        assertTrue(future.cancel(false), "cancel should succeed")
+
+        Thread.sleep(300)
+        assertFalse(executed.get(), "task should not run after cancel")
+    }
+
+    @Test
+    fun `cancel returns true on first call and false on second`() {
+        val future = scheduler.schedule<Unit>({ }, 1000, TimeUnit.MILLISECONDS)
+
+        assertTrue(future.cancel(false), "first cancel should return true")
+        assertFalse(future.cancel(false), "second cancel should return false")
+    }
+
+    @Test
+    fun `isCancelled and isDone reflect cancellation state`() {
+        val future = scheduler.schedule<Unit>({ }, 1000, TimeUnit.MILLISECONDS)
+
+        assertFalse(future.isCancelled, "not cancelled before cancel")
+        assertFalse(future.isDone, "not done before cancel")
+
+        future.cancel(false)
+
+        assertTrue(future.isCancelled, "cancelled after cancel")
+        assertTrue(future.isDone, "done after cancel")
     }
 }

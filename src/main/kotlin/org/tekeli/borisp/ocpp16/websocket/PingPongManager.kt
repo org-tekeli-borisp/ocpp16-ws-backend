@@ -128,9 +128,9 @@ class PingPongManager(
 
         target.sendPing(Buffer.buffer())
             .subscribe()
-            .with(
-                { },
-                {
+            .asCompletionStage()
+            .whenComplete { _, error ->
+                if (error != null) {
                     target.executeAsync {
                         cancelPongTimeout()
                         isPingingFlag.set(false)
@@ -139,7 +139,7 @@ class PingPongManager(
                         } catch (_: Exception) {}
                     }
                 }
-            )
+            }
     }
 
     private fun schedulePongTimeout() {
@@ -160,7 +160,7 @@ class PingPongManager(
             try {
                 target.closeConnection("Pong timeout")
                     .subscribe()
-                    .with({}, { })
+                    .asCompletionStage()
             } catch (_: Exception) {}
             try {
                 target.setChargePointOffline(sessionId)
