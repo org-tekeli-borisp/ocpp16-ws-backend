@@ -121,6 +121,14 @@ class DiagnosticsUrlGeneratorTest {
     }
 
     @Test
+    fun `should throw for unknown protocol`() {
+        val generator = DiagnosticsUrlGenerator(sftpConfig, ftpConfig, diagnosticsConfig)
+        assertThrows(IllegalStateException::class.java) {
+            generator.generate("CP-001", "http")
+        }
+    }
+
+    @Test
     fun `should throw when both servers disabled`() {
         val disabledSftp = object : SftpServerConfig {
             override fun enabled() = false

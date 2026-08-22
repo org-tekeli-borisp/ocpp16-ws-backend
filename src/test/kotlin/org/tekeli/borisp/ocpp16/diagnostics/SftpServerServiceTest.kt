@@ -73,6 +73,22 @@ class SftpServerServiceTest {
     }
 
     @Test
+    fun `should not start server when disabled`() {
+        val disabledConfig = object : SftpServerConfig {
+            override fun enabled() = false
+            override fun port() = 22023
+            override fun host() = "127.0.0.1"
+            override fun username() = "ocpp"
+            override fun password() = "testpass"
+        }
+        val disabledService = SftpServerService(disabledConfig, storage)
+
+        disabledService.start()
+
+        assertTrue(disabledService.ioServiceFactoryFactory == null, "server should not be started when disabled")
+    }
+
+    @Test
     fun `should upload file and verify via storage API`() {
         storage.ensureDirectory("CP-001")
         val channel = session.openChannel("sftp") as ChannelSftp
