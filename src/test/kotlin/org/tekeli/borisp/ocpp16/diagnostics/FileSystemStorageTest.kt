@@ -187,7 +187,7 @@ class FileSystemStorageTest {
         for (i in 0 until 5) {
             val file = dir.resolve("file$i.log")
             Files.write(file, byteArrayOf(1))
-            file.toFile().setLastModified(base + i * 10_000)
+            file.toFile().setLastModified(base + (4 - i) * 10_000)
         }
 
         val files = storage.listFiles("CP-001")
