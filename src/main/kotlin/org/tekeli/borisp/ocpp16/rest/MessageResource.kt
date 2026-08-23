@@ -50,7 +50,11 @@ class MessageResource {
 
         val allLogs = persistenceService.findMessageLogs(chargePointId, direction, action, (offset + limit) * 2)
         val page = allLogs.drop(offset).take(limit)
-        val dtos = page.map { toDto(it) }
+        val dtos = buildList {
+            for (entry in page) {
+                add(toDto(entry))
+            }
+        }
 
         return mapOf(
             "total" to allLogs.size,
@@ -81,7 +85,7 @@ class MessageResource {
 
     private fun OcppMessageDto.matchesDirection(d: String?) = d.isNullOrBlank() || this.direction == d
     private fun OcppMessageDto.matchesAction(a: String?) = a.isNullOrBlank() || this.action == a
-    private fun OcppMessageDto.matchesSince(s: String?) = s.isNullOrBlank() || this.timestamp >= s
+    private fun OcppMessageDto.matchesSince(s: String?) = s == null || this.timestamp >= s
 
     private fun List<OcppMessageDto>.applyLimit(limit: Int) =
         if (limit > 0) takeLast(limit) else this
