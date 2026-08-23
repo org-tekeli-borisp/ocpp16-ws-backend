@@ -19,13 +19,17 @@ class DiagnosticsResource {
     @GET
     fun list(@PathParam("chargePointId") chargePointId: String): List<Map<String, Any>> {
         val files = storage.listFiles(chargePointId)
-        return files.map { info ->
-            mapOf(
-                "storedName" to info.storedName,
-                "originalName" to info.originalName,
-                "sizeBytes" to info.sizeBytes,
-                "uploadedAt" to info.uploadedAt.toString()
-            )
+        return buildList {
+            for (info in files) {
+                add(
+                    mapOf(
+                        "storedName" to info.storedName,
+                        "originalName" to info.originalName,
+                        "sizeBytes" to info.sizeBytes,
+                        "uploadedAt" to info.uploadedAt.toString()
+                    )
+                )
+            }
         }
     }
 
