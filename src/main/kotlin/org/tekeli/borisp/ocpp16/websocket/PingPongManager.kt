@@ -23,20 +23,22 @@ class VertxScheduler(
         unit: TimeUnit
     ): java.util.concurrent.ScheduledFuture<V> {
         val timerId = vertx.setTimer(unit.toMillis(delay)) { runnable.run() }
-        return VertxScheduledFuture<V>(timerId) { vertx.cancelTimer(timerId) }
+        return VertxScheduledFuture<V>(timerId, vertx)
     }
 }
 
-private class VertxScheduledFuture<V : Any?>(
+class VertxScheduledFuture<V : Any?>(
     private val timerId: Long,
-    private val cancelAction: () -> Unit
+    private val vertx: io.vertx.core.Vertx
 ) : java.util.concurrent.ScheduledFuture<V> {
     private var cancelled = false
+
+    fun timerId(): Long = timerId
 
     override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
         if (cancelled) return false
         cancelled = true
-        cancelAction()
+        vertx.cancelTimer(timerId)
         return true
     }
 

@@ -85,4 +85,33 @@ class VertxSchedulerTest {
         assertTrue(future.isCancelled, "cancelled after cancel")
         assertTrue(future.isDone, "done after cancel")
     }
+
+    private fun vertxTimeouts(): Map<Long, *> {
+        val timeoutsField = io.vertx.core.impl.VertxImpl::class.java.getDeclaredField("timeouts")
+        timeoutsField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        return timeoutsField.get(vertx) as Map<Long, *>
+    }
+
+    @Test
+    fun `cancel is idempotent and does not affect other timers`() {
+        val future1 = scheduler.schedule<Unit>({ }, 100, TimeUnit.MILLISECONDS) as VertxScheduledFuture<*>
+        val future2 = scheduler.schedule<Unit>({ }, 100, TimeUnit.MILLISECONDS) as VertxScheduledFuture<*>
+
+        assertTrue(future1.cancel(false))
+        assertFalse(future1.cancel(false), "second cancel must return false")
+
+        val timeouts = vertxTimeouts()
+        assertFalse(timeouts.containsKey(future1.timerId()), "cancelled timer must be removed from vertx registry")
+        assertTrue(timeouts.containsKey(future2.timerId()), "unrelated timers must stay registered")
+    }
+
+    @Test
+    fun `cancel removes the timer from the vertx timeout registry`() {
+        val future = scheduler.schedule<Unit>({ }, 100, TimeUnit.MILLISECONDS) as VertxScheduledFuture<*>
+
+        assertTrue(future.cancel(false))
+
+        assertFalse(vertxTimeouts().containsKey(future.timerId()), "cancelled timer must be removed from vertx registry")
+    }
 }
