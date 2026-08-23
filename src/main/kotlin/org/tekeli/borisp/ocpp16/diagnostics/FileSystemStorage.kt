@@ -77,7 +77,7 @@ class FileSystemStorage(
         if (!Files.exists(base)) return 0
         Files.walk(base).use { stream ->
             stream.filter { Files.isRegularFile(it) }
-                .filter { it.toFile().lastModified() < cutoff }
+                .filter { it.toFile().lastModified() <= cutoff }
                 .forEach { file ->
                     try {
                         Files.deleteIfExists(file)
