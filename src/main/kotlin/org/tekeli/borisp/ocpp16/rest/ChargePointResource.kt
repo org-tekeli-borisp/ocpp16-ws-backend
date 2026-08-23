@@ -35,9 +35,17 @@ class ChargePointResource {
             } catch (e: IllegalArgumentException) {
                 throw BadRequestException("Invalid status: $status. Must be one of: ${ChargePointStatus.values().joinToString()}")
             }
-            persistenceService.findByStatus(chargePointStatus).map { toDto(it) }
+            buildList {
+                for (cp in persistenceService.findByStatus(chargePointStatus)) {
+                    add(toDto(cp))
+                }
+            }
         } else {
-            persistenceService.findAllChargePoints().map { toDto(it) }
+            buildList {
+                for (cp in persistenceService.findAllChargePoints()) {
+                    add(toDto(cp))
+                }
+            }
         }
     }
 
@@ -81,10 +89,11 @@ class ChargePointResource {
     )
 
     private fun effectiveStatus(cp: ChargePoint): ChargePointStatus {
-        if (cp.status == ChargePointStatus.ONLINE && chargePointRegistry.getByChargePointId(cp.chargePointId) == null) {
-            return ChargePointStatus.OFFLINE
+        if (cp.status != ChargePointStatus.ONLINE) {
+            return cp.status
         }
-        return cp.status
+        val connected = chargePointRegistry.getByChargePointId(cp.chargePointId) != null
+        return if (connected) ChargePointStatus.ONLINE else ChargePointStatus.OFFLINE
     }
 }
 
