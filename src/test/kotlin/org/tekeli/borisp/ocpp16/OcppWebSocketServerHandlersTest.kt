@@ -30,13 +30,17 @@ class OcppWebSocketServerHandlersTest {
         }
     }
 
-    private fun createWsConnectionProxy(id: String): io.quarkus.websockets.next.WebSocketConnection =
-        Proxy.newProxyInstance(
+    private fun createWsConnectionProxy(id: String): io.quarkus.websockets.next.WebSocketConnection {
+        var proxy: io.quarkus.websockets.next.WebSocketConnection? = null
+        proxy = Proxy.newProxyInstance(
             io.quarkus.websockets.next.WebSocketConnection::class.java.classLoader,
             arrayOf(io.quarkus.websockets.next.WebSocketConnection::class.java)
-        ) { _, method, _ ->
+        ) { p, method, args ->
             when (method.name) {
                 "id" -> id
+                "hashCode" -> System.identityHashCode(p)
+                "equals" -> args?.get(0) === p
+                "toString" -> "WsProxy($id)"
                 else -> when (method.returnType) {
                     String::class.java -> "proxy"
                     Boolean::class.java -> false
@@ -45,6 +49,8 @@ class OcppWebSocketServerHandlersTest {
                 }
             }
         } as io.quarkus.websockets.next.WebSocketConnection
+        return proxy
+    }
 
     @Test
     fun `onClose with no session context returns early`() {
