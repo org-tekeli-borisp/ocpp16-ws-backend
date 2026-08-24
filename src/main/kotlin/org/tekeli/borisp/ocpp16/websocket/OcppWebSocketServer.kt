@@ -75,15 +75,24 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         }
 
     override var responseAwaiter: ResponseAwaiter
-        get() = activeSessionContext?.responseAwaiter ?: _responseAwaiter
+        get() {
+            val ctx = activeSessionContext ?: return _responseAwaiter
+            return ctx.responseAwaiter
+        }
         set(value) { _responseAwaiter = value }
 
     override var chargePointId: String
-        get() = activeSessionContext?.chargePointId ?: _chargePointId
+        get() {
+            val ctx = activeSessionContext ?: return _chargePointId
+            return ctx.chargePointId
+        }
         set(value) { _chargePointId = value }
 
     override var sessionId: String
-        get() = activeSessionContext?.sessionId ?: _sessionId
+        get() {
+            val ctx = activeSessionContext ?: return _sessionId
+            return ctx.sessionId
+        }
         set(value) { _sessionId = value }
 
     private val activePingPongManager: PingPongManager?

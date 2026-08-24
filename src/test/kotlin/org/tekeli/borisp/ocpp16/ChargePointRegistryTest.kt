@@ -1052,6 +1052,22 @@ class ChargePointRegistryTest {
     }
 
     @Test
+    fun `disconnect swallows exception from unregister metrics callback`() {
+        val mockOpenConnections = mock(OpenConnections::class.java)
+        val mockMetrics = mock(MetricsService::class.java)
+        doThrow(RuntimeException("metrics-failure")).`when`(mockMetrics).onChargePointDisconnected()
+
+        val registry = ChargePointRegistry()
+        registry.openConnections = mockOpenConnections
+        registry.metricsService = mockMetrics
+
+        registry.register("s1", "c1", "CP-001", ResponseAwaiter())
+
+        assertDoesNotThrow { registry.disconnect("CP-001") }
+        assertFalse(registry.isConnected("s1"))
+    }
+
+    @Test
     fun `disconnectAll disconnects all registered sessions`() {
         val mockConn1 = mock(WebSocketConnection::class.java)
         val mockConn2 = mock(WebSocketConnection::class.java)

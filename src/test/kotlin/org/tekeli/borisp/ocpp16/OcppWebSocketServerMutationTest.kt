@@ -31,7 +31,7 @@ class OcppWebSocketServerMutationTest {
     }
 
     private fun createWsConnectionProxy(
-        id: String,
+        id: String?,
         calls: MutableList<Pair<String, Array<Any?>?>>? = null
     ): io.quarkus.websockets.next.WebSocketConnection {
         var proxy: io.quarkus.websockets.next.WebSocketConnection? = null
@@ -64,6 +64,19 @@ class OcppWebSocketServerMutationTest {
         server.responseAwaiter = fallback
 
         assertSame(fallback, server.responseAwaiter)
+    }
+
+    @Test
+    fun `getters return field fallbacks when connection id is null`() {
+        val fallback = ResponseAwaiter()
+        server.responseAwaiter = fallback
+        server.chargePointId = "cp-null-id"
+        server.sessionId = "session-null-id"
+        server.currentConnection = createWsConnectionProxy(null)
+
+        assertSame(fallback, server.responseAwaiter)
+        assertEquals("cp-null-id", server.chargePointId)
+        assertEquals("session-null-id", server.sessionId)
     }
 
     @Test
