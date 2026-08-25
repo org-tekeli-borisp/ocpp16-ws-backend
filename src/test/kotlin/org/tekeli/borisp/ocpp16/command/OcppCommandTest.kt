@@ -2449,6 +2449,22 @@ class OcppCommandTest {
         assertEquals("TestVendor", service.lastDataTransferVendorId)
     }
 
+    @Test
+    fun `DataTransferCommand execute coerces non-string messageId and data to null`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = DataTransferCommand(service)
+        val payload = mapOf<String, Any>(
+            "vendorId" to "TestVendor",
+            "messageId" to 42,
+            "data" to 123
+        )
+
+        cmd.execute("CP-001", payload)
+
+        assertNull(service.lastDataTransferMessageId)
+        assertNull(service.lastDataTransferData)
+    }
+
     // ---- Mock ----
 
     private class TestOutboundService(
