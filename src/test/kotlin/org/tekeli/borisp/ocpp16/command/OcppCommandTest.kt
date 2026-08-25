@@ -2682,6 +2682,8 @@ class OcppCommandTest {
         val resp = cmd.validate(mapOf("key" to "", "value" to "val"))
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+        val entity = PayloadValidators.safeMap(resp.entity)
+        assertEquals("key is required", entity["error"])
     }
 
     @Test
@@ -2962,6 +2964,8 @@ class OcppCommandTest {
 
         assertNotNull(resp)
         assertEquals(Response.Status.BAD_REQUEST.statusCode, resp!!.status)
+        val entity = PayloadValidators.safeMap(resp.entity)
+        assertEquals("unknown configuration key: UnknownKey", entity["error"])
     }
 
     @Test
