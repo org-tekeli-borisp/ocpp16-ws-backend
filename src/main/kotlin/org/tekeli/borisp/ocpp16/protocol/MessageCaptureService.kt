@@ -6,6 +6,7 @@ import jakarta.inject.Inject
 import org.tekeli.borisp.ocpp16.persistence.OcppMessageLog
 import java.time.Duration
 import java.time.Instant
+import java.util.ArrayList
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.Executors
@@ -24,6 +25,10 @@ class MessageCaptureService {
 
     var purgeHours: Long = 24
         set(value) { field = value.coerceAtLeast(1) }
+
+    companion object {
+        var purgeIntervalMillis: Long = 1_800_000
+    }
 
     private val buffers: ConcurrentHashMap<String, LinkedBlockingDeque<OcppMessageDto>> = ConcurrentHashMap()
     private val perCpSubscribers: ConcurrentHashMap<String, MutableList<(OcppMessageDto) -> Unit>> = ConcurrentHashMap()
@@ -53,7 +58,11 @@ class MessageCaptureService {
 
     fun getMessagesFromDb(chargePointId: String, direction: String?, action: String?, limit: Int = 200): List<OcppMessageDto> {
         val logs = persistenceService.findMessageLogs(chargePointId, direction, action, limit)
-        return logs.map { toDto(it) }
+        val dtos = mutableListOf<OcppMessageDto>()
+        for (log in logs) {
+            dtos.add(toDto(log))
+        }
+        return dtos
     }
 
     fun subscribe(chargePointId: String, callback: (OcppMessageDto) -> Unit) {
@@ -76,11 +85,18 @@ class MessageCaptureService {
 
     private fun notifySubscribers(chargePointId: String, dto: OcppMessageDto) {
         val list = perCpSubscribers[chargePointId] ?: return
-        val snapshot: Array<(OcppMessageDto) -> Unit>
-        synchronized(list) { snapshot = list.toTypedArray() }
-        for (cb in snapshot) {
-            try { cb(dto) } catch (_: Throwable) { }
-        }
+        val snapshot: List<(OcppMessageDto) -> Unit>
+        synchronized(list) { snapshot = ArrayList(list) }
+        notifyCallbacks(snapshot, 0, dto)
+    }
+
+    private fun notifyCallbacks(callbacks: List<(OcppMessageDto) -> Unit>, index: Int, dto: OcppMessageDto) {
+        if (index >= callbacks.size) return
+        val cb = callbacks[index]
+        try {
+            cb(dto)
+        } catch (_: Throwable) { }
+        notifyCallbacks(callbacks, index + 1, dto)
     }
 
     private fun persistAsync(dto: OcppMessageDto) {
@@ -101,13 +117,17 @@ class MessageCaptureService {
     private fun purgeLoop() {
         while (!stopPurger.get()) {
             try {
-                TimeUnit.MINUTES.sleep(30)
-                val cutoff = Instant.now().minus(Duration.ofHours(purgeHours))
-                persistenceService.purgeMessageLogsBefore(cutoff)
+                TimeUnit.MILLISECONDS.sleep(purgeIntervalMillis)
+                purgeOnce()
             } catch (_: InterruptedException) {
                 break
             } catch (_: Throwable) { }
         }
+    }
+
+    private fun purgeOnce() {
+        val cutoff = Instant.now().minus(Duration.ofHours(purgeHours))
+        persistenceService.purgeMessageLogsBefore(cutoff)
     }
 
     private fun toDto(chargePointId: String, direction: OcppMessageDirection, msg: OcppMessage): OcppMessageDto {

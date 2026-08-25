@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Timeout
 import org.tekeli.borisp.ocpp16.persistence.OcppMessageLog
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import java.time.Duration
 import java.time.Instant
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -14,6 +15,7 @@ class MessageCaptureServiceTest {
 
     private val persistenceService = object : PersistenceService() {
         val persistedLogs = CopyOnWriteArrayList<OcppMessageLog>()
+        val purgeCutoffs = CopyOnWriteArrayList<Instant>()
         override fun createMessageLog(
             chargePointId: String,
             direction: String,
@@ -43,7 +45,15 @@ class MessageCaptureServiceTest {
                     .take(limit)
             }
         }
+
+        override fun purgeMessageLogsBefore(cutoff: Instant): Int {
+            purgeCutoffs.add(cutoff)
+            return 0
+        }
     }
+
+    private fun snapshotCutoffs(): List<Instant> =
+        synchronized(persistenceService.purgeCutoffs) { persistenceService.purgeCutoffs.toList() }
 
     private lateinit var service: MessageCaptureService
 
@@ -217,5 +227,114 @@ class MessageCaptureServiceTest {
         val dtos = service.getMessagesFromDb("CP-1", null, null, 100)
         assertEquals(1, dtos.size)
         assertNull(dtos[0].action)
+    }
+
+    @Test
+    fun `purgeHours is coerced to at least 1`() {
+        service.purgeHours = 0
+        assertEquals(1, service.purgeHours)
+        service.purgeHours = -5
+        assertEquals(1, service.purgeHours)
+    }
+
+    @Test
+    fun `unsubscribe stops notifications`() {
+        val captured = CopyOnWriteArrayList<OcppMessageDto>()
+        val callback: (OcppMessageDto) -> Unit = { captured.add(it) }
+        service.subscribe("CP-1", callback)
+
+        service.capture("CP-1", OcppMessageDirection.INBOUND, OcppMessage.Call("m1", "H", null))
+        service.unsubscribe("CP-1", callback)
+        service.capture("CP-1", OcppMessageDirection.INBOUND, OcppMessage.Call("m2", "H", null))
+
+        assertEquals(1, captured.size)
+        assertEquals("m1", captured[0].messageId)
+    }
+
+    @Test
+    fun `unsubscribe for unknown charge point is a no-op`() {
+        service.unsubscribe("UNKNOWN") { }
+    }
+
+    @Test
+    fun `unsubscribe during notification does not break delivery`() {
+        val captured = CopyOnWriteArrayList<OcppMessageDto>()
+        lateinit var callback: (OcppMessageDto) -> Unit
+        callback = { dto ->
+            captured.add(dto)
+            service.unsubscribe("CP-1", callback)
+        }
+        service.subscribe("CP-1", callback)
+
+        service.capture("CP-1", OcppMessageDirection.INBOUND, OcppMessage.Call("m1", "H", null))
+        service.capture("CP-1", OcppMessageDirection.INBOUND, OcppMessage.Call("m2", "H", null))
+
+        assertEquals(1, captured.size)
+        assertEquals("m1", captured[0].messageId)
+    }
+
+    @Test
+    fun `getMessagesFromDb returns full dto fields`() {
+        service.capture("CP-1", OcppMessageDirection.INBOUND,
+            OcppMessage.Call("m1", "BootNotification", mapOf("vendor" to "V")))
+
+        Thread.sleep(2000)
+
+        val dtos = service.getMessagesFromDb("CP-1", null, null, 100)
+        assertEquals(1, dtos.size)
+        assertEquals("CP-1", dtos[0].chargePointId)
+        assertEquals("INBOUND", dtos[0].direction)
+        assertEquals("CALL", dtos[0].messageType)
+        assertEquals("BootNotification", dtos[0].action)
+        assertEquals("m1", dtos[0].messageId)
+        assertNotNull(dtos[0].payload)
+        assertTrue(dtos[0].payload!!.contains("BootNotification"))
+    }
+
+    @Test
+    fun `getMessagesFromDb on uninitialized service throws UninitializedPropertyAccessException`() {
+        val fresh = MessageCaptureService()
+        try {
+            assertThrows(UninitializedPropertyAccessException::class.java) {
+                fresh.getMessagesFromDb("CP-1", null, null, 100)
+            }
+        } finally {
+            fresh.close()
+        }
+    }
+
+    @Test
+    fun `purge loop purges before cutoff and stops after close`() {
+        MessageCaptureService.purgeIntervalMillis = 1
+        val svc = MessageCaptureService()
+        svc::class.java.getDeclaredField("persistenceService").apply {
+            isAccessible = true
+            set(svc, persistenceService)
+        }
+        try {
+            val deadline = System.currentTimeMillis() + 2000
+            var cutoffs = snapshotCutoffs()
+            while (cutoffs.size < 10 && System.currentTimeMillis() < deadline) {
+                Thread.sleep(10)
+                cutoffs = snapshotCutoffs()
+            }
+            assertTrue(cutoffs.size >= 10, "expected purges within deadline, got ${cutoffs.size}")
+
+            val span = Duration.between(cutoffs.first(), cutoffs[9])
+            assertTrue(span.toMillis() >= 5, "purge loop must sleep between iterations, 10 purges took ${span.toNanos()} ns")
+
+            val firstCutoff = cutoffs.first()
+            val now = Instant.now()
+            assertTrue(firstCutoff.isBefore(now.minus(Duration.ofHours(23))), "cutoff too recent: $firstCutoff")
+            assertTrue(firstCutoff.isAfter(now.minus(Duration.ofHours(25))), "cutoff too old: $firstCutoff")
+
+            svc.close()
+            Thread.sleep(150)
+            val countAfterClose = snapshotCutoffs().size
+            Thread.sleep(150)
+            assertEquals(countAfterClose, snapshotCutoffs().size, "purge loop must stop after close")
+        } finally {
+            MessageCaptureService.purgeIntervalMillis = 1_800_000
+        }
     }
 }
