@@ -1610,6 +1610,23 @@ class SecurityCommandTest {
     }
 
     @Test
+    fun `CertificateSigned - validate returns null for valid certificateChain`() {
+        val cmd = CertificateSignedCommand(gateway)
+        val response = cmd.validate(mapOf("certificateChain" to "MIIBkTCB..."))
+
+        assertNull(response)
+    }
+
+    @Test
+    fun `CertificateSigned - validate accepts certificateChain at max length`() {
+        val cmd = CertificateSignedCommand(gateway)
+        val maxChain = "X".repeat(10000)
+        val response = cmd.validate(mapOf("certificateChain" to maxChain))
+
+        assertNull(response)
+    }
+
+    @Test
     fun `CertificateSigned - should reject missing certificateChain`() {
         val cmd = CertificateSignedCommand(gateway)
         val response = cmd.validate(mapOf<String, Any>())
@@ -1637,6 +1654,8 @@ class SecurityCommandTest {
 
         assertNotNull(response)
         assertEquals(400, response!!.status)
+        val entity = PayloadValidators.safeMap(response.entity)
+        assertTrue(entity["error"].toString().contains("must not exceed"))
     }
 
     @Test
