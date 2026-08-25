@@ -24,13 +24,18 @@ class SignedUpdateFirmwareCommand @Inject constructor(
         return validateFirmwareFields(firmware)
     }
 
-    private fun validateFirmwareFields(firmware: Map<*, *>): Response? =
-        runCatching {
+    private fun validateFirmwareFields(firmware: Map<*, *>): Response? {
+        val error = try {
             checkField(firmware, "location", OcppConstants.MAX_FIRMWARE_LOCATION_LENGTH, "firmware.location")
             checkField(firmware, "retrieveDateTime", Int.MAX_VALUE, "firmware.retrieveDateTime")
             checkField(firmware, "signingCertificate", OcppConstants.MAX_SIGNING_CERTIFICATE_LENGTH, "firmware.signingCertificate")
             checkField(firmware, "signature", OcppConstants.MAX_SIGNATURE_LENGTH, "firmware.signature")
-        }.exceptionOrNull()?.let { badRequest(it.message ?: "Validation failed") }
+            null
+        } catch (e: Throwable) {
+            e.message
+        }
+        return error?.let { badRequest(it) }
+    }
 
     private fun checkField(map: Map<*, *>, key: String, maxLen: Int, name: String) {
         val value = map[key] as String
@@ -54,7 +59,7 @@ class SignedUpdateFirmwareCommand @Inject constructor(
         chargePointId: String, requestId: Int,
         firmware: Map<String, Any>, retries: Int?, retryInterval: Int?
     ): Response {
-        val installDateTime = firmware["installDateTime"]?.toString()?.let { Instant.parse(it) }
+        val installDateTime = firmware["installDateTime"]?.let { Instant.parse(it.toString()) }
         persistenceService?.createSignedFirmware(
             chargePointId = chargePointId,
             requestId = requestId,
