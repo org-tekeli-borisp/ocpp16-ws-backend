@@ -17,10 +17,10 @@ class SchemaValidator {
     private val mapper = ObjectMapper()
     private val schemas = loadSchemas()
 
-    fun validate(actionName: String, payloadJson: String): List<String> {
-        val schema = schemas[actionName] ?: return emptyList()
-        return schema.validate(payloadJson, InputFormat.JSON).map { it.toString() }
-    }
+    fun validate(actionName: String, payloadJson: String): List<String> =
+        schemas[actionName]?.let { schema ->
+            schema.validate(payloadJson, InputFormat.JSON).map { it.toString() }
+        } ?: emptyList()
 
     private fun loadSchemas(): Map<String, Schema> {
         val v4 = schemaContext(SpecificationVersion.DRAFT_4)
