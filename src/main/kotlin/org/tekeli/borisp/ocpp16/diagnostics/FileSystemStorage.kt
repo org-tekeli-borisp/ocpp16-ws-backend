@@ -90,7 +90,7 @@ class FileSystemStorage(
         if (count > 0) {
             Files.list(base).use { dirStream ->
                 dirStream.filter { dir ->
-                    Files.isDirectory(dir) && dir.toFile().listFiles()?.isEmpty() == true
+                    dir.toFile().listFiles()?.isEmpty() == true
                 }.forEach { dir ->
                     try {
                         Files.deleteIfExists(dir)
