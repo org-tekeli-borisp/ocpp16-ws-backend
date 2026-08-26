@@ -24,8 +24,6 @@ class ResponseAwaiter(
         null
     }
 
-    private val scheduledTimeouts = ConcurrentHashMap<String, java.util.concurrent.ScheduledFuture<*>>()
-
     fun pending(messageId: String): CompletableFuture<OcppMessage> {
         if (isRejected.get()) {
             val f = CompletableFuture<OcppMessage>()
@@ -40,21 +38,18 @@ class ResponseAwaiter(
     fun resolve(messageId: String, response: OcppMessage.CallResult) {
         val future = pendingResponses.remove(messageId)
             ?: throw IllegalStateException("No pending response for messageId: $messageId")
-        scheduledTimeouts.remove(messageId)?.cancel(false)
         future.complete(response)
     }
 
     fun reject(messageId: String, error: OcppMessage.CallError) {
         val future = pendingResponses.remove(messageId)
             ?: throw IllegalStateException("No pending response for messageId: $messageId")
-        scheduledTimeouts.remove(messageId)?.cancel(false)
         future.complete(error)
     }
 
     fun timeout(messageId: String, cause: TimeoutException) {
         val future = pendingResponses.remove(messageId)
             ?: throw IllegalStateException("No pending response for messageId: $messageId")
-        scheduledTimeouts.remove(messageId)?.cancel(false)
         future.completeExceptionally(cause)
     }
 
@@ -63,8 +58,6 @@ class ResponseAwaiter(
         val exception = IllegalStateException(reason)
         val entries = pendingResponses.entries.toList()
         pendingResponses.clear()
-        scheduledTimeouts.values.forEach { it.cancel(false) }
-        scheduledTimeouts.clear()
         timeoutHandle?.cancel(false)
         entries.forEach { (_, future) ->
             future.completeExceptionally(exception)
@@ -72,9 +65,12 @@ class ResponseAwaiter(
     }
 
     private fun cleanupTimedOut() {
-        val toTimeout = pendingResponses.entries.filter {
-            it.value.isDone.not()
-        }.map { it.key }
+        val toTimeout = mutableListOf<String>()
+        for ((messageId, future) in pendingResponses) {
+            if (!future.isDone) {
+                toTimeout.add(messageId)
+            }
+        }
         toTimeout.forEach { messageId ->
             timeout(messageId, TimeoutException("Command timed out"))
         }
