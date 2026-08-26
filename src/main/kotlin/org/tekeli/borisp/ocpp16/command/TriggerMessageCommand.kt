@@ -24,7 +24,7 @@ class TriggerMessageCommand @Inject constructor(
     override fun validate(payload: Map<String, Any>): Response? {
         val requestedMessage = payload["requestedMessage"]
 
-        if (!PayloadValidators.isValidOneOf(requestedMessage, validMessages)) {
+        if (requestedMessage !is String || !PayloadValidators.isValidOneOf(requestedMessage, validMessages)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "requestedMessage must be one of: BootNotification, DiagnosticsStatusNotification, FirmwareStatusNotification, Heartbeat, MeterValues, StatusNotification"))
                 .build()

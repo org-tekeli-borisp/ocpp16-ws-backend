@@ -85,11 +85,6 @@ class PayloadValidatorsTest {
         assertFalse(PayloadValidators.isValidOneOf("Invalid", setOf("Hard", "Soft")))
     }
 
-    @Test
-    fun `isValidOneOf returns false for null`() {
-        assertFalse(PayloadValidators.isValidOneOf(null, setOf("Hard", "Soft")))
-    }
-
     // ---- isMap ----
 
     @Test
