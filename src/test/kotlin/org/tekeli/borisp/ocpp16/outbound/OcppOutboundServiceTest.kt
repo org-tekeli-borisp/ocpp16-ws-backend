@@ -19,6 +19,15 @@ class OcppOutboundServiceTest {
     }
 
     @Test
+    fun `uninitialized service throws UninitializedPropertyAccessException`() {
+        val fresh = OcppOutboundService()
+
+        assertThrows(UninitializedPropertyAccessException::class.java) {
+            fresh.sendClearCache("CP-001")
+        }
+    }
+
+    @Test
     fun `sendReset delegates to registry`() {
         service.sendReset("CP-001", "Hard")
 
@@ -165,7 +174,9 @@ class OcppOutboundServiceTest {
 
         assertEquals("ReserveNow", testRegistry.lastAction)
         assertEquals(1, testRegistry.lastPayload?.get("connectorId"))
+        assertEquals("2024-01-01T00:00:00Z", testRegistry.lastPayload?.get("expiryDate"))
         assertEquals("CARD1", testRegistry.lastPayload?.get("idTag"))
+        assertEquals(42, testRegistry.lastPayload?.get("reservationId"))
     }
 
     @Test
@@ -307,6 +318,26 @@ class OcppOutboundServiceTest {
 
         assertEquals("CertificateSigned", testRegistry.lastAction)
         assertEquals("cert-chain-data", testRegistry.lastPayload?.get("certificateChain"))
+    }
+
+    @Test
+    fun `sendDataTransfer delegates with all params`() {
+        service.sendDataTransfer("CP-001", "Vendor1", "Msg1", "data-payload")
+
+        assertEquals("DataTransfer", testRegistry.lastAction)
+        assertEquals("Vendor1", testRegistry.lastPayload?.get("vendorId"))
+        assertEquals("Msg1", testRegistry.lastPayload?.get("messageId"))
+        assertEquals("data-payload", testRegistry.lastPayload?.get("data"))
+    }
+
+    @Test
+    fun `sendDataTransfer filters null messageId and data`() {
+        service.sendDataTransfer("CP-001", "Vendor1", null, null)
+
+        assertEquals("DataTransfer", testRegistry.lastAction)
+        assertEquals("Vendor1", testRegistry.lastPayload?.get("vendorId"))
+        assertFalse(testRegistry.lastPayload?.containsKey("messageId") == true)
+        assertFalse(testRegistry.lastPayload?.containsKey("data") == true)
     }
 
     private inner class TestRegistry : ChargePointRegistry() {
