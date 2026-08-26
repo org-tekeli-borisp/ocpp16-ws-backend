@@ -13,13 +13,19 @@ object PayloadValidators {
     fun isNonEmptyString(value: Any?): Boolean =
         value is String && value.isNotEmpty()
 
-    fun isValidOneOf(value: Any?, validValues: Set<String>): Boolean =
-        value is String && validValues.contains(value)
+    fun isValidOneOf(value: String, validValues: Set<String>): Boolean =
+        validValues.contains(value)
 
     fun isMap(value: Any?): Boolean = value is Map<*, *>
 
-    fun safeMap(value: Any?): Map<String, Any> =
-        (value as? Map<*, *>)?.mapKeys { it.key as String }?.mapValues { it.value as Any } ?: emptyMap()
+    fun safeMap(value: Any?): Map<String, Any> {
+        val source = value as? Map<*, *>
+        val result = HashMap<String, Any>()
+        if (source != null) {
+            for ((k, v) in source) result[k as String] = v as Any
+        }
+        return result
+    }
 
     fun safeList(value: Any?): List<String> =
         (value as? List<*>)?.mapNotNull { it as? String } ?: emptyList()

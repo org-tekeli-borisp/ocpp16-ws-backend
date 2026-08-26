@@ -15,7 +15,7 @@ class ResetCommand @Inject constructor(
     override fun validate(payload: Map<String, Any>): Response? {
         val type = payload["type"]
 
-        if (!PayloadValidators.isValidOneOf(type, validTypes)) {
+        if (type !is String || !PayloadValidators.isValidOneOf(type, validTypes)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "type must be 'Hard' or 'Soft'"))
                 .build()

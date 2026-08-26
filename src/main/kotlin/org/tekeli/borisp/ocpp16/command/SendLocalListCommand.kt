@@ -21,7 +21,7 @@ class SendLocalListCommand @Inject constructor(
                 .entity(mapOf<String, Any>("error" to "listVersion is required"))
                 .build()
         }
-        if (!PayloadValidators.isValidOneOf(updateType, validUpdateTypes)) {
+        if (updateType !is String || !PayloadValidators.isValidOneOf(updateType, validUpdateTypes)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "updateType must be 'Differential' or 'Full'"))
                 .build()

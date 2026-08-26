@@ -21,7 +21,7 @@ class ChangeAvailabilityCommand @Inject constructor(
                 .entity(mapOf<String, Any>("error" to "connectorId is required"))
                 .build()
         }
-        if (!PayloadValidators.isValidOneOf(type, validTypes)) {
+        if (type !is String || !PayloadValidators.isValidOneOf(type, validTypes)) {
             return Response.status(Response.Status.BAD_REQUEST)
                 .entity(mapOf<String, Any>("error" to "type must be 'Inoperative' or 'Operative'"))
                 .build()
