@@ -37,10 +37,11 @@ class SecurityEventNotificationHandler : OcppActionHandler {
     )
 
     internal fun validatePayload(payload: Map<String, Any>): ParsedSecurityEvent {
-        val type = payload.requiredStringIn("type", OcppConstants.SECURITY_EVENTS)
-        if (type.length > OcppConstants.MAX_EVENT_TYPE_LENGTH) {
+        val rawType = payload["type"]?.toString().orEmpty()
+        if (rawType.length > OcppConstants.MAX_EVENT_TYPE_LENGTH) {
             throw FormationViolationException("type must not exceed ${OcppConstants.MAX_EVENT_TYPE_LENGTH} characters")
         }
+        val type = payload.requiredStringIn("type", OcppConstants.SECURITY_EVENTS)
         val timestamp = payload.requiredInstant("timestamp")
         val techInfo = payload.optionalString("techInfo", OcppConstants.MAX_TECH_INFO_LENGTH)
         return ParsedSecurityEvent(type, timestamp, techInfo)
