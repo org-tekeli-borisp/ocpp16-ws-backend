@@ -48,19 +48,22 @@ class FileSystemStorage(
 
     fun listFiles(chargePointId: String): List<DiagnosticsFileInfo> {
         val dir = Path.of(baseDir, chargePointId)
-        if (!Files.exists(dir)) return emptyList()
-        return Files.list(dir).use { stream ->
-            stream.filter { Files.isRegularFile(it) }
-                .map { file ->
-                    val storedName = file.fileName.toString()
-                    DiagnosticsFileInfo(
-                        storedName = storedName,
-                        originalName = extractOriginalName(storedName),
-                        sizeBytes = Files.size(file),
-                        uploadedAt = Instant.ofEpochMilli(file.toFile().lastModified())
-                    )
-                }
-                .toList().sortedByDescending { it.uploadedAt }
+        return if (!Files.exists(dir)) {
+            emptyList()
+        } else {
+            Files.list(dir).use { stream ->
+                stream.filter { Files.isRegularFile(it) }
+                    .map { file ->
+                        val storedName = file.fileName.toString()
+                        DiagnosticsFileInfo(
+                            storedName = storedName,
+                            originalName = extractOriginalName(storedName),
+                            sizeBytes = Files.size(file),
+                            uploadedAt = Instant.ofEpochMilli(file.toFile().lastModified())
+                        )
+                    }
+                    .toList().sortedByDescending { it.uploadedAt }
+            }
         }
     }
 
