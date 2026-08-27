@@ -318,6 +318,7 @@ class MessageCaptureServiceTest {
             set(svc, persistenceService)
         }
         try {
+            svc.startPurgeLoop()
             val deadline = System.currentTimeMillis() + 2000
             var cutoffs = snapshotCutoffs()
             while (cutoffs.size < 10 && System.currentTimeMillis() < deadline) {

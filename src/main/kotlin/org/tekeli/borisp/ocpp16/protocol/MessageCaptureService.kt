@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.protocol
 
+import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -34,7 +35,8 @@ class MessageCaptureService {
     private val stopPurger = AtomicBoolean(false)
     private val persistExecutor = Executors.newVirtualThreadPerTaskExecutor()
 
-    init {
+    @PostConstruct
+    fun startPurgeLoop() {
         persistExecutor.submit { purgeLoop() }
     }
 
