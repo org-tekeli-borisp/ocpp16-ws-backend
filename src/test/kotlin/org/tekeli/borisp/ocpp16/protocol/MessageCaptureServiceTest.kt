@@ -5,11 +5,14 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Timeout
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.tekeli.borisp.ocpp16.persistence.OcppMessageLog
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import java.time.Duration
 import java.time.Instant
 import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.atomic.AtomicInteger
 
 @Timeout(10)
 class MessageCaptureServiceTest {
@@ -63,10 +66,7 @@ class MessageCaptureServiceTest {
         service = MessageCaptureService()
         service.bufferSize = 5
         service.purgeHours = 24
-        service::class.java.getDeclaredField("persistenceService").apply {
-            isAccessible = true
-            set(service, persistenceService)
-        }
+        service.persistenceService = persistenceService
     }
 
     @AfterEach
@@ -313,10 +313,7 @@ class MessageCaptureServiceTest {
     fun `purge loop purges before cutoff and stops after close`() {
         val svc = MessageCaptureService()
         svc.purgeIntervalMillis = 1
-        svc::class.java.getDeclaredField("persistenceService").apply {
-            isAccessible = true
-            set(svc, persistenceService)
-        }
+        svc.persistenceService = persistenceService
         try {
             svc.startPurgeLoop()
             val deadline = System.currentTimeMillis() + 2000
@@ -343,5 +340,95 @@ class MessageCaptureServiceTest {
         } finally {
             svc.close()
         }
+    }
+
+    @Test
+    fun `getMessagesFromDb uses default limit`() {
+        service.capture("CP-1", OcppMessageDirection.INBOUND, OcppMessage.Call("m1", "Heartbeat", null))
+
+        Thread.sleep(2000)
+
+        val dtos = service.getMessagesFromDb("CP-1", null, null)
+        assertEquals(1, dtos.size)
+        assertEquals("m1", dtos[0].messageId)
+    }
+
+    @Test
+    fun `failing callback does not break other subscribers`() {
+        val captured = CopyOnWriteArrayList<OcppMessageDto>()
+        service.subscribe("CP-1") { throw RuntimeException("boom") }
+        service.subscribe("CP-1") { captured.add(it) }
+
+        service.capture("CP-1", OcppMessageDirection.INBOUND, OcppMessage.Call("m1", "H", null))
+
+        assertEquals(1, captured.size)
+        assertEquals("m1", captured[0].messageId)
+    }
+
+    @Test
+    fun `purge loop stops when thread is interrupted`() {
+        val svc = MessageCaptureService()
+        svc.purgeIntervalMillis = 1
+        val attempts = AtomicInteger(0)
+        val interruptingService = object : PersistenceService() {
+            override fun purgeMessageLogsBefore(cutoff: Instant): Int {
+                if (attempts.incrementAndGet() == 1) {
+                    Thread.currentThread().interrupt()
+                }
+                return 0
+            }
+        }
+        svc.persistenceService = interruptingService
+        try {
+            svc.startPurgeLoop()
+            val deadline = System.currentTimeMillis() + 2000
+            while (attempts.get() < 1 && System.currentTimeMillis() < deadline) {
+                Thread.sleep(10)
+            }
+            assertEquals(1, attempts.get())
+            Thread.sleep(300)
+            assertEquals(1, attempts.get(), "purge loop must stop after interruption")
+        } finally {
+            svc.close()
+        }
+    }
+
+    @Test
+    fun `purge loop survives purge failures`() {
+        val svc = MessageCaptureService()
+        svc.purgeIntervalMillis = 1
+        val attempts = AtomicInteger(0)
+        val failingService = object : PersistenceService() {
+            override fun purgeMessageLogsBefore(cutoff: Instant): Int {
+                attempts.incrementAndGet()
+                throw RuntimeException("db down")
+            }
+        }
+        svc.persistenceService = failingService
+        try {
+            svc.startPurgeLoop()
+            val deadline = System.currentTimeMillis() + 2000
+            while (attempts.get() < 2 && System.currentTimeMillis() < deadline) {
+                Thread.sleep(10)
+            }
+            assertTrue(attempts.get() >= 2, "purge loop must survive failures, attempts=${attempts.get()}")
+        } finally {
+            svc.close()
+        }
+    }
+
+    @Test
+    fun `capture with failing toJson stores null payload`() {
+        val msg = mock(OcppMessage.Call::class.java)
+        `when`(msg.toJson()).thenThrow(RuntimeException("boom"))
+        `when`(msg.messageId).thenReturn("m1")
+        `when`(msg.type).thenReturn(OcppMessageType.CALL)
+        `when`(msg.action).thenReturn("Heartbeat")
+
+        service.capture("CP-1", OcppMessageDirection.INBOUND, msg)
+
+        val messages = service.getMessages("CP-1")
+        assertEquals(1, messages.size)
+        assertNull(messages[0].payload)
     }
 }
