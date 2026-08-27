@@ -68,7 +68,7 @@ class SchemaValidator {
         }
     }
 
-    private fun loadSchema(
+    internal fun loadSchema(
         context: SchemaContext,
         resourcePath: String,
         actionName: String,
