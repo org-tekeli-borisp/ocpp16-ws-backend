@@ -40,6 +40,15 @@ class SchemaValidatorTest {
     }
 
     @Test
+    fun `validates BootNotification missing field error message contains field name`() {
+        val payload = """{"chargePointVendor":"Tesla"}"""
+
+        val errors = validator.validate("BootNotification", payload)
+
+        assertTrue(errors.any { it.contains("chargePointModel") })
+    }
+
+    @Test
     fun `validates unknown action returns no errors`() {
         val payload = """{"anything":true}"""
 
