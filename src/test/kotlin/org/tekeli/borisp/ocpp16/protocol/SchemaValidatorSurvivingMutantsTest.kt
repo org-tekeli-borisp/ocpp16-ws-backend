@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 
 class SchemaValidatorSurvivingMutantsTest {
 
@@ -43,6 +44,20 @@ class SchemaValidatorSurvivingMutantsTest {
         assertDoesNotThrow {
             validator.loadSchema(context, "schemas/json/DoesNotExist.json", "DoesNotExist", schemas)
         }
+        assertTrue(schemas.isEmpty())
+    }
+
+    @Test
+    fun `loadSchema with malformed json throws RuntimeException with action and path`() {
+        val dialect = Specification.getDialect(SpecificationVersion.DRAFT_4)
+        val context = SchemaContext(dialect, SchemaRegistry.withDefaultDialect(dialect))
+        val schemas = mutableMapOf<String, Schema>()
+
+        val ex = assertThrows<RuntimeException> {
+            validator.loadSchema(context, "invalid/InvalidSchema.json", "InvalidSchema", schemas)
+        }
+        assertTrue(ex.message!!.contains("InvalidSchema"))
+        assertTrue(ex.message!!.contains("invalid/InvalidSchema.json"))
         assertTrue(schemas.isEmpty())
     }
 }
