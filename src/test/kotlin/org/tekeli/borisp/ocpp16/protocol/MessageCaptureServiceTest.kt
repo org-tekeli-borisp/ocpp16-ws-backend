@@ -1,6 +1,7 @@
 package org.tekeli.borisp.ocpp16.protocol
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Timeout
@@ -66,6 +67,11 @@ class MessageCaptureServiceTest {
             isAccessible = true
             set(service, persistenceService)
         }
+    }
+
+    @AfterEach
+    fun tearDown() {
+        service.close()
     }
 
     @Test
@@ -305,8 +311,8 @@ class MessageCaptureServiceTest {
 
     @Test
     fun `purge loop purges before cutoff and stops after close`() {
-        MessageCaptureService.purgeIntervalMillis = 1
         val svc = MessageCaptureService()
+        svc.purgeIntervalMillis = 1
         svc::class.java.getDeclaredField("persistenceService").apply {
             isAccessible = true
             set(svc, persistenceService)
@@ -334,7 +340,7 @@ class MessageCaptureServiceTest {
             Thread.sleep(150)
             assertEquals(countAfterClose, snapshotCutoffs().size, "purge loop must stop after close")
         } finally {
-            MessageCaptureService.purgeIntervalMillis = 1_800_000
+            svc.close()
         }
     }
 }

@@ -26,9 +26,8 @@ class MessageCaptureService {
     var purgeHours: Long = 24
         set(value) { field = value.coerceAtLeast(1) }
 
-    companion object {
-        var purgeIntervalMillis: Long = 1_800_000
-    }
+    var purgeIntervalMillis: Long = 1_800_000
+        set(value) { field = value.coerceAtLeast(1) }
 
     private val buffers: ConcurrentHashMap<String, LinkedBlockingDeque<OcppMessageDto>> = ConcurrentHashMap()
     private val perCpSubscribers: ConcurrentHashMap<String, MutableList<(OcppMessageDto) -> Unit>> = ConcurrentHashMap()
