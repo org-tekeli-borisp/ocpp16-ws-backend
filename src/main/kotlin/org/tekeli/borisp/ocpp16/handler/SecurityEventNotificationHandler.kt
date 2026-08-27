@@ -27,7 +27,10 @@ class SecurityEventNotificationHandler : OcppActionHandler {
         techInfo: String?
     ) {
         context.persistenceService?.createSecurityLog(chargePointId, type, timestamp, techInfo)
-        context.metricsService?.securityEventsReceived?.increment()
+        val metricsService = context.metricsService
+        if (metricsService != null) {
+            metricsService.securityEventsReceived.increment()
+        }
     }
 
     internal data class ParsedSecurityEvent(

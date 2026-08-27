@@ -70,6 +70,18 @@ class SecurityEventNotificationHandlerSurvivingMutantsTest {
     }
 
     @Test
+    fun `validatePayload accepts type at exactly max length and fails enum check instead`() {
+        val exactLengthType = "A".repeat(OcppConstants.MAX_EVENT_TYPE_LENGTH)
+        val ex = assertThrows(FormationViolationException::class.java) {
+            handler.validatePayload(mapOf(
+                "type" to exactLengthType,
+                "timestamp" to "2024-01-01T00:00:00Z"
+            ))
+        }
+        assertEquals("Invalid type: $exactLengthType", ex.message)
+    }
+
+    @Test
     fun `validatePayload rejects over-long type with length message before enum check`() {
         val longType = "A".repeat(OcppConstants.MAX_EVENT_TYPE_LENGTH + 1)
         val ex = assertThrows(FormationViolationException::class.java) {
