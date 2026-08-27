@@ -24,7 +24,7 @@ If production code is committed without a preceding failing test, the agent MUST
 
 ## Project Overview
 
-OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1503 tests (90 files), 26 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
+OCPP 1.6J Charge Point Central System in **Kotlin** with **Quarkus**. 1718 tests (114 files), 26 remote commands, 15 message handlers, full OCPP 1.6 Security Edition 4 support, 78 JSON schemas.
 
 ## Tech Stack
 

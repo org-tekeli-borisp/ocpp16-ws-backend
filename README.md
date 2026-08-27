@@ -13,8 +13,8 @@ OCPP 1.6J (JSON over WebSocket) Charge Point Central System implemented in Kotli
 - **Connector Status Tracking** – real-time per-connector state (Available, Charging, Faulted, etc.)
 - **Database migrations** – Liquibase with PostgreSQL (Dev Services for dev/test)
 - **REST API** – charge points, transactions, commands, health & status
-- **Mutation Testing** – PITest integration (93% mutation coverage, 96% line coverage)
-- **1503 Unit & Integration Tests** (90 test files)
+- **Mutation Testing** – PITest integration (100% mutation coverage, 98.3% line coverage)
+- **1718 Unit & Integration Tests** (114 test files)
 - **Coverage Reports** – [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 - **Diagnostics Upload** – FTP (2021) + SFTP (2022) servers for receiving firmware/diagnostic files from charge points
 - **Docker Compose** – ready for production deployment with Prometheus + Grafana monitoring
@@ -381,7 +381,7 @@ webui/
 │   │   └── utils.ts            # Formatting (timeAgo, formatDuration, formatEnergy, filterMessages)
 │   └── stores/app.ts           # Svelte stores (chargePoints, selectedCpId, activeTab, searchQuery)
 ├── tests/
-│   ├── unit/                   # 5 Vitest test files (api, commands, i18n, stores, utils)
+│   ├── unit/                   # 6 Vitest test files (a11y, api, commands, i18n, stores, utils)
 │   └── e2e/                    # 9 Playwright test files
 │       ├── deep-linking.spec.ts
 │       ├── overview-panel.spec.ts
@@ -434,20 +434,20 @@ mvn org.pitest:pitest-maven:mutationCoverage
 
 | Category | Files | Description |
 |---------|-------|-------------|
-| WebSocket server | 21 | Per-handler `OcppWebSocketServer*` tests, Protocol, Ping/Pong, Session context, Subprotocol |
-| Handlers (unit) | 19 | BootNotification, Start/StopTransaction, Heartbeat, StatusNotification, Security, Certificates, PayloadParser |
-| Persistence | 10 | Entities, Repositories, PersistenceService |
-| MessageDispatcher & WebSocket infra | 8 | Dispatch, Protocol, Error codes, Schema validation, PingPongManager, Scheduler |
-| Diagnostics | 7 | FTP/SFTP config + service, FileSystem storage, URL generator |
-| REST API | 6 | ChargePoints, Commands, Transactions, Messages, Diagnostics |
-| Commands | 5 | Standard + Security commands, PayloadValidators, PITest mutation tests |
-| Protocol | 3 | SchemaValidator, MessageCaptureService, OcppMessageDirection |
+| WebSocket server | 22 | Per-handler `OcppWebSocketServer*` tests, Protocol, Ping/Pong, Session context, Subprotocol, Mutation |
+| Handlers (unit) | 22 | BootNotification, Start/StopTransaction, Heartbeat, StatusNotification, Security, Certificates, PayloadParser, Mutation |
+| Persistence | 11 | Entities, Repositories, PersistenceService |
+| MessageDispatcher & WebSocket infra | 9 | Dispatch, Protocol, Error codes, Schema validation, PingPongManager, VertxScheduler, ChargePointInfo |
+| Diagnostics | 13 | FTP/SFTP config + service, FileSystem storage, URL generator, Initializer |
+| REST API | 12 | ChargePoints, Commands, Transactions, Messages, Diagnostics |
+| Commands | 7 | Standard + Security commands, PayloadValidators, PITest mutation tests |
+| Protocol | 6 | SchemaValidator, MessageCaptureService, ResponseAwaiter, OcppMessageDirection |
 | Outbound | 2 | OcppOutboundService, PayloadBuilder |
-| Health | 2 | Liveness + Readiness probes |
+| Health | 3 | Liveness + Readiness probes |
 | Integration | 2 | CommandRoundTrip, FullFlowIntegration |
 | Metrics | 1 | Prometheus metrics service |
 | Root-level infra | 4 | ChargePointRegistry, ResponseAwaiter, OutboundCallDispatcher, OcppMessage |
-| **Total** | **90 test files** | **1503 Tests** |
+| **Total** | **114 test files** | **1718 Tests** |
 
 ## CI/CD Pipeline
 

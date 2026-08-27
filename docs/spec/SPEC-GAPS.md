@@ -1,6 +1,6 @@
 # OCPP 1.6J Specification Gap Analysis
 
-Generated: 2026-07-22
+Generated: 2026-08-27
 
 **Coverage Reports**: [JaCoCo](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/jacoco/index.html) | [PITest Mutation](https://org-tekeli-borisp.github.io/ocpp16-ws-backend/mutation/index.html)
 
@@ -11,15 +11,15 @@ Generated: 2026-07-22
 | Command implementations | 26 (19 standard + 7 security) |
 | Handler implementations | 15 (10 standard + 5 security) |
 | Persistence entities | 6 |
-| Test files | 77 |
-| Test methods | 1369 |
-| JSON schemas | 78 (66 standard + 22 security) |
-| Liquibase migrations | 5 |
-| REST resources | 4 |
+| Test files | 114 |
+| Test methods | 1718 |
+| JSON schemas | 78 (56 standard + 22 security) |
+| Liquibase migrations | 6 |
+| REST resources | 5 |
 | Prometheus metrics | 8 |
 | Health checks | 2 (Liveness, Readiness) |
-| Mutation coverage | 95% (PITest) |
-| Line coverage | 97% (JaCoCo) |
+| Mutation coverage | 100% (PITest) |
+| Line coverage | 98.3% (JaCoCo) |
 
 ## References
 
@@ -28,7 +28,7 @@ Generated: 2026-07-22
 | `ocpp-j-1.6-specification.pdf` | `docs/spec/` | OCPP-J transport, RPC, connection |
 | `ocpp-1.6-edition2.pdf` | `docs/spec/` | Main OCPP 1.6 message definitions |
 | `ocpp-1.6-security-e4.pdf` | `docs/spec/` | Security Edition 4 (certificates, signed firmware) |
-| JSON schemas (66 files) | `docs/spec/schemas/json/` | Standard message validation |
+| JSON schemas (56 files) | `docs/spec/schemas/json/` | Standard message validation |
 | Security schemas (22 files) | `docs/spec/schemas/security/` | Security message validation |
 
 ---
@@ -149,10 +149,10 @@ Generated: 2026-07-22
 
 | Category | Schemas Available | Schemas Used in Validation |
 |----------|------------------|---------------------------|
-| Standard (66 files, 33 Call + 33 Response) | ✅ All in `docs/spec/schemas/json/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
+| Standard (56 files, 28 Call + 28 Response) | ✅ All in `docs/spec/schemas/json/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
 | Security (22 files, 11 Call + 11 Response) | ✅ All in `docs/spec/schemas/security/` | ✅ Used — `SchemaValidator` in `MessageDispatcher` + `CommandResource` |
 
-**Implementation:** `SchemaValidator` loads 78 JSON schemas (66 standard draft-04 + 22 security draft-06) at startup, cached in a `Map<String, JsonSchema>`. Two-layer validation: schema validation runs first (structural checks: required fields, types, additionalProperties, maxLength, enums), followed by manual validation (business logic: empty strings, connectorId ranges, etc.).
+**Implementation:** `SchemaValidator` loads 78 JSON schemas (56 standard draft-04 + 22 security draft-06) at startup, cached in a `Map<String, JsonSchema>`. Two-layer validation: schema validation runs first (structural checks: required fields, types, additionalProperties, maxLength, enums), followed by manual validation (business logic: empty strings, connectorId ranges, etc.).
 
 ### Error Codes (OcppErrorCode)
 
