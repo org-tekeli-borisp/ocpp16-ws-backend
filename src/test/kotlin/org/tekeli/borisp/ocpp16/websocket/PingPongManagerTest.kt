@@ -224,6 +224,73 @@ class PingPongManagerTest {
         pongTimeoutTask.runnable.run()
         assertEquals(0, target.closeCount, "should not close connection when no longer pinging")
     }
+
+    @Test
+    fun `ping task resets state when pong timeout scheduling fails`() {
+        val pingRunnables = mutableListOf<Runnable>()
+        val failingScheduler = object : Scheduler {
+            var callCount = 0
+            override fun <V : Any?> schedule(
+                runnable: Runnable,
+                delay: Long,
+                unit: TimeUnit
+            ): java.util.concurrent.ScheduledFuture<V> {
+                callCount++
+                if (callCount == 2) throw RuntimeException("schedule failed")
+                pingRunnables.add(runnable)
+                return object : java.util.concurrent.ScheduledFuture<V> {
+                    override fun get(): V = throw UnsupportedOperationException()
+                    override fun get(timeout: Long, unit: TimeUnit): V = throw UnsupportedOperationException()
+                    override fun isCancelled(): Boolean = false
+                    override fun isDone(): Boolean = false
+                    override fun cancel(mayInterruptIfRunning: Boolean): Boolean = true
+                    override fun getDelay(unit: TimeUnit): Long = 0
+                    override fun compareTo(other: Delayed): Int = 0
+                }
+            }
+        }
+        val mgr = PingPongManager(target, "test-session", 1, 2, failingScheduler)
+        mgr.start()
+        pingRunnables[0].run()
+
+        assertEquals(0, target.pingSendCount, "no ping should be sent when pong timeout scheduling fails")
+        assertFalse(mgr.isPinging, "isPinging should be reset after scheduling failure")
+    }
+
+    @Test
+    fun `ping failure close throwing synchronously does not propagate`() {
+        target.failNextPing = true
+        target.closeThrowsSynchronously = true
+        manager.start()
+
+        assertDoesNotThrow { scheduler.executeNext() }
+
+        assertEquals(1, target.closeCount, "close should have been attempted")
+        assertFalse(manager.isPinging, "isPinging should be false after ping failure")
+    }
+
+    @Test
+    fun `pong timeout continues processing when closeConnection throws synchronously`() {
+        target.closeThrowsSynchronously = true
+        manager.start()
+        scheduler.executeNext()
+        scheduler.executeNext()
+
+        assertEquals(1, target.setOfflineCount, "setChargePointOffline should still be called")
+        assertEquals(1, target.unregisterCount, "unregister should still be called")
+        assertEquals(1, target.rejectAwaiterCount, "rejectAwaiter should still be called")
+    }
+
+    @Test
+    fun `pong timeout continues processing when setChargePointOffline throws`() {
+        target.setOfflineThrows = true
+        manager.start()
+        scheduler.executeNext()
+        scheduler.executeNext()
+
+        assertEquals(1, target.unregisterCount, "unregister should still be called")
+        assertEquals(1, target.rejectAwaiterCount, "rejectAwaiter should still be called")
+    }
 }
 
 class MockPingPongTarget : PingPongTarget {
@@ -237,6 +304,8 @@ class MockPingPongTarget : PingPongTarget {
     var failNextPing = false
     var connected = true
     var closeThrows = false
+    var closeThrowsSynchronously = false
+    var setOfflineThrows = false
 
     override fun sendPing(buffer: Buffer): io.smallrye.mutiny.Uni<Void> {
         pingSendCount++
@@ -250,6 +319,9 @@ class MockPingPongTarget : PingPongTarget {
 
     override fun closeConnection(reason: String): io.smallrye.mutiny.Uni<Void> {
         closeCount++
+        if (closeThrowsSynchronously) {
+            throw RuntimeException("Close failed synchronously")
+        }
         if (closeThrows) {
             return io.smallrye.mutiny.Uni.createFrom().failure(RuntimeException("Close failed"))
         }
@@ -259,6 +331,9 @@ class MockPingPongTarget : PingPongTarget {
 
     override fun setChargePointOffline(sessionId: String) {
         setOfflineCount++
+        if (setOfflineThrows) {
+            throw RuntimeException("Set offline failed")
+        }
     }
 
     override fun unregisterFromRegistry(sessionId: String) {

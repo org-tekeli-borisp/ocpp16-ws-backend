@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.util.concurrent.CancellationException
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
@@ -113,5 +114,17 @@ class VertxSchedulerTest {
         assertTrue(future.cancel(false))
 
         assertFalse(vertxTimeouts().containsKey(future.timerId()), "cancelled timer must be removed from vertx registry")
+    }
+
+    @Test
+    fun `future get methods throw CancellationException and delay and compare return zero`() {
+        val future = scheduler.schedule<Unit>({ }, 1000, TimeUnit.MILLISECONDS)
+
+        assertThrows(CancellationException::class.java) { future.get() }
+        assertThrows(CancellationException::class.java) { future.get(1, TimeUnit.SECONDS) }
+        assertEquals(0L, future.getDelay(TimeUnit.SECONDS))
+        assertEquals(0, future.compareTo(null))
+
+        future.cancel(false)
     }
 }

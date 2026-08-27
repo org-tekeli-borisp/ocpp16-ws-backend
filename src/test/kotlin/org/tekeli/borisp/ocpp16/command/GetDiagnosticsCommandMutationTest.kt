@@ -200,6 +200,19 @@ class GetDiagnosticsCommandMutationTest {
         Mockito.verify(storage, Mockito.never()).ensureDirectory("CP-1")
     }
 
+    // Cover L64: ensureDirectory failure is swallowed
+    @Test
+    fun `execute - swallows storage ensureDirectory failure`() {
+        val storage = Mockito.mock(FileSystemStorage::class.java)
+        Mockito.doThrow(RuntimeException("disk error")).`when`(storage).ensureDirectory("CP-1")
+        val cmd = GetDiagnosticsCommand(gateway, createGeneratorInstance(null), createStorageInstance(storage))
+
+        val response = cmd.execute("CP-1", mapOf("location" to "http://diag.example.com"))
+
+        assertEquals(202, response.status)
+        Mockito.verify(storage).ensureDirectory("CP-1")
+    }
+
     // Kill L69 SURVIVED: isUnsatisfied check forced false, removed call to isUnsatisfied
     @Test
     fun `validate - returns 400 when generator instance unsatisfied`() {

@@ -1,10 +1,12 @@
 package org.tekeli.borisp.ocpp16
 
+import io.quarkus.websockets.next.OpenConnections
 import io.smallrye.mutiny.Uni
 import io.vertx.core.buffer.Buffer
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
@@ -235,6 +237,32 @@ class OcppWebSocketServerHandlersTest {
         server.onClose()
 
         assertFalse(pingPongManager.isPinging, "PingPongManager should be stopped")
+    }
+
+    @Test
+    fun `openConnections is settable and readable`() {
+        val openConnections = mock(OpenConnections::class.java)
+        server.openConnections = openConnections
+
+        assertSame(openConnections, server.openConnections)
+    }
+
+    @Test
+    fun `onClose no-arg handles setChargePointOffline failure gracefully`() {
+        val awaiter = ResponseAwaiter()
+        registry.register("session-close-throw", "session-close-throw", "CP-CLOSE-THROW", awaiter)
+
+        val failingPersistence = object : PersistenceService() {
+            override fun setChargePointOfflineByChargePointId(cpId: String) {
+                throw RuntimeException("DB error")
+            }
+        }
+        server.persistenceService = failingPersistence
+
+        server.currentConnection = createWsConnectionProxy("session-close-throw")
+
+        assertDoesNotThrow { server.onClose() }
+        assertFalse(registry.isConnected("session-close-throw"))
     }
 
     @Test
