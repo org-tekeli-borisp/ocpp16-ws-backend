@@ -237,6 +237,21 @@ class GetDiagnosticsCommandMutationTest {
         assertEquals(400, response!!.status)
     }
 
+    // Cover L70: resolveGenerator catch branch when Instance.get() throws
+    @Test
+    fun `validate - returns 400 when generator instance get throws`() {
+        val instance = Mockito.mock(Instance::class.java) as Instance<DiagnosticsUrlGenerator>
+        Mockito.`when`(instance.isUnsatisfied).thenReturn(false)
+        Mockito.`when`(instance.isAmbiguous).thenReturn(false)
+        Mockito.`when`(instance.get()).thenThrow(RuntimeException("cdi failure"))
+        val cmd = GetDiagnosticsCommand(gateway, instance, createStorageInstance(null))
+
+        val response = cmd.validate(emptyMap<String, Any>())
+
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+    }
+
     private class TestDiagnosticsGateway : ChargePointGateway {
         var lastDiagnosticsLocation: String? = null
         var lastDiagnosticsRetries: Int? = null
