@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OcppConstants.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16</a> &gt; <span class="el_source">OcppConstants.kt</span></div><h1>OcppConstants.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16
+
+/**
+ * OCPP 1.6J protocol constants as defined in the specification.
+ */
+object OcppConstants {
+
+    // Message format limits
+    const val MAX_MESSAGE_ID_LENGTH = 36
+
+    // Identifier limits
+    const val MAX_ID_TAG_LENGTH = 20
+    const val MAX_VENDOR_LENGTH = 20
+    const val MAX_MODEL_LENGTH = 20
+
+    // DataTransfer limits
+    const val MAX_VENDOR_ID_LENGTH = 255
+
+    // StatusNotification limits
+    const val MAX_INFO_LENGTH = 50
+
+    // SecurityEvent limits
+    const val MAX_EVENT_TYPE_LENGTH = 50
+    const val MAX_TECH_INFO_LENGTH = 255
+
+    // Certificate limits
+    const val MAX_CSR_LENGTH = 5500
+    const val MAX_CERTIFICATE_CHAIN_LENGTH = 10000
+    const val MAX_CERTIFICATE_LENGTH = 5500
+
+    // Firmware limits
+    const val MAX_FIRMWARE_LOCATION_LENGTH = 512
+    const val MAX_SIGNING_CERTIFICATE_LENGTH = 5500
+    const val MAX_SIGNATURE_LENGTH = 800
+
+    // BootNotification defaults
+    const val DEFAULT_HEARTBEAT_INTERVAL_SECONDS = 300
+
+    // Command timeout
+    const val COMMAND_TIMEOUT_SECONDS = 10
+
+    // Firmware status notification valid values
+<span class="fc" id="L43">    val FIRMWARE_STATUSES = setOf(</span>
+<span class="fc" id="L44">        &quot;Downloaded&quot;, &quot;DownloadFailed&quot;, &quot;Downloading&quot;, &quot;Idle&quot;,</span>
+<span class="fc" id="L45">        &quot;InstallationFailed&quot;, &quot;Installing&quot;, &quot;Installed&quot;</span>
+    )
+
+    // Diagnostics status notification valid values
+<span class="fc" id="L49">    val DIAGNOSTICS_STATUSES = setOf(&quot;Idle&quot;, &quot;Uploaded&quot;, &quot;UploadFailed&quot;, &quot;Uploading&quot;)</span>
+
+    // Log status notification valid values
+<span class="fc" id="L52">    val LOG_STATUSES = setOf(</span>
+<span class="fc" id="L53">        &quot;BadMessage&quot;, &quot;Idle&quot;, &quot;NotSupportedOperation&quot;,</span>
+<span class="fc" id="L54">        &quot;PermissionDenied&quot;, &quot;Uploaded&quot;, &quot;UploadFailure&quot;, &quot;Uploading&quot;</span>
+    )
+
+    // Signed firmware status notification valid values
+<span class="fc" id="L58">    val SIGNED_FIRMWARE_STATUSES = setOf(</span>
+<span class="fc" id="L59">        &quot;Downloaded&quot;, &quot;DownloadFailed&quot;, &quot;Downloading&quot;, &quot;DownloadScheduled&quot;,</span>
+<span class="fc" id="L60">        &quot;DownloadPaused&quot;, &quot;Idle&quot;, &quot;InstallationFailed&quot;, &quot;Installing&quot;,</span>
+<span class="fc" id="L61">        &quot;Installed&quot;, &quot;InstallRebooting&quot;, &quot;InstallScheduled&quot;,</span>
+<span class="fc" id="L62">        &quot;InstallVerificationFailed&quot;, &quot;InvalidSignature&quot;, &quot;SignatureVerified&quot;</span>
+    )
+
+    // StatusNotification connector status valid values
+<span class="fc" id="L66">    val CONNECTOR_STATUSES = setOf(</span>
+<span class="fc" id="L67">        &quot;Available&quot;, &quot;Preparing&quot;, &quot;Charging&quot;, &quot;SuspendedEVSE&quot;, &quot;SuspendedEV&quot;,</span>
+<span class="fc" id="L68">        &quot;Finishing&quot;, &quot;Reserved&quot;, &quot;Unavailable&quot;, &quot;Faulted&quot;</span>
+    )
+
+    // StatusNotification error code valid values
+<span class="fc" id="L72">    val ERROR_CODES = setOf(</span>
+<span class="fc" id="L73">        &quot;ConnectorLockFailure&quot;, &quot;EVCommunicationError&quot;, &quot;GroundFailure&quot;,</span>
+<span class="fc" id="L74">        &quot;HighTemperature&quot;, &quot;InternalError&quot;, &quot;LocalListConflict&quot;, &quot;NoError&quot;,</span>
+<span class="fc" id="L75">        &quot;OtherError&quot;, &quot;OverCurrentFailure&quot;, &quot;OverVoltage&quot;, &quot;PowerMeterFailure&quot;,</span>
+<span class="fc" id="L76">        &quot;PowerSwitchFailure&quot;, &quot;ReaderFailure&quot;, &quot;ResetFailure&quot;, &quot;UnderVoltage&quot;,</span>
+<span class="fc" id="L77">        &quot;WeakSignal&quot;</span>
+    )
+
+    // StopTransaction reason valid values
+<span class="fc" id="L81">    val STOP_REASONS = setOf(</span>
+<span class="fc" id="L82">        &quot;DeAuthorized&quot;, &quot;EmergencyStop&quot;, &quot;EVDisconnected&quot;, &quot;HardReset&quot;,</span>
+<span class="fc" id="L83">        &quot;Local&quot;, &quot;Other&quot;, &quot;PowerLoss&quot;, &quot;Reboot&quot;, &quot;Remote&quot;, &quot;SoftReset&quot;,</span>
+<span class="fc" id="L84">        &quot;UnlockCommand&quot;</span>
+    )
+
+    // ChangeConfiguration standard config keys (OCPP 1.6 Table 8)
+<span class="fc" id="L88">    val CONFIG_KEYS = setOf(</span>
+<span class="fc" id="L89">        &quot;AllowZeroCurrencyRate&quot;,</span>
+<span class="fc" id="L90">        &quot;AuthorizeRemoteTxRequests&quot;,</span>
+<span class="fc" id="L91">        &quot;BlinkRepeat&quot;,</span>
+<span class="fc" id="L92">        &quot;ClockAlignedData&quot;,</span>
+<span class="fc" id="L93">        &quot;ConnectionTimeOut&quot;,</span>
+<span class="fc" id="L94">        &quot;GetConfigurationMaximumKeyLength&quot;,</span>
+<span class="fc" id="L95">        &quot;HeartbeatInterval&quot;,</span>
+<span class="fc" id="L96">        &quot;LightSigningStandard&quot;,</span>
+<span class="fc" id="L97">        &quot;LocalAuthListEnabled&quot;,</span>
+<span class="fc" id="L98">        &quot;LocalAuthListExchange&quot;,</span>
+<span class="fc" id="L99">        &quot;MaxEnergyOnInvalidId&quot;,</span>
+<span class="fc" id="L100">        &quot;MeterValueAlignedData&quot;,</span>
+<span class="fc" id="L101">        &quot;MeterValueSampledData&quot;,</span>
+<span class="fc" id="L102">        &quot;MeterValueSampleInterval&quot;,</span>
+<span class="fc" id="L103">        &quot;MinimumStatusDuration&quot;,</span>
+<span class="fc" id="L104">        &quot;NumberOfConnectors&quot;,</span>
+<span class="fc" id="L105">        &quot;PowerMeterDuration&quot;,</span>
+<span class="fc" id="L106">        &quot;PowerMeterLimit&quot;,</span>
+<span class="fc" id="L107">        &quot;ResetRetries&quot;,</span>
+<span class="fc" id="L108">        &quot;SignatureHeuristicVerification&quot;,</span>
+<span class="fc" id="L109">        &quot;StopTransactionOnEVSideDisconnect&quot;,</span>
+<span class="fc" id="L110">        &quot;StopTransactionOnInvalidId&quot;,</span>
+<span class="fc" id="L111">        &quot;StopTxnAlignedData&quot;,</span>
+<span class="fc" id="L112">        &quot;StopTxnSampledData&quot;,</span>
+<span class="fc" id="L113">        &quot;SupportUnscheduledTransactions&quot;,</span>
+<span class="fc" id="L114">        &quot;TransactionMessageAttempts&quot;,</span>
+<span class="fc" id="L115">        &quot;TransactionMessageRetryInterval&quot;,</span>
+<span class="fc" id="L116">        &quot;UnlockOnEvSideDisconnect&quot;,</span>
+<span class="fc" id="L117">        &quot;WebSocketPingInterval&quot;</span>
+    )
+
+    // SecurityEventNotification type valid values
+<span class="fc" id="L121">    val SECURITY_EVENTS = setOf(</span>
+<span class="fc" id="L122">        &quot;FirmwareUpdated&quot;,</span>
+<span class="fc" id="L123">        &quot;FirmwareVerificationFailed&quot;,</span>
+<span class="fc" id="L124">        &quot;InvalidChargePointCertificate&quot;,</span>
+<span class="fc" id="L125">        &quot;InvalidCentralSystemCertificate&quot;,</span>
+<span class="fc" id="L126">        &quot;InvalidTLSCipherSuite&quot;,</span>
+<span class="fc" id="L127">        &quot;InvalidTLSVersion&quot;,</span>
+<span class="fc" id="L128">        &quot;LocalAccess&quot;,</span>
+<span class="fc" id="L129">        &quot;ResetFailed&quot;,</span>
+<span class="fc" id="L130">        &quot;Reset&quot;,</span>
+<span class="fc" id="L131">        &quot;Tampering&quot;,</span>
+<span class="fc" id="L132">        &quot;TransactionInfoNotStored&quot;,</span>
+<span class="fc" id="L133">        &quot;InvalidFirmwareSigningCertificate&quot;,</span>
+<span class="fc" id="L134">        &quot;InvalidFirmwareSignature&quot;,</span>
+<span class="fc" id="L135">        &quot;DiscardedRenewedClientCertificate&quot;,</span>
+<span class="fc" id="L136">        &quot;UnauthorizedAccess&quot;</span>
+    )
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>MetricsService.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.metrics</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import io.micrometer.core.instrument.Counter</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import io.micrometer.core.instrument.Gauge</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import io.micrometer.core.instrument.MeterRegistry</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import io.micrometer.core.instrument.Timer</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import io.micrometer.core.instrument.simple.SimpleMeterRegistry</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.annotation.PostConstruct</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.enterprise.context.ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.concurrent.atomic.AtomicInteger</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>open class MetricsService {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Inject</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    var injectedMeterRegistry: MeterRegistry? = null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private val meterRegistry: MeterRegistry</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_20'/>
+20
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_20'>4</a>
+<span>
+1. getMeterRegistry : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. getMeterRegistry : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. getMeterRegistry : negated conditional &rarr; KILLED<br/>
+4. getMeterRegistry : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getInjectedMeterRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        get() = injectedMeterRegistry ?: SimpleMeterRegistry()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val connectionCount = AtomicInteger(0)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val activeTransactionCount = AtomicInteger(0)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_25'/>
+25
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_25'>2</a>
+<span>
+1. &#60;init&#62; : removed call to kotlin/LazyKt::lazy &rarr; KILLED<br/>
+2. getTransactionsStarted : removed call to kotlin/Lazy::getValue &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val transactionsStarted: Counter by lazy {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_26'/>
+26
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_26'>1</a>
+<span>
+1. transactionsStarted_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Counter.builder(&#34;ocpp.transactions.started&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_27'/>
+27
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_27'>1</a>
+<span>
+1. transactionsStarted_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(&#34;Total number of charging transactions started&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_28'/>
+28
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_28'>1</a>
+<span>
+1. transactionsStarted_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .tag(&#34;version&#34;, &#34;1.6&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_29'/>
+29
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_29'>2</a>
+<span>
+1. transactionsStarted_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED<br/>
+2. transactionsStarted_delegate$lambda$0 : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .register(meterRegistry)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_32'/>
+32
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_32'>2</a>
+<span>
+1. &#60;init&#62; : removed call to kotlin/LazyKt::lazy &rarr; KILLED<br/>
+2. getTransactionsStopped : removed call to kotlin/Lazy::getValue &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val transactionsStopped: Counter by lazy {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_33'/>
+33
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_33'>1</a>
+<span>
+1. transactionsStopped_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Counter.builder(&#34;ocpp.transactions.stopped&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_34'>1</a>
+<span>
+1. transactionsStopped_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(&#34;Total number of charging transactions stopped&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_35'/>
+35
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_35'>1</a>
+<span>
+1. transactionsStopped_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .tag(&#34;version&#34;, &#34;1.6&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_36'>2</a>
+<span>
+1. transactionsStopped_delegate$lambda$0 : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED<br/>
+2. transactionsStopped_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .register(meterRegistry)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_39'/>
+39
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_39'>2</a>
+<span>
+1. getEnergyDeliveredWh : removed call to kotlin/Lazy::getValue &rarr; KILLED<br/>
+2. &#60;init&#62; : removed call to kotlin/LazyKt::lazy &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    open val energyDeliveredWh: Counter? by lazy {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_40'/>
+40
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_40'>1</a>
+<span>
+1. energyDeliveredWh_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Counter.builder(&#34;ocpp.energy.delivered.wh&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_41'/>
+41
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_41'>1</a>
+<span>
+1. energyDeliveredWh_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(&#34;Total energy delivered in watt-hours&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_42'/>
+42
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_42'>1</a>
+<span>
+1. energyDeliveredWh_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .tag(&#34;version&#34;, &#34;1.6&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_43'/>
+43
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_43'>2</a>
+<span>
+1. energyDeliveredWh_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED<br/>
+2. energyDeliveredWh_delegate$lambda$0 : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .register(meterRegistry)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_46'/>
+46
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_46'>2</a>
+<span>
+1. &#60;init&#62; : removed call to kotlin/LazyKt::lazy &rarr; TIMED_OUT<br/>
+2. getMessagesReceived : removed call to kotlin/Lazy::getValue &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>    val messagesReceived: Counter by lazy {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_47'/>
+47
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_47'>1</a>
+<span>
+1. messagesReceived_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Counter.builder(&#34;ocpp.messages.received&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_48'/>
+48
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_48'>1</a>
+<span>
+1. messagesReceived_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(&#34;Total OCPP messages received from charge points&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_49'/>
+49
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_49'>1</a>
+<span>
+1. messagesReceived_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .tag(&#34;version&#34;, &#34;1.6&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_50'/>
+50
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_50'>2</a>
+<span>
+1. messagesReceived_delegate$lambda$0 : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED<br/>
+2. messagesReceived_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .register(meterRegistry)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_53'/>
+53
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_53'>2</a>
+<span>
+1. &#60;init&#62; : removed call to kotlin/LazyKt::lazy &rarr; TIMED_OUT<br/>
+2. getMessagesSent : removed call to kotlin/Lazy::getValue &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>    val messagesSent: Counter by lazy {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_54'>1</a>
+<span>
+1. messagesSent_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Counter.builder(&#34;ocpp.messages.sent&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_55'>1</a>
+<span>
+1. messagesSent_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(&#34;Total OCPP messages sent to charge points&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_56'/>
+56
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_56'>1</a>
+<span>
+1. messagesSent_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .tag(&#34;version&#34;, &#34;1.6&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_57'/>
+57
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_57'>2</a>
+<span>
+1. messagesSent_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED<br/>
+2. messagesSent_delegate$lambda$0 : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .register(meterRegistry)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_60'/>
+60
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_60'>2</a>
+<span>
+1. getSecurityEventsReceived : removed call to kotlin/Lazy::getValue &rarr; KILLED<br/>
+2. &#60;init&#62; : removed call to kotlin/LazyKt::lazy &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val securityEventsReceived: Counter by lazy {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_61'/>
+61
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_61'>1</a>
+<span>
+1. securityEventsReceived_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Counter.builder(&#34;ocpp.security.events.received&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_62'/>
+62
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_62'>1</a>
+<span>
+1. securityEventsReceived_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(&#34;Total security events received from charge points&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_63'/>
+63
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_63'>1</a>
+<span>
+1. securityEventsReceived_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .tag(&#34;version&#34;, &#34;1.6&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_64'/>
+64
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_64'>2</a>
+<span>
+1. securityEventsReceived_delegate$lambda$0 : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED<br/>
+2. securityEventsReceived_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .register(meterRegistry)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_67'/>
+67
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_67'>2</a>
+<span>
+1. getTransactionDuration : removed call to kotlin/Lazy::getValue &rarr; KILLED<br/>
+2. &#60;init&#62; : removed call to kotlin/LazyKt::lazy &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    open val transactionDuration: Timer? by lazy {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_68'/>
+68
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_68'>1</a>
+<span>
+1. transactionDuration_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Timer::builder &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Timer.builder(&#34;ocpp.transaction.duration.seconds&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_69'/>
+69
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_69'>1</a>
+<span>
+1. transactionDuration_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Timer$Builder::description &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(&#34;Duration of charging transactions&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_70'/>
+70
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_70'>1</a>
+<span>
+1. transactionDuration_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Timer$Builder::tag &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .tag(&#34;version&#34;, &#34;1.6&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_71'/>
+71
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_71'>2</a>
+<span>
+1. transactionDuration_delegate$lambda$0 : removed call to io/micrometer/core/instrument/Timer$Builder::register &rarr; KILLED<br/>
+2. transactionDuration_delegate$lambda$0 : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .register(meterRegistry)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_73'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @PostConstruct</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun initGauges() {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_76'/>
+76
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_76'>3</a>
+<span>
+1. initGauges : removed call to io/micrometer/core/instrument/Gauge::builder &rarr; KILLED<br/>
+2. initGauges$getConnectionCount : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getConnectionCount$ocpp16_ws_backend &rarr; KILLED<br/>
+3. initGauges$getConnectionCount : replaced long return with 0 for org/tekeli/borisp/ocpp16/metrics/MetricsService::initGauges$getConnectionCount &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Gauge.builder(&#34;ocpp.charge.points.connected&#34;, ::getConnectionCount)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_77'/>
+77
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_77'>1</a>
+<span>
+1. initGauges : removed call to io/micrometer/core/instrument/Gauge$Builder::description &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(&#34;Number of currently connected charge points&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_78'/>
+78
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_78'>2</a>
+<span>
+1. initGauges : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED<br/>
+2. initGauges : removed call to io/micrometer/core/instrument/Gauge$Builder::register &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .register(meterRegistry)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_79'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_80'/>
+80
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_80'>3</a>
+<span>
+1. initGauges : removed call to io/micrometer/core/instrument/Gauge::builder &rarr; KILLED<br/>
+2. initGauges$getActiveTransactionCount : replaced long return with 0 for org/tekeli/borisp/ocpp16/metrics/MetricsService::initGauges$getActiveTransactionCount &rarr; KILLED<br/>
+3. initGauges$getActiveTransactionCount : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getActiveTransactionCount$ocpp16_ws_backend &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Gauge.builder(&#34;ocpp.transactions.active&#34;, ::getActiveTransactionCount)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_81'/>
+81
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_81'>1</a>
+<span>
+1. initGauges : removed call to io/micrometer/core/instrument/Gauge$Builder::description &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(&#34;Number of currently active charging transactions&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_82'/>
+82
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_82'>2</a>
+<span>
+1. initGauges : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED<br/>
+2. initGauges : removed call to io/micrometer/core/instrument/Gauge$Builder::register &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .register(meterRegistry)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_84'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun onChargePointConnected() {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_86'/>
+86
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_86'>1</a>
+<span>
+1. onChargePointConnected : removed call to java/util/concurrent/atomic/AtomicInteger::incrementAndGet &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        connectionCount.incrementAndGet()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_87'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_89'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun onChargePointDisconnected() {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_90'/>
+90
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_90'>1</a>
+<span>
+1. onChargePointDisconnected : removed call to java/util/concurrent/atomic/AtomicInteger::decrementAndGet &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        connectionCount.decrementAndGet()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_91'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_92'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_93'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun onTransactionStarted() {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_94'/>
+94
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_94'>1</a>
+<span>
+1. onTransactionStarted : removed call to java/util/concurrent/atomic/AtomicInteger::incrementAndGet &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        activeTransactionCount.incrementAndGet()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_95'/>
+95
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_95'>1</a>
+<span>
+1. onTransactionStarted : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getTransactionsStarted &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        transactionsStarted.increment()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_96'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_98'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun onTransactionStopped() {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_99'/>
+99
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_99'>1</a>
+<span>
+1. onTransactionStopped : removed call to java/util/concurrent/atomic/AtomicInteger::decrementAndGet &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        activeTransactionCount.decrementAndGet()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_100'/>
+100
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_100'>1</a>
+<span>
+1. onTransactionStopped : removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getTransactionsStopped &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        transactionsStopped.increment()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_101'/>
+101
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_101'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_102'/>
+102
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_102'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_103'/>
+103
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_103'>2</a>
+<span>
+1. getConnectionCount$ocpp16_ws_backend : replaced long return with 0 for org/tekeli/borisp/ocpp16/metrics/MetricsService::getConnectionCount$ocpp16_ws_backend &rarr; KILLED<br/>
+2. getConnectionCount$ocpp16_ws_backend : removed call to java/util/concurrent/atomic/AtomicInteger::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    internal fun getConnectionCount(): Long = connectionCount.get().toLong()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_104'/>
+104
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_104'>2</a>
+<span>
+1. getActiveTransactionCount$ocpp16_ws_backend : removed call to java/util/concurrent/atomic/AtomicInteger::get &rarr; KILLED<br/>
+2. getActiveTransactionCount$ocpp16_ws_backend : replaced long return with 0 for org/tekeli/borisp/ocpp16/metrics/MetricsService::getActiveTransactionCount$ocpp16_ws_backend &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    internal fun getActiveTransactionCount(): Long = activeTransactionCount.get().toLong()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@298f79fe_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_105'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_20'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMeterRegistry<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:recordMetrics with null counter and timer properties does not throw()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getMeterRegistry<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getMeterRegistry<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:recordMetrics with null counter and timer properties does not throw()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>getMeterRegistry<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getInjectedMeterRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_25'>25</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_25'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to kotlin/LazyKt::lazy &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getTransactionsStarted<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to kotlin/Lazy::getValue &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_26'>26</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_26'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionsStarted_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_27'>27</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_27'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionsStarted_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_28'>28</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_28'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionsStarted_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_29'>29</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_29'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionsStarted_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>transactionsStarted_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_32'>32</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_32'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()]</span></span> removed call to kotlin/LazyKt::lazy &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getTransactionsStopped<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()]</span></span> removed call to kotlin/Lazy::getValue &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_33'>33</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_33'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionsStopped_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()]</span></span> removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionsStopped_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionsStopped_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionsStopped_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>transactionsStopped_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_39'>39</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_39'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getEnergyDeliveredWh<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics energy counter reflects exact energy value()]</span></span> removed call to kotlin/Lazy::getValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics with zero energy and duration still records()]</span></span> removed call to kotlin/LazyKt::lazy &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_40'>40</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_40'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>energyDeliveredWh_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_41'>41</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_41'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>energyDeliveredWh_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_42'>42</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_42'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>energyDeliveredWh_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_43'>43</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_43'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>energyDeliveredWh_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics energy counter reflects exact energy value()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>energyDeliveredWh_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_46'>46</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_46'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMessagesReceived<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:metricsService messagesReceived increments on CALL message()]</span></span> removed call to kotlin/Lazy::getValue &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> removed call to kotlin/LazyKt::lazy &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_47'>47</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_47'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>messagesReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:metricsService messagesReceived increments on CALL message()]</span></span> removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_48'>48</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_48'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>messagesReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:metricsService messagesReceived increments on CALL message()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_49'>49</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_49'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>messagesReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:metricsService messagesReceived increments on CALL message()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_50'>50</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_50'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>messagesReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:metricsService messagesReceived increments on CALL message()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>messagesReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:metricsService messagesReceived increments on CALL message()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_53'>53</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_53'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> removed call to kotlin/LazyKt::lazy &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getMessagesSent<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:sendCall increments messagesSent metric when metricsService is set()]</span></span> removed call to kotlin/Lazy::getValue &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>messagesSent_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:sendCall increments messagesSent metric when metricsService is set()]</span></span> removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>messagesSent_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:sendCall increments messagesSent metric when metricsService is set()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_56'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>messagesSent_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:sendCall increments messagesSent metric when metricsService is set()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_57'>57</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_57'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>messagesSent_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:sendCall increments messagesSent metric when metricsService is set()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>messagesSent_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:sendCall increments messagesSent metric when metricsService is set()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_60'>60</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_60'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getSecurityEventsReceived<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()]</span></span> removed call to kotlin/Lazy::getValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()]</span></span> removed call to kotlin/LazyKt::lazy &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_61'>61</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_61'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>securityEventsReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()]</span></span> removed call to io/micrometer/core/instrument/Counter::builder &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_62'>62</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_62'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>securityEventsReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::description &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_63'>63</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_63'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>securityEventsReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::tag &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_64'>64</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_64'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>securityEventsReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>securityEventsReceived_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()]</span></span> removed call to io/micrometer/core/instrument/Counter$Builder::register &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_67'>67</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_67'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getTransactionDuration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to kotlin/Lazy::getValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics with zero energy and duration still records()]</span></span> removed call to kotlin/LazyKt::lazy &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_68'>68</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_68'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionDuration_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to io/micrometer/core/instrument/Timer::builder &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_69'>69</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_69'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionDuration_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to io/micrometer/core/instrument/Timer$Builder::description &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_70'>70</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_70'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionDuration_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to io/micrometer/core/instrument/Timer$Builder::tag &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_71'>71</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_71'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>transactionDuration_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to io/micrometer/core/instrument/Timer$Builder::register &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>transactionDuration_delegate$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_76'>76</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_76'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>initGauges<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should start with zero active transaction count()]</span></span> removed call to io/micrometer/core/instrument/Gauge::builder &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>initGauges$getConnectionCount<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:register increments metrics when metricsService is set()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getConnectionCount$ocpp16_ws_backend &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>initGauges$getConnectionCount<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:register increments metrics when metricsService is set()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/metrics/MetricsService::initGauges$getConnectionCount &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_77'>77</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_77'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>initGauges<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should start with zero active transaction count()]</span></span> removed call to io/micrometer/core/instrument/Gauge$Builder::description &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_78'>78</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_78'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>initGauges<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should start with zero active transaction count()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>initGauges<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:register increments metrics when metricsService is set()]</span></span> removed call to io/micrometer/core/instrument/Gauge$Builder::register &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_80'>80</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_80'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>initGauges<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should start with zero active transaction count()]</span></span> removed call to io/micrometer/core/instrument/Gauge::builder &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>initGauges$getActiveTransactionCount<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics transactionsStopped counter increments()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/metrics/MetricsService::initGauges$getActiveTransactionCount &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>initGauges$getActiveTransactionCount<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics transactionsStopped counter increments()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getActiveTransactionCount$ocpp16_ws_backend &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_81'>81</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_81'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>initGauges<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should start with zero active transaction count()]</span></span> removed call to io/micrometer/core/instrument/Gauge$Builder::description &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_82'>82</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_82'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>initGauges<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should start with zero active transaction count()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getMeterRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>initGauges<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics calls onTransactionStopped()]</span></span> removed call to io/micrometer/core/instrument/Gauge$Builder::register &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_86'>86</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_86'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>onChargePointConnected<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment connection count on connect()]</span></span> removed call to java/util/concurrent/atomic/AtomicInteger::incrementAndGet &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_90'>90</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_90'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>onChargePointDisconnected<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement connection count on disconnect()]</span></span> removed call to java/util/concurrent/atomic/AtomicInteger::decrementAndGet &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_94'>94</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_94'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>onTransactionStarted<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to java/util/concurrent/atomic/AtomicInteger::incrementAndGet &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_95'>95</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_95'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>onTransactionStarted<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getTransactionsStarted &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_99'>99</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_99'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>onTransactionStopped<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()]</span></span> removed call to java/util/concurrent/atomic/AtomicInteger::decrementAndGet &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_100'>100</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_100'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>onTransactionStopped<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()]</span></span> removed call to org/tekeli/borisp/ocpp16/metrics/MetricsService::getTransactionsStopped &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_103'>103</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_103'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getConnectionCount$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should track multiple connections()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/metrics/MetricsService::getConnectionCount$ocpp16_ws_backend &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getConnectionCount$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should track multiple connections()]</span></span> removed call to java/util/concurrent/atomic/AtomicInteger::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@298f79fe_104'>104</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@298f79fe_104'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getActiveTransactionCount$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> removed call to java/util/concurrent/atomic/AtomicInteger::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getActiveTransactionCount$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/metrics/MetricsService::getActiveTransactionCount$ocpp16_ws_backend &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should start with zero connection count()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should track multiple connections()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment connection count on connect()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement connection count on disconnect()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement below zero for connection count()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under concurrent access()]/[test-template-invocation:#5] (1 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under concurrent access()]/[test-template-invocation:#4] (1 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under mixed connect and disconnect()]/[test-template-invocation:#4] (1 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under mixed connect and disconnect()]/[test-template-invocation:#5] (1 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under concurrent access()]/[test-template-invocation:#2] (3 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under mixed connect and disconnect()]/[test-template-invocation:#3] (2 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under concurrent access()]/[test-template-invocation:#3] (4 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under concurrent access()]/[test-template-invocation:#1] (4 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under mixed connect and disconnect()]/[test-template-invocation:#2] (3 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:connection count must be accurate under mixed connect and disconnect()]/[test-template-invocation:#1] (3 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:counts must be accurate under full concurrent load()]/[test-template-invocation:#4] (3 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:counts must be accurate under full concurrent load()]/[test-template-invocation:#5] (3 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:counts must be accurate under full concurrent load()]/[test-template-invocation:#2] (3 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:counts must be accurate under full concurrent load()]/[test-template-invocation:#3] (3 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:counts must be accurate under full concurrent load()]/[test-template-invocation:#1] (4 ms)</li><li>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:register increments metrics when metricsService is set()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:unregister decrements metrics when metricsService is set()] (4 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should increment transaction count on start()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement transaction count on stop()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:transaction count must be accurate under concurrent start and stop()]/[test-template-invocation:#3] (3 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:transaction count must be accurate under concurrent start and stop()]/[test-template-invocation:#2] (4 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:transaction count must be accurate under concurrent start and stop()]/[test-template-invocation:#5] (4 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:transaction count must be accurate under concurrent start and stop()]/[test-template-invocation:#1] (7 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[test-template:transaction count must be accurate under concurrent start and stop()]/[test-template-invocation:#4] (9 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics transactionsStopped counter increments()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle calls metricsService onTransactionStarted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle delegates correct params to createTransaction()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should full flow boot heartbeat start stop transaction()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should start with zero active transaction count()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement below zero for transaction count()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:openConnections is settable and readable()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:recordMetrics with null counter and timer properties does not throw()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:processSecurityEvent increments metrics when metricsService set()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onTextMessage with no session context returns ProtocolError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics records transactionDuration without error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics increments energyDeliveredWh correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics with zero energy and duration still records()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics timer records duration value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics energy counter reflects exact energy value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onClose with no session context returns early()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onPongMessage with no session context does not call pingPongManager()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerMetricsTest]/[method:recordMetrics calls onTransactionStopped()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:recordMetrics energy and duration are recorded with exact values()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onPongMessage with session but no pingPongManager does not crash()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:processStopTransaction calculates exact duration from timestamps()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:processStopTransaction with transaction not found uses defaults()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:processStopTransaction with null transaction calculates duration as zero()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:processStopTransaction calculates exact energy with non-zero meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onClose with no ping pong manager works correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onClose rejects awaiter()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onPongMessage with valid session calls pongReceived()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onClose with ping pong manager stops it()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onClose no-arg handles setChargePointOffline failure gracefully()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onClose no-arg uses activeConnection id()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onClose no-arg stops pingPongManager()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:metricsService messagesReceived increments on CALL message()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:OcppWebSocketServer onTextMessage increments messagesReceived()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:metricsService messagesReceived increments on BootNotification CALL()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:OcppWebSocketServer StartTransaction handler uses metricsService()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onTextMessage with valid session returns handler response()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest]/[method:should reject connection without subprotocol()] (8 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onTextMessage handles touchLastSeenAt failure gracefully()] (5 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:OcppWebSocketServer StopTransaction handler uses metricsService()] (8 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onPongMessage with no ping pong manager does nothing()] (59 ms)</li><li>org.tekeli.borisp.ocpp16.ChargePointRegistryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.ChargePointRegistryTest]/[method:sendCall increments messagesSent metric when metricsService is set()] (76 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should report online when chargePointId is registered even with different sessionId()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceOnlineCheckTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceOnlineCheckTest]/[method:getAll must not report stale ONLINE charge points as online()] (93 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForCallResultFromChargePoint()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StopTransaction for non-existent transaction()] (77 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerConfigTest]/[method:pong timeout default is 720 seconds()] (317 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for LogStatusNotification with null payload()] (775 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest]/[method:should close connection when client does not respond to ping()] (5008 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid StopTransaction()] (27 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForUnknownAction()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StopTransaction with null payload()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SignedFirmwareStatusNotification()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithMissingRequiredFields()] (12 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid DataTransfer()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignCertificate with empty CSR()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for DataTransfer with null payload()] (12 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid DiagnosticsStatusNotification()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SecurityEventNotification with null payload()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithEmptyModel()] (12 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StartTransaction with null payload()] (14 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SignCertificate()] (18 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid FirmwareStatusNotification()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for MeterValues with null payload()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignCertificate with null payload()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithNullPayload()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallResultForValidHeartbeat()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid Authorize request()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignedFirmwareStatusNotification with null payload()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StatusNotification with invalid errorCode()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for Authorize with missing idTag()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithEmptyVendor()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for CertificateSigned with null payload()] (21 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StartTransaction with missing idTag()] (21 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SecurityEventNotification missing type()] (25 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for Authorize with null payload()] (25 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid LogStatusNotification()] (28 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for MeterValues missing connectorId()] (29 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid CertificateSigned()] (30 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for StopTransaction with missing reason (optional per spec)()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SecurityEventNotification()] (22 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid StatusNotification()] (26 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallResultForValidBootNotification()] (24 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid MeterValues()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StatusNotification with null payload()] (36 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StartTransaction with invalid connectorId()] (36 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted with transactionId for valid StartTransaction()] (68 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearCache command round trip()] (40 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStartTransaction command round trip()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getConfiguration command round trip()] (53 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getCompositeSchedule command round trip()] (45 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute extendedTriggerMessage command round trip()] (47 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reset command round trip()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStopTransaction command round trip()] (62 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute cancelReservation command round trip()] (52 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reserveNow command round trip()] (51 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getInstalledCertificateIds command round trip()] (56 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLocalListVersion command round trip()] (63 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute installCertificate command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearChargingProfile command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should auto-generate diagnostics location when empty payload()] (49 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should return rejected status when chargePoint rejects command()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getDiagnostics command round trip()] (61 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute setChargingProfile command round trip()] (63 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute updateFirmware command round trip()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeAvailability command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute triggerMessage command round trip()] (68 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute sendLocalList command round trip()] (72 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute deleteCertificate command round trip()] (73 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute signedUpdateFirmware command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute unlockConnector command round trip()] (76 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeConfiguration command round trip()] (94 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should persist chargePoint on BootNotification()] (1023 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMutationTest]/[method:onClose no-arg with unknown connection does not throw()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTextMessageCancelsPongTimeoutTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTextMessageCancelsPongTimeoutTest]/[method:incoming text message must cancel pong timeout so connection is not closed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerPongTimeoutTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerPongTimeoutTest]/[method:pong timeout must close connection and set charge point offline when no pong received()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should return 404 for non-existent chargePoint()] (12 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should return 404 when disconnecting non-existent chargePoint()] (14 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should return 400 for invalid status()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should report offline when DB says online but chargePointId not in registry()] (23 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should return 404 when disconnecting offline chargePoint()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForInvalidJsonFormat()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForInvalidMessageTypeNegative()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForInvalidMessageTypeZero()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForCallErrorFromChargePoint()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should return all chargePoints()] (43 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should disconnect single chargePoint()] (47 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should return single chargePoint by id()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should return chargePoint details()] (59 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should disconnect all chargePoints()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest]/[method:should negotiate correct subprotocol()] (5 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should return only online chargePoints()] (38 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest]/[method:should keep connection alive beyond ping interval()] (35004 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

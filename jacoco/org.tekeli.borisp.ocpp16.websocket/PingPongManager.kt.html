@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PingPongManager.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.websocket</a> &gt; <span class="el_source">PingPongManager.kt</span></div><h1>PingPongManager.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.websocket
+
+import io.vertx.core.buffer.Buffer
+import java.util.concurrent.Delayed
+import java.util.concurrent.TimeUnit
+
+interface Scheduler {
+
+    fun &lt;V : Any?&gt; schedule(
+        runnable: Runnable,
+        delay: Long,
+        unit: TimeUnit
+    ): java.util.concurrent.ScheduledFuture&lt;V&gt;
+}
+
+<span class="fc" id="L16">class VertxScheduler(</span>
+<span class="fc" id="L17">    private val vertx: io.vertx.core.Vertx</span>
+) : Scheduler {
+
+    override fun &lt;V : Any?&gt; schedule(
+        runnable: Runnable,
+        delay: Long,
+        unit: TimeUnit
+    ): java.util.concurrent.ScheduledFuture&lt;V&gt; {
+<span class="fc" id="L25">        val timerId = vertx.setTimer(unit.toMillis(delay)) { runnable.run() }</span>
+<span class="fc" id="L26">        return VertxScheduledFuture&lt;V&gt;(timerId, vertx)</span>
+    }
+}
+
+<span class="fc" id="L30">class VertxScheduledFuture&lt;V : Any?&gt;(</span>
+<span class="fc" id="L31">    private val timerId: Long,</span>
+<span class="fc" id="L32">    private val vertx: io.vertx.core.Vertx</span>
+) : java.util.concurrent.ScheduledFuture&lt;V&gt; {
+    private var cancelled = false
+
+<span class="fc" id="L36">    fun timerId(): Long = timerId</span>
+
+    override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (cancelled) return false</span>
+<span class="fc" id="L40">        cancelled = true</span>
+<span class="fc" id="L41">        vertx.cancelTimer(timerId)</span>
+<span class="fc" id="L42">        return true</span>
+    }
+
+<span class="fc" id="L45">    override fun isCancelled(): Boolean = cancelled</span>
+<span class="fc" id="L46">    override fun isDone(): Boolean = cancelled</span>
+<span class="fc" id="L47">    override fun get(): V = throw java.util.concurrent.CancellationException(&quot;VertxScheduledFuture.get() not supported&quot;)</span>
+<span class="fc" id="L48">    override fun get(timeout: Long, unit: TimeUnit?): V = throw java.util.concurrent.CancellationException(&quot;VertxScheduledFuture.get() not supported&quot;)</span>
+<span class="fc" id="L49">    override fun getDelay(unit: TimeUnit?): Long = 0</span>
+<span class="fc" id="L50">    override fun compareTo(other: Delayed?): Int = 0</span>
+}
+
+interface PingPongTarget {
+
+    fun sendPing(buffer: Buffer): io.smallrye.mutiny.Uni&lt;Void&gt;
+
+    fun closeConnection(reason: String): io.smallrye.mutiny.Uni&lt;Void&gt;
+
+    fun setChargePointOffline(sessionId: String)
+
+    fun unregisterFromRegistry(sessionId: String)
+
+    fun isConnected(sessionId: String): Boolean
+
+    fun rejectAwaiter(message: String)
+
+    fun executeAsync(runnable: Runnable)
+}
+
+<span class="fc" id="L70">class PingPongManager(</span>
+<span class="fc" id="L71">    private val target: PingPongTarget,</span>
+<span class="fc" id="L72">    private val sessionId: String,</span>
+<span class="fc" id="L73">    private val pingInterval: Long,</span>
+<span class="fc" id="L74">    private val pongTimeout: Long,</span>
+<span class="fc" id="L75">    private val scheduler: Scheduler</span>
+) {
+
+    val isPinging: Boolean
+<span class="fc" id="L79">        get() = isPingingFlag.get()</span>
+
+<span class="fc" id="L81">    private val isPingingFlag = java.util.concurrent.atomic.AtomicBoolean(false)</span>
+    private var pingFuture: java.util.concurrent.ScheduledFuture&lt;*&gt;? = null
+    private var pongTimeoutFuture: java.util.concurrent.ScheduledFuture&lt;*&gt;? = null
+
+    fun start() {
+<span class="fc" id="L86">        stop()</span>
+<span class="fc" id="L87">        schedulePing()</span>
+<span class="fc" id="L88">    }</span>
+
+    fun stop() {
+<span class="fc" id="L91">        cancelPing()</span>
+<span class="fc" id="L92">        cancelPongTimeout()</span>
+<span class="fc" id="L93">        isPingingFlag.set(false)</span>
+<span class="fc" id="L94">    }</span>
+
+    private fun schedulePing() {
+<span class="fc" id="L97">        cancelPing()</span>
+<span class="fc" id="L98">        pingFuture = scheduler.schedule&lt;Unit&gt;({</span>
+<span class="fc" id="L99">            sendPingAndScheduleTimeout()</span>
+<span class="fc" id="L100">        }, pingInterval, TimeUnit.SECONDS)</span>
+<span class="fc" id="L101">    }</span>
+
+    private fun cancelPing() {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        pingFuture?.cancel(false)</span>
+<span class="fc" id="L105">        pingFuture = null</span>
+<span class="fc" id="L106">    }</span>
+
+    fun pongReceived() {
+<span class="fc" id="L109">        cancelPongTimeout()</span>
+<span class="fc" id="L110">        isPingingFlag.set(false)</span>
+<span class="fc" id="L111">        schedulePing()</span>
+<span class="fc" id="L112">    }</span>
+
+    fun messageReceived() {
+<span class="fc" id="L115">        cancelPongTimeout()</span>
+<span class="fc" id="L116">        isPingingFlag.set(false)</span>
+<span class="fc" id="L117">        schedulePing()</span>
+<span class="fc" id="L118">    }</span>
+
+    private fun sendPingAndScheduleTimeout() {
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (!isPingingFlag.compareAndSet(false, true)) return</span>
+
+<span class="fc" id="L123">        try {</span>
+<span class="fc" id="L124">            schedulePongTimeout()</span>
+<span class="fc" id="L125">        } catch (e: Exception) {</span>
+<span class="fc" id="L126">            cancelPongTimeout()</span>
+<span class="fc" id="L127">            isPingingFlag.set(false)</span>
+<span class="fc" id="L128">            return</span>
+        }
+
+<span class="fc" id="L131">        target.sendPing(Buffer.buffer())</span>
+<span class="fc" id="L132">            .subscribe()</span>
+<span class="fc" id="L133">            .asCompletionStage()</span>
+<span class="fc" id="L134">            .whenComplete { _, error -&gt;</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">                if (error != null) {</span>
+<span class="fc" id="L136">                    target.executeAsync {</span>
+<span class="fc" id="L137">                        cancelPongTimeout()</span>
+<span class="fc" id="L138">                        isPingingFlag.set(false)</span>
+<span class="fc" id="L139">                        try {</span>
+<span class="fc" id="L140">                            target.closeConnection(&quot;Ping failed&quot;)</span>
+<span class="fc" id="L141">                        } catch (_: Exception) {}</span>
+<span class="fc" id="L142">                    }</span>
+                }
+<span class="fc" id="L144">            }</span>
+<span class="fc" id="L145">    }</span>
+
+    private fun schedulePongTimeout() {
+<span class="fc" id="L148">        pongTimeoutFuture = scheduler.schedule&lt;Unit&gt;({</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">            if (isPingingFlag.compareAndSet(true, false)) {</span>
+<span class="fc" id="L150">                handlePongTimeout()</span>
+            }
+<span class="fc" id="L152">        }, pongTimeout, TimeUnit.SECONDS)</span>
+<span class="fc" id="L153">    }</span>
+
+    private fun cancelPongTimeout() {
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        pongTimeoutFuture?.cancel(false)</span>
+<span class="fc" id="L157">        pongTimeoutFuture = null</span>
+<span class="fc" id="L158">    }</span>
+
+    private fun handlePongTimeout() {
+<span class="fc" id="L161">        target.executeAsync {</span>
+<span class="fc" id="L162">            try {</span>
+<span class="fc" id="L163">                target.closeConnection(&quot;Pong timeout&quot;)</span>
+<span class="fc" id="L164">                    .subscribe()</span>
+<span class="fc" id="L165">                    .asCompletionStage()</span>
+<span class="fc" id="L166">            } catch (_: Exception) {}</span>
+<span class="fc" id="L167">            try {</span>
+<span class="fc" id="L168">                target.setChargePointOffline(sessionId)</span>
+<span class="fc" id="L169">            } catch (_: Exception) {}</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">            if (target.isConnected(sessionId)) {</span>
+<span class="fc" id="L171">                target.unregisterFromRegistry(sessionId)</span>
+<span class="fc" id="L172">                target.rejectAwaiter(&quot;WebSocket connection closed: pong timeout $sessionId&quot;)</span>
+            }
+<span class="fc" id="L174">        }</span>
+<span class="fc" id="L175">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

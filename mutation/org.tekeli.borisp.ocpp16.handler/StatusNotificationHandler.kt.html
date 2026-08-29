@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>StatusNotificationHandler.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.handler</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.OcppConstants</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.FormationViolationException</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.OcppMessage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.callResult</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class StatusNotificationHandler : OcppActionHandler {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_10'/>
+10
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_10'>4</a>
+<span>
+1. handle : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. handle : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. handle : negated conditional &rarr; KILLED<br/>
+4. handle : removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessage$Call::getPayload &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val payload = call.payload ?: throw FormationViolationException(&#34;Payload is null&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validatePayload(payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_13'/>
+13
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_13'>2</a>
+<span>
+1. handle : removed call to java/lang/Number::intValue &rarr; TIMED_OUT<br/>
+2. handle : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        val connectorId = (payload[&#34;connectorId&#34;] as Number).toInt()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_14'/>
+14
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_14'>1</a>
+<span>
+1. handle : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val status = payload[&#34;status&#34;] as String</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_15'/>
+15
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_15'>1</a>
+<span>
+1. handle : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val errorCode = payload[&#34;errorCode&#34;] as String</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_16'/>
+16
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_16'>5</a>
+<span>
+1. handle : removed conditional - replaced equality check with false &rarr; TIMED_OUT<br/>
+2. handle : removed call to java/util/Map::get &rarr; TIMED_OUT<br/>
+3. handle : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+4. handle : negated conditional &rarr; KILLED<br/>
+5. handle : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        val info = payload[&#34;info&#34;]?.toString()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_18'/>
+18
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_18'>4</a>
+<span>
+1. handle : removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getPersistenceService &rarr; TIMED_OUT<br/>
+2. handle : removed conditional - replaced equality check with false &rarr; TIMED_OUT<br/>
+3. handle : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. handle : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        context.persistenceService?.updateConnectorStatus(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_19'/>
+19
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_19'>1</a>
+<span>
+1. handle : removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getChargePointId &rarr; TIMED_OUT<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>            chargePointId = context.chargePointId,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            connectorId = connectorId,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            status = status,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            errorCode = errorCode,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            info = info</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_26'/>
+26
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_26'>2</a>
+<span>
+1. handle : removed call to org/tekeli/borisp/ocpp16/protocol/OcppResponseExtensionsKt::callResult$default &rarr; KILLED<br/>
+2. handle : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/StatusNotificationHandler::handle &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return call.callResult()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validatePayload(payload: Map&#60;String, Any&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateTopLevelFields(payload)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateInfoField(payload)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateTopLevelFields(payload: Map&#60;String, Any&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateConnectorId(payload)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateErrorCode(payload)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateStatus(payload)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateConnectorId(payload: Map&#60;String, Any&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_41'/>
+41
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_41'>1</a>
+<span>
+1. validateConnectorId : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt$default &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        payload.requiredInt(&#34;connectorId&#34;, min = 0)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateErrorCode(payload: Map&#60;String, Any&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_45'>2</a>
+<span>
+1. validateErrorCode : removed call to org/tekeli/borisp/ocpp16/OcppConstants::getERROR_CODES &rarr; KILLED<br/>
+2. validateErrorCode : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredStringIn &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        payload.requiredStringIn(&#34;errorCode&#34;, OcppConstants.ERROR_CODES)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateStatus(payload: Map&#60;String, Any&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_49'/>
+49
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_49'>2</a>
+<span>
+1. validateStatus : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredStringIn &rarr; KILLED<br/>
+2. validateStatus : removed call to org/tekeli/borisp/ocpp16/OcppConstants::getCONNECTOR_STATUSES &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        payload.requiredStringIn(&#34;status&#34;, OcppConstants.CONNECTOR_STATUSES)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateInfoField(payload: Map&#60;String, Any&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_53'/>
+53
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_53'>1</a>
+<span>
+1. validateInfoField : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::optionalString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        payload.optionalString(&#34;info&#34;, OcppConstants.MAX_INFO_LENGTH)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_10'>10</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_10'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects connectorId -1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for null payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects connectorId -1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects connectorId -1()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessage$Call::getPayload &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_13'>13</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_13'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>none</span></span> removed call to java/lang/Number::intValue &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_14'>14</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_14'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_15'>15</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_15'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_16'>16</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_16'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest]/[method:persists non-string info converted to string()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>none</span></span> removed conditional - replaced equality check with false &rarr; TIMED_OUT</span>
+</div> <p class='TIMED_OUT'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>none</span></span> removed call to java/util/Map::get &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_18'>18</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_18'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>none</span></span> removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getPersistenceService &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>none</span></span> removed conditional - replaced equality check with false &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_19'>19</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_19'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>none</span></span> removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getChargePointId &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_26'>26</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_26'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppResponseExtensionsKt::callResult$default &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/StatusNotificationHandler::handle &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_41'>41</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_41'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateConnectorId<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects connectorId -1()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt$default &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateErrorCode<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 1()]</span></span> removed call to org/tekeli/borisp/ocpp16/OcppConstants::getERROR_CODES &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateErrorCode<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects invalid errorCode()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredStringIn &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_49'>49</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_49'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateStatus<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects invalid status()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredStringIn &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateStatus<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()]</span></span> removed call to org/tekeli/borisp/ocpp16/OcppConstants::getCONNECTOR_STATUSES &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7ddce3c2_53'>53</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7ddce3c2_53'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateInfoField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for info exceeding 50 characters()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::optionalString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts all valid statuses()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest]/[method:persists non-int Number connectorId converted to int()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest]/[method:persists non-string info converted to string()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest]/[method:persists string info value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return empty CallResult for valid StatusNotification()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should accept StatusNotification with optional info field()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should accept StatusNotification with info exactly 50 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid StatusNotification()] (26 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects invalid status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for invalid status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for empty status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for missing status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for info exceeding 50 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects non-integer connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects connectorId -1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects invalid errorCode()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for null payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for missing errorCode()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for empty errorCode()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for invalid errorCode()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

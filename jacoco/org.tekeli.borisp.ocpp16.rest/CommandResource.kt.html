@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommandResource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.rest</a> &gt; <span class="el_source">CommandResource.kt</span></div><h1>CommandResource.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.rest
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.enterprise.inject.Instance
+import jakarta.inject.Inject
+import jakarta.ws.rs.*
+import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.command.OcppCommand
+import org.tekeli.borisp.ocpp16.command.PayloadValidators
+import org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig
+import org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsUrlGenerator
+import org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfig
+import org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfig
+import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
+
+<span class="fc" id="L18">@Path(&quot;/api/chargepoints/{chargePointId}/commands&quot;)</span>
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+class CommandResource {
+
+    @Inject
+<span class="fc" id="L24">    lateinit var persistenceService: PersistenceService</span>
+
+    @Inject
+<span class="fc" id="L27">    lateinit var objectMapper: ObjectMapper</span>
+
+    @Inject
+<span class="fc" id="L30">    lateinit var commands: jakarta.enterprise.inject.Instance&lt;OcppCommand&gt;</span>
+
+    @Inject
+<span class="fc" id="L33">    lateinit var schemaValidator: SchemaValidator</span>
+
+    @Inject
+<span class="fc" id="L36">    lateinit var diagnosticsConfig: DiagnosticsConfig</span>
+
+    @Inject
+<span class="fc" id="L39">    lateinit var sftpServerConfig: SftpServerConfig</span>
+
+    @Inject
+<span class="fc" id="L42">    lateinit var ftpServerConfig: FtpServerConfig</span>
+
+    @Inject
+<span class="fc" id="L45">    lateinit var diagnosticsInitializer: org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializer</span>
+
+<span class="fc" id="L47">    private val commandMap: Map&lt;String, OcppCommand&gt; by lazy {</span>
+<span class="fc" id="L48">        commands.iterator().asSequence().associateBy { it.name }</span>
+    }
+
+<span class="fc" id="L51">    private val urlGenerator: DiagnosticsUrlGenerator by lazy {</span>
+<span class="fc" id="L52">        DiagnosticsUrlGenerator(sftpServerConfig, ftpServerConfig, diagnosticsConfig)</span>
+    }
+
+    private fun toActionName(commandName: String): String {
+<span class="fc" id="L56">        return commandName.split(&quot;-&quot;).joinToString(&quot;&quot;) { it.capitalize() }</span>
+    }
+
+    @GET
+    fun listCommands(): List&lt;String&gt; {
+<span class="fc" id="L61">        return commandMap.keys.sorted()</span>
+    }
+
+    @POST
+    @Path(&quot;/{command}&quot;)
+    fun executeCommand(
+        @PathParam(&quot;chargePointId&quot;) chargePointId: String,
+        @PathParam(&quot;command&quot;) command: String,
+        body: String
+    ): Response {
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        val cp = persistenceService.findChargePointById(chargePointId)</span>
+<span class="fc" id="L72">            ?: return Response.status(Response.Status.NOT_FOUND)</span>
+<span class="fc" id="L73">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;ChargePoint not found: $chargePointId&quot;))</span>
+<span class="fc" id="L74">                .build()</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        val cmd = commandMap[command]</span>
+<span class="fc" id="L77">            ?: return Response.status(Response.Status.NOT_FOUND)</span>
+<span class="fc" id="L78">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;Unknown command: $command&quot;))</span>
+<span class="fc" id="L79">                .build()</span>
+
+<span class="fc" id="L81">        val payload = PayloadValidators.safeMap(objectMapper.readValue(body, Map::class.java))</span>
+<span class="fc" id="L82">        val (validatedPayload, validatedBody) = resolveDiagnosticsUrl(chargePointId, command, payload, body)</span>
+
+<span class="fc" id="L84">        val actionName = toActionName(command)</span>
+<span class="fc" id="L85">        val schemaErrors = schemaValidator.validate(actionName, validatedBody)</span>
+<span class="fc bfc" id="L86" title="All 4 branches covered.">        if (schemaErrors.isNotEmpty()) {</span>
+<span class="fc" id="L87">            return Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L88">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;Schema validation failed&quot;, &quot;details&quot; to schemaErrors))</span>
+<span class="fc" id="L89">                .build()</span>
+        }
+
+<span class="fc" id="L92">        val validationError = cmd.validate(validatedPayload)</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (validationError != null) return validationError</span>
+
+<span class="fc" id="L95">        return try {</span>
+<span class="fc" id="L96">            cmd.execute(chargePointId, validatedPayload)</span>
+<span class="fc" id="L97">        } catch (e: java.util.concurrent.ExecutionException) {</span>
+<span class="fc" id="L98">            handleExecutionException(e)</span>
+<span class="fc" id="L99">        } catch (e: IllegalStateException) {</span>
+<span class="fc" id="L100">            buildUnavailableResponse(e.message)</span>
+        }
+    }
+
+    private fun handleExecutionException(e: java.util.concurrent.ExecutionException): Response {
+<span class="fc" id="L105">        return when (val cause = e.cause) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            is IllegalStateException -&gt; buildUnavailableResponse(cause.message)</span>
+<span class="fc" id="L107">            else -&gt; throw e</span>
+        }
+    }
+
+    private fun buildUnavailableResponse(message: String?): Response {
+<span class="fc" id="L112">        return Response.status(Response.Status.SERVICE_UNAVAILABLE)</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">            .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to (message ?: &quot;ChargePoint not connected&quot;)))</span>
+<span class="fc" id="L114">            .build()</span>
+    }
+
+    private fun resolveDiagnosticsUrl(
+        chargePointId: String,
+        command: String,
+        payload: Map&lt;String, Any&gt;,
+        body: String
+    ): Pair&lt;Map&lt;String, Any&gt;, String&gt; {
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        if (command != &quot;get-diagnostics&quot;) return payload to body</span>
+<span class="fc" id="L124">        val existingLocation = payload[&quot;location&quot;] as String?</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        val protocol = (payload[&quot;protocol&quot;] as String?)?.lowercase()</span>
+<span class="fc" id="L126">        val updatedPayload = payload.toMutableMap()</span>
+<span class="fc" id="L127">        updatedPayload.remove(&quot;protocol&quot;)</span>
+<span class="fc bfc" id="L128" title="All 6 branches covered.">        if (existingLocation != null &amp;&amp; existingLocation.isNotBlank()) return updatedPayload to objectMapper.writeValueAsString(updatedPayload)</span>
+
+<span class="fc" id="L130">        return try {</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">            val generatedUrl = if (protocol != null) urlGenerator.generate(chargePointId, protocol) else urlGenerator.generate(chargePointId)</span>
+<span class="fc" id="L132">            updatedPayload[&quot;location&quot;] = generatedUrl</span>
+<span class="fc" id="L133">            val updatedBody = objectMapper.writeValueAsString(updatedPayload)</span>
+<span class="fc" id="L134">            updatedPayload to updatedBody</span>
+<span class="fc" id="L135">        } catch (e: Exception) {</span>
+<span class="fc" id="L136">            payload to body</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

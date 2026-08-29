@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>ReserveNowCommand.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.command</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.Response</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@jakarta.enterprise.context.ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class ReserveNowCommand @Inject constructor(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val gateway: ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>) : OcppCommand {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_12'/>
+12
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_12'>1</a>
+<span>
+1. getName : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::getName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    override val name = &#34;reserve-now&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun validate(payload: Map&#60;String, Any&#62;): Response? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_15'/>
+15
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_15'>4</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateRequiredIds &rarr; KILLED<br/>
+2. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. validate : negated conditional &rarr; KILLED<br/>
+4. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val error = validateRequiredIds(payload)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_16'/>
+16
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_16'>1</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateStringFields &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            ?: validateStringFields(payload)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_17'/>
+17
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_17'>4</a>
+<span>
+1. validate : negated conditional &rarr; KILLED<br/>
+2. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. validate : removed call to org/tekeli/borisp/ocpp16/command/ReserveNowCommand::badRequest &rarr; KILLED<br/>
+4. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return error?.let { badRequest(it) }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateRequiredIds(payload: Map&#60;String, Any&#62;): String? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_21'/>
+21
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_21'>1</a>
+<span>
+1. validateRequiredIds : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val connectorIdRaw = payload[&#34;connectorId&#34;]</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_22'>3</a>
+<span>
+1. validateRequiredIds : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validateRequiredIds : negated conditional &rarr; KILLED<br/>
+3. validateRequiredIds : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (connectorIdRaw is Number) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_23'>1</a>
+<span>
+1. validateRequiredIds : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            val reservationIdRaw = payload[&#34;reservationId&#34;]</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_24'/>
+24
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_24'>3</a>
+<span>
+1. validateRequiredIds : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. validateRequiredIds : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. validateRequiredIds : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            if (reservationIdRaw is Number) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_25'/>
+25
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_25'>1</a>
+<span>
+1. validateRequiredIds : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateRequiredIds &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                return null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            } else {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_27'/>
+27
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_27'>1</a>
+<span>
+1. validateRequiredIds : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateRequiredIds &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                return &#34;reservationId is required&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        } else {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_30'/>
+30
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_30'>1</a>
+<span>
+1. validateRequiredIds : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateRequiredIds &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return &#34;connectorId is required&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateStringFields(payload: Map&#60;String, Any&#62;): String? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_35'/>
+35
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_35'>11</a>
+<span>
+1. validateStringFields : negated conditional &rarr; KILLED<br/>
+2. validateStringFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. validateStringFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. validateStringFields : removed call to java/util/Map::get &rarr; KILLED<br/>
+5. validateStringFields : negated conditional &rarr; KILLED<br/>
+6. validateStringFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. validateStringFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+8. validateStringFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+9. validateStringFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+10. validateStringFields : negated conditional &rarr; KILLED<br/>
+11. validateStringFields : removed call to java/lang/CharSequence::length &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if ((payload[&#34;expiryDate&#34;] as String?).isNullOrEmpty()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_36'>1</a>
+<span>
+1. validateStringFields : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateStringFields &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return &#34;expiryDate is required&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_38'/>
+38
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_38'>12</a>
+<span>
+1. validateStringFields : removed call to java/lang/CharSequence::length &rarr; KILLED<br/>
+2. validateStringFields : negated conditional &rarr; KILLED<br/>
+3. validateStringFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. validateStringFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. validateStringFields : negated conditional &rarr; KILLED<br/>
+6. validateStringFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. validateStringFields : removed call to java/util/Map::get &rarr; KILLED<br/>
+8. validateStringFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+9. validateStringFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+10. validateStringFields : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateStringFields &rarr; KILLED<br/>
+11. validateStringFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+12. validateStringFields : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return if ((payload[&#34;idTag&#34;] as String?).isNullOrEmpty()) &#34;idTag is required&#34; else null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_41'/>
+41
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_41'>1</a>
+<span>
+1. badRequest : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    private fun badRequest(error: String) = Response.status(Response.Status.BAD_REQUEST)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_42'/>
+42
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_42'>4</a>
+<span>
+1. badRequest : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. badRequest : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+3. badRequest : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+4. badRequest : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        .entity(mapOf&#60;String, Any&#62;(&#34;error&#34; to error)).build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun execute(chargePointId: String, payload: Map&#60;String, Any&#62;): Response {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_45'>2</a>
+<span>
+1. execute : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+2. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val connectorId = (payload[&#34;connectorId&#34;] as Number).toInt()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_46'/>
+46
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_46'>1</a>
+<span>
+1. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val expiryDate = payload[&#34;expiryDate&#34;] as String</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_47'/>
+47
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_47'>1</a>
+<span>
+1. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val idTag = payload[&#34;idTag&#34;] as String</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_48'/>
+48
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_48'>2</a>
+<span>
+1. execute : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+2. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val reservationId = (payload[&#34;reservationId&#34;] as Number).toInt()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_50'/>
+50
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_50'>1</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendReserveNow &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val result = gateway.sendReserveNow(chargePointId, connectorId, expiryDate, idTag, reservationId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_51'>2</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/command/ReserveNowCommand::getName &rarr; KILLED<br/>
+2. execute : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return PayloadValidators.awaitAndBuildResponse(result, name)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@215521d3_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_12'>12</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_12'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand has correct name()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::getName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_15'>15</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_15'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateRequiredIds &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty expiryDate()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_16'>16</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_16'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty expiryDate()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateStringFields &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_17'>17</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_17'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/ReserveNowCommand::badRequest &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_21'>21</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_21'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number connectorId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number connectorId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_24'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_25'>25</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_25'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateRequiredIds &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_27'>27</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_27'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects string reservationId()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateRequiredIds &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_30'>30</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_30'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateRequiredIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing connectorId()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateRequiredIds &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty expiryDate()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty expiryDate()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty expiryDate()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing expiryDate()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty expiryDate()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed call to java/lang/CharSequence::length &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing expiryDate()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateStringFields &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_38'>38</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_38'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed call to java/lang/CharSequence::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty idTag()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty idTag()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ReserveNowCommand::validateStringFields &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing idTag()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>12.<span><b>12</b><br/><b>Location : </b>validateStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_41'>41</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_41'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_42'>42</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_42'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing connectorId()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_46'>46</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_46'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_47'>47</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_47'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_48'>48</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_48'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_50'>50</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_50'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendReserveNow &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@215521d3_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@215521d3_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/ReserveNowCommand::getName &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute uses correct chargePointId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Long connectorId and reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reserveNow command round trip()] (51 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand accepts valid payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ReserveNowCommand validate with non-Number connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand validate rejects empty expiryDate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects string reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects string connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing expiryDate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand has correct name()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

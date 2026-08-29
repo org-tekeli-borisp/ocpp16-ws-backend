@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>DiagnosticsResource.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.rest</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.*</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.MediaType</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.Response</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.io.FileInputStream</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.nio.file.Files</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@Path(&#34;/api/chargepoints/{chargePointId}/diagnostics&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>@Produces(MediaType.APPLICATION_JSON)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>class DiagnosticsResource {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Inject</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_17'/>
+17
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_17'>3</a>
+<span>
+1. getStorage : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. getStorage : negated conditional &rarr; KILLED<br/>
+3. getStorage : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    lateinit var storage: FileSystemStorage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @GET</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun list(@PathParam(&#34;chargePointId&#34;) chargePointId: String): List&#60;Map&#60;String, Any&#62;&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_21'/>
+21
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_21'>2</a>
+<span>
+1. list : removed call to org/tekeli/borisp/ocpp16/rest/DiagnosticsResource::getStorage &rarr; KILLED<br/>
+2. list : removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val files = storage.listFiles(chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_22'>3</a>
+<span>
+1. list : removed call to kotlin/collections/CollectionsKt::build &rarr; KILLED<br/>
+2. list : replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/rest/DiagnosticsResource::list &rarr; KILLED<br/>
+3. list : removed call to kotlin/collections/CollectionsKt::createListBuilder &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return buildList {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            for (info in files) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_24'/>
+24
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_24'>1</a>
+<span>
+1. list : removed call to java/util/List::add &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                add(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_25'/>
+25
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_25'>1</a>
+<span>
+1. list : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                    mapOf(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_26'/>
+26
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_26'>2</a>
+<span>
+1. list : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. list : removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getStoredName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        &#34;storedName&#34; to info.storedName,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_27'/>
+27
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_27'>2</a>
+<span>
+1. list : removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getOriginalName &rarr; KILLED<br/>
+2. list : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        &#34;originalName&#34; to info.originalName,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_28'/>
+28
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_28'>3</a>
+<span>
+1. list : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. list : removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getSizeBytes &rarr; KILLED<br/>
+3. list : removed call to java/lang/Long::valueOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        &#34;sizeBytes&#34; to info.sizeBytes,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_29'/>
+29
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_29'>3</a>
+<span>
+1. list : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. list : removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getUploadedAt &rarr; KILLED<br/>
+3. list : removed call to java/time/Instant::toString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        &#34;uploadedAt&#34; to info.uploadedAt.toString()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>                    )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>                )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @GET</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Path(&#34;{fileName}&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Produces(MediaType.APPLICATION_OCTET_STREAM)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun download(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @PathParam(&#34;chargePointId&#34;) chargePointId: String,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @PathParam(&#34;fileName&#34;) fileName: String</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    ): Response {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_43'/>
+43
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_43'>5</a>
+<span>
+1. download : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. download : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. download : negated conditional &rarr; KILLED<br/>
+4. download : removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getFile &rarr; KILLED<br/>
+5. download : removed call to org/tekeli/borisp/ocpp16/rest/DiagnosticsResource::getStorage &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val filePath = storage.getFile(chargePointId, fileName)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_44'/>
+44
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_44'>1</a>
+<span>
+1. download : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            ?: return Response.status(Response.Status.NOT_FOUND)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_45'>3</a>
+<span>
+1. download : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+2. download : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. download : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .entity(mapOf(&#34;error&#34; to &#34;File not found: $fileName&#34;))</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_46'/>
+46
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_46'>1</a>
+<span>
+1. download : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_48'/>
+48
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_48'>1</a>
+<span>
+1. download : removed call to java/nio/file/Path::toFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val file = filePath.toFile()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_49'/>
+49
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_49'>1</a>
+<span>
+1. download : removed call to jakarta/ws/rs/core/Response::ok &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return Response.ok(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            FileInputStream(file),</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            MediaType.APPLICATION_OCTET_STREAM</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_53'/>
+53
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_53'>2</a>
+<span>
+1. download : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::header &rarr; KILLED<br/>
+2. download : removed call to java/nio/file/Path::getFileName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .header(&#34;Content-Disposition&#34;, &#34;attachment; filename=\&#34;${filePath.fileName}\&#34;&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_54'>3</a>
+<span>
+1. download : removed call to java/io/File::length &rarr; KILLED<br/>
+2. download : removed call to java/lang/Long::valueOf &rarr; KILLED<br/>
+3. download : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::header &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .header(&#34;Content-Length&#34;, file.length())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_55'>1</a>
+<span>
+1. download : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @DELETE</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Path(&#34;{fileName}&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun delete(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @PathParam(&#34;chargePointId&#34;) chargePointId: String,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @PathParam(&#34;fileName&#34;) fileName: String</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    ): Response {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_64'/>
+64
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_64'>2</a>
+<span>
+1. delete : removed call to org/tekeli/borisp/ocpp16/rest/DiagnosticsResource::getStorage &rarr; KILLED<br/>
+2. delete : removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::deleteFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val deleted = storage.deleteFile(chargePointId, fileName)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_65'/>
+65
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_65'>3</a>
+<span>
+1. delete : negated conditional &rarr; KILLED<br/>
+2. delete : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. delete : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (!deleted) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_66'/>
+66
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_66'>1</a>
+<span>
+1. delete : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Response.status(Response.Status.NOT_FOUND)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_67'/>
+67
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_67'>3</a>
+<span>
+1. delete : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+2. delete : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. delete : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .entity(mapOf(&#34;error&#34; to &#34;File not found: $fileName&#34;))</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_68'/>
+68
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_68'>1</a>
+<span>
+1. delete : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_70'/>
+70
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_70'>2</a>
+<span>
+1. delete : removed call to jakarta/ws/rs/core/Response::noContent &rarr; KILLED<br/>
+2. delete : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return Response.noContent().build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@22df3297_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_17'>17</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_17'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getStorage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getStorage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getStorage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list throws UninitializedPropertyAccessException when storage is not injected()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_21'>21</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_21'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 200 with list endpoint accessible()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/DiagnosticsResource::getStorage &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 200 with list endpoint accessible()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 200 with list endpoint accessible()]</span></span> removed call to kotlin/collections/CollectionsKt::build &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/rest/DiagnosticsResource::list &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 200 with list endpoint accessible()]</span></span> removed call to kotlin/collections/CollectionsKt::createListBuilder &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_24'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to java/util/List::add &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_25'>25</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_25'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_26'>26</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_26'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getStoredName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_27'>27</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_27'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getOriginalName &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_28'>28</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_28'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getSizeBytes &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to java/lang/Long::valueOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_29'>29</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_29'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getUploadedAt &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>list<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()]</span></span> removed call to java/time/Instant::toString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_43'>43</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_43'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getFile &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/DiagnosticsResource::getStorage &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_44'>44</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_44'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 404 with error body for a missing file()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_46'>46</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_46'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_48'>48</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_48'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed call to java/nio/file/Path::toFile &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_49'>49</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_49'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed call to jakarta/ws/rs/core/Response::ok &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_53'>53</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_53'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::header &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed call to java/nio/file/Path::getFileName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed call to java/io/File::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed call to java/lang/Long::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::header &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>download<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_64'>64</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_64'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/DiagnosticsResource::getStorage &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:delete returns 204 for an existing file()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::deleteFile &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_65'>65</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_65'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:delete returns 204 for an existing file()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_66'>66</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_66'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_67'>67</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_67'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:delete returns 404 with error body for a missing file()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_68'>68</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_68'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@22df3297_70'>70</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@22df3297_70'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:delete returns 204 for an existing file()]</span></span> removed call to jakarta/ws/rs/core/Response::noContent &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>delete<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:delete returns 204 for an existing file()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:delete returns 404 with error body for a missing file()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:delete returns 204 for an existing file()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()] (4 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 404 with error body for a missing file()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 200 with list endpoint accessible()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return empty list for CP with no diagnostics()] (22 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list returns empty list for a charge point without files()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list throws UninitializedPropertyAccessException when storage is not injected()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

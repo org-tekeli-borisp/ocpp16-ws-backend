@@ -1,0 +1,2578 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>OcppOutboundService.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.outbound</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.enterprise.context.ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.OcppMessage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.websocket.ChargePointRegistry</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.concurrent.CompletableFuture</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>class OcppOutboundService : ChargePointGateway {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Inject</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_13'/>
+13
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_13'>3</a>
+<span>
+1. getChargePointRegistry : removed conditional - replaced equality check with true &rarr; TIMED_OUT<br/>
+2. getChargePointRegistry : negated conditional &rarr; KILLED<br/>
+3. getChargePointRegistry : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>    lateinit var chargePointRegistry: ChargePointRegistry</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendReset(chargePointId: String, type: String): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_16'/>
+16
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_16'>4</a>
+<span>
+1. sendReset : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendReset : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+3. sendReset : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+4. sendReset : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;Reset&#34;, mapOf(&#34;type&#34; to type))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendClearCache(chargePointId: String): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_19'/>
+19
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_19'>2</a>
+<span>
+1. sendClearCache : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendClearCache : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;ClearCache&#34;, null)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendChangeConfiguration(chargePointId: String, key: String, value: String): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_22'>5</a>
+<span>
+1. sendChangeConfiguration : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendChangeConfiguration : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendChangeConfiguration : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+4. sendChangeConfiguration : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+5. sendChangeConfiguration : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;ChangeConfiguration&#34;, mapOf(&#34;key&#34; to key, &#34;value&#34; to value))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendChangeAvailability(chargePointId: String, connectorId: Int, type: String): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_25'/>
+25
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_25'>6</a>
+<span>
+1. sendChangeAvailability : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendChangeAvailability : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+3. sendChangeAvailability : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+4. sendChangeAvailability : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+5. sendChangeAvailability : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+6. sendChangeAvailability : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;ChangeAvailability&#34;, mapOf(&#34;connectorId&#34; to connectorId, &#34;type&#34; to type))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendGetConfiguration(chargePointId: String, keys: List&#60;String&#62;?): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_28'/>
+28
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_28'>7</a>
+<span>
+1. sendGetConfiguration : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendGetConfiguration : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. sendGetConfiguration : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. sendGetConfiguration : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+5. sendGetConfiguration : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+6. sendGetConfiguration : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+7. sendGetConfiguration : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;GetConfiguration&#34;, keys?.let { mapOf(&#34;key&#34; to it) })</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendRemoteStopTransaction(chargePointId: String, transactionId: Int): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_31'/>
+31
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_31'>5</a>
+<span>
+1. sendRemoteStopTransaction : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendRemoteStopTransaction : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+3. sendRemoteStopTransaction : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+4. sendRemoteStopTransaction : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+5. sendRemoteStopTransaction : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;RemoteStopTransaction&#34;, mapOf(&#34;transactionId&#34; to transactionId))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): CompletableFuture&#60;OcppMessage&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_34'>2</a>
+<span>
+1. sendTriggerMessage : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. sendTriggerMessage : removed call to kotlin/collections/MapsKt::mutableMapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val payload = mutableMapOf&#60;String, Any&#62;(&#34;requestedMessage&#34; to requestedMessage)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_35'/>
+35
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_35'>6</a>
+<span>
+1. sendTriggerMessage : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+2. sendTriggerMessage : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. sendTriggerMessage : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+4. sendTriggerMessage : removed call to java/util/Map::put &rarr; KILLED<br/>
+5. sendTriggerMessage : negated conditional &rarr; KILLED<br/>
+6. sendTriggerMessage : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        connectorId?.let { payload[&#34;connectorId&#34;] = it }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_36'>2</a>
+<span>
+1. sendTriggerMessage : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendTriggerMessage : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return chargePointRegistry.sendCall(chargePointId, &#34;TriggerMessage&#34;, payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendUnlockConnector(chargePointId: String, connectorId: Int): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_40'/>
+40
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_40'>5</a>
+<span>
+1. sendUnlockConnector : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+2. sendUnlockConnector : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendUnlockConnector : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+4. sendUnlockConnector : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+5. sendUnlockConnector : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;UnlockConnector&#34;, mapOf(&#34;connectorId&#34; to connectorId))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendUpdateFirmware(chargePointId: String, location: String, retrieveDate: String, retries: Int?, retryInterval: Int?): CompletableFuture&#60;OcppMessage&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_43'/>
+43
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_43'>5</a>
+<span>
+1. sendUpdateFirmware : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. sendUpdateFirmware : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendUpdateFirmware : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+4. sendUpdateFirmware : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+5. sendUpdateFirmware : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>       val payload = mapOf&#60;String, Any?&#62;(&#34;location&#34; to location, &#34;retrieveDate&#34; to retrieveDate, &#34;retries&#34; to retries, &#34;retryInterval&#34; to retryInterval)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_44'/>
+44
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_44'>1</a>
+<span>
+1. sendUpdateFirmware : removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .filterNulls()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_45'>2</a>
+<span>
+1. sendUpdateFirmware : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendUpdateFirmware : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return chargePointRegistry.sendCall(chargePointId, &#34;UpdateFirmware&#34;, payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendGetDiagnostics(chargePointId: String, location: String, retries: Int?, retryInterval: Int?, startTime: String?, stopTime: String?): CompletableFuture&#60;OcppMessage&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_49'/>
+49
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_49'>6</a>
+<span>
+1. sendGetDiagnostics : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. sendGetDiagnostics : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendGetDiagnostics : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+4. sendGetDiagnostics : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+5. sendGetDiagnostics : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+6. sendGetDiagnostics : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>       val payload = mapOf&#60;String, Any?&#62;(&#34;location&#34; to location, &#34;retries&#34; to retries, &#34;retryInterval&#34; to retryInterval, &#34;startTime&#34; to startTime, &#34;stopTime&#34; to stopTime)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_50'/>
+50
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_50'>1</a>
+<span>
+1. sendGetDiagnostics : removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>             .filterNulls()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_51'>2</a>
+<span>
+1. sendGetDiagnostics : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendGetDiagnostics : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>         return chargePointRegistry.sendCall(chargePointId, &#34;GetDiagnostics&#34;, payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendGetLocalListVersion(chargePointId: String): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_55'>2</a>
+<span>
+1. sendGetLocalListVersion : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendGetLocalListVersion : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;GetLocalListVersion&#34;, null)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendRemoteStartTransaction(chargePointId: String, idTag: String, connectorId: Int?): CompletableFuture&#60;OcppMessage&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_58'/>
+58
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_58'>2</a>
+<span>
+1. sendRemoteStartTransaction : removed call to kotlin/collections/MapsKt::mutableMapOf &rarr; KILLED<br/>
+2. sendRemoteStartTransaction : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val payload = mutableMapOf&#60;String, Any&#62;(&#34;idTag&#34; to idTag)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_59'/>
+59
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_59'>6</a>
+<span>
+1. sendRemoteStartTransaction : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+2. sendRemoteStartTransaction : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+3. sendRemoteStartTransaction : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. sendRemoteStartTransaction : negated conditional &rarr; KILLED<br/>
+5. sendRemoteStartTransaction : removed call to java/util/Map::put &rarr; KILLED<br/>
+6. sendRemoteStartTransaction : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        connectorId?.let { payload[&#34;connectorId&#34;] = it }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_60'/>
+60
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_60'>2</a>
+<span>
+1. sendRemoteStartTransaction : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendRemoteStartTransaction : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return chargePointRegistry.sendCall(chargePointId, &#34;RemoteStartTransaction&#34;, payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendReserveNow(chargePointId: String, connectorId: Int, expiryDate: String, idTag: String, reservationId: Int): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_64'/>
+64
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_64'>9</a>
+<span>
+1. sendReserveNow : removed call to java/lang/Integer::valueOf &rarr; TIMED_OUT<br/>
+2. sendReserveNow : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendReserveNow : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+4. sendReserveNow : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+5. sendReserveNow : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+6. sendReserveNow : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+7. sendReserveNow : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+8. sendReserveNow : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+9. sendReserveNow : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        chargePointRegistry.sendCall(chargePointId, &#34;ReserveNow&#34;, mapOf(&#34;connectorId&#34; to connectorId, &#34;expiryDate&#34; to expiryDate, &#34;idTag&#34; to idTag, &#34;reservationId&#34; to reservationId))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendCancelReservation(chargePointId: String, reservationId: Int): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_67'/>
+67
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_67'>5</a>
+<span>
+1. sendCancelReservation : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+2. sendCancelReservation : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+3. sendCancelReservation : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+4. sendCancelReservation : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+5. sendCancelReservation : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;CancelReservation&#34;, mapOf(&#34;reservationId&#34; to reservationId))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendSendLocalList(chargePointId: String, listVersion: Int, updateType: String): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_70'/>
+70
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_70'>6</a>
+<span>
+1. sendSendLocalList : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendSendLocalList : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendSendLocalList : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+4. sendSendLocalList : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+5. sendSendLocalList : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+6. sendSendLocalList : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;SendLocalList&#34;, mapOf(&#34;listVersion&#34; to listVersion, &#34;updateType&#34; to updateType))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendSetChargingProfile(chargePointId: String, connectorId: Int, csChargingProfiles: Map&#60;String, Any&#62;): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_73'/>
+73
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_73'>6</a>
+<span>
+1. sendSetChargingProfile : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendSetChargingProfile : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendSetChargingProfile : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+4. sendSetChargingProfile : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+5. sendSetChargingProfile : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+6. sendSetChargingProfile : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;SetChargingProfile&#34;, mapOf(&#34;connectorId&#34; to connectorId, &#34;csChargingProfiles&#34; to csChargingProfiles))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendClearChargingProfile(chargePointId: String, connectorId: Int?, stackLevel: Int?): CompletableFuture&#60;OcppMessage&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_76'/>
+76
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_76'>3</a>
+<span>
+1. sendClearChargingProfile : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. sendClearChargingProfile : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendClearChargingProfile : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val payload = mapOf&#60;String, Any?&#62;(&#34;connectorId&#34; to connectorId, &#34;stackLevel&#34; to stackLevel)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_77'/>
+77
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_77'>1</a>
+<span>
+1. sendClearChargingProfile : removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .filterNulls()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_78'/>
+78
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_78'>2</a>
+<span>
+1. sendClearChargingProfile : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendClearChargingProfile : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return chargePointRegistry.sendCall(chargePointId, &#34;ClearChargingProfile&#34;, payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_79'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_80'/>
+80
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_80'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_81'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendGetCompositeSchedule(chargePointId: String, connectorId: Int, duration: Int): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_82'/>
+82
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_82'>7</a>
+<span>
+1. sendGetCompositeSchedule : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendGetCompositeSchedule : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+3. sendGetCompositeSchedule : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+4. sendGetCompositeSchedule : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+5. sendGetCompositeSchedule : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+6. sendGetCompositeSchedule : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+7. sendGetCompositeSchedule : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;GetCompositeSchedule&#34;, mapOf(&#34;connectorId&#34; to connectorId, &#34;duration&#34; to duration))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_84'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // Security messages</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendExtendedTriggerMessage(chargePointId: String, requestedMessage: String, connectorId: Int?): CompletableFuture&#60;OcppMessage&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_86'/>
+86
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_86'>2</a>
+<span>
+1. sendExtendedTriggerMessage : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. sendExtendedTriggerMessage : removed call to kotlin/collections/MapsKt::mutableMapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val payload = mutableMapOf&#60;String, Any&#62;(&#34;requestedMessage&#34; to requestedMessage)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_87'/>
+87
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_87'>6</a>
+<span>
+1. sendExtendedTriggerMessage : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. sendExtendedTriggerMessage : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+3. sendExtendedTriggerMessage : negated conditional &rarr; KILLED<br/>
+4. sendExtendedTriggerMessage : removed call to java/util/Map::put &rarr; KILLED<br/>
+5. sendExtendedTriggerMessage : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+6. sendExtendedTriggerMessage : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        connectorId?.let { payload[&#34;connectorId&#34;] = it }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_88'/>
+88
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_88'>2</a>
+<span>
+1. sendExtendedTriggerMessage : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendExtendedTriggerMessage : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return chargePointRegistry.sendCall(chargePointId, &#34;ExtendedTriggerMessage&#34;, payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_89'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_91'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendInstallCertificate(chargePointId: String, certificateType: String, certificate: String): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_92'/>
+92
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_92'>5</a>
+<span>
+1. sendInstallCertificate : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. sendInstallCertificate : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+3. sendInstallCertificate : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+4. sendInstallCertificate : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+5. sendInstallCertificate : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;InstallCertificate&#34;, mapOf(&#34;certificateType&#34; to certificateType, &#34;certificate&#34; to certificate))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_93'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_94'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendGetInstalledCertificateIds(chargePointId: String, certificateType: String): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_95'/>
+95
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_95'>4</a>
+<span>
+1. sendGetInstalledCertificateIds : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendGetInstalledCertificateIds : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+3. sendGetInstalledCertificateIds : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+4. sendGetInstalledCertificateIds : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;GetInstalledCertificateIds&#34;, mapOf(&#34;certificateType&#34; to certificateType))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_96'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendDeleteCertificate(chargePointId: String, certificateHashData: Map&#60;String, Any&#62;): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_98'/>
+98
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_98'>4</a>
+<span>
+1. sendDeleteCertificate : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendDeleteCertificate : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+3. sendDeleteCertificate : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+4. sendDeleteCertificate : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;DeleteCertificate&#34;, mapOf(&#34;certificateHashData&#34; to certificateHashData))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_99'/>
+99
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_99'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_100'/>
+100
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_100'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendGetLog(chargePointId: String, logType: String, requestId: Int, log: Map&#60;String, Any&#62;, retries: Int?, retryInterval: Int?): CompletableFuture&#60;OcppMessage&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_101'/>
+101
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_101'>7</a>
+<span>
+1. sendGetLog : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. sendGetLog : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+3. sendGetLog : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+4. sendGetLog : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+5. sendGetLog : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+6. sendGetLog : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+7. sendGetLog : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>       val payload = mapOf&#60;String, Any?&#62;(&#34;logType&#34; to logType, &#34;requestId&#34; to requestId, &#34;log&#34; to log, &#34;retries&#34; to retries, &#34;retryInterval&#34; to retryInterval)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_102'/>
+102
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_102'>1</a>
+<span>
+1. sendGetLog : removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .filterNulls()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_103'/>
+103
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_103'>2</a>
+<span>
+1. sendGetLog : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+2. sendGetLog : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return chargePointRegistry.sendCall(chargePointId, &#34;GetLog&#34;, payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_104'/>
+104
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_104'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_105'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_106'/>
+106
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_106'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  override fun sendSignedUpdateFirmware(chargePointId: String, requestId: Int, firmware: Map&#60;String, Any&#62;, retries: Int?, retryInterval: Int?): CompletableFuture&#60;OcppMessage&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_107'/>
+107
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_107'>6</a>
+<span>
+1. sendSignedUpdateFirmware : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+2. sendSignedUpdateFirmware : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendSignedUpdateFirmware : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+4. sendSignedUpdateFirmware : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+5. sendSignedUpdateFirmware : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+6. sendSignedUpdateFirmware : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>      val payload = mapOf&#60;String, Any?&#62;(&#34;requestId&#34; to requestId, &#34;firmware&#34; to firmware, &#34;retries&#34; to retries, &#34;retryInterval&#34; to retryInterval)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_108'/>
+108
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_108'>1</a>
+<span>
+1. sendSignedUpdateFirmware : removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .filterNulls()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_109'/>
+109
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_109'>2</a>
+<span>
+1. sendSignedUpdateFirmware : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendSignedUpdateFirmware : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return chargePointRegistry.sendCall(chargePointId, &#34;SignedUpdateFirmware&#34;, payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_110'/>
+110
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_110'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_111'/>
+111
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_111'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_112'/>
+112
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_112'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendCertificateSigned(chargePointId: String, certificateChain: String): CompletableFuture&#60;OcppMessage&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_113'/>
+113
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_113'>4</a>
+<span>
+1. sendCertificateSigned : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. sendCertificateSigned : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+3. sendCertificateSigned : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+4. sendCertificateSigned : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointRegistry.sendCall(chargePointId, &#34;CertificateSigned&#34;, mapOf(&#34;certificateChain&#34; to certificateChain))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_114'/>
+114
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_114'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_115'/>
+115
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_115'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun sendDataTransfer(chargePointId: String, vendorId: String, messageId: String?, data: String?): CompletableFuture&#60;OcppMessage&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_116'/>
+116
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_116'>4</a>
+<span>
+1. sendDataTransfer : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. sendDataTransfer : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. sendDataTransfer : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+4. sendDataTransfer : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val payload = mapOf&#60;String, Any?&#62;(&#34;vendorId&#34; to vendorId, &#34;messageId&#34; to messageId, &#34;data&#34; to data)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_117'/>
+117
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_117'>1</a>
+<span>
+1. sendDataTransfer : removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .filterNulls()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_118'/>
+118
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_118'>2</a>
+<span>
+1. sendDataTransfer : removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED<br/>
+2. sendDataTransfer : removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return chargePointRegistry.sendCall(chargePointId, &#34;DataTransfer&#34;, payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_119'/>
+119
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_119'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_120'/>
+120
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_120'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@411b3f9c_121'/>
+121
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_121'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_13'>13</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_13'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getChargePointRegistry<br/><b>Killed by : </b>none</span></span> removed conditional - replaced equality check with true &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getChargePointRegistry<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with null keys passes null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getChargePointRegistry<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with null keys passes null()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_16'>16</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_16'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendReset<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReset delegates to registry()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendReset<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReset delegates to registry()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendReset<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReset delegates to registry()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendReset<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReset delegates to registry()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_19'>19</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_19'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendClearCache<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearCache delegates with null payload()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendClearCache<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearCache delegates with null payload()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendChangeConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeConfiguration delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendChangeConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeConfiguration delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendChangeConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeConfiguration delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendChangeConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeConfiguration delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendChangeConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeConfiguration delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_25'>25</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_25'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendChangeAvailability<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeAvailability delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendChangeAvailability<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeAvailability delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendChangeAvailability<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeAvailability delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendChangeAvailability<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeAvailability delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendChangeAvailability<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeAvailability delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendChangeAvailability<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeAvailability delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_28'>28</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_28'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with null keys passes null()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendGetConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with keys passes payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendGetConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with null keys passes null()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendGetConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with keys passes payload()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendGetConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with null keys passes null()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendGetConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with keys passes payload()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>sendGetConfiguration<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with null keys passes null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_31'>31</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_31'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendRemoteStopTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStopTransaction delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendRemoteStopTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStopTransaction delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendRemoteStopTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStopTransaction delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendRemoteStopTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStopTransaction delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendRemoteStopTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStopTransaction delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage without connectorId()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage without connectorId()]</span></span> removed call to kotlin/collections/MapsKt::mutableMapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage with connectorId()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage with connectorId()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage with connectorId()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage with connectorId()]</span></span> removed call to java/util/Map::put &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage without connectorId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage without connectorId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage without connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage without connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_40'>40</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_40'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendUnlockConnector<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUnlockConnector delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendUnlockConnector<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUnlockConnector delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendUnlockConnector<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUnlockConnector delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendUnlockConnector<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUnlockConnector delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendUnlockConnector<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUnlockConnector delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_43'>43</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_43'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware filters null retries()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_44'>44</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_44'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware delegates with all params()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware filters null retries()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware delegates with all params()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_49'>49</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_49'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetDiagnostics<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendGetDiagnostics<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendGetDiagnostics<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendGetDiagnostics<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendGetDiagnostics<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendGetDiagnostics<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics filters null retries()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_50'>50</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_50'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetDiagnostics<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics delegates with filtered payload()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetDiagnostics<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics filters null retries()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendGetDiagnostics<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics delegates with filtered payload()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetLocalListVersion<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLocalListVersion delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendGetLocalListVersion<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLocalListVersion delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_58'>58</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_58'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with idTag only()]</span></span> removed call to kotlin/collections/MapsKt::mutableMapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with idTag only()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_59'>59</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_59'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with connectorId()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with connectorId()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with idTag only()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with idTag only()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with connectorId()]</span></span> removed call to java/util/Map::put &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with connectorId()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_60'>60</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_60'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with idTag only()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendRemoteStartTransaction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with idTag only()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_64'>64</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_64'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendReserveNow<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReserveNow delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendReserveNow<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReserveNow delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendReserveNow<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReserveNow delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendReserveNow<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReserveNow delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendReserveNow<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReserveNow delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendReserveNow<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReserveNow delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>sendReserveNow<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReserveNow delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>sendReserveNow<br/><b>Killed by : </b>none</span></span> removed call to java/lang/Integer::valueOf &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>sendReserveNow<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReserveNow delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_67'>67</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_67'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendCancelReservation<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCancelReservation delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendCancelReservation<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCancelReservation delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendCancelReservation<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCancelReservation delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendCancelReservation<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCancelReservation delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendCancelReservation<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCancelReservation delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_70'>70</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_70'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendSendLocalList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSendLocalList delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendSendLocalList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSendLocalList delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendSendLocalList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSendLocalList delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendSendLocalList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSendLocalList delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendSendLocalList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSendLocalList delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendSendLocalList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSendLocalList delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_73'>73</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_73'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendSetChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSetChargingProfile delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendSetChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSetChargingProfile delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendSetChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSetChargingProfile delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendSetChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSetChargingProfile delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendSetChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSetChargingProfile delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendSetChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSetChargingProfile delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_76'>76</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_76'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendClearChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with nulls filters them()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendClearChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with nulls filters them()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendClearChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with nulls filters them()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_77'>77</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_77'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendClearChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with all params()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_78'>78</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_78'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendClearChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with all params()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendClearChargingProfile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with nulls filters them()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_82'>82</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_82'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetCompositeSchedule<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetCompositeSchedule delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendGetCompositeSchedule<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetCompositeSchedule delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendGetCompositeSchedule<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetCompositeSchedule delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendGetCompositeSchedule<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetCompositeSchedule delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendGetCompositeSchedule<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetCompositeSchedule delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendGetCompositeSchedule<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetCompositeSchedule delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>sendGetCompositeSchedule<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetCompositeSchedule delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_86'>86</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_86'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()]</span></span> removed call to kotlin/collections/MapsKt::mutableMapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_87'>87</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_87'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()]</span></span> removed call to java/util/Map::put &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage without connectorId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_88'>88</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_88'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendExtendedTriggerMessage<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_92'>92</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_92'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendInstallCertificate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendInstallCertificate delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendInstallCertificate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendInstallCertificate delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendInstallCertificate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendInstallCertificate delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendInstallCertificate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendInstallCertificate delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendInstallCertificate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendInstallCertificate delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_95'>95</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_95'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetInstalledCertificateIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetInstalledCertificateIds delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendGetInstalledCertificateIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetInstalledCertificateIds delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendGetInstalledCertificateIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetInstalledCertificateIds delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendGetInstalledCertificateIds<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetInstalledCertificateIds delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_98'>98</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_98'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendDeleteCertificate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDeleteCertificate delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendDeleteCertificate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDeleteCertificate delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendDeleteCertificate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDeleteCertificate delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendDeleteCertificate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDeleteCertificate delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_101'>101</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_101'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog without retries filters nulls()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog without retries filters nulls()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog with all params()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog without retries filters nulls()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog without retries filters nulls()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog without retries filters nulls()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog without retries filters nulls()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_102'>102</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_102'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog with all params()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_103'>103</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_103'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog without retries filters nulls()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendGetLog<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog with all params()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_107'>107</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_107'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendSignedUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware delegates correctly()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendSignedUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendSignedUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendSignedUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendSignedUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware filters null retries()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendSignedUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware filters null retries()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_108'>108</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_108'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendSignedUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_109'>109</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_109'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendSignedUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendSignedUpdateFirmware<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware filters null retries()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_113'>113</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_113'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendCertificateSigned<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCertificateSigned delegates correctly()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendCertificateSigned<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCertificateSigned delegates correctly()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendCertificateSigned<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCertificateSigned delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendCertificateSigned<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCertificateSigned delegates correctly()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_116'>116</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_116'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendDataTransfer<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer delegates with all params()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendDataTransfer<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer delegates with all params()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendDataTransfer<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer delegates with all params()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendDataTransfer<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer delegates with all params()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_117'>117</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_117'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendDataTransfer<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer delegates with all params()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@411b3f9c_118'>118</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@411b3f9c_118'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendDataTransfer<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer delegates with all params()]</span></span> removed call to org/tekeli/borisp/ocpp16/websocket/ChargePointRegistry::sendCall &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendDataTransfer<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer delegates with all params()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/OcppOutboundService::getChargePointRegistry &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetCompositeSchedule delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getCompositeSchedule command round trip()] (45 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage with connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendExtendedTriggerMessage without connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute extendedTriggerMessage command round trip()] (47 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSendLocalList delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute sendLocalList command round trip()] (72 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSetChargingProfile delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute setChargingProfile command round trip()] (63 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer delegates with all params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer filters null messageId and data()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUnlockConnector delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for unlock-connector when chargePoint not connected()] (23 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute unlockConnector command round trip()] (76 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with nulls filters them()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with all params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearChargingProfile command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware filters null retries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute signedUpdateFirmware command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStopTransaction delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-stop-transaction when chargePoint not connected()] (24 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStopTransaction command round trip()] (62 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware filters null retries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware delegates with all params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute updateFirmware command round trip()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog without retries filters nulls()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog with all params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReserveNow delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reserveNow command round trip()] (51 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage with connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendTriggerMessage without connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute triggerMessage command round trip()] (68 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendReset delegates to registry()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for reset when chargePoint not connected()] (28 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reset command round trip()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should return rejected status when chargePoint rejects command()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics filters null retries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics delegates with filtered payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should auto-generate diagnostics location when empty payload()] (19 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should auto-generate diagnostics location when empty payload()] (49 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getDiagnostics command round trip()] (61 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendInstallCertificate delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute installCertificate command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with idTag only()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendRemoteStartTransaction with connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStartTransaction command round trip()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:uninitialized service throws UninitializedPropertyAccessException()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with null keys passes null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLocalListVersion delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearCache delegates with null payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCancelReservation delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetInstalledCertificateIds delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeConfiguration delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendChangeAvailability delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendCertificateSigned delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDeleteCertificate delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetConfiguration with keys passes payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearCache command round trip()] (40 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getConfiguration command round trip()] (53 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute cancelReservation command round trip()] (52 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getInstalledCertificateIds command round trip()] (56 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLocalListVersion command round trip()] (63 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeAvailability command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute deleteCertificate command round trip()] (73 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeConfiguration command round trip()] (94 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

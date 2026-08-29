@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GetLogCommand.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.command</a> &gt; <span class="el_source">GetLogCommand.kt</span></div><h1>GetLogCommand.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.command
+
+import jakarta.inject.Inject
+import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.OcppConstants
+import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
+
+<span class="fc" id="L8">@jakarta.enterprise.context.ApplicationScoped</span>
+<span class="fc" id="L9">class GetLogCommand @Inject constructor(</span>
+<span class="fc" id="L10">    private val gateway: ChargePointGateway</span>
+) : OcppCommand {
+
+<span class="fc" id="L13">    override val name = &quot;get-log&quot;</span>
+
+<span class="fc" id="L15">    private val validLogTypes = setOf(&quot;DiagnosticsLog&quot;, &quot;SecurityLog&quot;)</span>
+
+    override fun validate(payload: Map&lt;String, Any&gt;): Response? {
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        val error = validateTopLevel(payload)</span>
+<span class="fc" id="L19">            ?: validateNestedLog(payload)</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        return error?.let {</span>
+<span class="fc" id="L21">            Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L22">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to it))</span>
+<span class="fc" id="L23">                .build()</span>
+        }
+    }
+
+    internal fun validateTopLevel(payload: Map&lt;String, Any&gt;): String? {
+<span class="fc" id="L28">        val raw = payload[&quot;logType&quot;]</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        val logType = raw?.toString()</span>
+<span class="fc bfc" id="L30" title="All 4 branches covered.">        if (logType == null || logType !in validLogTypes)</span>
+<span class="fc" id="L31">            return &quot;logType must be one of: DiagnosticsLog, SecurityLog&quot;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (payload[&quot;requestId&quot;] !is Number)</span>
+<span class="fc" id="L33">            return &quot;requestId is required&quot;</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        return if (payload[&quot;log&quot;] is Map&lt;*, *&gt;) null else &quot;log is required&quot;</span>
+    }
+
+    internal fun validateNestedLog(payload: Map&lt;String, Any&gt;): String? {
+<span class="fc bfc" id="L38" title="All 4 branches covered.">        val remoteLocation = (payload[&quot;log&quot;] as Map&lt;*, *&gt;).get(&quot;remoteLocation&quot;) as? String</span>
+<span class="fc" id="L39">            ?: return &quot;log.remoteLocation is required&quot;</span>
+<span class="fc bfc" id="L40" title="All 6 branches covered.">        return if (remoteLocation.isEmpty() || remoteLocation.length &gt; OcppConstants.MAX_FIRMWARE_LOCATION_LENGTH)</span>
+<span class="fc" id="L41">            &quot;log.remoteLocation must not exceed ${OcppConstants.MAX_FIRMWARE_LOCATION_LENGTH} characters&quot; else null</span>
+    }
+
+    override fun execute(chargePointId: String, payload: Map&lt;String, Any&gt;): Response {
+<span class="fc" id="L45">        val logType = payload[&quot;logType&quot;] as String</span>
+<span class="fc" id="L46">        val requestId = (payload[&quot;requestId&quot;] as Number).toInt()</span>
+<span class="fc" id="L47">        val log = PayloadValidators.safeMap(payload[&quot;log&quot;])</span>
+<span class="fc bfc" id="L48" title="All 4 branches covered.">        val retries = (payload[&quot;retries&quot;] as? Number)?.toInt()</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">        val retryInterval = (payload[&quot;retryInterval&quot;] as? Number)?.toInt()</span>
+
+<span class="fc" id="L51">        val result = gateway.sendGetLog(chargePointId, logType, requestId, log, retries, retryInterval)</span>
+<span class="fc" id="L52">        return PayloadValidators.awaitAndBuildResponse(result, name)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

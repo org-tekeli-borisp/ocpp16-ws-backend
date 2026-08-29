@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>CertificateSignedHandler.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.handler</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.OcppConstants</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.FormationViolationException</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.OcppMessage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.callResult</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class CertificateSignedHandler : OcppActionHandler {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_11'/>
+11
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_11'>4</a>
+<span>
+1. handle : negated conditional &rarr; KILLED<br/>
+2. handle : removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessage$Call::getPayload &rarr; KILLED<br/>
+3. handle : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. handle : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val payload = call.payload ?: throw FormationViolationException(&#34;Payload is null&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_12'/>
+12
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_12'>1</a>
+<span>
+1. handle : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        payload.requiredString(&#34;certificateChain&#34;, OcppConstants.MAX_CERTIFICATE_CHAIN_LENGTH)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_14'/>
+14
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_14'>2</a>
+<span>
+1. handle : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/CertificateSignedHandler::handle &rarr; KILLED<br/>
+2. handle : removed call to org/tekeli/borisp/ocpp16/protocol/OcppResponseExtensionsKt::callResult &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return call.callResult(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_15'/>
+15
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_15'>2</a>
+<span>
+1. handle : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. handle : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            mapOf(&#34;status&#34; to &#34;Accepted&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@324d8b67_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@324d8b67_11'>11</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_11'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should always return Accepted for valid certificateChain()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should always return Accepted for valid certificateChain()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessage$Call::getPayload &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should always return Accepted for valid certificateChain()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for null payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@324d8b67_12'>12</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_12'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for whitespace-only certificateChain()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@324d8b67_14'>14</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_14'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should always return Accepted for valid certificateChain()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/CertificateSignedHandler::handle &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should always return Accepted for valid certificateChain()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppResponseExtensionsKt::callResult &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@324d8b67_15'>15</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@324d8b67_15'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should always return Accepted for valid certificateChain()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should always return Accepted for valid certificateChain()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should preserve messageId in response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should accept certificateChain with exactly 10000 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should always return Accepted for valid certificateChain()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should accept valid CertificateSigned()] (40 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid CertificateSigned()] (30 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for null certificateChain()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for whitespace-only certificateChain()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for empty certificateChain()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for certificateChain exceeding 10000 characters()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for null payload()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for missing certificateChain()] (160 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

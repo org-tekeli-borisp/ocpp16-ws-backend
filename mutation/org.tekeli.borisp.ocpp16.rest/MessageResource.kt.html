@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>MessageResource.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.rest</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.GET</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.NotFoundException</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.Path</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.PathParam</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.Produces</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.QueryParam</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.MediaType</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.persistence.OcppMessageLog</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.OcppMessageDto</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@Path(&#34;/api/chargepoints/{chargePointId}/messages&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>@Produces(MediaType.APPLICATION_JSON)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>class MessageResource {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Inject</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_20'/>
+20
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_20'>3</a>
+<span>
+1. getMessageCaptureService : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. getMessageCaptureService : negated conditional &rarr; KILLED<br/>
+3. getMessageCaptureService : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    lateinit var messageCaptureService: MessageCaptureService</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Inject</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_23'>3</a>
+<span>
+1. getPersistenceService : negated conditional &rarr; KILLED<br/>
+2. getPersistenceService : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. getPersistenceService : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    lateinit var persistenceService: org.tekeli.borisp.ocpp16.persistence.PersistenceService</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @GET</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun getMessages(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @PathParam(&#34;chargePointId&#34;) chargePointId: String,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @QueryParam(&#34;direction&#34;) direction: String? = null,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @QueryParam(&#34;action&#34;) action: String? = null,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @QueryParam(&#34;limit&#34;) limit: Int = 200,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @QueryParam(&#34;since&#34;) since: String? = null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    ): List&#60;OcppMessageDto&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateChargePoint(chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_35'/>
+35
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_35'>2</a>
+<span>
+1. getMessages : removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::getMessageCaptureService &rarr; KILLED<br/>
+2. getMessages : removed call to org/tekeli/borisp/ocpp16/protocol/MessageCaptureService::getMessages &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val buffered = messageCaptureService.getMessages(chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_36'>1</a>
+<span>
+1. getMessages : removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::matches &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val filtered = buffered.filter { it.matches(direction, action, since) }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_37'/>
+37
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_37'>2</a>
+<span>
+1. getMessages : removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::applyLimit &rarr; KILLED<br/>
+2. getMessages : replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/rest/MessageResource::getMessages &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return filtered.applyLimit(limit)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @GET</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Path(&#34;/history&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun getHistory(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @PathParam(&#34;chargePointId&#34;) chargePointId: String,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @QueryParam(&#34;direction&#34;) direction: String? = null,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @QueryParam(&#34;action&#34;) action: String? = null,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @QueryParam(&#34;limit&#34;) limit: Int = 200,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        @QueryParam(&#34;offset&#34;) offset: Int = 0</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    ): Map&#60;String, Any&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateChargePoint(chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_51'>4</a>
+<span>
+1. getHistory : removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::getPersistenceService &rarr; KILLED<br/>
+2. getHistory : removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::findMessageLogs &rarr; KILLED<br/>
+3. getHistory : Replaced integer multiplication with division &rarr; KILLED<br/>
+4. getHistory : Replaced integer addition with subtraction &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val allLogs = persistenceService.findMessageLogs(chargePointId, direction, action, (offset + limit) * 2)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_52'/>
+52
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_52'>2</a>
+<span>
+1. getHistory : removed call to kotlin/collections/CollectionsKt::drop &rarr; KILLED<br/>
+2. getHistory : removed call to kotlin/collections/CollectionsKt::take &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val page = allLogs.drop(offset).take(limit)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_53'/>
+53
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_53'>2</a>
+<span>
+1. getHistory : removed call to kotlin/collections/CollectionsKt::createListBuilder &rarr; KILLED<br/>
+2. getHistory : removed call to kotlin/collections/CollectionsKt::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val dtos = buildList {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            for (entry in page) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_55'>2</a>
+<span>
+1. getHistory : removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::toDto &rarr; KILLED<br/>
+2. getHistory : removed call to java/util/List::add &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                add(toDto(entry))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_59'/>
+59
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_59'>2</a>
+<span>
+1. getHistory : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+2. getHistory : replaced return value with Collections.emptyMap for org/tekeli/borisp/ocpp16/rest/MessageResource::getHistory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return mapOf(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_60'/>
+60
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_60'>3</a>
+<span>
+1. getHistory : removed call to java/util/List::size &rarr; KILLED<br/>
+2. getHistory : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+3. getHistory : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            &#34;total&#34; to allLogs.size,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_61'/>
+61
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_61'>2</a>
+<span>
+1. getHistory : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+2. getHistory : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            &#34;offset&#34; to offset,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_62'/>
+62
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_62'>2</a>
+<span>
+1. getHistory : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. getHistory : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            &#34;limit&#34; to limit,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_63'/>
+63
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_63'>1</a>
+<span>
+1. getHistory : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            &#34;messages&#34; to dtos</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateChargePoint(chargePointId: String) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_68'/>
+68
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_68'>5</a>
+<span>
+1. validateChargePoint : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validateChargePoint : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. validateChargePoint : removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::findChargePointById &rarr; KILLED<br/>
+4. validateChargePoint : negated conditional &rarr; KILLED<br/>
+5. validateChargePoint : removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::getPersistenceService &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (persistenceService.findChargePointById(chargePointId) == null) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw NotFoundException(&#34;ChargePoint not found: $chargePointId&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_70'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_73'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private fun toDto(log: OcppMessageLog): OcppMessageDto = OcppMessageDto(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_74'/>
+74
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_74'>1</a>
+<span>
+1. toDto : removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getChargePointId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        chargePointId = log.chargePointId,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_75'/>
+75
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_75'>1</a>
+<span>
+1. toDto : removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getDirection &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        direction = log.direction,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_76'/>
+76
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_76'>1</a>
+<span>
+1. toDto : removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getMessageType &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        messageType = log.messageType,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_77'/>
+77
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_77'>8</a>
+<span>
+1. toDto : negated conditional &rarr; KILLED<br/>
+2. toDto : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. toDto : negated conditional &rarr; KILLED<br/>
+4. toDto : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. toDto : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. toDto : removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED<br/>
+7. toDto : removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getAction &rarr; KILLED<br/>
+8. toDto : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        action = log.action.takeIf { it.isNotBlank() },</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_78'/>
+78
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_78'>1</a>
+<span>
+1. toDto : removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getMessageId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        messageId = log.messageId,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_79'/>
+79
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_79'>1</a>
+<span>
+1. toDto : removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getPayload &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        payload = log.payload,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_80'/>
+80
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_80'>2</a>
+<span>
+1. toDto : removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getTimestamp &rarr; KILLED<br/>
+2. toDto : removed call to java/time/Instant::toString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        timestamp = log.timestamp.toString()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_81'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_82'/>
+82
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_82'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun OcppMessageDto.matches(direction: String?, action: String?, since: String?): Boolean =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_84'/>
+84
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_84'>13</a>
+<span>
+1. matches : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. matches : negated conditional &rarr; KILLED<br/>
+3. matches : removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::matchesSince &rarr; KILLED<br/>
+4. matches : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. matches : negated conditional &rarr; KILLED<br/>
+6. matches : replaced boolean return with true for org/tekeli/borisp/ocpp16/rest/MessageResource::matches &rarr; KILLED<br/>
+7. matches : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+8. matches : removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::matchesDirection &rarr; KILLED<br/>
+9. matches : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+10. matches : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+11. matches : negated conditional &rarr; KILLED<br/>
+12. matches : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+13. matches : removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::matchesAction &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        matchesDirection(direction) &#38;&#38; matchesAction(action) &#38;&#38; matchesSince(since)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_86'/>
+86
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_86'>16</a>
+<span>
+1. matchesDirection : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. matchesDirection : negated conditional &rarr; KILLED<br/>
+3. matchesDirection : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. matchesDirection : negated conditional &rarr; KILLED<br/>
+5. matchesDirection : negated conditional &rarr; KILLED<br/>
+6. matchesDirection : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+7. matchesDirection : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+8. matchesDirection : removed call to kotlin/jvm/internal/Intrinsics::areEqual &rarr; KILLED<br/>
+9. matchesDirection : replaced boolean return with true for org/tekeli/borisp/ocpp16/rest/MessageResource::matchesDirection &rarr; KILLED<br/>
+10. matchesDirection : negated conditional &rarr; KILLED<br/>
+11. matchesDirection : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+12. matchesDirection : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+13. matchesDirection : removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessageDto::getDirection &rarr; KILLED<br/>
+14. matchesDirection : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+15. matchesDirection : removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED<br/>
+16. matchesDirection : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    private fun OcppMessageDto.matchesDirection(d: String?) = d.isNullOrBlank() || this.direction == d</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_87'/>
+87
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_87'>16</a>
+<span>
+1. matchesAction : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. matchesAction : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. matchesAction : replaced boolean return with true for org/tekeli/borisp/ocpp16/rest/MessageResource::matchesAction &rarr; KILLED<br/>
+4. matchesAction : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. matchesAction : negated conditional &rarr; KILLED<br/>
+6. matchesAction : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. matchesAction : removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessageDto::getAction &rarr; KILLED<br/>
+8. matchesAction : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+9. matchesAction : negated conditional &rarr; KILLED<br/>
+10. matchesAction : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+11. matchesAction : negated conditional &rarr; KILLED<br/>
+12. matchesAction : negated conditional &rarr; KILLED<br/>
+13. matchesAction : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+14. matchesAction : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+15. matchesAction : removed call to kotlin/jvm/internal/Intrinsics::areEqual &rarr; KILLED<br/>
+16. matchesAction : removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    private fun OcppMessageDto.matchesAction(a: String?) = a.isNullOrBlank() || this.action == a</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_88'/>
+88
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_88'>10</a>
+<span>
+1. matchesSince : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+2. matchesSince : negated conditional &rarr; KILLED<br/>
+3. matchesSince : removed call to java/lang/String::compareTo &rarr; KILLED<br/>
+4. matchesSince : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+5. matchesSince : negated conditional &rarr; KILLED<br/>
+6. matchesSince : replaced boolean return with true for org/tekeli/borisp/ocpp16/rest/MessageResource::matchesSince &rarr; KILLED<br/>
+7. matchesSince : removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessageDto::getTimestamp &rarr; KILLED<br/>
+8. matchesSince : changed conditional boundary &rarr; KILLED<br/>
+9. matchesSince : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+10. matchesSince : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    private fun OcppMessageDto.matchesSince(s: String?) = s == null || this.timestamp &#62;= s</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_89'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun List&#60;OcppMessageDto&#62;.applyLimit(limit: Int) =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_91'/>
+91
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_91'>6</a>
+<span>
+1. applyLimit : negated conditional &rarr; KILLED<br/>
+2. applyLimit : replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/rest/MessageResource::applyLimit &rarr; KILLED<br/>
+3. applyLimit : removed call to kotlin/collections/CollectionsKt::takeLast &rarr; KILLED<br/>
+4. applyLimit : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+5. applyLimit : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+6. applyLimit : changed conditional boundary &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (limit &#62; 0) takeLast(limit) else this</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@558058a_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@558058a_92'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_20'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMessageCaptureService<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns empty for new charge point()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getMessageCaptureService<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns empty for new charge point()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getMessageCaptureService<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages throws when messageCaptureService is not injected()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getPersistenceService<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns 404 for unknown charge point()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getPersistenceService<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns 404 for unknown charge point()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getPersistenceService<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages throws when persistenceService is not injected()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMessages<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns empty for new charge point()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::getMessageCaptureService &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getMessages<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns empty for new charge point()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/MessageCaptureService::getMessages &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMessages<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::matches &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_37'>37</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_37'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMessages<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns empty for new charge point()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::applyLimit &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getMessages<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/rest/MessageResource::getMessages &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getHistory returns paginated results()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::getPersistenceService &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getHistory returns paginated results()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::findMessageLogs &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory fetches twice the requested window()]</span></span> Replaced integer multiplication with division &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory fetches twice the requested window()]</span></span> Replaced integer addition with subtraction &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_52'>52</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_52'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getHistory returns paginated results()]</span></span> removed call to kotlin/collections/CollectionsKt::drop &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory fetches twice the requested window()]</span></span> removed call to kotlin/collections/CollectionsKt::take &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_53'>53</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_53'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory fetches twice the requested window()]</span></span> removed call to kotlin/collections/CollectionsKt::createListBuilder &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to kotlin/collections/CollectionsKt::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::toDto &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to java/util/List::add &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_59'>59</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_59'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getHistory returns paginated results()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> replaced return value with Collections.emptyMap for org/tekeli/borisp/ocpp16/rest/MessageResource::getHistory &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_60'>60</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_60'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to java/util/List::size &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory fetches twice the requested window()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_61'>61</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_61'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory fetches twice the requested window()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_62'>62</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_62'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory fetches twice the requested window()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_63'>63</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_63'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getHistory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory fetches twice the requested window()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_68'>68</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_68'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateChargePoint<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns 404 for unknown charge point()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateChargePoint<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns empty for new charge point()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateChargePoint<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns empty for new charge point()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::findChargePointById &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateChargePoint<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns 404 for unknown charge point()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validateChargePoint<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns 404 for unknown charge point()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::getPersistenceService &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_74'>74</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_74'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getChargePointId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_75'>75</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_75'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getDirection &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_76'>76</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_76'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getMessageType &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_77'>77</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_77'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory maps a blank action to null()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory maps a blank action to null()]</span></span> removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getAction &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory maps a blank action to null()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_78'>78</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_78'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getMessageId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_79'>79</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_79'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getPayload &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_80'>80</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_80'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/OcppMessageLog::getTimestamp &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>toDto<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getHistory returns paginated results()]</span></span> removed call to java/time/Instant::toString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_84'>84</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_84'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::matchesSince &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/rest/MessageResource::matches &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::matchesDirection &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by direction()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>12.<span><b>12</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>13.<span><b>13</b><br/><b>Location : </b>matches<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed call to org/tekeli/borisp/ocpp16/rest/MessageResource::matchesAction &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_86'>86</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_86'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by direction()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by direction()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by direction()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed call to kotlin/jvm/internal/Intrinsics::areEqual &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by direction()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/rest/MessageResource::matchesDirection &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by direction()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>12.<span><b>12</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by direction()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>13.<span><b>13</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessageDto::getDirection &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>14.<span><b>14</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages treats a blank direction as no filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>15.<span><b>15</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages treats a blank direction as no filter()]</span></span> removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>16.<span><b>16</b><br/><b>Location : </b>matchesDirection<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_87'>87</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_87'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/rest/MessageResource::matchesAction &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessageDto::getAction &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>12.<span><b>12</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>13.<span><b>13</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>14.<span><b>14</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages treats a blank action as no filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>15.<span><b>15</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed call to kotlin/jvm/internal/Intrinsics::areEqual &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>16.<span><b>16</b><br/><b>Location : </b>matchesAction<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages treats a blank action as no filter()]</span></span> removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_88'>88</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_88'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()]</span></span> removed call to java/lang/String::compareTo &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/rest/MessageResource::matchesSince &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessageDto::getTimestamp &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>matchesSince<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_91'>91</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_91'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>applyLimit<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>applyLimit<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/rest/MessageResource::applyLimit &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>applyLimit<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages respects limit()]</span></span> removed call to kotlin/collections/CollectionsKt::takeLast &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>applyLimit<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>applyLimit<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages respects limit()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>applyLimit<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@558058a_95'>95</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@558058a_95'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMessages<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed call to java/util/Collection::add &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getMessages<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getMessages<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>getMessages<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns empty for new charge point()] (26 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with direction filter()] (22 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages with action filter()] (24 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns buffered messages()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages respects limit()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by action()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages treats a blank action as no filter()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by direction()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages returns all buffered messages when no filters are set()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages filters by since timestamp keeping the boundary()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages treats a blank direction as no filter()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages returns all messages when limit is zero()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages keeps the last N messages when limit is positive()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns the requested window with totals()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory maps a blank action to null()] (165 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getHistory returns paginated results()] (2045 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory fetches twice the requested window()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages returns 404 for unknown charge point()] (12 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages throws when messageCaptureService is not injected()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages returns 404 for an unknown charge point()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns 404 for an unknown charge point()] (147 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getMessages throws when persistenceService is not injected()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

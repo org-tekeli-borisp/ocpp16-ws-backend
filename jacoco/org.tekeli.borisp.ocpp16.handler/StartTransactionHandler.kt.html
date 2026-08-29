@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StartTransactionHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.handler</a> &gt; <span class="el_source">StartTransactionHandler.kt</span></div><h1>StartTransactionHandler.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.handler
+
+import org.tekeli.borisp.ocpp16.OcppConstants
+import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.callResult
+import java.time.Instant
+
+<span class="fc" id="L9">class StartTransactionHandler : OcppActionHandler {</span>
+    override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
+<span class="fc bfc" id="L11" title="All 2 branches covered.">        val payload = call.payload ?: throw FormationViolationException(&quot;Payload is null&quot;)</span>
+<span class="fc" id="L12">        val (connectorId, idTag, meterStart, startTime) = validatePayload(payload)</span>
+
+<span class="fc" id="L14">        val transactionId = createTransaction(context, connectorId, idTag, meterStart, startTime)</span>
+
+<span class="fc" id="L16">        return call.callResult(</span>
+<span class="fc" id="L17">            mapOf(</span>
+<span class="fc" id="L18">                &quot;idTagInfo&quot; to mapOf(&quot;status&quot; to &quot;Accepted&quot;),</span>
+<span class="fc" id="L19">                &quot;transactionId&quot; to transactionId</span>
+            )
+        )
+    }
+
+    internal fun createTransaction(
+        context: OcppHandlerContext,
+        connectorId: Int,
+        idTag: String,
+        meterStart: Int,
+        startTime: Instant
+    ): Long {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        val ps = context.persistenceService ?: return 1</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        val chargePoint = ps.findChargePointBySessionId(context.sessionId) ?: return 1</span>
+<span class="fc" id="L33">        val txn = ps.createTransaction(</span>
+<span class="fc" id="L34">            chargePointId = chargePoint.chargePointId,</span>
+<span class="fc" id="L35">            connectorId = connectorId,</span>
+<span class="fc" id="L36">            idTag = idTag,</span>
+<span class="fc" id="L37">            meterStart = meterStart,</span>
+<span class="fc" id="L38">            startTime = startTime</span>
+        )
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        context.metricsService?.onTransactionStarted()</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        return txn.id ?: 1</span>
+    }
+
+<span class="fc" id="L44">    internal data class ParsedStartTransaction(</span>
+<span class="fc" id="L45">        val connectorId: Int,</span>
+<span class="fc" id="L46">        val idTag: String,</span>
+<span class="fc" id="L47">        val meterStart: Int,</span>
+<span class="fc" id="L48">        val startTime: Instant</span>
+    )
+
+    internal fun validatePayload(payload: Map&lt;String, Any&gt;): ParsedStartTransaction {
+<span class="fc" id="L52">        val connectorId = payload.requiredInt(&quot;connectorId&quot;, min = 1)</span>
+<span class="fc" id="L53">        val idTag = payload.requiredString(&quot;idTag&quot;, OcppConstants.MAX_ID_TAG_LENGTH)</span>
+<span class="fc" id="L54">        val meterStart = payload.requiredInt(&quot;meterStart&quot;)</span>
+<span class="fc" id="L55">        val startTime = payload.requiredInstant(&quot;timestamp&quot;)</span>
+<span class="fc" id="L56">        return ParsedStartTransaction(connectorId, idTag, meterStart, startTime)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>ClearChargingProfileCommand.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.command</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.Response</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@jakarta.enterprise.context.ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class ClearChargingProfileCommand @Inject constructor(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val gateway: ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>) : OcppCommand {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_12'/>
+12
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_12'>1</a>
+<span>
+1. getName : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ClearChargingProfileCommand::getName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    override val name = &#34;clear-charging-profile&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun validate(payload: Map&#60;String, Any&#62;): Response? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        return null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun execute(chargePointId: String, payload: Map&#60;String, Any&#62;): Response {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_19'/>
+19
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_19'>7</a>
+<span>
+1. execute : negated conditional &rarr; KILLED<br/>
+2. execute : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+3. execute : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+4. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+5. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+6. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val connectorId = if (payload[&#34;connectorId&#34;] is Number) (payload[&#34;connectorId&#34;] as Number).toInt() else null</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_20'/>
+20
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_20'>7</a>
+<span>
+1. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+3. execute : negated conditional &rarr; KILLED<br/>
+4. execute : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+5. execute : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+6. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val stackLevel = if (payload[&#34;stackLevel&#34;] is Number) (payload[&#34;stackLevel&#34;] as Number).toInt() else null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_22'>1</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendClearChargingProfile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val result = gateway.sendClearChargingProfile(chargePointId, connectorId, stackLevel)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_23'>2</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/command/ClearChargingProfileCommand::getName &rarr; KILLED<br/>
+2. execute : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return PayloadValidators.awaitAndBuildResponse(result, name)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@52f13410_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@52f13410_12'>12</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_12'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand has correct name()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/ClearChargingProfileCommand::getName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@52f13410_19'>19</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_19'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on error()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@52f13410_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_20'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on error()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@52f13410_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendClearChargingProfile &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@52f13410_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@52f13410_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/ClearChargingProfileCommand::getName &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with all params returns ACCEPTED()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Double connectorId and stackLevel()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearChargingProfile command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand has correct name()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

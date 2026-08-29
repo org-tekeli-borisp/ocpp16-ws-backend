@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>MeterValuesHandler.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.handler</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.OcppConstants</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.FormationViolationException</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.OcppMessage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.callResult</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class MeterValuesHandler : OcppActionHandler {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_10'/>
+10
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_10'>4</a>
+<span>
+1. handle : negated conditional &rarr; KILLED<br/>
+2. handle : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. handle : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. handle : removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessage$Call::getPayload &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val payload = call.payload ?: throw FormationViolationException(&#34;Payload is null&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateConnectorId(payload)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateMeterValues(payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_14'/>
+14
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_14'>2</a>
+<span>
+1. handle : removed call to org/tekeli/borisp/ocpp16/protocol/OcppResponseExtensionsKt::callResult$default &rarr; KILLED<br/>
+2. handle : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/MeterValuesHandler::handle &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return call.callResult()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateConnectorId(payload: Map&#60;String, Any&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_18'/>
+18
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_18'>1</a>
+<span>
+1. validateConnectorId : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt$default &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        payload.requiredInt(&#34;connectorId&#34;, min = 0)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateMeterValues(payload: Map&#60;String, Any&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_22'>1</a>
+<span>
+1. validateMeterValues : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val meterValue = payload[&#34;meterValue&#34;]</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_23'>3</a>
+<span>
+1. validateMeterValues : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. validateMeterValues : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. validateMeterValues : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (meterValue == null) throw FormationViolationException(&#34;meterValue is required&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_24'/>
+24
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_24'>6</a>
+<span>
+1. validateMeterValues : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validateMeterValues : negated conditional &rarr; KILLED<br/>
+3. validateMeterValues : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. validateMeterValues : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. validateMeterValues : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+6. validateMeterValues : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val meterValueList = meterValue as? List&#60;*&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            ?: throw FormationViolationException(&#34;meterValue must be an array&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_26'/>
+26
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_26'>4</a>
+<span>
+1. validateMeterValues : removed call to java/util/List::isEmpty &rarr; KILLED<br/>
+2. validateMeterValues : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. validateMeterValues : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. validateMeterValues : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (meterValueList.isEmpty()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw FormationViolationException(&#34;meterValue must contain at least 1 element&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        meterValueList.forEach { mv -&#62; validateSingleMeterValue(mv) }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateSingleMeterValue(mv: Any?) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_33'/>
+33
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_33'>6</a>
+<span>
+1. validateSingleMeterValue : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validateSingleMeterValue : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. validateSingleMeterValue : negated conditional &rarr; KILLED<br/>
+4. validateSingleMeterValue : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. validateSingleMeterValue : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. validateSingleMeterValue : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val mvMap = mv as? Map&#60;*, *&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            ?: throw FormationViolationException(&#34;Each meterValue must be an object&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_35'/>
+35
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_35'>1</a>
+<span>
+1. validateSingleMeterValue : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val timestamp = mvMap[&#34;timestamp&#34;]</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_36'>13</a>
+<span>
+1. validateSingleMeterValue : negated conditional &rarr; KILLED<br/>
+2. validateSingleMeterValue : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. validateSingleMeterValue : negated conditional &rarr; KILLED<br/>
+4. validateSingleMeterValue : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+5. validateSingleMeterValue : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. validateSingleMeterValue : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+7. validateSingleMeterValue : removed call to java/lang/CharSequence::length &rarr; KILLED<br/>
+8. validateSingleMeterValue : negated conditional &rarr; KILLED<br/>
+9. validateSingleMeterValue : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+10. validateSingleMeterValue : removed call to kotlin/text/StringsKt::trim &rarr; KILLED<br/>
+11. validateSingleMeterValue : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+12. validateSingleMeterValue : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+13. validateSingleMeterValue : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (timestamp == null || timestamp.toString().trim().isEmpty()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw FormationViolationException(&#34;timestamp is required in meterValue&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_39'/>
+39
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_39'>1</a>
+<span>
+1. validateSingleMeterValue : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val sampledValues = mvMap[&#34;sampledValue&#34;]</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_40'/>
+40
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_40'>3</a>
+<span>
+1. validateSingleMeterValue : negated conditional &rarr; KILLED<br/>
+2. validateSingleMeterValue : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. validateSingleMeterValue : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (sampledValues == null) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw FormationViolationException(&#34;sampledValue is required in meterValue&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        validateSampledValues(sampledValues)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateSampledValues(sampledValues: Any?) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_47'/>
+47
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_47'>6</a>
+<span>
+1. validateSampledValues : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. validateSampledValues : negated conditional &rarr; KILLED<br/>
+3. validateSampledValues : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. validateSampledValues : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. validateSampledValues : negated conditional &rarr; KILLED<br/>
+6. validateSampledValues : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val list = sampledValues as? List&#60;*&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            ?: throw FormationViolationException(&#34;sampledValue must be an array&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_49'/>
+49
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_49'>4</a>
+<span>
+1. validateSampledValues : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validateSampledValues : removed call to java/util/List::isEmpty &rarr; KILLED<br/>
+3. validateSampledValues : negated conditional &rarr; KILLED<br/>
+4. validateSampledValues : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (list.isEmpty()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw FormationViolationException(&#34;sampledValue must contain at least 1 element&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        list.forEach { validateSingleSampledValue(it) }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateSingleSampledValue(sv: Any?) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_56'/>
+56
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_56'>6</a>
+<span>
+1. validateSingleSampledValue : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validateSingleSampledValue : negated conditional &rarr; KILLED<br/>
+3. validateSingleSampledValue : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. validateSingleSampledValue : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. validateSingleSampledValue : negated conditional &rarr; KILLED<br/>
+6. validateSingleSampledValue : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val svMap = sv as? Map&#60;*, *&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            ?: throw FormationViolationException(&#34;Each sampledValue must be an object&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_58'/>
+58
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_58'>4</a>
+<span>
+1. validateSingleSampledValue : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validateSingleSampledValue : removed call to java/util/Map::get &rarr; KILLED<br/>
+3. validateSingleSampledValue : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. validateSingleSampledValue : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (svMap[&#34;value&#34;] == null) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw FormationViolationException(&#34;value is required in sampledValue&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@28158904_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@28158904_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_10'>10</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_10'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler rejects connectorId -1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler rejects connectorId -1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for null payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler rejects connectorId -1()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessage$Call::getPayload &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_14'>14</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_14'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppResponseExtensionsKt::callResult$default &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/MeterValuesHandler::handle &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_18'>18</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_18'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateConnectorId<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler rejects connectorId -1()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt$default &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing meterValue()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_24'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues meterValue as string must fail()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues meterValue as string must fail()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_26'>26</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_26'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for empty meterValue array()]</span></span> removed call to java/util/List::isEmpty &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for empty meterValue array()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateMeterValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_33'>33</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_33'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues meterValue entry as number must fail()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues meterValue entry as number must fail()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing timestamp in meterValue()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues whitespace timestamp in meterValue must fail()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed call to java/lang/CharSequence::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed call to kotlin/text/StringsKt::trim &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues whitespace timestamp in meterValue must fail()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>12.<span><b>12</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>13.<span><b>13</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_39'>39</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_39'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_40'>40</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_40'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing sampledValue()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateSingleMeterValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_47'>47</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_47'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue as string must fail()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue as string must fail()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_49'>49</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_49'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for empty sampledValue array()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for empty sampledValue array()]</span></span> removed call to java/util/List::isEmpty &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateSampledValues<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_56'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue entry as number must fail()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue entry as number must fail()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@28158904_58'>58</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@28158904_58'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing value in sampledValue()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateSingleSampledValue<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 0()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should accept MeterValues with connectorId 0 for main power meter()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should accept MeterValues with optional transactionId omitted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return empty CallResult for valid MeterValues()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should accept MeterValues with multiple sampledValues()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues multiple sampledValue entries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue with boolean value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue with numeric value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue with additional fields must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues response is CallResult with null payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues connectorId large positive must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues connectorId 0 valid main power meter()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues response preserves messageId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue with string value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues multiple meterValue entries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues with transactionId field must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for empty sampledValue array()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for string sampledValue instead of array()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues empty sampledValue array must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue as string must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing value in sampledValue()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues missing value in sampledValue must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue entry as number must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid MeterValues()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues missing timestamp in meterValue must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues meterValue entry as number must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues whitespace timestamp in meterValue must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing sampledValue()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues empty timestamp in meterValue must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing timestamp in meterValue()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing meterValue()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for empty meterValue array()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues meterValue as string must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues empty meterValue array must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for string meterValue instead of array()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler rejects connectorId -1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for null payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for negative connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues connectorId -1 invalid()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues connectorId negative 2 must fail()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

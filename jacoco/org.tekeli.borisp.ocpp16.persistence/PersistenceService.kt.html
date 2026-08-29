@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PersistenceService.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.persistence</a> &gt; <span class="el_source">PersistenceService.kt</span></div><h1>PersistenceService.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.persistence
+
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
+import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
+import java.time.Instant
+
+<span class="fc" id="L9">data class ConnectorStatusDto(</span>
+<span class="fc" id="L10">    val connectorId: Int,</span>
+<span class="fc" id="L11">    val status: String,</span>
+<span class="fc" id="L12">    val errorCode: String,</span>
+<span class="fc" id="L13">    val info: String?,</span>
+<span class="fc" id="L14">    val timestamp: String</span>
+)
+
+<span class="fc" id="L17">@ApplicationScoped</span>
+open class PersistenceService {
+
+    @Inject
+<span class="fc" id="L21">    lateinit var em: EntityManager</span>
+
+    @Transactional
+    fun upsertChargePoint(sessionId: String, chargePointId: String, vendor: String, model: String, firmwareVersion: String?) {
+<span class="fc" id="L25">        val existing = em.createQuery(</span>
+<span class="fc" id="L26">            &quot;SELECT c FROM ChargePoint c WHERE c.chargePointId = :cpId&quot;, ChargePoint::class.java</span>
+<span class="fc" id="L27">        ).setParameter(&quot;cpId&quot;, chargePointId).resultList</span>
+
+<span class="fc bfc" id="L29" title="All 4 branches covered.">        if (existing.isNotEmpty()) {</span>
+<span class="fc" id="L30">            val cp = existing[0] as ChargePoint</span>
+<span class="fc" id="L31">            cp.status = ChargePointStatus.ONLINE</span>
+<span class="fc" id="L32">            cp.sessionId = sessionId</span>
+<span class="fc" id="L33">            cp.lastConnectedAt = Instant.now()</span>
+<span class="fc" id="L34">            cp.touch()</span>
+        } else {
+<span class="fc" id="L36">            em.persist(ChargePoint(</span>
+<span class="fc" id="L37">                chargePointId = chargePointId,</span>
+<span class="fc" id="L38">                vendor = vendor,</span>
+<span class="fc" id="L39">                model = model,</span>
+<span class="fc" id="L40">                firmwareVersion = firmwareVersion,</span>
+<span class="fc" id="L41">                status = ChargePointStatus.ONLINE,</span>
+<span class="fc" id="L42">                sessionId = sessionId,</span>
+<span class="fc" id="L43">                lastConnectedAt = Instant.now()</span>
+            ))
+        }
+<span class="fc" id="L46">        em.flush()</span>
+<span class="fc" id="L47">    }</span>
+
+    @Transactional
+    fun createTransaction(chargePointId: String, connectorId: Int, idTag: String, meterStart: Int, startTime: Instant): Transaction {
+<span class="fc" id="L51">        val txn = Transaction(</span>
+<span class="fc" id="L52">            chargePointId = chargePointId,</span>
+<span class="fc" id="L53">            connectorId = connectorId,</span>
+<span class="fc" id="L54">            idTag = idTag,</span>
+<span class="fc" id="L55">            meterStart = meterStart,</span>
+<span class="fc" id="L56">            startTime = startTime</span>
+        )
+<span class="fc" id="L58">        em.persist(txn)</span>
+<span class="fc" id="L59">        em.flush()</span>
+<span class="fc" id="L60">        return txn</span>
+    }
+
+    @Transactional
+    open fun stopTransaction(transactionId: Long, meterStop: Int, stopTime: Instant, reason: String?, idTagEnd: String?): Boolean {
+<span class="fc" id="L65">        val txn = em.find(Transaction::class.java, transactionId)</span>
+<span class="fc bfc" id="L66" title="All 4 branches covered.">        if (txn == null || txn.stopTime != null) {</span>
+<span class="fc" id="L67">            return false</span>
+        }
+<span class="fc" id="L69">        txn.stop(meterStop, stopTime, reason, idTagEnd)</span>
+<span class="fc" id="L70">        em.flush()</span>
+<span class="fc" id="L71">        return true</span>
+    }
+
+    @Transactional
+    fun setChargePointOffline(sessionId: String) {
+<span class="fc" id="L76">        em.createQuery(</span>
+<span class="fc" id="L77">            &quot;UPDATE ChargePoint c SET c.status = :status WHERE c.sessionId = :sid&quot;</span>
+<span class="fc" id="L78">        ).setParameter(&quot;status&quot;, ChargePointStatus.OFFLINE).setParameter(&quot;sid&quot;, sessionId).executeUpdate()</span>
+<span class="fc" id="L79">    }</span>
+
+    @Transactional
+    fun setChargePointOfflineByChargePointId(chargePointId: String) {
+<span class="fc" id="L83">        em.createQuery(</span>
+<span class="fc" id="L84">            &quot;UPDATE ChargePoint c SET c.status = :status WHERE c.chargePointId = :cpId&quot;</span>
+<span class="fc" id="L85">        ).setParameter(&quot;status&quot;, ChargePointStatus.OFFLINE).setParameter(&quot;cpId&quot;, chargePointId).executeUpdate()</span>
+<span class="fc" id="L86">    }</span>
+
+    @Transactional
+    fun setChargePointOnline(sessionId: String) {
+<span class="fc" id="L90">        em.createQuery(</span>
+<span class="fc" id="L91">            &quot;UPDATE ChargePoint c SET c.status = :status, c.lastSeenAt = :now WHERE c.sessionId = :sid&quot;</span>
+<span class="fc" id="L92">        ).setParameter(&quot;status&quot;, ChargePointStatus.ONLINE).setParameter(&quot;now&quot;, Instant.now()).setParameter(&quot;sid&quot;, sessionId).executeUpdate()</span>
+<span class="fc" id="L93">    }</span>
+
+    @Transactional
+    fun touchLastSeenAt(chargePointId: String) {
+<span class="fc" id="L97">        em.createQuery(</span>
+<span class="fc" id="L98">            &quot;UPDATE ChargePoint c SET c.lastSeenAt = :now WHERE c.chargePointId = :cpId&quot;</span>
+<span class="fc" id="L99">        ).setParameter(&quot;now&quot;, Instant.now()).setParameter(&quot;cpId&quot;, chargePointId).executeUpdate()</span>
+<span class="fc" id="L100">    }</span>
+
+    @Transactional
+    fun setChargePointOnlineById(chargePointId: String, sessionId: String) {
+<span class="fc" id="L104">        val now = Instant.now()</span>
+<span class="fc" id="L105">        em.createQuery(</span>
+<span class="fc" id="L106">            &quot;UPDATE ChargePoint c SET c.status = :status, c.sessionId = :sid, c.lastSeenAt = :now, c.lastConnectedAt = :connNow WHERE c.chargePointId = :cpId&quot;</span>
+<span class="fc" id="L107">        ).setParameter(&quot;status&quot;, ChargePointStatus.ONLINE)</span>
+<span class="fc" id="L108">         .setParameter(&quot;sid&quot;, sessionId)</span>
+<span class="fc" id="L109">         .setParameter(&quot;now&quot;, now)</span>
+<span class="fc" id="L110">         .setParameter(&quot;connNow&quot;, now)</span>
+<span class="fc" id="L111">         .setParameter(&quot;cpId&quot;, chargePointId)</span>
+<span class="fc" id="L112">         .executeUpdate()</span>
+<span class="fc" id="L113">    }</span>
+
+    fun findChargePointBySessionId(sessionId: String): ChargePoint? {
+<span class="fc" id="L116">        val result = em.createQuery(&quot;SELECT c FROM ChargePoint c WHERE c.sessionId = :sid&quot;, ChargePoint::class.java)</span>
+<span class="fc" id="L117">            .setParameter(&quot;sid&quot;, sessionId).resultList</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        return if (result.isEmpty()) null else result[0] as ChargePoint</span>
+    }
+
+    fun findChargePointById(chargePointId: String): ChargePoint? {
+<span class="fc" id="L122">        val result = em.createQuery(&quot;SELECT c FROM ChargePoint c WHERE c.chargePointId = :cpId&quot;, ChargePoint::class.java)</span>
+<span class="fc" id="L123">            .setParameter(&quot;cpId&quot;, chargePointId).resultList</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        return if (result.isEmpty()) null else result[0] as ChargePoint</span>
+    }
+
+    open fun findTransaction(id: Long): Transaction? =
+<span class="fc" id="L128">        em.find(Transaction::class.java, id)</span>
+
+    fun findRunningTransactions(chargePointId: String): List&lt;Transaction&gt; =
+<span class="fc" id="L131">        em.createQuery(&quot;SELECT t FROM Transaction t WHERE t.chargePointId = :cpId AND t.stopTime IS NULL&quot;, Transaction::class.java)</span>
+<span class="fc" id="L132">            .setParameter(&quot;cpId&quot;, chargePointId).resultList as List&lt;Transaction&gt;</span>
+
+    fun findAllChargePoints(): List&lt;ChargePoint&gt; =
+<span class="fc" id="L135">        em.createQuery(&quot;SELECT c FROM ChargePoint c ORDER BY c.lastSeenAt DESC&quot;, ChargePoint::class.java)</span>
+<span class="fc" id="L136">            .resultList as List&lt;ChargePoint&gt;</span>
+
+    fun findByStatus(status: ChargePointStatus): List&lt;ChargePoint&gt; =
+<span class="fc" id="L139">        em.createQuery(&quot;SELECT c FROM ChargePoint c WHERE c.status = :status&quot;, ChargePoint::class.java)</span>
+<span class="fc" id="L140">            .setParameter(&quot;status&quot;, status).resultList as List&lt;ChargePoint&gt;</span>
+
+    fun findOnlineChargePoints(): List&lt;ChargePoint&gt; =
+<span class="fc" id="L143">        em.createQuery(&quot;SELECT c FROM ChargePoint c WHERE c.status = :status&quot;, ChargePoint::class.java)</span>
+<span class="fc" id="L144">            .setParameter(&quot;status&quot;, ChargePointStatus.ONLINE).resultList as List&lt;ChargePoint&gt;</span>
+
+    fun findAllTransactions(chargePointId: String): List&lt;Transaction&gt; =
+<span class="fc" id="L147">        em.createQuery(&quot;SELECT t FROM Transaction t WHERE t.chargePointId = :cpId ORDER BY t.startTime DESC&quot;, Transaction::class.java)</span>
+<span class="fc" id="L148">            .setParameter(&quot;cpId&quot;, chargePointId).resultList as List&lt;Transaction&gt;</span>
+
+    // Security: SecurityLog
+    @Transactional
+    fun createSecurityLog(chargePointId: String, type: String, timestamp: Instant, techInfo: String?): SecurityLog {
+<span class="fc" id="L153">        val log = SecurityLog(</span>
+<span class="fc" id="L154">            chargePointId = chargePointId,</span>
+<span class="fc" id="L155">            type = type,</span>
+<span class="fc" id="L156">            timestamp = timestamp,</span>
+<span class="fc" id="L157">            techInfo = techInfo</span>
+        )
+<span class="fc" id="L159">        em.persist(log)</span>
+<span class="fc" id="L160">        em.flush()</span>
+<span class="fc" id="L161">        return log</span>
+    }
+
+    fun findSecurityLogsByChargePointId(chargePointId: String): List&lt;SecurityLog&gt; =
+<span class="fc" id="L165">        em.createQuery(&quot;SELECT l FROM SecurityLog l WHERE l.chargePointId = :cpId ORDER BY l.timestamp DESC&quot;, SecurityLog::class.java)</span>
+<span class="fc" id="L166">            .setParameter(&quot;cpId&quot;, chargePointId).resultList as List&lt;SecurityLog&gt;</span>
+
+    fun findSecurityLogsByType(type: String): List&lt;SecurityLog&gt; =
+<span class="fc" id="L169">        em.createQuery(&quot;SELECT l FROM SecurityLog l WHERE l.type = :type ORDER BY l.timestamp DESC&quot;, SecurityLog::class.java)</span>
+<span class="fc" id="L170">            .setParameter(&quot;type&quot;, type).resultList as List&lt;SecurityLog&gt;</span>
+
+    fun findRecentSecurityLogs(limit: Int): List&lt;SecurityLog&gt; {
+<span class="fc" id="L173">        val query = em.createQuery(&quot;SELECT l FROM SecurityLog l ORDER BY l.timestamp DESC&quot;, SecurityLog::class.java)</span>
+<span class="fc" id="L174">        query.maxResults = limit</span>
+<span class="fc" id="L175">        return query.resultList as List&lt;SecurityLog&gt;</span>
+    }
+
+    // Security: SignedFirmware
+    @Transactional
+    fun createSignedFirmware(
+        chargePointId: String,
+        requestId: Int,
+        location: String,
+        retrieveDateTime: Instant,
+        installDateTime: Instant?,
+        signingCertificate: String,
+        signature: String
+    ): SignedFirmware {
+<span class="fc" id="L189">        val firmware = SignedFirmware(</span>
+<span class="fc" id="L190">            chargePointId = chargePointId,</span>
+<span class="fc" id="L191">            requestId = requestId,</span>
+<span class="fc" id="L192">            location = location,</span>
+<span class="fc" id="L193">            retrieveDateTime = retrieveDateTime,</span>
+<span class="fc" id="L194">            installDateTime = installDateTime,</span>
+<span class="fc" id="L195">            signingCertificate = signingCertificate,</span>
+<span class="fc" id="L196">            signature = signature,</span>
+<span class="fc" id="L197">            status = &quot;Accepted&quot;</span>
+        )
+<span class="fc" id="L199">        em.persist(firmware)</span>
+<span class="fc" id="L200">        em.flush()</span>
+<span class="fc" id="L201">        return firmware</span>
+    }
+
+    fun findSignedFirmwareByRequestId(chargePointId: String, requestId: Int): SignedFirmware? {
+<span class="fc" id="L205">        val result = em.createQuery(</span>
+<span class="fc" id="L206">            &quot;SELECT f FROM SignedFirmware f WHERE f.chargePointId = :cpId AND f.requestId = :reqId&quot;, SignedFirmware::class.java</span>
+<span class="fc" id="L207">        ).setParameter(&quot;cpId&quot;, chargePointId).setParameter(&quot;reqId&quot;, requestId).resultList</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">        return if (result.isEmpty()) null else result[0] as SignedFirmware</span>
+    }
+
+    fun findSignedFirmwareById(id: Long): SignedFirmware? =
+<span class="fc" id="L212">        em.find(SignedFirmware::class.java, id)</span>
+
+    fun findAllSignedFirmware(chargePointId: String): List&lt;SignedFirmware&gt; =
+<span class="fc" id="L215">        em.createQuery(&quot;SELECT f FROM SignedFirmware f WHERE f.chargePointId = :cpId ORDER BY f.createdAt DESC&quot;, SignedFirmware::class.java)</span>
+<span class="fc" id="L216">            .setParameter(&quot;cpId&quot;, chargePointId).resultList as List&lt;SignedFirmware&gt;</span>
+
+    @Transactional
+    fun updateSignedFirmwareStatus(chargePointId: String, requestId: Int, status: String): Boolean {
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        val firmware = findSignedFirmwareByRequestId(chargePointId, requestId) ?: return false</span>
+<span class="fc" id="L221">        firmware.status = status</span>
+<span class="fc" id="L222">        em.flush()</span>
+<span class="fc" id="L223">        return true</span>
+    }
+
+    // ConnectorStatus
+    @Transactional
+    open fun updateConnectorStatus(
+        chargePointId: String,
+        connectorId: Int,
+        status: String,
+        errorCode: String,
+        info: String?
+    ) {
+<span class="fc" id="L235">        em.createQuery(&quot;DELETE FROM ConnectorStatus cs WHERE cs.chargePointId = :cpId AND cs.connectorId = :connId&quot;)</span>
+<span class="fc" id="L236">            .setParameter(&quot;cpId&quot;, chargePointId)</span>
+<span class="fc" id="L237">            .setParameter(&quot;connId&quot;, connectorId)</span>
+<span class="fc" id="L238">            .executeUpdate()</span>
+<span class="fc" id="L239">        em.persist(ConnectorStatus(</span>
+<span class="fc" id="L240">            chargePointId = chargePointId,</span>
+<span class="fc" id="L241">            connectorId = connectorId,</span>
+<span class="fc" id="L242">            status = status,</span>
+<span class="fc" id="L243">            errorCode = errorCode,</span>
+<span class="fc" id="L244">            info = info</span>
+        ))
+<span class="fc" id="L246">        em.flush()</span>
+<span class="fc" id="L247">    }</span>
+
+    fun findConnectorStatusesByChargePointId(chargePointId: String): List&lt;ConnectorStatusDto&gt; {
+<span class="fc" id="L250">        val result = em.createQuery(</span>
+<span class="fc" id="L251">            &quot;SELECT cs FROM ConnectorStatus cs WHERE cs.chargePointId = :cpId ORDER BY cs.connectorId&quot;,</span>
+<span class="fc" id="L252">            ConnectorStatus::class.java</span>
+<span class="fc" id="L253">        ).setParameter(&quot;cpId&quot;, chargePointId).resultList as List&lt;ConnectorStatus&gt;</span>
+<span class="fc" id="L254">        return result.map { cs -&gt;</span>
+<span class="fc" id="L255">            ConnectorStatusDto(</span>
+<span class="fc" id="L256">                connectorId = cs.connectorId,</span>
+<span class="fc" id="L257">                status = cs.status,</span>
+<span class="fc" id="L258">                errorCode = cs.errorCode,</span>
+<span class="fc" id="L259">                info = cs.info,</span>
+<span class="fc" id="L260">                timestamp = cs.timestamp.toString()</span>
+<span class="fc" id="L261">            )</span>
+        }
+    }
+
+    @Transactional
+    fun createMessageLog(
+        chargePointId: String,
+        direction: String,
+        messageType: String,
+        action: String?,
+        messageId: String,
+        payload: String?
+    ): OcppMessageLog {
+<span class="fc" id="L274">        val log = OcppMessageLog(</span>
+<span class="fc" id="L275">            chargePointId = chargePointId,</span>
+<span class="fc" id="L276">            direction = direction,</span>
+<span class="fc" id="L277">            messageType = messageType,</span>
+<span class="fc bfc" id="L278" title="All 2 branches covered.">            action = action ?: &quot;&quot;,</span>
+<span class="fc" id="L279">            messageId = messageId,</span>
+<span class="fc" id="L280">            payload = payload</span>
+        )
+<span class="fc" id="L282">        em.persist(log)</span>
+<span class="fc" id="L283">        return log</span>
+    }
+
+    fun findMessageLogs(chargePointId: String, direction: String?, action: String?, limit: Int): List&lt;OcppMessageLog&gt; {
+<span class="fc" id="L287">        val (queryStr, params) = buildMessageQuery(chargePointId, direction, action)</span>
+<span class="fc" id="L288">        var query = em.createQuery(queryStr, OcppMessageLog::class.java)</span>
+<span class="fc bfc" id="L289" title="All 2 branches covered.">        for ((key, value) in params) {</span>
+<span class="fc" id="L290">            query.setParameter(key, value)</span>
+        }
+<span class="fc" id="L292">        query.maxResults = limit</span>
+<span class="fc" id="L293">        return query.resultList as List&lt;OcppMessageLog&gt;</span>
+    }
+
+    private fun buildMessageQuery(chargePointId: String, direction: String?, action: String?): Pair&lt;String, Map&lt;String, Any?&gt;&gt; {
+<span class="fc" id="L297">        val params = mapOf(&quot;cpId&quot; to chargePointId)</span>
+<span class="fc" id="L298">        val conditions = mutableListOf&lt;String&gt;()</span>
+
+<span class="fc bfc" id="L300" title="All 2 branches covered.">        if (!isBlank(direction)) {</span>
+<span class="fc" id="L301">            conditions += &quot;m.direction = :direction&quot;</span>
+        }
+<span class="fc bfc" id="L303" title="All 2 branches covered.">        if (!isBlank(action)) {</span>
+<span class="fc" id="L304">            conditions += &quot;m.action = :action&quot;</span>
+        }
+
+<span class="fc" id="L307">        val queryStr = buildQueryBase(chargePointId, conditions)</span>
+<span class="fc" id="L308">        val allParams = params + directionParam(direction) + actionParam(action)</span>
+<span class="fc" id="L309">        return queryStr to allParams</span>
+    }
+
+    private fun buildQueryBase(chargePointId: String, conditions: List&lt;String&gt;): String {
+<span class="fc" id="L313">        var qp = &quot;SELECT m FROM OcppMessageLog m WHERE m.chargePointId = :cpId&quot;</span>
+<span class="fc bfc" id="L314" title="All 4 branches covered.">        if (conditions.isNotEmpty()) {</span>
+<span class="fc" id="L315">            qp += &quot; AND &quot; + conditions.joinToString(&quot; AND &quot;)</span>
+        }
+<span class="fc" id="L317">        return qp + &quot; ORDER BY m.timestamp DESC&quot;</span>
+    }
+
+    private fun directionParam(direction: String?): Map&lt;String, Any?&gt; =
+<span class="fc bfc" id="L321" title="All 2 branches covered.">        if (!isBlank(direction)) mapOf(&quot;direction&quot; to direction) else emptyMap()</span>
+
+    private fun actionParam(action: String?): Map&lt;String, Any?&gt; =
+<span class="fc bfc" id="L324" title="All 2 branches covered.">        if (!isBlank(action)) mapOf(&quot;action&quot; to action) else emptyMap()</span>
+
+<span class="fc bfc" id="L326" title="All 4 branches covered.">    private fun isBlank(s: String?) = s == null || s.isBlank()</span>
+
+    @Transactional
+    fun purgeMessageLogsBefore(cutoff: Instant): Int {
+<span class="fc" id="L330">        return em.createQuery(</span>
+<span class="fc" id="L331">            &quot;DELETE FROM OcppMessageLog m WHERE m.timestamp &lt; :cutoff&quot;</span>
+<span class="fc" id="L332">        ).setParameter(&quot;cutoff&quot;, cutoff).executeUpdate()</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

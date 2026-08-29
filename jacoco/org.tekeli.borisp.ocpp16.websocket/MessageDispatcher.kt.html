@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MessageDispatcher.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.websocket</a> &gt; <span class="el_source">MessageDispatcher.kt</span></div><h1>MessageDispatcher.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.websocket
+
+import org.tekeli.borisp.ocpp16.handler.OcppActionHandler
+import org.tekeli.borisp.ocpp16.handler.OcppHandlerContext
+import org.tekeli.borisp.ocpp16.metrics.MetricsService
+import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.OcppMessageDirection
+import org.tekeli.borisp.ocpp16.protocol.OcppErrorCode
+import org.tekeli.borisp.ocpp16.protocol.OcppMessageType
+import org.tekeli.borisp.ocpp16.protocol.OcppParseException
+import org.tekeli.borisp.ocpp16.protocol.callError
+import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
+import java.util.*
+
+/**
+ * Dispatches incoming OCPP messages to the appropriate handler or response awaiter.
+ */
+<span class="fc" id="L22">class MessageDispatcher(</span>
+<span class="fc" id="L23">    private val handlers: Map&lt;String, OcppActionHandler&gt;,</span>
+<span class="fc" id="L24">    private val messageCaptureService: MessageCaptureService? = null,</span>
+<span class="fc" id="L25">    private val schemaValidator: SchemaValidator? = null,</span>
+<span class="fc" id="L26">) {</span>
+<span class="fc" id="L27">    private val objectMapper = ObjectMapper()</span>
+    fun dispatch(
+        message: String,
+        context: OcppHandlerContext,
+        responseAwaiter: ResponseAwaiter,
+        metricsService: MetricsService?
+    ): String {
+<span class="fc" id="L34">        return dispatch(message, context, responseAwaiter, metricsService, context.chargePointId)</span>
+    }
+
+    fun dispatch(
+        message: String,
+        context: OcppHandlerContext,
+        responseAwaiter: ResponseAwaiter,
+        metricsService: MetricsService?,
+        chargePointId: String
+    ): String {
+<span class="fc" id="L44">        return try {</span>
+<span class="fc" id="L45">            val ocppMessage = OcppMessage.parse(message)</span>
+<span class="fc" id="L46">            dispatchParsed(ocppMessage, context, responseAwaiter, metricsService, chargePointId)</span>
+<span class="fc" id="L47">        } catch (e: OcppParseException) {</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            val errorMsg = e.message ?: &quot;Parse error&quot;</span>
+<span class="fc" id="L49">            OcppMessage.CallError(</span>
+<span class="fc" id="L50">                messageId = generateMessageId(),</span>
+<span class="fc" id="L51">                errorCode = OcppErrorCode.PROTOCOL_ERROR,</span>
+<span class="fc" id="L52">                errorDescription = errorMsg,</span>
+<span class="fc" id="L53">                errorDetails = null</span>
+<span class="fc" id="L54">            ).toJson()</span>
+        }
+    }
+
+    private fun dispatchParsed(
+        ocppMessage: OcppMessage,
+        context: OcppHandlerContext,
+        responseAwaiter: ResponseAwaiter,
+        metricsService: MetricsService?,
+        chargePointId: String
+    ): String {
+<span class="fc bfc" id="L65" title="All 3 branches covered.">        return when (ocppMessage.type) {</span>
+            OcppMessageType.CALL -&gt; {
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                messageCaptureService?.capture(chargePointId, OcppMessageDirection.INBOUND, ocppMessage)</span>
+<span class="fc bfc" id="L68" title="All 4 branches covered.">                metricsService?.messagesReceived?.increment()</span>
+<span class="fc" id="L69">                handleCall(ocppMessage as OcppMessage.Call, context, chargePointId)</span>
+            }
+<span class="fc" id="L71">            OcppMessageType.CALLRESULT -&gt; handleCallResult(ocppMessage as OcppMessage.CallResult, responseAwaiter)</span>
+<span class="fc" id="L72">            OcppMessageType.CALLERROR -&gt; handleCallError(ocppMessage as OcppMessage.CallError, responseAwaiter)</span>
+        }
+    }
+
+    private fun handleCall(call: OcppMessage.Call, context: OcppHandlerContext, chargePointId: String): String {
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        val responseJson = handlers[call.action]</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">            ?.let { invokeHandler(call, context, it) }</span>
+<span class="fc" id="L79">            ?: call.callError(OcppErrorCode.NOT_IMPLEMENTED, &quot;Action '${call.action}' is not implemented&quot;)</span>
+<span class="fc" id="L80">        captureOutbound(chargePointId, responseJson)</span>
+<span class="fc" id="L81">        return responseJson</span>
+    }
+
+    private fun invokeHandler(call: OcppMessage.Call, context: OcppHandlerContext, handler: OcppActionHandler): String {
+<span class="fc" id="L85">        val schemaErrors = validateSchema(call)</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (schemaErrors != null) {</span>
+<span class="fc" id="L87">            return schemaErrors</span>
+        }
+<span class="fc" id="L89">        return try {</span>
+<span class="fc" id="L90">            handler.handle(call, context)</span>
+<span class="fc" id="L91">        } catch (e: Exception) {</span>
+<span class="fc" id="L92">            handleError(call, e)</span>
+        }
+    }
+
+    private fun validateSchema(call: OcppMessage.Call): String? {
+<span class="fc bfc" id="L97" title="All 4 branches covered.">        val schemaErrors = schemaValidator?.validate(call.action, objectMapper.writeValueAsString(call.payload ?: emptyMap&lt;String, Any&gt;()))</span>
+<span class="fc bfc" id="L98" title="All 8 branches covered.">        if (schemaErrors?.isNotEmpty() == true) {</span>
+<span class="fc" id="L99">            return call.callError(OcppErrorCode.FORMATION_VIOLATION, &quot;Schema validation failed: ${schemaErrors.joinToString(&quot;; &quot;)}&quot;)</span>
+        }
+<span class="fc" id="L101">        return null</span>
+    }
+
+    private fun handleError(call: OcppMessage.Call, e: Exception): String {
+<span class="fc" id="L105">        return when (e) {</span>
+<span class="fc bfc" id="L106" title="All 4 branches covered.">            is FormationViolationException -&gt; call.callError(OcppErrorCode.FORMATION_VIOLATION, e.message ?: &quot;Payload validation failed&quot;)</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            else -&gt; call.callError(OcppErrorCode.INTERNAL_ERROR, e.message ?: &quot;Internal error&quot;)</span>
+        }
+    }
+
+    private fun captureOutbound(chargePointId: String, responseJson: String) {
+<span class="fc" id="L112">        try {</span>
+<span class="fc" id="L113">            val responseMsg = OcppMessage.parse(responseJson)</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">            messageCaptureService?.capture(chargePointId, OcppMessageDirection.OUTBOUND, responseMsg)</span>
+<span class="fc" id="L115">        } catch (_: Throwable) { }</span>
+<span class="fc" id="L116">    }</span>
+
+    private fun handleCallResult(callResult: OcppMessage.CallResult, responseAwaiter: ResponseAwaiter): String {
+<span class="fc" id="L119">        try {</span>
+<span class="fc" id="L120">            responseAwaiter.resolve(callResult.messageId, callResult)</span>
+<span class="fc" id="L121">            return &quot;&quot;</span>
+<span class="fc" id="L122">        } catch (e: IllegalStateException) {</span>
+<span class="fc" id="L123">            return OcppMessage.CallError(</span>
+<span class="fc" id="L124">                messageId = callResult.messageId,</span>
+<span class="fc" id="L125">                errorCode = OcppErrorCode.PROTOCOL_ERROR,</span>
+<span class="fc" id="L126">                errorDescription = &quot;CALLRESULT not expected from ChargePoint&quot;,</span>
+<span class="fc" id="L127">                errorDetails = null</span>
+<span class="fc" id="L128">            ).toJson()</span>
+        }
+    }
+
+    private fun handleCallError(callError: OcppMessage.CallError, responseAwaiter: ResponseAwaiter): String {
+<span class="fc" id="L133">        try {</span>
+<span class="fc" id="L134">            responseAwaiter.reject(callError.messageId, callError)</span>
+<span class="fc" id="L135">            return &quot;&quot;</span>
+<span class="fc" id="L136">        } catch (e: IllegalStateException) {</span>
+<span class="fc" id="L137">            return OcppMessage.CallError(</span>
+<span class="fc" id="L138">                messageId = callError.messageId,</span>
+<span class="fc" id="L139">                errorCode = OcppErrorCode.PROTOCOL_ERROR,</span>
+<span class="fc" id="L140">                errorDescription = &quot;CALLERROR not expected from ChargePoint&quot;,</span>
+<span class="fc" id="L141">                errorDetails = null</span>
+<span class="fc" id="L142">            ).toJson()</span>
+        }
+    }
+
+<span class="fc" id="L146">    private fun generateMessageId(): String = UUID.randomUUID().toString()</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>PayloadParser.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.handler</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.FormationViolationException</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.time.Instant</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Shared validation extension functions for OCPP payload maps.</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>fun Map&#60;String, Any&#62;.requiredString(key: String, maxLength: Int): String {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_11'/>
+11
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_11'>1</a>
+<span>
+1. requiredString : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val value = get(key)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_12'/>
+12
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_12'>8</a>
+<span>
+1. requiredString : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. requiredString : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+3. requiredString : removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED<br/>
+4. requiredString : negated conditional &rarr; KILLED<br/>
+5. requiredString : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. requiredString : negated conditional &rarr; KILLED<br/>
+7. requiredString : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+8. requiredString : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (value == null || value.toString().isBlank()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        throw FormationViolationException(&#34;$key is required&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_15'/>
+15
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_15'>6</a>
+<span>
+1. requiredString : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+2. requiredString : changed conditional boundary &rarr; KILLED<br/>
+3. requiredString : negated conditional &rarr; KILLED<br/>
+4. requiredString : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+5. requiredString : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+6. requiredString : removed call to java/lang/String::length &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (value.toString().length &#62; maxLength) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        throw FormationViolationException(&#34;$key must not exceed $maxLength characters&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_18'/>
+18
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_18'>2</a>
+<span>
+1. requiredString : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+2. requiredString : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    return value.toString()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>fun Map&#60;String, Any&#62;.optionalString(key: String, maxLength: Int): String? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_22'>5</a>
+<span>
+1. optionalString : removed call to java/util/Map::get &rarr; KILLED<br/>
+2. optionalString : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. optionalString : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::optionalString &rarr; KILLED<br/>
+4. optionalString : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. optionalString : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val value = get(key) ?: return null</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_23'>3</a>
+<span>
+1. optionalString : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+2. optionalString : removed call to kotlin/text/StringsKt::trim &rarr; KILLED<br/>
+3. optionalString : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val str = value.toString().trim()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_24'/>
+24
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_24'>8</a>
+<span>
+1. optionalString : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::optionalString &rarr; KILLED<br/>
+2. optionalString : negated conditional &rarr; KILLED<br/>
+3. optionalString : negated conditional &rarr; KILLED<br/>
+4. optionalString : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. optionalString : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+6. optionalString : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. optionalString : removed call to java/lang/CharSequence::length &rarr; KILLED<br/>
+8. optionalString : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (str.isEmpty()) return null</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_25'/>
+25
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_25'>5</a>
+<span>
+1. optionalString : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+2. optionalString : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+3. optionalString : negated conditional &rarr; KILLED<br/>
+4. optionalString : changed conditional boundary &rarr; KILLED<br/>
+5. optionalString : removed call to java/lang/String::length &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (str.length &#62; maxLength) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        throw FormationViolationException(&#34;$key must not exceed $maxLength characters&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_28'/>
+28
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_28'>1</a>
+<span>
+1. optionalString : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::optionalString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    return str</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>fun Map&#60;String, Any&#62;.requiredInt(key: String, min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE): Int {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_32'/>
+32
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_32'>1</a>
+<span>
+1. requiredInt : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val value = get(key)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_33'/>
+33
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_33'>3</a>
+<span>
+1. requiredInt : negated conditional &rarr; KILLED<br/>
+2. requiredInt : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. requiredInt : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (value == null) throw FormationViolationException(&#34;$key is required&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_34'>7</a>
+<span>
+1. requiredInt : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. requiredInt : negated conditional &rarr; KILLED<br/>
+3. requiredInt : negated conditional &rarr; KILLED<br/>
+4. requiredInt : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. requiredInt : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+6. requiredInt : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+7. requiredInt : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val intValue = (value as? Number)?.toInt()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        ?: throw FormationViolationException(&#34;$key must be an integer&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_36'>8</a>
+<span>
+1. requiredInt : changed conditional boundary &rarr; KILLED<br/>
+2. requiredInt : negated conditional &rarr; KILLED<br/>
+3. requiredInt : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+4. requiredInt : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+5. requiredInt : negated conditional &rarr; KILLED<br/>
+6. requiredInt : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+7. requiredInt : changed conditional boundary &rarr; KILLED<br/>
+8. requiredInt : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (intValue &#60; min || intValue &#62; max) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        throw FormationViolationException(&#34;$key is out of range&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_39'/>
+39
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_39'>1</a>
+<span>
+1. requiredInt : replaced int return with 0 for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    return intValue</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>fun Map&#60;String, Any&#62;.requiredLong(key: String): Long {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_43'/>
+43
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_43'>1</a>
+<span>
+1. requiredLong : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val value = get(key)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_44'/>
+44
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_44'>3</a>
+<span>
+1. requiredLong : negated conditional &rarr; KILLED<br/>
+2. requiredLong : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. requiredLong : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (value == null) throw FormationViolationException(&#34;$key is required&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_45'>8</a>
+<span>
+1. requiredLong : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. requiredLong : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. requiredLong : replaced long return with 0 for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredLong &rarr; KILLED<br/>
+4. requiredLong : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. requiredLong : removed call to java/lang/Number::longValue &rarr; KILLED<br/>
+6. requiredLong : negated conditional &rarr; KILLED<br/>
+7. requiredLong : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+8. requiredLong : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    return (value as? Number)?.toLong()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        ?: throw FormationViolationException(&#34;$key must be an integer&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>fun Map&#60;String, Any&#62;.requiredInstant(key: String): Instant {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_50'/>
+50
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_50'>1</a>
+<span>
+1. requiredInstant : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val timestamp = get(key)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_51'>8</a>
+<span>
+1. requiredInstant : negated conditional &rarr; KILLED<br/>
+2. requiredInstant : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. requiredInstant : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. requiredInstant : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. requiredInstant : removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED<br/>
+6. requiredInstant : negated conditional &rarr; KILLED<br/>
+7. requiredInstant : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+8. requiredInstant : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (timestamp == null || timestamp.toString().isBlank()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        throw FormationViolationException(&#34;$key is required&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    return try {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_55'>2</a>
+<span>
+1. requiredInstant : removed call to java/time/Instant::parse &rarr; KILLED<br/>
+2. requiredInstant : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Instant.parse(timestamp.toString())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    } catch (e: Exception) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        throw FormationViolationException(&#34;Invalid $key format&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>fun Map&#60;String, Any&#62;.requiredStringIn(key: String, validValues: Set&#60;String&#62;): String {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_62'/>
+62
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_62'>1</a>
+<span>
+1. requiredStringIn : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val value = get(key)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_63'/>
+63
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_63'>8</a>
+<span>
+1. requiredStringIn : negated conditional &rarr; KILLED<br/>
+2. requiredStringIn : removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED<br/>
+3. requiredStringIn : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. requiredStringIn : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. requiredStringIn : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. requiredStringIn : negated conditional &rarr; KILLED<br/>
+7. requiredStringIn : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+8. requiredStringIn : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (value == null || value.toString().isBlank()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        throw FormationViolationException(&#34;$key is required&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_66'/>
+66
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_66'>1</a>
+<span>
+1. requiredStringIn : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val str = value.toString()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_67'/>
+67
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_67'>4</a>
+<span>
+1. requiredStringIn : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. requiredStringIn : negated conditional &rarr; KILLED<br/>
+3. requiredStringIn : removed call to java/util/Set::contains &rarr; KILLED<br/>
+4. requiredStringIn : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (str !in validValues) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        throw FormationViolationException(&#34;Invalid $key: $str&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_70'/>
+70
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_70'>1</a>
+<span>
+1. requiredStringIn : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredStringIn &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    return str</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@2f88ff33_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_11'>11</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_11'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString accepts valid string()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_12'>12</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_12'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString accepts valid string()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString throws when blank()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString throws when blank()]</span></span> removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString throws when missing()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString throws when blank()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString throws when blank()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString accepts valid string()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString throws when missing()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_15'>15</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_15'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest]/[method:validatePayload rejects vendor exceeding max length()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:requiredString accepts value exactly at maxLength()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString accepts valid string()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString accepts valid string()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString accepts valid string()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest]/[method:validatePayload rejects vendor exceeding max length()]</span></span> removed call to java/lang/String::length &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_18'>18</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_18'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString accepts valid string()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString accepts valid string()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:optionalString returns null when missing()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:optionalString returns null when missing()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::optionalString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:optionalString returns null when missing()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> removed call to kotlin/text/StringsKt::trim &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_24'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload returns null idTagEnd when empty()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::optionalString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload returns null idTagEnd when empty()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> removed call to java/lang/CharSequence::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload returns null idTagEnd when empty()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_25'>25</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_25'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:optionalString throws when exceeding maxLength()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString accepts value with exactly 255 characters()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:optionalString throws when exceeding maxLength()]</span></span> removed call to java/lang/String::length &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_28'>28</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_28'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>optionalString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString accepts value with exactly 255 characters()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::optionalString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_32'>32</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_32'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_33'>33</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_33'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing connectorId()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when not a number()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when not a number()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when not a number()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when above max()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when not a number()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts value at min boundary()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when above max()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when below min()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts value at max boundary()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when above max()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_39'>39</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_39'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredInt<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()]</span></span> replaced int return with 0 for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_43'>43</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_43'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for missing meterStop()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_44'>44</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_44'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for missing meterStop()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for missing meterStop()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should return FormationViolation for missing transactionId()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for missing meterStop()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for non-integer transactionId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts transactionId from Int()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredLong &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for non-integer transactionId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts transactionId from Int()]</span></span> removed call to java/lang/Number::longValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for non-integer transactionId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for missing meterStop()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>requiredLong<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for non-integer transactionId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_50'>50</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_50'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant returns correct Instant()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant returns correct Instant()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant rejects blank timestamp()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant returns correct Instant()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant returns correct Instant()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant rejects blank timestamp()]</span></span> removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInstant throws when missing()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInstant throws when missing()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant returns correct Instant()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant returns correct Instant()]</span></span> removed call to java/time/Instant::parse &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredInstant<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant returns correct Instant()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_62'>62</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_62'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_63'>63</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_63'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredStringIn throws when missing()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should throw FormationViolation for whitespace-only status - kills isBlank mutant()]</span></span> removed call to kotlin/text/StringsKt::isBlank &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredStringIn throws when missing()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should throw FormationViolation for whitespace-only status - kills isBlank mutant()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_66'>66</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_66'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_67'>67</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_67'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredStringIn throws when invalid value()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> removed call to java/util/Set::contains &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@2f88ff33_70'>70</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@2f88ff33_70'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>requiredStringIn<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredStringIn &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Long()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts value at min boundary()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts value at max boundary()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts valid integer()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when above max()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt accepts Double()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when below min()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for zero connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for negative connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for empty idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for non-integer meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for idTag exceeding 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for invalid timestamp format()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for empty timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for missing timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts connectorId from Long()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts negative meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for invalid timestamp format()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for empty timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload returns null idTagEnd when missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload handles meterStop 0()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts valid idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload handles transactionId as Int()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts valid meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload accepts idTag exactly 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts connectorId as 1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts meterStart from Long()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload returns null reason when missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts meterStop correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts transactionId from Int()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts valid startTime()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload handles transactionId 0()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts large connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload handles meterStop as Long()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts meterStart as zero()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts transactionId correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload returns null idTagEnd when empty()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts all fields with edge values()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts idTagEnd correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload trims idTagEnd()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts stopTime correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload returns null reason when empty()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts all fields correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for invalid reason()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts each valid reason()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for idTagEnd exceeding 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload accepts idTagEnd exactly 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts valid reason()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload extracts all fields correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:processStopTransaction with null persistenceService does not throw()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest]/[method:persists non-int Number connectorId converted to int()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest]/[method:persists string info value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerSurvivingMutantsTest]/[method:persists non-string info converted to string()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when chargePoint not found()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:handle with MetricsService records metrics()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when Transaction id is null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle calls metricsService onTransactionStarted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle delegates correct params to createTransaction()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues connectorId negative 2 must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId 0 must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId negative must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects connectorId -1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler rejects connectorId -1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing meterValue()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues connectorId -1 invalid()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for negative connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return empty CallResult for valid StatusNotification()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 0()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for empty meterValue array()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for idTag exceeding 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.MeterValuesHandlerTest]/[method:MeterValuesHandler returns correct result for connectorId 1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for empty errorCode()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts connectorId 0()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction empty idTag must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction whitespace idTag must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues empty meterValue array must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for missing meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should accept MeterValues with optional transactionId omitted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should accept MeterValues with multiple sampledValues()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return empty CallResult for valid MeterValues()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues meterValue as string must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for missing errorCode()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should accept MeterValues with connectorId 0 for main power meter()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for string meterValue instead of array()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for empty timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects invalid errorCode()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should return FormationViolation for missing timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues connectorId 0 valid main power meter()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return transactionId greater than 0 for StartTransaction()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for invalid status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction meterStart 0 must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues multiple sampledValue entries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue with additional fields must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction response contains transactionId greater than 0()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId large must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues with transactionId field must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should return FormationViolation for empty timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for empty idTag()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction idTag 21 chars must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues connectorId large positive must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues multiple meterValue entries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues missing timestamp in meterValue must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should accept StatusNotification with info exactly 50 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues response is CallResult with null payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects invalid status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction idTag exactly 20 chars must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue with numeric value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for missing timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return Accepted with transactionId for valid StartTransaction()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues response preserves messageId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should accept StartTransaction with idTag exactly 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId as float must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction response preserves messageId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction timestamp with timezone offset must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue with boolean value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for missing status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction meterStart large must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues meterValue entry as number must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for empty status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should accept StatusNotification with optional info field()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should accept StartTransaction with optional reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for invalid errorCode()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue with string value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId 1 must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction invalid timestamp format must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should accept StopTransaction with missing reason()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction timestamp epoch must succeed()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction invalid timestamp must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction response contains both idTagInfo and transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for string sampledValue instead of array()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing timestamp in meterValue()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for empty sampledValue array()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues whitespace timestamp in meterValue must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing sampledValue()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler accepts all valid statuses()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues empty timestamp in meterValue must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues empty sampledValue array must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction response preserves messageId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction invalid reason must fail with FormationViolation()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should return FormationViolation for invalid reason()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue as string must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should accept StopTransaction with empty reason()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should preserve messageId in StopTransaction response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for info exceeding 50 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction transactionId as large long must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction response contains idTagInfo with Accepted status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction meterStop as float must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - UnlockCommand()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should accept StopTransaction with empty idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction whitespace reason must succeed as empty()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - Local()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should return Accepted for valid StopTransaction()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction meterStop large value must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction null idTag must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - EmergencyStop()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - PowerLoss()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - SoftReset()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing value in sampledValue()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction transactionId as small positive int must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - DeAuthorized()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - Other()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should accept StopTransaction with idTag exactly 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - Reboot()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues missing value in sampledValue must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction transactionId zero must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - Remote()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction meterStop negative value must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction meterStop value 0 must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction missing idTag must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should return FormationViolation for idTag exceeding 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction transactionId as float must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - HardReset()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction all valid reason codes - EVDisconnected()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:MeterValues sampledValue entry as number must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction idTag exactly 20 chars must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction idTag exactly 21 chars must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StopTransaction empty idTag must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should accept StopTransaction with optional idTag()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:OcppWebSocketServer StartTransaction handler uses metricsService()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for missing idTag()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:OcppWebSocketServer StopTransaction handler uses metricsService()] (8 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for StopTransaction with missing reason (optional per spec)()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid StatusNotification()] (26 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid MeterValues()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid StopTransaction()] (27 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StartTransaction with invalid connectorId()] (36 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted with transactionId for valid StartTransaction()] (68 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should full flow boot heartbeat start stop transaction()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StopTransaction for non-existent transaction()] (77 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredStringIn throws when missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn returns exact type value for valid input()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredStringIn throws when invalid value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn accepts type with exactly 50 characters if valid()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn accepts valid type correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredStringIn accepts valid value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn rejects invalid type at exactly 51 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredStringIn rejects type exceeding 50 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerSurvivingMutantsTest]/[method:validatePayload accepts type at exactly max length and fails enum check instead()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should throw FormationViolation for whitespace-only status - kills isBlank mutant()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should throw FormationViolation for empty status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:should throw FormationViolation for missing status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:should throw FormationViolation for null status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:should throw FormationViolation for whitespace-only status - kills isBlank mutant()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:throw FormationViolation with exact message for blank status - kills EQUAL_ELSE on blank()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:should throw FormationViolation for empty status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:throw FormationViolation with exact message for blank status - kills EQUAL_ELSE on blank()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should throw FormationViolation for invalid status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should throw FormationViolation for missing status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should throw FormationViolation for null status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:validatePayload calls optionalString for techInfo()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerBranchTest]/[method:validatePayload with missing techInfo()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should handle whitespace-only type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:validatePayload calls extractTechInfo()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should throw FormationViolation for missing type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:validatePayload handles missing techInfo()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should throw FormationViolation for empty type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should reject invalid security event type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should handle null type field()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:response messageId matches call messageId exactly - kills messageId mutants()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should throw FormationViolation for missing timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should throw FormationViolation for empty timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:validatePayload extracts all fields correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerBranchTest]/[method:validatePayload with valid security event()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:should throw FormationViolation for invalid status()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should accept valid SignedFirmwareStatusNotification()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:response messageId matches call messageId exactly - kills messageId mutants()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:should accept LogStatusNotification with requestId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:should preserve messageId in response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:response payload is an empty object - kills emptyMap and requestId mutants()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:should accept valid LogStatusNotification()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should accept SignedFirmwareStatusNotification with requestId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should accept all valid firmware status values()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignedFirmwareStatusNotificationHandlerTest]/[method:should preserve messageId in response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:should accept all valid upload log status values()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should throw FormationViolation for techInfo exceeding 255 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LogStatusNotificationHandlerTest]/[method:response payload is an empty object - kills emptyMap and requestId mutants()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:handle rejects null chargePointId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:handle response contains correct messageId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:handle response has empty payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should preserve messageId in response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:handle passes correct timestamp to processSecurityEvent()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:handle passes correct type to processSecurityEvent()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:handle passes correct techInfo to processSecurityEvent()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should accept SecurityEventNotification with techInfo()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should accept valid SecurityEventNotification()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerSurvivingMutantsTest]/[method:handle completes without persistenceService()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should accept techInfo with exactly 255 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:should accept all valid security event types()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.SecurityEventNotificationHandlerSurvivingMutantsTest]/[method:handle persists techInfo from payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerFirmwareStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerFirmwareStatusNotificationTest]/[method:should return empty CallResult for valid FirmwareStatusNotification()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDiagnosticsStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDiagnosticsStatusNotificationTest]/[method:should return empty CallResult for valid DiagnosticsStatusNotification()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerFirmwareStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerFirmwareStatusNotificationTest]/[method:should return FormationViolation for missing status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerFirmwareStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerFirmwareStatusNotificationTest]/[method:should return FormationViolation for empty status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDiagnosticsStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDiagnosticsStatusNotificationTest]/[method:should return FormationViolation for missing status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDiagnosticsStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDiagnosticsStatusNotificationTest]/[method:should return FormationViolation for empty status()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerFirmwareStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerFirmwareStatusNotificationTest]/[method:should return FormationViolation for invalid status()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDiagnosticsStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDiagnosticsStatusNotificationTest]/[method:should return FormationViolation for invalid status()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:persistenceService createSecurityLog called for SecurityEventNotification()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SignedFirmwareStatusNotification()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid DiagnosticsStatusNotification()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid FirmwareStatusNotification()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid LogStatusNotification()] (28 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SecurityEventNotification()] (22 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString throws when blank()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString accepts valid string()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest]/[method:validatePayload rejects vendor exceeding max length()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:requiredString accepts value exactly at maxLength()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:requiredString throws for empty value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:requiredString returns valid value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString throws when exceeding maxLength()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:requiredString throws for whitespace value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload accepts model exactly 20 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest]/[method:validatePayload rejects model exceeding max length()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload returns null firmwareVersion when missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload accepts vendor exactly 20 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload throws for empty model()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:requiredString throws when value exceeds maxLength()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload throws for vendor exceeding 20 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload throws for whitespace vendor()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload throws for model exceeding 20 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload extracts valid vendor()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload throws for whitespace model()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload extracts present firmwareVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload throws for missing model()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest]/[method:validatePayload rejects missing model()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload throws for empty vendor()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload extracts valid model()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload treats absent firmwareVersion as null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest]/[method:validatePayload accepts payload without firmwareVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload extracts all fields with optional firmwareVersion missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest]/[method:validatePayload accepts valid payload with firmwareVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload extracts all fields correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for empty certificateChain()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignCertificateHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignCertificateHandlerTest]/[method:should throw FormationViolation for csr exceeding 5500 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for whitespace-only certificateChain()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignCertificateHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignCertificateHandlerTest]/[method:should throw FormationViolation for empty csr()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignCertificateHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignCertificateHandlerTest]/[method:should throw FormationViolation for whitespace-only csr()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should accept certificateChain with exactly 10000 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignCertificateHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignCertificateHandlerTest]/[method:should always return Accepted for valid CSR()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for certificateChain exceeding 10000 characters()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should preserve messageId in response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignCertificateHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignCertificateHandlerTest]/[method:should accept csr with exactly 5500 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignCertificateHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignCertificateHandlerTest]/[method:should preserve messageId in response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should always return Accepted for valid certificateChain()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.SignCertificateHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignCertificateHandlerTest]/[method:should accept valid SignCertificate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHeartbeatIntervalTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHeartbeatIntervalTest]/[method:BootNotification response uses default 300 when context heartbeatIntervalSeconds is 300()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHeartbeatIntervalTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHeartbeatIntervalTest]/[method:BootNotification response uses heartbeatIntervalSeconds from context()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:handle passes firmwareVersion from payload through to persistence()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:handle passes model from payload through to registry()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:handle passes vendor from payload through to registry()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:handle passes all three fields correctly through full flow()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher without schema validator passes additional properties to handler()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher without schema validator delegates to handler()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest]/[method:should return Accepted for valid DataTransfer()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest]/[method:should accept DataTransfer with vendorId exactly 255 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest]/[method:should preserve messageId in Authorize response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest]/[method:should return Accepted for valid Authorize()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest]/[method:should accept Authorize with idTag exactly 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest]/[method:should accept DataTransfer with empty messageId()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should use specific error message not default for FormationViolation()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should preserve messageId in FormationViolation response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest]/[method:should return FormationViolation for empty vendorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification vendor 21 chars must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest]/[method:should return FormationViolation for vendorId exceeding 255 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for vendor exceeding 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for model exceeding 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for whitespace-only vendor()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for empty vendor()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher with schema validator still delegates handler errors()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for null model()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for whitespace-only model()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should accept BootNotification with vendor exactly 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for missing model()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for empty model()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerServerTest]/[method:BootNotificationHandler response contains valid ISO timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification firmwareVersion null must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest]/[method:should accept DataTransfer with optional messageId and data()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should accept BootNotification with model exactly 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification model 21 chars must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification model exactly 20 chars must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification firmwareVersion optional - without firmwareVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerServerTest]/[method:BootNotificationHandler response contains interval()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification single char vendor and model must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification vendor with special characters must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification vendor exactly 20 chars must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest]/[method:should return FormationViolation for idTag exceeding 20 characters()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification firmwareVersion optional - with firmwareVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification response preserves messageId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification response contains interval field()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification response contains status field()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification response contains all required fields()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerServerTest]/[method:BootNotificationHandler throws when chargePointId is null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher with schema validator accepts valid payload()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:BootNotification response contains currentTime field()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest]/[method:should return FormationViolation for empty idTag()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerServerTest]/[method:BootNotificationHandler works with null registry()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return Accepted for valid BootNotification()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:metricsService messagesReceived increments on BootNotification CALL()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:null metricsService safe on multiple CALL types()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should accept valid CertificateSigned()] (40 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid DataTransfer()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignCertificate with empty CSR()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SignCertificate()] (18 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithEmptyModel()] (12 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid Authorize request()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithEmptyVendor()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid CertificateSigned()] (30 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallResultForValidBootNotification()] (24 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearCache command round trip()] (40 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStartTransaction command round trip()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getConfiguration command round trip()] (53 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getCompositeSchedule command round trip()] (45 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute extendedTriggerMessage command round trip()] (47 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reset command round trip()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute cancelReservation command round trip()] (52 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStopTransaction command round trip()] (62 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reserveNow command round trip()] (51 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getInstalledCertificateIds command round trip()] (56 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLocalListVersion command round trip()] (63 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute installCertificate command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearChargingProfile command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should auto-generate diagnostics location when empty payload()] (49 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should return rejected status when chargePoint rejects command()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getDiagnostics command round trip()] (61 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute setChargingProfile command round trip()] (63 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute updateFirmware command round trip()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeAvailability command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute triggerMessage command round trip()] (68 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute sendLocalList command round trip()] (72 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute deleteCertificate command round trip()] (73 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute signedUpdateFirmware command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute unlockConnector command round trip()] (76 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeConfiguration command round trip()] (94 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should persist chargePoint on BootNotification()] (1023 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:optionalString returns null when missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns null when missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString returns value when present()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:optionalString returns trimmed value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:optionalString throws when exceeding maxLength()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString accepts value with exactly 255 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:optionalString rejects value exceeding 255 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when not a number()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for non-integer connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for meterStop as String()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StatusNotificationHandlerTest]/[method:StatusNotificationHandler rejects non-integer connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should return FormationViolation for meterStop as String()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant returns correct Instant()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInstant throws when invalid format()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInstant accepts valid ISO timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant rejects blank timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for non-integer transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for missing meterStop()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should return FormationViolation for missing meterStop()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredString throws when missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:requiredString throws for missing field()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerDirectTest]/[method:validatePayload throws for missing vendor()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.BootNotificationHandlerBranchTest]/[method:validatePayload rejects missing vendor()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignCertificateHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignCertificateHandlerTest]/[method:should throw FormationViolation for missing csr()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SignCertificateHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SignCertificateHandlerTest]/[method:should throw FormationViolation for null csr()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for null certificateChain()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerAuthorizeTest]/[method:should return FormationViolation for missing idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest]/[method:should return FormationViolation for missing vendorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for empty payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for missing vendor()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerBootNotificationTest]/[method:should return FormationViolation for null vendor()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.CertificateSignedHandlerTest]/[method:should throw FormationViolation for missing certificateChain()] (160 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StopTransactionHandlerDirectTest]/[method:validatePayload throws for missing transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStopTransactionTest]/[method:should return FormationViolation for missing transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInt throws when missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStatusNotificationTest]/[method:should return FormationViolation for missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMeterValuesTest]/[method:should return FormationViolation for missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.PayloadParserTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.PayloadParserTest]/[method:requiredInstant throws when missing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.SecurityEventNotificationHandlerTest]/[method:requiredInstant rejects null timestamp()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

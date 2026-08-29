@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityEventNotificationHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.handler</a> &gt; <span class="el_source">SecurityEventNotificationHandler.kt</span></div><h1>SecurityEventNotificationHandler.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.handler
+
+import org.tekeli.borisp.ocpp16.OcppConstants
+import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.callResult
+import java.time.Instant
+
+<span class="fc" id="L9">class SecurityEventNotificationHandler : OcppActionHandler {</span>
+    override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
+<span class="fc bfc" id="L11" title="All 2 branches covered.">        val payload = call.payload ?: throw FormationViolationException(&quot;Payload is null&quot;)</span>
+<span class="fc" id="L12">        val (type, timestamp, techInfo) = validatePayload(payload)</span>
+<span class="fc bfc" id="L13" title="All 2 branches covered.">        val chargePointId = context.chargePointId</span>
+<span class="fc bfc" id="L14" title="All 4 branches covered.">            .takeIf { it.isNotBlank() }</span>
+<span class="fc" id="L15">            ?: throw FormationViolationException(&quot;No chargePointId from connection&quot;)</span>
+
+<span class="fc" id="L17">        processSecurityEvent(context, chargePointId, type, timestamp, techInfo)</span>
+
+<span class="fc" id="L19">        return call.callResult()</span>
+    }
+
+    internal fun processSecurityEvent(
+        context: OcppHandlerContext,
+        chargePointId: String,
+        type: String,
+        timestamp: Instant,
+        techInfo: String?
+    ) {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        context.persistenceService?.createSecurityLog(chargePointId, type, timestamp, techInfo)</span>
+<span class="fc" id="L30">        val metricsService = context.metricsService</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (metricsService != null) {</span>
+<span class="fc" id="L32">            metricsService.securityEventsReceived.increment()</span>
+        }
+<span class="fc" id="L34">    }</span>
+
+<span class="fc" id="L36">    internal data class ParsedSecurityEvent(</span>
+<span class="fc" id="L37">        val type: String,</span>
+<span class="fc" id="L38">        val timestamp: Instant,</span>
+<span class="fc" id="L39">        val techInfo: String?</span>
+    )
+
+    internal fun validatePayload(payload: Map&lt;String, Any&gt;): ParsedSecurityEvent {
+<span class="fc bfc" id="L43" title="All 4 branches covered.">        val rawType = payload[&quot;type&quot;]?.toString().orEmpty()</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (rawType.length &gt; OcppConstants.MAX_EVENT_TYPE_LENGTH) {</span>
+<span class="fc" id="L45">            throw FormationViolationException(&quot;type must not exceed ${OcppConstants.MAX_EVENT_TYPE_LENGTH} characters&quot;)</span>
+        }
+<span class="fc" id="L47">        val type = payload.requiredStringIn(&quot;type&quot;, OcppConstants.SECURITY_EVENTS)</span>
+<span class="fc" id="L48">        val timestamp = payload.requiredInstant(&quot;timestamp&quot;)</span>
+<span class="fc" id="L49">        val techInfo = payload.optionalString(&quot;techInfo&quot;, OcppConstants.MAX_TECH_INFO_LENGTH)</span>
+<span class="fc" id="L50">        return ParsedSecurityEvent(type, timestamp, techInfo)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

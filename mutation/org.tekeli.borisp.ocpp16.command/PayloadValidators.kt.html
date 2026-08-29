@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>PayloadValidators.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.command</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.Response</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.OcppConstants</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.OcppMessage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.concurrent.CompletableFuture</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>object PayloadValidators {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_9'/>
+9
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_9'>2</a>
+<span>
+1. isNumber : replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isNumber &rarr; KILLED<br/>
+2. isNumber : replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isNumber &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    fun isNumber(value: Any?): Boolean = value is Number</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_11'/>
+11
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_11'>2</a>
+<span>
+1. isString : replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isString &rarr; KILLED<br/>
+2. isString : replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    fun isString(value: Any?): Boolean = value is String</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun isNonEmptyString(value: Any?): Boolean =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_14'/>
+14
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_14'>12</a>
+<span>
+1. isNonEmptyString : changed conditional boundary &rarr; KILLED<br/>
+2. isNonEmptyString : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. isNonEmptyString : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. isNonEmptyString : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. isNonEmptyString : negated conditional &rarr; KILLED<br/>
+6. isNonEmptyString : removed call to java/lang/CharSequence::length &rarr; KILLED<br/>
+7. isNonEmptyString : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+8. isNonEmptyString : negated conditional &rarr; KILLED<br/>
+9. isNonEmptyString : negated conditional &rarr; KILLED<br/>
+10. isNonEmptyString : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+11. isNonEmptyString : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+12. isNonEmptyString : replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isNonEmptyString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        value is String &#38;&#38; value.isNotEmpty()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun isValidOneOf(value: String, validValues: Set&#60;String&#62;): Boolean =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_17'/>
+17
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_17'>3</a>
+<span>
+1. isValidOneOf : removed call to java/util/Set::contains &rarr; KILLED<br/>
+2. isValidOneOf : replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isValidOneOf &rarr; KILLED<br/>
+3. isValidOneOf : replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isValidOneOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        validValues.contains(value)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_19'/>
+19
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_19'>2</a>
+<span>
+1. isMap : replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isMap &rarr; KILLED<br/>
+2. isMap : replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isMap &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    fun isMap(value: Any?): Boolean = value is Map&#60;*, *&#62;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun safeMap(value: Any?): Map&#60;String, Any&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_22'>3</a>
+<span>
+1. safeMap : negated conditional &rarr; KILLED<br/>
+2. safeMap : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. safeMap : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val source = value as? Map&#60;*, *&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val result = HashMap&#60;String, Any&#62;()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_24'/>
+24
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_24'>3</a>
+<span>
+1. safeMap : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. safeMap : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. safeMap : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (source != null) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_25'/>
+25
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_25'>10</a>
+<span>
+1. safeMap : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. safeMap : removed call to java/util/Map$Entry::getKey &rarr; KILLED<br/>
+3. safeMap : removed call to java/util/Iterator::next &rarr; KILLED<br/>
+4. safeMap : removed call to java/util/Map::put &rarr; KILLED<br/>
+5. safeMap : removed call to java/util/Iterator::hasNext &rarr; KILLED<br/>
+6. safeMap : removed call to java/util/Map::entrySet &rarr; KILLED<br/>
+7. safeMap : negated conditional &rarr; KILLED<br/>
+8. safeMap : removed call to java/util/Map$Entry::getValue &rarr; KILLED<br/>
+9. safeMap : removed call to java/util/Set::iterator &rarr; KILLED<br/>
+10. safeMap : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            for ((k, v) in source) result[k as String] = v as Any</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_27'/>
+27
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_27'>1</a>
+<span>
+1. safeMap : replaced return value with Collections.emptyMap for org/tekeli/borisp/ocpp16/command/PayloadValidators::safeMap &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return result</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun safeList(value: Any?): List&#60;String&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_31'/>
+31
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_31'>11</a>
+<span>
+1. safeList : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. safeList : negated conditional &rarr; KILLED<br/>
+3. safeList : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. safeList : negated conditional &rarr; KILLED<br/>
+5. safeList : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. safeList : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+7. safeList : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+8. safeList : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+9. safeList : removed call to kotlin/collections/CollectionsKt::emptyList &rarr; KILLED<br/>
+10. safeList : negated conditional &rarr; KILLED<br/>
+11. safeList : replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/command/PayloadValidators::safeList &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        (value as? List&#60;*&#62;)?.mapNotNull { it as? String } ?: emptyList()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun isCallResult(response: OcppMessage): Boolean =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_34'>2</a>
+<span>
+1. isCallResult : replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isCallResult &rarr; KILLED<br/>
+2. isCallResult : replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isCallResult &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        response is OcppMessage.CallResult</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun buildAcceptedResponse(command: String, extra: Map&#60;String, Any&#62; = emptyMap()): Response =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_37'/>
+37
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_37'>1</a>
+<span>
+1. buildAcceptedResponse : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Response.status(Response.Status.ACCEPTED)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_38'/>
+38
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_38'>5</a>
+<span>
+1. buildAcceptedResponse : removed call to kotlin/collections/MapsKt::plus &rarr; KILLED<br/>
+2. buildAcceptedResponse : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. buildAcceptedResponse : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+4. buildAcceptedResponse : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+5. buildAcceptedResponse : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .entity(mapOf&#60;String, Any&#62;(&#34;status&#34; to &#34;sent&#34;, &#34;command&#34; to command) + extra)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_39'/>
+39
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_39'>1</a>
+<span>
+1. buildAcceptedResponse : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun buildRejectedResponse(): Response =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_42'/>
+42
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_42'>1</a>
+<span>
+1. buildRejectedResponse : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Response.status(Response.Status.BAD_GATEWAY)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_43'/>
+43
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_43'>4</a>
+<span>
+1. buildRejectedResponse : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+2. buildRejectedResponse : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. buildRejectedResponse : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+4. buildRejectedResponse : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .entity(mapOf&#60;String, Any&#62;(&#34;status&#34; to &#34;rejected&#34;, &#34;error&#34; to &#34;ChargePoint rejected command&#34;))</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_44'/>
+44
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_44'>1</a>
+<span>
+1. buildRejectedResponse : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun buildCommandResponse(response: OcppMessage, command: String, extra: Map&#60;String, Any&#62; = emptyMap()): Response =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_47'/>
+47
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_47'>5</a>
+<span>
+1. buildCommandResponse : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. buildCommandResponse : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::buildAcceptedResponse &rarr; KILLED<br/>
+3. buildCommandResponse : negated conditional &rarr; KILLED<br/>
+4. buildCommandResponse : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. buildCommandResponse : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::isCallResult &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (isCallResult(response)) buildAcceptedResponse(command, extra)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_48'/>
+48
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_48'>1</a>
+<span>
+1. buildCommandResponse : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::buildRejectedResponse &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        else buildRejectedResponse()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun awaitAndBuildResponse(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        future: CompletableFuture&#60;OcppMessage&#62;,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        command: String,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        extra: Map&#60;String, Any&#62; = emptyMap()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    ): Response =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_55'>1</a>
+<span>
+1. awaitAndBuildResponse : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::buildCommandResponse &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        buildCommandResponse(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_56'/>
+56
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_56'>1</a>
+<span>
+1. awaitAndBuildResponse : removed call to java/util/concurrent/CompletableFuture::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            future.get(OcppConstants.COMMAND_TIMEOUT_SECONDS.toLong(), java.util.concurrent.TimeUnit.SECONDS),</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            command,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            extra</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@e487ec_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_9'>9</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_9'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>isNumber<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNumber returns true for Long()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isNumber &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>isNumber<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNumber returns false for String()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isNumber &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_11'>11</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_11'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>isString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isString returns false for null()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>isString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isString returns true for String()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_14'>14</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_14'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns false for empty string()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns false for null()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns true for non-empty string()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns false for empty string()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns true for non-empty string()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns true for non-empty string()]</span></span> removed call to java/lang/CharSequence::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns false for empty string()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns true for non-empty string()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns false for null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns true for non-empty string()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns true for non-empty string()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>12.<span><b>12</b><br/><b>Location : </b>isNonEmptyString<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns false for null()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isNonEmptyString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_17'>17</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_17'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>isValidOneOf<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isValidOneOf returns true when value is in set()]</span></span> removed call to java/util/Set::contains &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>isValidOneOf<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isValidOneOf returns true when value is in set()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isValidOneOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>isValidOneOf<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isValidOneOf returns false when value not in set()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isValidOneOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_19'>19</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_19'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>isMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isMap returns true for Map()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isMap &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>isMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isMap returns false for null()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isMap &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeMap returns empty map for non-map value()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_24'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeMap returns empty map for non-map value()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_25'>25</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_25'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed call to java/util/Map$Entry::getKey &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed call to java/util/Iterator::next &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed call to java/util/Map::put &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed call to java/util/Iterator::hasNext &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed call to java/util/Map::entrySet &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed call to java/util/Map$Entry::getValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed call to java/util/Set::iterator &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_27'>27</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_27'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>safeMap<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> replaced return value with Collections.emptyMap for org/tekeli/borisp/ocpp16/command/PayloadValidators::safeMap &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_31'>31</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_31'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps all string elements()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps all string elements()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList returns empty list for string value without throwing()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList returns empty list for string value without throwing()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps all string elements()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList returns empty list for string value without throwing()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps only string elements()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps all string elements()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList returns empty list for string value without throwing()]</span></span> removed call to kotlin/collections/CollectionsKt::emptyList &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList returns empty list for string value without throwing()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps all string elements()]</span></span> replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/command/PayloadValidators::safeList &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>isCallResult<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isCallResult returns false for Call()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/command/PayloadValidators::isCallResult &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>isCallResult<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isCallResult returns true for CallResult()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/command/PayloadValidators::isCallResult &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_37'>37</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_37'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>buildAcceptedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_38'>38</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_38'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>buildAcceptedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()]</span></span> removed call to kotlin/collections/MapsKt::plus &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>buildAcceptedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>buildAcceptedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>buildAcceptedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>buildAcceptedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_39'>39</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_39'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>buildAcceptedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_42'>42</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_42'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>buildRejectedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for Call()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_43'>43</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_43'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>buildRejectedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>buildRejectedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for Call()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>buildRejectedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for Call()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>buildRejectedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for Call()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_44'>44</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_44'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>buildRejectedResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for Call()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_47'>47</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_47'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>buildCommandResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for Call()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>buildCommandResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse includes extra fields()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::buildAcceptedResponse &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>buildCommandResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for Call()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>buildCommandResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse includes extra fields()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>buildCommandResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse includes extra fields()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::isCallResult &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_48'>48</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_48'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>buildCommandResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for Call()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::buildRejectedResponse &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>awaitAndBuildResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:awaitAndBuildResponse returns BAD_GATEWAY for completed Call()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::buildCommandResponse &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_56'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>awaitAndBuildResponse<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:awaitAndBuildResponse propagates ExecutionException()]</span></span> removed call to java/util/concurrent/CompletableFuture::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@e487ec_71'>71</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@e487ec_71'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps all string elements()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps only string elements()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps all string elements()]</span></span> removed call to java/util/Collection::add &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>safeList<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps all string elements()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList returns empty list for string value without throwing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList returns empty list for non-list value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList returns empty list for null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps all string elements()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeList keeps only string elements()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetConfigurationCommand execute passes null for empty key list()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetConfigurationCommand execute uses correct keys()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetConfigurationCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetConfigurationCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getConfiguration command round trip()] (53 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildRejectedResponse returns BAD_GATEWAY status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse returns ACCEPTED status()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildAcceptedResponse includes extra fields()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildAcceptedResponse for CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse includes extra fields()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:awaitAndBuildResponse returns BAD_GATEWAY for completed Call()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:awaitAndBuildResponse returns ACCEPTED for completed CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:awaitAndBuildResponse returns BAD_GATEWAY for completed CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:awaitAndBuildResponse includes extra fields on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeMap copies entries with exact keys and values()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ResetCommand rejects missing type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - should reject missing certificateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand rejects missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand rejects missing vendorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:CertificateSigned - should reject missing certificateChain()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ExtendedTriggerMessage - should reject missing requestedMessage()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand rejects missing requestedMessage()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UpdateFirmwareCommand rejects missing location()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand rejects missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand rejects missing listVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:CancelReservationCommand rejects string reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand rejects missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UnlockConnectorCommand rejects string connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeConfigurationCommand validate rejects empty key()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:CancelReservationCommand rejects missing reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeConfigurationCommand rejects missing key()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStopTransactionCommand rejects string transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStopTransactionCommand rejects missing transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand rejects string connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetInstalledCertificateIds - should reject missing certificateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UnlockConnectorCommand rejects missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand rejects string duration()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand rejects missing csChargingProfiles()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing requestId returns 400 with error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject invalid hashAlgorithm()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand rejects invalid requestedMessage()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetInstalledCertificateIds - should reject invalid certificateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeConfigurationCommand validate rejects unknown config key()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing firmware()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand rejects string connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand rejects missing type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing requestId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - should reject invalid certificateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - firmware as List returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects string connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject missing certificateHashData()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ResetCommand rejects invalid type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand rejects missing duration()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects string reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand rejects invalid type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand rejects missing updateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UpdateFirmwareCommand rejects missing retrieveDate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - should reject missing certificate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeConfigurationCommand rejects missing value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects string connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:CertificateSigned - should reject certificateChain exceeding max length()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing firmware returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand rejects string connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand rejects string listVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - should reject empty certificate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects missing idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand rejects invalid updateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject missing hashAlgorithm()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ExtendedTriggerMessage - should reject invalid requestedMessage()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - firmware as non-Map returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing location()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - should reject missing log()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing expiryDate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate with error returns Response with entity containing error key()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate rejects missing log()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - should reject missing requestId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate rejects log as non-Map type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - should reject invalid logType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate rejects missing requestId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - should reject certificate exceeding 5500 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate rejects invalid logType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate rejects requestId as String instead of Number()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing location returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate rejects missing logType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject missing issuerNameHash()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing signature()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing retrieveDateTime()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing signingCertificate returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing signingCertificate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate rejects missing remoteLocation inside log()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - should reject missing remoteLocation()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing retrieveDateTime returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing signature returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - empty location returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand rejects missing idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:CancelReservationCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearCacheCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - signature 801 chars returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetInstalledCertificateIds - execute should return accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - empty retrieveDateTime returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ExtendedTriggerMessage - execute should handle rejected response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UnlockConnectorCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStopTransactionCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:CertificateSigned - should accept valid certificateChain()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetInstalledCertificateIds - should accept valid request()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:CancelReservationCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject location exceeding 512 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - empty signature returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeConfigurationCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - execute should handle rejected response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate rejects remoteLocation exceeding 512 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetInstalledCertificateIds - execute should handle rejected response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UpdateFirmwareCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetLocalListVersionCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - should reject remoteLocation exceeding 512 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ExtendedTriggerMessage - execute should accept without connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ExtendedTriggerMessage - execute should return accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetConfigurationCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects missing location()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - empty signingCertificate returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:validate rejects empty remoteLocation()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signingCertificate exceeding 5500 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetLocalListVersionCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - location 513 chars returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - signingCertificate 5501 chars returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearCacheCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - execute should return accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute should handle rejected response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signature exceeding 800 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ExtendedTriggerMessage - execute should accept with connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept valid request()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - should accept valid certificate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ExtendedTriggerMessage - should accept valid message()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeConfigurationCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UpdateFirmwareCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ExtendedTriggerMessage - should accept with connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ResetCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute should return accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute failure entity contains error key with correct message()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - execute should accept without retries and retryInterval()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute returns 502 when ChargePoint rejects()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - should accept valid SecurityLog request()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute failure path still calls gateway sendGetLog()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute with installDateTime returns accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute handles retryInterval as non-Number gracefully - kills retryInterval EQUAL_IF()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute should handle rejected response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute with requestId 0 works correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - execute should return accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute forwards correct requestId to gateway()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - execute should handle rejected response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct chargePointId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute handles retries as non-Number gracefully - kills retries EQUAL_IF()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - should accept valid DiagnosticsLog request()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute with retries 0 passes through()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute returns 202 with status sent and command get-log()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct firmware payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute sends sendGetLog to gateway()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute forwards requestId as Long converted to Int()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute forwards correct chargePointId to gateway()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute forwards correct log map to gateway()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute without retries and retryInterval sends null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute should return accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - retryInterval as String still executes and returns accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute with retries as Long converts to Int()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute success with SecurityLog()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute failure with retries still calls gateway()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success with firmware containing installDateTime()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - retries as String still executes and returns accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - rejected response returns 502 with status rejected and error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute success with DiagnosticsLog()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetLog - execute should accept with retries and retryInterval()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success returns 202 with status sent and correct command()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success with requestId as Long()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success without retries and retryInterval()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetLogCommandMutationTest]/[method:execute with retries and retryInterval forwards values()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute should accept with retries and retryInterval()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives null retries when not provided()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success with retries and retryInterval()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - without installDateTime and persistenceService captures null installDateTime()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on error()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - error message includes generator exception message()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - rejected response with retries still returns 502()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceMutationTest]/[method:executeCommand rethrows ExecutionException when cause is not IllegalStateException()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest]/[method:executeCommand returns validation error response from command validate()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest]/[method:executeCommand returns 503 with message when execute throws IllegalStateException()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceMutationTest]/[method:executeCommand returns 503 with cause message when execute throws ExecutionException wrapping IllegalStateException()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest]/[method:getDiagnostics with explicit location returns payload with protocol stripped()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceMutationTest]/[method:getDiagnostics with unknown protocol falls back to original payload()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceMutationTest]/[method:getDiagnostics with protocol generates protocol specific location()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest]/[method:getDiagnostics with blank location generates new location()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should reject reset with invalid type()] (18 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should reject command with missing required fields()] (22 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for unlock-connector when chargePoint not connected()] (23 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-stop-transaction when chargePoint not connected()] (24 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for reset when chargePoint not connected()] (28 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should auto-generate diagnostics location when empty payload()] (19 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearCache command round trip()] (40 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStartTransaction command round trip()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getCompositeSchedule command round trip()] (45 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute extendedTriggerMessage command round trip()] (47 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reset command round trip()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute cancelReservation command round trip()] (52 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStopTransaction command round trip()] (62 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reserveNow command round trip()] (51 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getInstalledCertificateIds command round trip()] (56 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLocalListVersion command round trip()] (63 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute installCertificate command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearChargingProfile command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should auto-generate diagnostics location when empty payload()] (49 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should return rejected status when chargePoint rejects command()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getDiagnostics command round trip()] (61 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute setChargingProfile command round trip()] (63 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute updateFirmware command round trip()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeAvailability command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute triggerMessage command round trip()] (68 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute sendLocalList command round trip()] (72 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute deleteCertificate command round trip()] (73 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute signedUpdateFirmware command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute unlockConnector command round trip()] (76 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeConfiguration command round trip()] (94 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest]/[method:executeCommand returns 503 with default message when IllegalStateException has null message()] (682 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:buildCommandResponse delegates to buildRejectedResponse for Call()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetLocalListVersionCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:CertificateSigned - execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearCacheCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStopTransactionCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ExtendedTriggerMessage - execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UpdateFirmwareCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ResetCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UnlockConnectorCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetInstalledCertificateIds - execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeConfigurationCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeMap returns empty map for non-map value()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:safeMap returns empty map for null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isValidOneOf returns false when value not in set()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isValidOneOf returns true when value is in set()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:ResetCommand accepts valid string type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand rejects string requestedMessage()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand accepts Differential updateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand accepts StatusNotification()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ResetCommand accepts Soft type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ResetCommand rejects empty string type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand accepts MeterValues()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand accepts Operative type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand accepts BootNotification()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand accepts Long listVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand accepts Heartbeat()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand accepts Inoperative type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand accepts Full updateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand accepts Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ResetCommand accepts Hard type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:TriggerMessageCommand validate accepts all valid messages()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand validate rejects empty type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand validate rejects empty updateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:awaitAndBuildResponse waits for async completion()] (50 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetLocalListVersionCommand execute returns ACCEPTED()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:GetInstalledCertificateIds - execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:CancelReservationCommand execute with Double reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStopTransactionCommand execute with Double transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:CancelReservationCommand execute with Long reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ResetCommand execute uses correct type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:CancelReservationCommand execute uses correct reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeConfigurationCommand execute returns ACCEPTED()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStopTransactionCommand execute uses correct transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UnlockConnectorCommand execute with Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetConfigurationCommand execute with string key field()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UnlockConnectorCommand execute with Double connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStopTransactionCommand execute with Long transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetConfigurationCommand execute passes null for missing key()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearCacheCommand execute returns ACCEPTED()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UnlockConnectorCommand execute uses correct connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute with Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UpdateFirmwareCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand execute uses correct vendorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeConfigurationCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand execute with Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand execute passes null for optional fields()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:TriggerMessageCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:UpdateFirmwareCommand execute with all params returns ACCEPTED()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand execute coerces non-string messageId and data to null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand execute with Long connectorId and duration()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand execute with Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand execute with Double listVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand execute with Double connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ResetCommand execute returns ACCEPTED with correct entity on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand execute uses correct data()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand execute with Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand execute uses correct chargePointId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:InstallCertificate - execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute with Double connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SendLocalListCommand execute with Long listVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand execute uses correct messageId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetCompositeScheduleCommand execute with Double connectorId and duration()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand execute with Double connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ChangeAvailabilityCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Double connectorId and reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with all params returns ACCEPTED()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Long connectorId and stackLevel()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute uses correct chargePointId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute with Long connectorId and reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute uses correct params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ReserveNowCommand execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:ClearChargingProfileCommand execute with Double connectorId and stackLevel()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute with all params returns ACCEPTED()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute uses correct location()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - calls storage ensureDirectory when storage available()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - skips storage when instance ambiguous()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - swallows storage ensureDirectory failure()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - generates default URL when protocol missing()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - lowercases protocol before generating URL()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand uses startTime and stopTime when provided()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand generates URL when location is missing()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - explicit location takes precedence over generated URL()] (91 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - skips storage when instance unsatisfied()] (104 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - passes retries and retryInterval to gateway()] (122 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns true for non-empty string()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns false for empty string()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand accepts valid payload with vendorId only()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts valid payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand accepts valid payload with all fields()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Double connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects null connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:DataTransferCommand rejects empty vendorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:RemoteStartTransactionCommand validate with null connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNonEmptyString returns false for null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:RemoteStartTransactionCommand validate with null idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isMap returns true for Map()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isMap returns false for null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isMap returns false for String()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand accepts valid payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:SetChargingProfileCommand accepts Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SetChargingProfileCommand validate with null csChargingProfiles()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNumber returns false for String()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNumber returns false for null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNumber returns true for Long()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNumber returns true for Int()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isNumber returns true for Double()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:SendLocalListCommand rejects non-string updateType with BAD_REQUEST()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsSurvivingMutantsTest]/[method:ChangeAvailabilityCommand rejects non-string type with BAD_REQUEST()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ChangeAvailabilityCommand validate with non-Number connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SendLocalListCommand validate with null listVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SendLocalListCommand validate with non-Number listVersion()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ChangeAvailabilityCommand validate with null connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SetChargingProfileCommand validate with null connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SetChargingProfileCommand validate with non-Number connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:ChangeAvailabilityCommand validate with null type()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SendLocalListCommand validate with null updateType()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:awaitAndBuildResponse propagates ExecutionException()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isCallResult returns false for Call()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isCallResult returns true for CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isCallResult returns false for CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isString returns true for String()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isString returns false for null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.PayloadValidatorsTest]/[method:isString returns false for Int()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

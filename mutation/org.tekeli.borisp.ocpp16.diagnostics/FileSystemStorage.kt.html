@@ -1,0 +1,2696 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>FileSystemStorage.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.diagnostics</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import io.quarkus.logging.Log</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.io.ByteArrayOutputStream</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.nio.file.Files</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.nio.file.Path</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.time.Instant</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.concurrent.TimeUnit</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>data class DiagnosticsFileInfo(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_11'/>
+11
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_11'>1</a>
+<span>
+1. getStoredName : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getStoredName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val storedName: String,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_12'/>
+12
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_12'>1</a>
+<span>
+1. getOriginalName : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getOriginalName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val originalName: String,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_13'/>
+13
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_13'>1</a>
+<span>
+1. getSizeBytes : replaced long return with 0 for org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getSizeBytes &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    val sizeBytes: Long,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    val uploadedAt: Instant</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class FileSystemStorage(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val baseDir: String,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val maxFileSizeBytes: Long</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>) {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_22'>1</a>
+<span>
+1. baseDir : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::baseDir &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    fun baseDir(): String = baseDir</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun ensureDirectory(chargePointId: String): Path {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_25'/>
+25
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_25'>1</a>
+<span>
+1. ensureDirectory : removed call to java/nio/file/Path::of &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val dir = Path.of(baseDir, chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_26'/>
+26
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_26'>1</a>
+<span>
+1. ensureDirectory : removed call to java/nio/file/Files::createDirectories &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Files.createDirectories(dir)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        return dir</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun uploadFile(chargePointId: String, originalFileName: String, inputStream: java.io.InputStream): String {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_31'/>
+31
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_31'>1</a>
+<span>
+1. uploadFile : removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::ensureDirectory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val dir = ensureDirectory(chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_32'/>
+32
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_32'>2</a>
+<span>
+1. uploadFile : removed call to kotlin/io/ByteStreamsKt::copyTo$default &rarr; KILLED<br/>
+2. uploadFile : removed call to java/io/ByteArrayOutputStream::toByteArray &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val bytes = ByteArrayOutputStream().use { inputStream.copyTo(it); it.toByteArray() }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_33'/>
+33
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_33'>4</a>
+<span>
+1. uploadFile : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+2. uploadFile : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+3. uploadFile : negated conditional &rarr; KILLED<br/>
+4. uploadFile : changed conditional boundary &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (bytes.size &#62; maxFileSizeBytes) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw IllegalArgumentException(&#34;File size ${bytes.size} exceeds maximum $maxFileSizeBytes bytes&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_36'>2</a>
+<span>
+1. uploadFile : removed call to java/time/Instant::getEpochSecond &rarr; KILLED<br/>
+2. uploadFile : removed call to java/time/Instant::now &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val timestamp = Instant.now().epochSecond</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val storedName = &#34;${timestamp}_${originalFileName}&#34;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_38'/>
+38
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_38'>1</a>
+<span>
+1. uploadFile : removed call to java/nio/file/Path::resolve &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val targetPath = dir.resolve(storedName)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_39'/>
+39
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_39'>1</a>
+<span>
+1. uploadFile : removed call to java/nio/file/Files::write &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Files.write(targetPath, bytes)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_40'/>
+40
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_40'>1</a>
+<span>
+1. uploadFile : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::uploadFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return storedName</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun getFile(chargePointId: String, storedFileName: String): Path? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_44'/>
+44
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_44'>1</a>
+<span>
+1. getFile : removed call to java/nio/file/Path::of &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val dir = Path.of(baseDir, chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_45'>1</a>
+<span>
+1. getFile : removed call to java/nio/file/Path::resolve &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val file = dir.resolve(storedFileName)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_46'/>
+46
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_46'>4</a>
+<span>
+1. getFile : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. getFile : negated conditional &rarr; KILLED<br/>
+3. getFile : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. getFile : removed call to java/nio/file/Files::exists &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return if (Files.exists(file)) file else null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun listFiles(chargePointId: String): List&#60;DiagnosticsFileInfo&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_50'/>
+50
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_50'>1</a>
+<span>
+1. listFiles : removed call to java/nio/file/Path::of &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val dir = Path.of(baseDir, chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_51'>5</a>
+<span>
+1. listFiles : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. listFiles : negated conditional &rarr; KILLED<br/>
+3. listFiles : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. listFiles : replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles &rarr; KILLED<br/>
+5. listFiles : removed call to java/nio/file/Files::exists &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return if (!Files.exists(dir)) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_52'/>
+52
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_52'>1</a>
+<span>
+1. listFiles : removed call to kotlin/collections/CollectionsKt::emptyList &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            emptyList()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        } else {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_54'>1</a>
+<span>
+1. listFiles : removed call to java/nio/file/Files::list &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            Files.list(dir).use { stream -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_55'>8</a>
+<span>
+1. listFiles$lambda$0$0 : replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles$lambda$0$0 &rarr; KILLED<br/>
+2. listFiles$lambda$0$1 : replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles$lambda$0$1 &rarr; KILLED<br/>
+3. listFiles$lambda$0$0 : removed call to java/nio/file/Files::isRegularFile &rarr; KILLED<br/>
+4. listFiles : removed call to java/util/stream/Stream::filter &rarr; KILLED<br/>
+5. listFiles$lambda$0$1 : removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED<br/>
+6. listFiles$lambda$0$0 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles$lambda$0$0 &rarr; KILLED<br/>
+7. listFiles$lambda$0$1 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles$lambda$0$1 &rarr; KILLED<br/>
+8. listFiles$lambda$0$1 : removed call to java/lang/Boolean::booleanValue &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                stream.filter { Files.isRegularFile(it) }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_56'/>
+56
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_56'>2</a>
+<span>
+1. listFiles : removed call to java/util/stream/Stream::map &rarr; KILLED<br/>
+2. listFiles$lambda$0$3 : removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                    .map { file -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_57'/>
+57
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_57'>2</a>
+<span>
+1. listFiles$lambda$0$2 : removed call to java/nio/file/Path::getFileName &rarr; KILLED<br/>
+2. listFiles$lambda$0$2 : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        val storedName = file.fileName.toString()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                        DiagnosticsFileInfo(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                            storedName = storedName,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_60'/>
+60
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_60'>1</a>
+<span>
+1. listFiles$lambda$0$2 : removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::extractOriginalName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                            originalName = extractOriginalName(storedName),</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_61'/>
+61
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_61'>1</a>
+<span>
+1. listFiles$lambda$0$2 : removed call to java/nio/file/Files::size &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                            sizeBytes = Files.size(file),</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_62'/>
+62
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_62'>3</a>
+<span>
+1. listFiles$lambda$0$2 : removed call to java/io/File::lastModified &rarr; KILLED<br/>
+2. listFiles$lambda$0$2 : removed call to java/time/Instant::ofEpochMilli &rarr; KILLED<br/>
+3. listFiles$lambda$0$2 : removed call to java/nio/file/Path::toFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                            uploadedAt = Instant.ofEpochMilli(file.toFile().lastModified())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                        )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>                    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_65'/>
+65
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_65'>1</a>
+<span>
+1. listFiles : removed call to java/util/stream/Stream::toList &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                    .toList().sortedByDescending { it.uploadedAt }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_70'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun deleteFile(chargePointId: String, storedFileName: String): Boolean {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_71'/>
+71
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_71'>4</a>
+<span>
+1. deleteFile : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. deleteFile : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. deleteFile : removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getFile &rarr; KILLED<br/>
+4. deleteFile : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val file = getFile(chargePointId, storedFileName)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_72'/>
+72
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_72'>1</a>
+<span>
+1. deleteFile : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::deleteFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            ?: return false</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_73'/>
+73
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_73'>3</a>
+<span>
+1. deleteFile : removed call to java/nio/file/Files::deleteIfExists &rarr; KILLED<br/>
+2. deleteFile : replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::deleteFile &rarr; KILLED<br/>
+3. deleteFile : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::deleteFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return Files.deleteIfExists(file)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun cleanupExpired(retentionDays: Int): Int {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_77'/>
+77
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_77'>3</a>
+<span>
+1. cleanupExpired : Replaced long subtraction with addition &rarr; KILLED<br/>
+2. cleanupExpired : removed call to java/lang/System::currentTimeMillis &rarr; KILLED<br/>
+3. cleanupExpired : removed call to java/util/concurrent/TimeUnit::toMillis &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val cutoff = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(retentionDays.toLong())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_78'/>
+78
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_78'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        var count = 0</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_79'/>
+79
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_79'>1</a>
+<span>
+1. cleanupExpired : removed call to java/nio/file/Path::of &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val base = Path.of(baseDir)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_80'/>
+80
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_80'>4</a>
+<span>
+1. cleanupExpired : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. cleanupExpired : removed call to java/nio/file/Files::exists &rarr; KILLED<br/>
+3. cleanupExpired : negated conditional &rarr; KILLED<br/>
+4. cleanupExpired : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (!Files.exists(base)) return 0</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_81'/>
+81
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_81'>1</a>
+<span>
+1. cleanupExpired : removed call to java/nio/file/Files::walk &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Files.walk(base).use { stream -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_82'/>
+82
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_82'>8</a>
+<span>
+1. cleanupExpired$lambda$0$1 : replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$1 &rarr; KILLED<br/>
+2. cleanupExpired$lambda$0$0 : replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$0 &rarr; KILLED<br/>
+3. cleanupExpired$lambda$0$1 : removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED<br/>
+4. cleanupExpired$lambda$0$0 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$0 &rarr; KILLED<br/>
+5. cleanupExpired$lambda$0$1 : removed call to java/lang/Boolean::booleanValue &rarr; KILLED<br/>
+6. cleanupExpired$lambda$0$1 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$1 &rarr; KILLED<br/>
+7. cleanupExpired$lambda$0$0 : removed call to java/nio/file/Files::isRegularFile &rarr; KILLED<br/>
+8. cleanupExpired : removed call to java/util/stream/Stream::filter &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            stream.filter { Files.isRegularFile(it) }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_83'/>
+83
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_83'>12</a>
+<span>
+1. cleanupExpired$lambda$0$2 : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+2. cleanupExpired$lambda$0$2 : changed conditional boundary &rarr; KILLED<br/>
+3. cleanupExpired$lambda$0$3 : removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED<br/>
+4. cleanupExpired$lambda$0$2 : removed call to java/io/File::lastModified &rarr; KILLED<br/>
+5. cleanupExpired$lambda$0$2 : removed call to java/nio/file/Path::toFile &rarr; KILLED<br/>
+6. cleanupExpired$lambda$0$3 : removed call to java/lang/Boolean::booleanValue &rarr; KILLED<br/>
+7. cleanupExpired$lambda$0$3 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$3 &rarr; KILLED<br/>
+8. cleanupExpired$lambda$0$2 : negated conditional &rarr; KILLED<br/>
+9. cleanupExpired$lambda$0$2 : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+10. cleanupExpired$lambda$0$3 : replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$3 &rarr; KILLED<br/>
+11. cleanupExpired : removed call to java/util/stream/Stream::filter &rarr; KILLED<br/>
+12. cleanupExpired$lambda$0$2 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$2 &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .filter { it.toFile().lastModified() &#60;= cutoff }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_84'/>
+84
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_84'>1</a>
+<span>
+1. cleanupExpired$lambda$0$5 : removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .forEach { file -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                    try {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_86'/>
+86
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_86'>1</a>
+<span>
+1. cleanupExpired$lambda$0$4 : removed call to java/nio/file/Files::deleteIfExists &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        Files.deleteIfExists(file)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_87'/>
+87
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_87'>1</a>
+<span>
+1. cleanupExpired$lambda$0$4 : Replaced integer addition with subtraction &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        count++</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                    } catch (e: Exception) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_89'/>
+89
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_89'>1</a>
+<span>
+1. cleanupExpired$lambda$0$4 : removed call to java/lang/Exception::getMessage &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        Log.warn(&#34;Failed to delete expired file ${file}: ${e.message}&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>                    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_91'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_92'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_93'/>
+93
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_93'>4</a>
+<span>
+1. cleanupExpired : changed conditional boundary &rarr; KILLED<br/>
+2. cleanupExpired : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+3. cleanupExpired : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+4. cleanupExpired : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (count &#62; 0) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_94'/>
+94
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_94'>1</a>
+<span>
+1. cleanupExpired : removed call to java/nio/file/Files::list &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            Files.list(base).use { dirStream -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_95'/>
+95
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_95'>5</a>
+<span>
+1. cleanupExpired : removed call to java/util/stream/Stream::filter &rarr; KILLED<br/>
+2. cleanupExpired$lambda$1$1 : replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$1$1 &rarr; KILLED<br/>
+3. cleanupExpired$lambda$1$1 : removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED<br/>
+4. cleanupExpired$lambda$1$1 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$1$1 &rarr; KILLED<br/>
+5. cleanupExpired$lambda$1$1 : removed call to java/lang/Boolean::booleanValue &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                dirStream.filter { dir -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_96'/>
+96
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_96'>12</a>
+<span>
+1. cleanupExpired$lambda$1$0 : negated conditional &rarr; KILLED<br/>
+2. cleanupExpired$lambda$1$0 : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. cleanupExpired$lambda$1$0 : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. cleanupExpired$lambda$1$0 : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. cleanupExpired$lambda$1$0 : negated conditional &rarr; KILLED<br/>
+6. cleanupExpired$lambda$1$0 : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+7. cleanupExpired$lambda$1$0 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$1$0 &rarr; KILLED<br/>
+8. cleanupExpired$lambda$1$0 : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+9. cleanupExpired$lambda$1$0 : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+10. cleanupExpired$lambda$1$0 : removed call to java/nio/file/Path::toFile &rarr; KILLED<br/>
+11. cleanupExpired$lambda$1$0 : negated conditional &rarr; KILLED<br/>
+12. cleanupExpired$lambda$1$0 : removed call to java/io/File::listFiles &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                    dir.toFile().listFiles()?.isEmpty() == true</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_97'/>
+97
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_97'>1</a>
+<span>
+1. cleanupExpired$lambda$1$3 : removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                }.forEach { dir -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_98'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                    try {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_99'/>
+99
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_99'>1</a>
+<span>
+1. cleanupExpired$lambda$1$2 : removed call to java/nio/file/Files::deleteIfExists &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        Files.deleteIfExists(dir)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_100'/>
+100
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_100'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                    } catch (e: Exception) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_101'/>
+101
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_101'>1</a>
+<span>
+1. cleanupExpired$lambda$1$2 : removed call to java/lang/Exception::getMessage &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        Log.warn(&#34;Failed to delete empty directory ${dir}: ${e.message}&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_102'/>
+102
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_102'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>                    }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_103'/>
+103
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_103'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_104'/>
+104
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_104'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_105'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_106'/>
+106
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_106'>1</a>
+<span>
+1. cleanupExpired : replaced int return with 0 for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return count</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_107'/>
+107
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_107'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_108'/>
+108
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_108'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_109'/>
+109
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_109'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun getDirectorySize(chargePointId: String): Long {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_110'/>
+110
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_110'>1</a>
+<span>
+1. getDirectorySize : removed call to java/nio/file/Path::of &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val dir = Path.of(baseDir, chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_111'/>
+111
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_111'>4</a>
+<span>
+1. getDirectorySize : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. getDirectorySize : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. getDirectorySize : negated conditional &rarr; KILLED<br/>
+4. getDirectorySize : removed call to java/nio/file/Files::exists &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (!Files.exists(dir)) return 0L</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_112'/>
+112
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_112'>2</a>
+<span>
+1. getDirectorySize : removed call to java/nio/file/Files::list &rarr; KILLED<br/>
+2. getDirectorySize : replaced long return with 0 for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return Files.list(dir).use { stream -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_113'/>
+113
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_113'>8</a>
+<span>
+1. getDirectorySize$lambda$0$1 : removed call to java/lang/Boolean::booleanValue &rarr; KILLED<br/>
+2. getDirectorySize$lambda$0$0 : replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$0 &rarr; KILLED<br/>
+3. getDirectorySize$lambda$0$1 : replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$1 &rarr; KILLED<br/>
+4. getDirectorySize$lambda$0$1 : removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED<br/>
+5. getDirectorySize : removed call to java/util/stream/Stream::filter &rarr; KILLED<br/>
+6. getDirectorySize$lambda$0$0 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$0 &rarr; KILLED<br/>
+7. getDirectorySize$lambda$0$0 : removed call to java/nio/file/Files::isRegularFile &rarr; KILLED<br/>
+8. getDirectorySize$lambda$0$1 : replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$1 &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            stream.filter { Files.isRegularFile(it) }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_114'/>
+114
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_114'>6</a>
+<span>
+1. getDirectorySize : removed call to java/util/stream/Stream::mapToLong &rarr; KILLED<br/>
+2. getDirectorySize$lambda$0$2 : removed call to java/nio/file/Files::size &rarr; KILLED<br/>
+3. getDirectorySize$lambda$0$2 : replaced long return with 0 for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$2 &rarr; KILLED<br/>
+4. getDirectorySize$lambda$0$3 : removed call to java/lang/Number::longValue &rarr; KILLED<br/>
+5. getDirectorySize$lambda$0$3 : replaced long return with 0 for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$3 &rarr; KILLED<br/>
+6. getDirectorySize$lambda$0$3 : removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .mapToLong { Files.size(it) }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_115'/>
+115
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_115'>1</a>
+<span>
+1. getDirectorySize : removed call to java/util/stream/LongStream::sum &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .sum()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_116'/>
+116
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_116'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_117'/>
+117
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_117'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_118'/>
+118
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_118'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_119'/>
+119
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_119'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun extractOriginalName(storedName: String): String {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_120'/>
+120
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_120'>1</a>
+<span>
+1. extractOriginalName : removed call to kotlin/text/StringsKt::indexOf$default &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val idx = storedName.indexOf(&#39;_&#39;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_121'/>
+121
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_121'>7</a>
+<span>
+1. extractOriginalName : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+2. extractOriginalName : Replaced integer addition with subtraction &rarr; KILLED<br/>
+3. extractOriginalName : removed call to java/lang/String::substring &rarr; KILLED<br/>
+4. extractOriginalName : changed conditional boundary &rarr; KILLED<br/>
+5. extractOriginalName : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::extractOriginalName &rarr; KILLED<br/>
+6. extractOriginalName : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+7. extractOriginalName : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return if (idx &#62; 0) storedName.substring(idx + 1) else storedName</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_122'/>
+122
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_122'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@75a8040b_123'/>
+123
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_123'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_11'>11</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_11'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getStoredName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getStoredName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_12'>12</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_12'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getOriginalName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles includes file metadata()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getOriginalName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_13'>13</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_13'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getSizeBytes<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles includes file metadata()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsFileInfo::getSizeBytes &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>baseDir<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:baseDir returns the configured base directory()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::baseDir &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_25'>25</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_25'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:ensureDirectory creates CP subdirectory()]</span></span> removed call to java/nio/file/Path::of &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_26'>26</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_26'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:ensureDirectory creates CP subdirectory()]</span></span> removed call to java/nio/file/Files::createDirectories &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_31'>31</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_31'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile saves file and returns stored name()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::ensureDirectory &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_32'>32</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_32'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to kotlin/io/ByteStreamsKt::copyTo$default &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile saves file and returns stored name()]</span></span> removed call to java/io/ByteArrayOutputStream::toByteArray &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_33'>33</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_33'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile rejects file exceeding max size()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile saves file and returns stored name()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile saves file and returns stored name()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile allows file exactly at max size()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile stores file prefixed with current epoch second()]</span></span> removed call to java/time/Instant::getEpochSecond &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile saves file and returns stored name()]</span></span> removed call to java/time/Instant::now &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_38'>38</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_38'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile saves file and returns stored name()]</span></span> removed call to java/nio/file/Path::resolve &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_39'>39</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_39'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile saves file and returns stored name()]</span></span> removed call to java/nio/file/Files::write &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_40'>40</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_40'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>uploadFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile saves file and returns stored name()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::uploadFile &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_44'>44</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_44'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getFile returns null for non-existent file()]</span></span> removed call to java/nio/file/Path::of &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getFile returns null for non-existent file()]</span></span> removed call to java/nio/file/Path::resolve &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_46'>46</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_46'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getFile returns path for existing file()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getFile returns null for non-existent file()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getFile returns null for non-existent file()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>getFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getFile returns path for existing file()]</span></span> removed call to java/nio/file/Files::exists &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_50'>50</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_50'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns empty list for new CP()]</span></span> removed call to java/nio/file/Path::of &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns empty list for new CP()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns empty list for new CP()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()]</span></span> replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to java/nio/file/Files::exists &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_52'>52</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_52'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns empty list for new CP()]</span></span> removed call to kotlin/collections/CollectionsKt::emptyList &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()]</span></span> removed call to java/nio/file/Files::list &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles$lambda$0$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles$lambda$0$0 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>listFiles$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles$lambda$0$1 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>listFiles$lambda$0$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to java/nio/file/Files::isRegularFile &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()]</span></span> removed call to java/util/stream/Stream::filter &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>listFiles$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>listFiles$lambda$0$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles excludes subdirectories()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles$lambda$0$0 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>listFiles$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles excludes subdirectories()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::listFiles$lambda$0$1 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>listFiles$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to java/lang/Boolean::booleanValue &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_56'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()]</span></span> removed call to java/util/stream/Stream::map &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>listFiles$lambda$0$3<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_57'>57</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_57'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to java/nio/file/Path::getFileName &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>listFiles$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_60'>60</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_60'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::extractOriginalName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_61'>61</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_61'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles includes file metadata()]</span></span> removed call to java/nio/file/Files::size &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_62'>62</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_62'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns a recent uploadedAt timestamp()]</span></span> removed call to java/io/File::lastModified &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>listFiles$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to java/time/Instant::ofEpochMilli &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>listFiles$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to java/nio/file/Path::toFile &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_65'>65</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_65'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()]</span></span> removed call to java/util/stream/Stream::toList &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_71'>71</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_71'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:deleteFile removes file()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:deleteFile returns false for non-existent()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:deleteFile removes file()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getFile &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:deleteFile returns false for non-existent()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_72'>72</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_72'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:deleteFile returns false for non-existent()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::deleteFile &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_73'>73</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_73'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:deleteFile removes file()]</span></span> removed call to java/nio/file/Files::deleteIfExists &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:deleteFile removes file()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::deleteFile &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>deleteFile<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:deleteFile returns false when the underlying deleteIfExists returns false()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::deleteFile &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_77'>77</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_77'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> Replaced long subtraction with addition &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to java/lang/System::currentTimeMillis &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()]</span></span> removed call to java/util/concurrent/TimeUnit::toMillis &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_79'>79</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_79'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> removed call to java/nio/file/Path::of &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_80'>80</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_80'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired returns 0 when base directory does not exist()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to java/nio/file/Files::exists &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_81'>81</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_81'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> removed call to java/nio/file/Files::walk &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_82'>82</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_82'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$1 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>cleanupExpired$lambda$0$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$0 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>cleanupExpired$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>cleanupExpired$lambda$0$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$0 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>cleanupExpired$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to java/lang/Boolean::booleanValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>cleanupExpired$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$1 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>cleanupExpired$lambda$0$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to java/nio/file/Files::isRegularFile &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> removed call to java/util/stream/Stream::filter &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_83'>83</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_83'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>cleanupExpired$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired deletes a file whose lastModified equals the cutoff exactly()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>cleanupExpired$lambda$0$3<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>cleanupExpired$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> removed call to java/io/File::lastModified &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>cleanupExpired$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> removed call to java/nio/file/Path::toFile &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>cleanupExpired$lambda$0$3<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to java/lang/Boolean::booleanValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>cleanupExpired$lambda$0$3<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$3 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>cleanupExpired$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>cleanupExpired$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>cleanupExpired$lambda$0$3<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$3 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> removed call to java/util/stream/Stream::filter &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>12.<span><b>12</b><br/><b>Location : </b>cleanupExpired$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$0$2 &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_84'>84</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_84'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$0$5<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_86'>86</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_86'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$0$4<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to java/nio/file/Files::deleteIfExists &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_87'>87</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_87'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$0$4<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired returns the number of deleted files()]</span></span> Replaced integer addition with subtraction &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_89'>89</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_89'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$0$4<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired logs the exception message when deleting an expired file fails()]</span></span> removed call to java/lang/Exception::getMessage &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_93'>93</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_93'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_94'>94</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_94'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to java/nio/file/Files::list &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_95'>95</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_95'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to java/util/stream/Stream::filter &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>cleanupExpired$lambda$1$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$1$1 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>cleanupExpired$lambda$1$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>cleanupExpired$lambda$1$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired only attempts to delete empty top-level directories()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$1$1 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>cleanupExpired$lambda$1$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> removed call to java/lang/Boolean::booleanValue &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_96'>96</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_96'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired only attempts to delete empty top-level directories()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired only attempts to delete empty top-level directories()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired only attempts to delete empty top-level directories()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired$lambda$1$0 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired only attempts to delete empty top-level directories()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()]</span></span> removed call to java/nio/file/Path::toFile &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>12.<span><b>12</b><br/><b>Location : </b>cleanupExpired$lambda$1$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> removed call to java/io/File::listFiles &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_97'>97</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_97'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$1$3<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_99'>99</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_99'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$1$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()]</span></span> removed call to java/nio/file/Files::deleteIfExists &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_101'>101</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_101'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired$lambda$1$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired logs the exception message when deleting an empty directory fails()]</span></span> removed call to java/lang/Exception::getMessage &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_106'>106</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_106'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>cleanupExpired<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()]</span></span> replaced int return with 0 for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::cleanupExpired &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_110'>110</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_110'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/nio/file/Path::of &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_111'>111</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_111'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns 0 for non-existent directory()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/nio/file/Files::exists &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_112'>112</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_112'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/nio/file/Files::list &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_113'>113</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_113'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getDirectorySize$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/lang/Boolean::booleanValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getDirectorySize$lambda$0$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$0 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getDirectorySize$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$1 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>getDirectorySize$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/util/stream/Stream::filter &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>getDirectorySize$lambda$0$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize excludes subdirectories()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$0 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>getDirectorySize$lambda$0$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/nio/file/Files::isRegularFile &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>getDirectorySize$lambda$0$1<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize excludes subdirectories()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$1 &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_114'>114</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_114'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/util/stream/Stream::mapToLong &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getDirectorySize$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/nio/file/Files::size &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getDirectorySize$lambda$0$2<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$2 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>getDirectorySize$lambda$0$3<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/lang/Number::longValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>getDirectorySize$lambda$0$3<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::getDirectorySize$lambda$0$3 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>getDirectorySize$lambda$0$3<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to kotlin/jvm/functions/Function1::invoke &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_115'>115</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_115'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getDirectorySize<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()]</span></span> removed call to java/util/stream/LongStream::sum &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_120'>120</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_120'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>extractOriginalName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles extracts original name from stored name()]</span></span> removed call to kotlin/text/StringsKt::indexOf$default &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_121'>121</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_121'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>extractOriginalName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles extracts original name from stored name()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>extractOriginalName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles extracts original name from stored name()]</span></span> Replaced integer addition with subtraction &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>extractOriginalName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()]</span></span> removed call to java/lang/String::substring &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>extractOriginalName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>extractOriginalName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles includes file metadata()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::extractOriginalName &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>extractOriginalName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>extractOriginalName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@75a8040b_126'>126</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@75a8040b_126'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>listFiles<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()]</span></span> removed call to kotlin/collections/CollectionsKt::sortedWith &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles keeps stored name starting with underscore()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles excludes subdirectories()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles extracts original name from stored name()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns uploaded files()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns a recent uploadedAt timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles includes file metadata()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns files sorted newest first()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps recent files()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired uses days as retention unit()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired removes files older than retention days()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired deletes emptied CP directories()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired returns the number of deleted files()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired does not delete subdirectories during file cleanup()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired keeps non-empty CP directories()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:listFiles returns two files ordered by uploadedAt descending()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:listFiles returns three files ordered by uploadedAt descending()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list maps each stored file to its metadata fields()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should upload file via FTP()] (552 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:deleteFile returns false for non-existent()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:deleteFile removes file()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:deleteFile returns false when the file does not exist()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:delete returns 404 with error body for a missing file()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:deleteFile returns the actual delete result()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:delete returns 204 for an existing file()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:deleteFile returns false when the underlying deleteIfExists returns false()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns 0 for non-existent directory()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize excludes subdirectories()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getDirectorySize returns correct total size()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest]/[method:getDirectorySize propagates exception when stream iteration fails()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired does not touch empty directories when nothing expired()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:cleanupExpired keeps CP directories containing non-empty subdirectories()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:cleanupExpired does not delete a directory that still contains files()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:cleanupExpired does not delete a non-empty nested subdirectory()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:cleanupExpired deletes a file exactly at the cutoff boundary()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:cleanupExpired keeps directories that are not empty()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:cleanupExpired deletes only files at or before the cutoff()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest]/[method:cleanupExpired propagates exception when directory stream iteration fails()] (4 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:cleanupExpired logs the exception message when file deletion fails()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired logs the exception message when deleting an expired file fails()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:cleanupExpired logs the exception message when directory deletion fails()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired only attempts to delete empty top-level directories()] (5 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired logs the exception message when deleting an empty directory fails()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfigTest]/[method:should have default username()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfigTest]/[method:should have default username()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerTest]/[method:scheduled cleanup deletes expired files on startup()] (103 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest]/[method:should reject connection with wrong subprotocol()] (9 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.ChargePointRepositoryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.ChargePointRepositoryTest]/[method:should find all online chargePoints()] (10 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.TransactionRepositoryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.TransactionRepositoryTest]/[method:should find running transactions by chargePointId()] (10 ms)</li><li>org.tekeli.borisp.ocpp16.health.ReadinessHealthCheckTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.health.ReadinessHealthCheckTest]/[method:call returns UP when database is reachable()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.SecurityLogRepositoryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.SecurityLogRepositoryTest]/[method:should handle type with max length()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.SignedFirmwareRepositoryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.SignedFirmwareRepositoryTest]/[method:should return false when updating non-existent firmware()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.PersistenceServiceSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.PersistenceServiceSurvivingMutantsTest]/[method:findMessageLogs filters by action()] (19 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.PersistenceServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.PersistenceServiceTest]/[method:findAllTransactions returns transactions for chargePointId()] (20 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:cleanupExpired deletes a file whose lastModified equals the cutoff exactly()] (202 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages respects limit()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should report online when chargePointId is registered even with different sessionId()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.rest.TransactionResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.TransactionResourceTest]/[method:should return transaction details with correct fields()] (102 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceOnlineCheckTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceOnlineCheckTest]/[method:getAll must not report stale ONLINE charge points as online()] (93 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForCallResultFromChargePoint()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StopTransaction for non-existent transaction()] (77 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerConfigTest]/[method:pong timeout default is 720 seconds()] (317 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for LogStatusNotification with null payload()] (775 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest]/[method:should close connection when client does not respond to ping()] (5008 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getFile returns null for non-existent file()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:getFile returns path for existing file()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 404 with error body for a missing file()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()] (4 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 for non-existent file()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:cleanupExpired returns 0 when base directory does not exist()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest]/[method:cleanupExpired propagates exception when walk stream iteration fails()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile stores file prefixed with current epoch second()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile saves file and returns stored name()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile allows file exactly at max size()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:ensureDirectory creates CP subdirectory()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:ensureDirectory is idempotent()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:uploadFile rejects file exceeding max size()] (6 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest]/[method:uploadFile propagates exception when input stream read fails()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should auto-generate diagnostics location when empty payload()] (19 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should auto-generate diagnostics location when empty payload()] (49 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getDiagnostics command round trip()] (61 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.SftpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.SftpServerServiceTest]/[method:should upload file and verify via storage API()] (575 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:listFiles returns empty list for new CP()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageSurvivingMutantsTest]/[method:listFiles returns an empty list when the CP directory does not exist()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:listFiles returns an empty list when the CP directory exists but is empty()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:list returns empty list for a charge point without files()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 200 with list endpoint accessible()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return empty list for CP with no diagnostics()] (22 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageExceptionPathsTest]/[method:listFiles propagates exception when stream iteration fails()] (155 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageTest]/[method:baseDir returns the configured base directory()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorageMutationTest]/[method:baseDir returns the exact configured path()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerTest]/[method:onStart initializes storage with configured base dir()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()] (6 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerSurvivingMutantsTest]/[method:onStart logs FTP start failure with exception message()] (31 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should reject wrong password()] (574 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

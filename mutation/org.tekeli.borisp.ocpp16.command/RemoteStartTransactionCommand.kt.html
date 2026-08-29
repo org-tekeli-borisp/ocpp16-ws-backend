@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>RemoteStartTransactionCommand.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.command</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.Response</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@jakarta.enterprise.context.ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class RemoteStartTransactionCommand @Inject constructor(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val gateway: ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>) : OcppCommand {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_12'/>
+12
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_12'>1</a>
+<span>
+1. getName : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/RemoteStartTransactionCommand::getName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    override val name = &#34;remote-start-transaction&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun validate(payload: Map&#60;String, Any&#62;): Response? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_15'/>
+15
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_15'>1</a>
+<span>
+1. validate : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val idTag = payload[&#34;idTag&#34;]</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_16'/>
+16
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_16'>1</a>
+<span>
+1. validate : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val connectorIdRaw = payload[&#34;connectorId&#34;]</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_18'/>
+18
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_18'>4</a>
+<span>
+1. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validate : negated conditional &rarr; KILLED<br/>
+3. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. validate : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::isNonEmptyString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (!PayloadValidators.isNonEmptyString(idTag)) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_19'/>
+19
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_19'>1</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Response.status(Response.Status.BAD_REQUEST)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_20'/>
+20
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_20'>3</a>
+<span>
+1. validate : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+2. validate : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+3. validate : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .entity(mapOf&#60;String, Any&#62;(&#34;error&#34; to &#34;idTag is required&#34;))</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_21'/>
+21
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_21'>1</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_23'>4</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::isNumber &rarr; KILLED<br/>
+2. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. validate : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (!PayloadValidators.isNumber(connectorIdRaw)) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_24'/>
+24
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_24'>1</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Response.status(Response.Status.BAD_REQUEST)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_25'/>
+25
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_25'>3</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+2. validate : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. validate : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .entity(mapOf&#60;String, Any&#62;(&#34;error&#34; to &#34;connectorId is required&#34;))</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_26'/>
+26
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_26'>1</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        return null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun execute(chargePointId: String, payload: Map&#60;String, Any&#62;): Response {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_32'/>
+32
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_32'>1</a>
+<span>
+1. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val idTag = payload[&#34;idTag&#34;] as String</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_33'/>
+33
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_33'>2</a>
+<span>
+1. execute : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+2. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val connectorId = (payload[&#34;connectorId&#34;] as Number).toInt()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_35'/>
+35
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_35'>2</a>
+<span>
+1. execute : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+2. execute : removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendRemoteStartTransaction &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val result = gateway.sendRemoteStartTransaction(chargePointId, idTag, connectorId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_36'>2</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED<br/>
+2. execute : removed call to org/tekeli/borisp/ocpp16/command/RemoteStartTransactionCommand::getName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return PayloadValidators.awaitAndBuildResponse(result, name)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_12'>12</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_12'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand has correct name()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/RemoteStartTransactionCommand::getName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_15'>15</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_15'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_16'>16</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_16'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_18'>18</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_18'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:RemoteStartTransactionCommand validate with null idTag()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::isNonEmptyString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_19'>19</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_19'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:RemoteStartTransactionCommand validate with null idTag()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_20'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects missing idTag()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:RemoteStartTransactionCommand validate with null idTag()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:RemoteStartTransactionCommand validate with null idTag()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_21'>21</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_21'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:RemoteStartTransactionCommand validate with null idTag()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::isNumber &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects null connectorId()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_24'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects null connectorId()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_25'>25</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_25'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects null connectorId()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects null connectorId()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects string connectorId()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_26'>26</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_26'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects null connectorId()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_32'>32</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_32'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct connectorId()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_33'>33</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_33'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct connectorId()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct connectorId()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct connectorId()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendRemoteStartTransaction &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@61e1bcdc_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@61e1bcdc_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute with Double connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/RemoteStartTransactionCommand::getName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts valid payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand accepts Double connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects null connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:RemoteStartTransactionCommand validate with null connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects string connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStartTransaction command round trip()] (48 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute uses correct idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute with Double connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute with Long connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand execute returns BAD_GATEWAY on error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:RemoteStartTransactionCommand validate with null idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand rejects missing idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:RemoteStartTransactionCommand has correct name()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

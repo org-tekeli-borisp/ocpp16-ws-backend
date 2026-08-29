@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>StartTransactionHandler.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.handler</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.OcppConstants</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.FormationViolationException</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.OcppMessage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.protocol.callResult</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.time.Instant</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class StartTransactionHandler : OcppActionHandler {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_11'/>
+11
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_11'>4</a>
+<span>
+1. handle : removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessage$Call::getPayload &rarr; KILLED<br/>
+2. handle : negated conditional &rarr; KILLED<br/>
+3. handle : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. handle : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val payload = call.payload ?: throw FormationViolationException(&#34;Payload is null&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_12'/>
+12
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_12'>5</a>
+<span>
+1. handle : removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::component1 &rarr; KILLED<br/>
+2. handle : removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::component2 &rarr; KILLED<br/>
+3. handle : removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::component3 &rarr; KILLED<br/>
+4. handle : removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::component4 &rarr; KILLED<br/>
+5. handle : removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::validatePayload$ocpp16_ws_backend &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val (connectorId, idTag, meterStart, startTime) = validatePayload(payload)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_14'/>
+14
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_14'>1</a>
+<span>
+1. handle : removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::createTransaction$ocpp16_ws_backend &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val transactionId = createTransaction(context, connectorId, idTag, meterStart, startTime)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_16'/>
+16
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_16'>2</a>
+<span>
+1. handle : removed call to org/tekeli/borisp/ocpp16/protocol/OcppResponseExtensionsKt::callResult &rarr; KILLED<br/>
+2. handle : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::handle &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return call.callResult(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_17'/>
+17
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_17'>1</a>
+<span>
+1. handle : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            mapOf(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_18'/>
+18
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_18'>3</a>
+<span>
+1. handle : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. handle : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. handle : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                &#34;idTagInfo&#34; to mapOf(&#34;status&#34; to &#34;Accepted&#34;),</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_19'/>
+19
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_19'>2</a>
+<span>
+1. handle : removed call to java/lang/Long::valueOf &rarr; KILLED<br/>
+2. handle : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                &#34;transactionId&#34; to transactionId</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    internal fun createTransaction(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        context: OcppHandlerContext,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        connectorId: Int,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        idTag: String,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        meterStart: Int,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        startTime: Instant</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    ): Long {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_31'/>
+31
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_31'>5</a>
+<span>
+1. createTransaction$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getPersistenceService &rarr; KILLED<br/>
+2. createTransaction$ocpp16_ws_backend : negated conditional &rarr; KILLED<br/>
+3. createTransaction$ocpp16_ws_backend : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. createTransaction$ocpp16_ws_backend : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. createTransaction$ocpp16_ws_backend : replaced long return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::createTransaction$ocpp16_ws_backend &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val ps = context.persistenceService ?: return 1</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_32'/>
+32
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_32'>6</a>
+<span>
+1. createTransaction$ocpp16_ws_backend : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. createTransaction$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::findChargePointBySessionId &rarr; KILLED<br/>
+3. createTransaction$ocpp16_ws_backend : negated conditional &rarr; KILLED<br/>
+4. createTransaction$ocpp16_ws_backend : replaced long return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::createTransaction$ocpp16_ws_backend &rarr; KILLED<br/>
+5. createTransaction$ocpp16_ws_backend : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+6. createTransaction$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getSessionId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val chargePoint = ps.findChargePointBySessionId(context.sessionId) ?: return 1</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_33'/>
+33
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_33'>1</a>
+<span>
+1. createTransaction$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::createTransaction &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val txn = ps.createTransaction(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_34'>1</a>
+<span>
+1. createTransaction$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/persistence/ChargePoint::getChargePointId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            chargePointId = chargePoint.chargePointId,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            connectorId = connectorId,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            idTag = idTag,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            meterStart = meterStart,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            startTime = startTime</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_40'/>
+40
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_40'>4</a>
+<span>
+1. createTransaction$ocpp16_ws_backend : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. createTransaction$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getMetricsService &rarr; KILLED<br/>
+3. createTransaction$ocpp16_ws_backend : negated conditional &rarr; KILLED<br/>
+4. createTransaction$ocpp16_ws_backend : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        context.metricsService?.onTransactionStarted()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_41'/>
+41
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_41'>6</a>
+<span>
+1. createTransaction$ocpp16_ws_backend : removed call to java/lang/Long::longValue &rarr; KILLED<br/>
+2. createTransaction$ocpp16_ws_backend : replaced long return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::createTransaction$ocpp16_ws_backend &rarr; KILLED<br/>
+3. createTransaction$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/persistence/Transaction::getId &rarr; KILLED<br/>
+4. createTransaction$ocpp16_ws_backend : negated conditional &rarr; KILLED<br/>
+5. createTransaction$ocpp16_ws_backend : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. createTransaction$ocpp16_ws_backend : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return txn.id ?: 1</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    internal data class ParsedStartTransaction(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_45'>1</a>
+<span>
+1. getConnectorId : replaced int return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::getConnectorId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val connectorId: Int,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_46'/>
+46
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_46'>1</a>
+<span>
+1. getIdTag : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::getIdTag &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val idTag: String,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_47'/>
+47
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_47'>1</a>
+<span>
+1. getMeterStart : replaced int return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::getMeterStart &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val meterStart: Int,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val startTime: Instant</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    )</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    internal fun validatePayload(payload: Map&#60;String, Any&#62;): ParsedStartTransaction {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_52'/>
+52
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_52'>1</a>
+<span>
+1. validatePayload$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt$default &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val connectorId = payload.requiredInt(&#34;connectorId&#34;, min = 1)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_53'/>
+53
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_53'>1</a>
+<span>
+1. validatePayload$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredString &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val idTag = payload.requiredString(&#34;idTag&#34;, OcppConstants.MAX_ID_TAG_LENGTH)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_54'>1</a>
+<span>
+1. validatePayload$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt$default &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val meterStart = payload.requiredInt(&#34;meterStart&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_55'>1</a>
+<span>
+1. validatePayload$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInstant &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val startTime = payload.requiredInstant(&#34;timestamp&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        return ParsedStartTransaction(connectorId, idTag, meterStart, startTime)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6125e1f9_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_11'>11</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_11'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppMessage$Call::getPayload &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for null payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_12'>12</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_12'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle delegates correct params to createTransaction()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::component1 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::component2 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle delegates correct params to createTransaction()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::component3 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::component4 &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::validatePayload$ocpp16_ws_backend &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_14'>14</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_14'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::createTransaction$ocpp16_ws_backend &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_16'>16</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_16'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/OcppResponseExtensionsKt::callResult &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::handle &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_17'>17</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_17'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_18'>18</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_18'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return Accepted with transactionId for valid StartTransaction()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_19'>19</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_19'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to java/lang/Long::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>handle<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_31'>31</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_31'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle calls metricsService onTransactionStarted()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getPersistenceService &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle calls metricsService onTransactionStarted()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::createTransaction$ocpp16_ws_backend &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_32'>32</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_32'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when chargePoint not found()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle calls metricsService onTransactionStarted()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::findChargePointBySessionId &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when chargePoint not found()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when chargePoint not found()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::createTransaction$ocpp16_ws_backend &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle calls metricsService onTransactionStarted()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when chargePoint not found()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getSessionId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_33'>33</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_33'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when Transaction id is null()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::createTransaction &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when Transaction id is null()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/ChargePoint::getChargePointId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_40'>40</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_40'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle calls metricsService onTransactionStarted()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle calls metricsService onTransactionStarted()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/OcppHandlerContext::getMetricsService &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when Transaction id is null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when Transaction id is null()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_41'>41</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_41'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle delegates correct params to createTransaction()]</span></span> removed call to java/lang/Long::longValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when Transaction id is null()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler::createTransaction$ocpp16_ws_backend &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle delegates correct params to createTransaction()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/Transaction::getId &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when Transaction id is null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle delegates correct params to createTransaction()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>createTransaction$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when Transaction id is null()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getConnectorId<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts connectorId from Long()]</span></span> replaced int return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::getConnectorId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_46'>46</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_46'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getIdTag<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload accepts idTag exactly 20 characters()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::getIdTag &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_47'>47</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_47'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getMeterStart<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts meterStart from Long()]</span></span> replaced int return with 0 for org/tekeli/borisp/ocpp16/handler/StartTransactionHandler$ParsedStartTransaction::getMeterStart &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_52'>52</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_52'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validatePayload$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing connectorId()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt$default &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_53'>53</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_53'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validatePayload$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for empty idTag()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredString &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validatePayload$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing meterStart()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInt$default &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6125e1f9_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6125e1f9_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validatePayload$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing timestamp()]</span></span> removed call to org/tekeli/borisp/ocpp16/handler/PayloadParserKt::requiredInstant &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when persistenceService is null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when chargePoint not found()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle returns transactionId 1 when Transaction id is null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle calls metricsService onTransactionStarted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerHandleTest]/[method:handle delegates correct params to createTransaction()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction meterStart 0 must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return Accepted with transactionId for valid StartTransaction()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId large must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction timestamp with timezone offset must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should accept StartTransaction with idTag exactly 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId as float must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should accept StartTransaction with optional reservationId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction idTag exactly 20 chars must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction meterStart large must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction response preserves messageId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId 1 must succeed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return transactionId greater than 0 for StartTransaction()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction response contains transactionId greater than 0()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction timestamp epoch must succeed()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction response contains both idTagInfo and transactionId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerInfrastructureTest]/[method:OcppWebSocketServer StartTransaction handler uses metricsService()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted with transactionId for valid StartTransaction()] (68 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should full flow boot heartbeat start stop transaction()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for null payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId negative must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction connectorId 0 must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for idTag exceeding 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction empty idTag must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for missing meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction whitespace idTag must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for empty idTag()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction idTag 21 chars must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for empty timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for missing timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.HandlerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.HandlerMutationTest]/[method:StartTransaction invalid timestamp must fail()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerStartTransactionTest]/[method:should return FormationViolation for missing idTag()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StartTransaction with invalid connectorId()] (36 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts connectorId from Long()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts negative meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload accepts idTag exactly 20 characters()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts meterStart as zero()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for invalid timestamp format()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts valid idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts connectorId as 1()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts large connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for empty timestamp()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts valid startTime()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts meterStart from Long()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts valid meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts all fields with edge values()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload extracts all fields correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for zero connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for negative connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for non-integer connectorId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for empty idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing idTag()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for missing meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for non-integer meterStart()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.handler.StartTransactionHandlerDirectTest]/[method:validatePayload throws for idTag exceeding 20 characters()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SignedFirmware.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.persistence</a> &gt; <span class="el_source">SignedFirmware.kt</span></div><h1>SignedFirmware.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.persistence
+
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.Index
+import jakarta.persistence.Table
+import java.time.Instant
+
+<span class="fc" id="L12">@Entity</span>
+@Table(name = &quot;signed_firmware&quot;, indexes = [
+    Index(name = &quot;idx_signed_firmware_chargepoint&quot;, columnList = &quot;charge_point_id&quot;),
+    Index(name = &quot;idx_signed_firmware_request_id&quot;, columnList = &quot;request_id&quot;),
+    Index(name = &quot;idx_signed_firmware_status&quot;, columnList = &quot;status&quot;)
+])
+<span class="fc" id="L18">class SignedFirmware @JvmOverloads constructor(</span>
+<span class="fc" id="L19">    @Id</span>
+    @GeneratedValue
+<span class="fc" id="L21">    val id: Long? = null,</span>
+
+<span class="fc" id="L23">    @Column(name = &quot;charge_point_id&quot;, length = 255)</span>
+<span class="fc" id="L24">    var chargePointId: String = &quot;&quot;,</span>
+
+<span class="fc" id="L26">    @Column(name = &quot;request_id&quot;)</span>
+<span class="fc" id="L27">    var requestId: Int = 0,</span>
+
+<span class="fc" id="L29">    @Column(name = &quot;location&quot;, length = 512)</span>
+<span class="fc" id="L30">    var location: String = &quot;&quot;,</span>
+
+<span class="fc" id="L32">    @Column(name = &quot;retrieve_date_time&quot;)</span>
+<span class="fc" id="L33">    var retrieveDateTime: Instant = Instant.EPOCH,</span>
+
+<span class="fc" id="L35">    @Column(name = &quot;install_date_time&quot;)</span>
+<span class="fc" id="L36">    var installDateTime: Instant? = null,</span>
+
+<span class="fc" id="L38">    @Column(name = &quot;signing_certificate&quot;, length = 5500)</span>
+<span class="fc" id="L39">    var signingCertificate: String = &quot;&quot;,</span>
+
+<span class="fc" id="L41">    @Column(name = &quot;signature&quot;, length = 800)</span>
+<span class="fc" id="L42">    var signature: String = &quot;&quot;,</span>
+
+<span class="fc" id="L44">    @Column(name = &quot;status&quot;, length = 30)</span>
+<span class="fc" id="L45">    var status: String = &quot;Idle&quot;,</span>
+
+<span class="fc" id="L47">    @Column(name = &quot;created_at&quot;)</span>
+<span class="fc" id="L48">    var createdAt: Instant = Instant.now()</span>
+<span class="fc" id="L49">) : PanacheEntityBase()</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

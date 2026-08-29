@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>PayloadBuilder.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@51e42a85_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.outbound</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@51e42a85_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@51e42a85_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>internal fun Map&#60;String, Any?&#62;.filterNulls(): Map&#60;String, Any&#62; =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@51e42a85_4'/>
+4
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_4'>5</a>
+<span>
+1. filterNulls : removed call to java/util/Map$Entry::getValue &rarr; KILLED<br/>
+2. filterNulls : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. filterNulls : removed call to java/util/Map::entrySet &rarr; KILLED<br/>
+4. filterNulls : negated conditional &rarr; KILLED<br/>
+5. filterNulls : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    entries.filter { it.value != null }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@51e42a85_5'/>
+5
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_5'>4</a>
+<span>
+1. filterNulls : replaced return value with Collections.emptyMap for org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED<br/>
+2. filterNulls : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+3. filterNulls : removed call to java/util/Map$Entry::getValue &rarr; KILLED<br/>
+4. filterNulls : removed call to java/util/Map$Entry::getKey &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        .associate { it.key to it.value as Any }</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@51e42a85_4'>4</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_4'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed call to java/util/Map$Entry::getValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls handles empty map()]</span></span> removed call to java/util/Map::entrySet &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns empty map when all values are null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns empty map when all values are null()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@51e42a85_5'>5</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_5'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> replaced return value with Collections.emptyMap for org/tekeli/borisp/ocpp16/outbound/PayloadBuilderKt::filterNulls &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed call to java/util/Map$Entry::getValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed call to java/util/Map$Entry::getKey &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@51e42a85_8'>8</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_8'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns empty map when all values are null()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns empty map when all values are null()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed call to java/util/Collection::add &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@51e42a85_10'>10</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_10'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>none</span></span> removed call to kotlin/ranges/RangesKt::coerceAtLeast &rarr; TIMED_OUT</span>
+</div> <p class='TIMED_OUT'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>none</span></span> removed call to kotlin/collections/MapsKt::mapCapacity &rarr; TIMED_OUT</span>
+</div> <p class='TIMED_OUT'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>none</span></span> removed call to kotlin/collections/CollectionsKt::collectionSizeOrDefault &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@51e42a85_13'>13</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@51e42a85_13'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed call to java/util/Map::put &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed call to kotlin/Pair::getSecond &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>filterNulls<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()]</span></span> removed call to kotlin/Pair::getFirst &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns all entries when none are null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls removes null entries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns typed Map without unchecked cast()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls handles mixed null and non-null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls preserves value types()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware filters null retries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics filters null retries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with all params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer delegates with all params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendDataTransfer filters null messageId and data()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware filters null retries()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog without retries filters nulls()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetDiagnostics delegates with filtered payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendSignedUpdateFirmware delegates correctly()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendUpdateFirmware delegates with all params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendGetLog with all params()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should auto-generate diagnostics location when empty payload()] (19 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearChargingProfile command round trip()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should auto-generate diagnostics location when empty payload()] (49 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getDiagnostics command round trip()] (61 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute updateFirmware command round trip()] (60 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute signedUpdateFirmware command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls returns empty map when all values are null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.OcppOutboundServiceTest]/[method:sendClearChargingProfile with nulls filters them()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.outbound.PayloadBuilderTest]/[method:filterNulls handles empty map()] (0 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

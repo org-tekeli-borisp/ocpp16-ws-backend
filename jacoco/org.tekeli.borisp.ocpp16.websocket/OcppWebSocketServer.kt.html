@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OcppWebSocketServer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.websocket</a> &gt; <span class="el_source">OcppWebSocketServer.kt</span></div><h1>OcppWebSocketServer.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.websocket
+
+import io.quarkus.logging.Log
+import io.quarkus.websockets.next.*
+import io.smallrye.mutiny.Uni
+import io.vertx.core.Vertx
+import io.vertx.core.buffer.Buffer
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import org.tekeli.borisp.ocpp16.handler.*
+import org.tekeli.borisp.ocpp16.metrics.MetricsService
+import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
+import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
+import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
+import java.util.*
+
+<span class="fc" id="L19">@WebSocket(path = &quot;/ocpp/{chargePointId}&quot;)</span>
+@ApplicationScoped
+open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
+
+    companion object {
+        private const val DEFAULT_HEARTBEAT_INTERVAL_SECONDS = 300
+        private const val DEFAULT_PING_INTERVAL_SECONDS = 360
+        private const val DEFAULT_PONG_TIMEOUT_SECONDS = 720
+    }
+
+    @ConfigProperty(name = &quot;ocpp.websocket.ping-interval-seconds&quot;, defaultValue = &quot;${DEFAULT_PING_INTERVAL_SECONDS}&quot;)
+<span class="fc" id="L30">    var pingIntervalSeconds: Long = DEFAULT_PING_INTERVAL_SECONDS.toLong()</span>
+
+    @ConfigProperty(name = &quot;ocpp.websocket.pong-timeout-seconds&quot;, defaultValue = &quot;${DEFAULT_PONG_TIMEOUT_SECONDS}&quot;)
+<span class="fc" id="L33">    var pongTimeoutSeconds: Long = DEFAULT_PONG_TIMEOUT_SECONDS.toLong()</span>
+
+    @Inject
+<span class="fc" id="L36">    var openConnections: OpenConnections? = null</span>
+
+    @Inject
+<span class="fc" id="L39">    override var chargePointRegistry: ChargePointRegistry? = null</span>
+
+    @Inject
+<span class="fc" id="L42">    override var persistenceService: PersistenceService? = null</span>
+
+    @Inject
+<span class="fc" id="L45">    override var metricsService: MetricsService? = null</span>
+
+    @Inject
+<span class="fc" id="L48">    var messageCaptureService: MessageCaptureService? = null</span>
+
+    @Inject
+<span class="fc" id="L51">    open var schemaValidator: SchemaValidator? = null</span>
+
+    @Inject
+<span class="fc" id="L54">    var vertx: Vertx? = null</span>
+
+<span class="fc" id="L56">    open var currentConnection: WebSocketConnection? = null</span>
+
+    val activeConnection: WebSocketConnection
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        get() = currentConnection ?: throw IllegalStateException(&quot;Connection not initialized&quot;)</span>
+
+    private val activeRegistry: ChargePointRegistry
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        get() = chargePointRegistry ?: throw IllegalStateException(&quot;Registry not initialized&quot;)</span>
+
+    private val activePersistence: PersistenceService
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        get() = persistenceService ?: throw IllegalStateException(&quot;Persistence not initialized&quot;)</span>
+
+<span class="fc" id="L67">    private var _chargePointId: String = &quot;&quot;</span>
+<span class="fc" id="L68">    private var _sessionId: String = &quot;&quot;</span>
+<span class="fc" id="L69">    private var _responseAwaiter: ResponseAwaiter = ResponseAwaiter()</span>
+
+    private val activeSessionContext: SessionContext?
+        get() {
+<span class="fc bfc" id="L73" title="All 4 branches covered.">            val connId = currentConnection?.id() ?: return null</span>
+<span class="fc" id="L74">            return activeRegistry.getContext(connId)</span>
+        }
+
+    override var responseAwaiter: ResponseAwaiter
+        get() {
+<span class="fc bfc" id="L79" title="All 2 branches covered.">            val ctx = activeSessionContext ?: return _responseAwaiter</span>
+<span class="fc" id="L80">            return ctx.responseAwaiter</span>
+        }
+<span class="fc" id="L82">        set(value) { _responseAwaiter = value }</span>
+
+    override var chargePointId: String
+        get() {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">            val ctx = activeSessionContext ?: return _chargePointId</span>
+<span class="fc" id="L87">            return ctx.chargePointId</span>
+        }
+<span class="fc" id="L89">        set(value) { _chargePointId = value }</span>
+
+    override var sessionId: String
+        get() {
+<span class="fc bfc" id="L93" title="All 2 branches covered.">            val ctx = activeSessionContext ?: return _sessionId</span>
+<span class="fc" id="L94">            return ctx.sessionId</span>
+        }
+<span class="fc" id="L96">        set(value) { _sessionId = value }</span>
+
+    private val activePingPongManager: PingPongManager?
+        get() {
+<span class="fc" id="L100">            val ctx = activeSessionContext</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">            return ctx?.let { activeRegistry.getPingPongManager(ctx.sessionId) }</span>
+        }
+
+    @ConfigProperty(name = &quot;ocpp.heartbeat.interval-seconds&quot;, defaultValue = &quot;${DEFAULT_HEARTBEAT_INTERVAL_SECONDS}&quot;)
+<span class="fc" id="L105">    override var heartbeatIntervalSeconds: Long = DEFAULT_HEARTBEAT_INTERVAL_SECONDS.toLong()</span>
+
+<span class="fc" id="L107">    private inner class SessionContextWrapper(</span>
+<span class="fc" id="L108">        private val sessionCtx: SessionContext,</span>
+    ) : OcppHandlerContext {
+<span class="fc" id="L110">        override val chargePointId: String get() = sessionCtx.chargePointId</span>
+<span class="fc" id="L111">        override val sessionId: String get() = sessionCtx.sessionId</span>
+<span class="fc" id="L112">        override val chargePointRegistry: ChargePointRegistry? get() = this@OcppWebSocketServer.chargePointRegistry</span>
+<span class="fc" id="L113">        override val persistenceService: PersistenceService? get() = this@OcppWebSocketServer.persistenceService</span>
+<span class="fc" id="L114">        override val metricsService: MetricsService? get() = this@OcppWebSocketServer.metricsService</span>
+<span class="fc" id="L115">        override val heartbeatIntervalSeconds: Long get() = this@OcppWebSocketServer.heartbeatIntervalSeconds</span>
+    }
+
+<span class="fc" id="L118">    private val dispatcher: MessageDispatcher by lazy {</span>
+<span class="fc" id="L119">        MessageDispatcher(createHandlers(), messageCaptureService, schemaValidator)</span>
+    }
+
+    private val scheduler: Scheduler
+<span class="fc" id="L123">        get() = VertxScheduler(vertx!!)</span>
+
+<span class="fc" id="L125">    open fun createHandlers(): Map&lt;String, OcppActionHandler&gt; = mapOf(</span>
+<span class="fc" id="L126">        &quot;BootNotification&quot; to BootNotificationHandler(),</span>
+<span class="fc" id="L127">        &quot;Heartbeat&quot; to HeartbeatHandler(),</span>
+<span class="fc" id="L128">        &quot;Authorize&quot; to AuthorizeHandler(),</span>
+<span class="fc" id="L129">        &quot;StartTransaction&quot; to StartTransactionHandler(),</span>
+<span class="fc" id="L130">        &quot;StopTransaction&quot; to StopTransactionHandler(),</span>
+<span class="fc" id="L131">        &quot;StatusNotification&quot; to StatusNotificationHandler(),</span>
+<span class="fc" id="L132">        &quot;DataTransfer&quot; to DataTransferHandler(),</span>
+<span class="fc" id="L133">        &quot;FirmwareStatusNotification&quot; to FirmwareStatusNotificationHandler(),</span>
+<span class="fc" id="L134">        &quot;DiagnosticsStatusNotification&quot; to DiagnosticsStatusNotificationHandler(),</span>
+<span class="fc" id="L135">        &quot;MeterValues&quot; to MeterValuesHandler(),</span>
+<span class="fc" id="L136">        &quot;SecurityEventNotification&quot; to SecurityEventNotificationHandler(),</span>
+<span class="fc" id="L137">        &quot;SignedFirmwareStatusNotification&quot; to SignedFirmwareStatusNotificationHandler(),</span>
+<span class="fc" id="L138">        &quot;LogStatusNotification&quot; to LogStatusNotificationHandler(),</span>
+<span class="fc" id="L139">        &quot;SignCertificate&quot; to SignCertificateHandler(),</span>
+<span class="fc" id="L140">        &quot;CertificateSigned&quot; to CertificateSignedHandler()</span>
+<span class="fc" id="L141">    )</span>
+
+    @OnOpen
+    fun onOpen(conn: WebSocketConnection) {
+<span class="fc" id="L145">        currentConnection = conn</span>
+<span class="fc" id="L146">        val subprotocol = conn.subprotocol()</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (subprotocol != &quot;ocpp1.6&quot;) {</span>
+<span class="fc" id="L148">            Log.warn(&quot;Rejecting WebSocket connection: unsupported subprotocol '$subprotocol' (expected 'ocpp1.6')&quot;)</span>
+<span class="fc" id="L149">            conn.closeAndAwait(io.quarkus.websockets.next.CloseReason(1003, &quot;Subprotocol ocpp1.6 required&quot;))</span>
+<span class="fc" id="L150">            return</span>
+        }
+<span class="fc" id="L152">        initializeConnection(conn)</span>
+<span class="fc" id="L153">    }</span>
+
+    open fun initializeConnection(conn: WebSocketConnection) {
+<span class="fc" id="L156">        val chargePointId = conn.pathParam(&quot;chargePointId&quot;)</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        val sessionId = conn.id() ?: throw IllegalStateException(&quot;Connection id not available&quot;)</span>
+<span class="fc" id="L158">        val responseAwaiter = ResponseAwaiter()</span>
+<span class="fc" id="L159">        registerAndOnline(sessionId, chargePointId, responseAwaiter)</span>
+<span class="fc" id="L160">        val remoteAddress = conn.handshakeRequest().remoteAddress()</span>
+<span class="fc" id="L161">        Log.info(&quot;WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId, remote=$remoteAddress&quot;)</span>
+<span class="fc" id="L162">    }</span>
+
+    private fun registerAndOnline(sessionId: String, chargePointId: String, responseAwaiter: ResponseAwaiter) {
+<span class="fc" id="L165">        activeRegistry.register(sessionId, sessionId, chargePointId, responseAwaiter)</span>
+<span class="fc" id="L166">        activePersistence.setChargePointOnlineById(chargePointId, sessionId)</span>
+<span class="fc" id="L167">        val conn = activeConnection</span>
+<span class="fc" id="L168">        val manager = PingPongManager(</span>
+<span class="fc" id="L169">            target = WebSocketPingPongTarget(</span>
+<span class="fc" id="L170">                connection = { conn },</span>
+<span class="fc" id="L171">                registry = activeRegistry,</span>
+<span class="fc" id="L172">                persistence = activePersistence,</span>
+<span class="fc" id="L173">                sessionId = sessionId</span>
+<span class="fc" id="L174">            ) { responseAwaiter.rejectAll(it) },</span>
+<span class="fc" id="L175">            sessionId = sessionId,</span>
+<span class="fc" id="L176">            pingInterval = pingIntervalSeconds,</span>
+<span class="fc" id="L177">            pongTimeout = pongTimeoutSeconds,</span>
+<span class="fc" id="L178">            scheduler = scheduler</span>
+        )
+<span class="fc" id="L180">        manager.start()</span>
+<span class="fc" id="L181">        activeRegistry.setPingPongManager(sessionId, manager)</span>
+<span class="fc" id="L182">    }</span>
+
+    @OnTextMessage
+    fun onTextMessage(message: String, conn: WebSocketConnection): String {
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        val sessionCtx = activeRegistry.getContext(conn.id()) ?: return &quot;[4,\&quot;${UUID.randomUUID()}\&quot;,\&quot;ProtocolError\&quot;,\&quot;No session context\&quot;]&quot;</span>
+<span class="fc" id="L187">        val pingPongMgr = activeRegistry.getPingPongManager(sessionCtx.sessionId)</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        pingPongMgr?.messageReceived()</span>
+<span class="fc" id="L189">        try {</span>
+<span class="fc" id="L190">            activePersistence.touchLastSeenAt(sessionCtx.chargePointId)</span>
+<span class="fc" id="L191">        } catch (e: Exception) {</span>
+<span class="fc" id="L192">            Log.warn(&quot;touchLastSeenAt failed: ${e.message}&quot;)</span>
+        }
+<span class="fc" id="L194">        val context = SessionContextWrapper(sessionCtx)</span>
+<span class="fc" id="L195">        return dispatcher.dispatch(</span>
+<span class="fc" id="L196">            message,</span>
+<span class="fc" id="L197">            context,</span>
+<span class="fc" id="L198">            sessionCtx.responseAwaiter,</span>
+<span class="fc" id="L199">            metricsService,</span>
+<span class="fc" id="L200">            sessionCtx.chargePointId</span>
+        )
+    }
+
+    fun onTextMessage(message: String): String {
+<span class="fc" id="L205">        return dispatcher.dispatch(message, this, responseAwaiter, metricsService)</span>
+    }
+
+    @OnPingMessage
+    fun onPingMessage(buffer: Buffer, conn: WebSocketConnection): Uni&lt;Void&gt; {
+<span class="fc" id="L210">        return conn.sendPong(buffer)</span>
+    }
+
+    @OnPongMessage
+    fun onPongMessage(buffer: Buffer, conn: WebSocketConnection) {
+<span class="fc bfc" id="L215" title="All 2 branches covered.">        val sessionCtx = activeRegistry.getContext(conn.id()) ?: return</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">        activeRegistry.getPingPongManager(sessionCtx.sessionId)?.pongReceived()</span>
+<span class="fc" id="L217">    }</span>
+
+    override fun sendText(text: String): Uni&lt;Void&gt; {
+<span class="fc" id="L220">        val conn = currentConnection</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">        return if (conn != null) conn.sendText(text) else Uni.createFrom().voidItem()</span>
+    }
+
+    @OnClose
+    fun onClose(conn: WebSocketConnection) {
+<span class="fc" id="L226">        val sessionId = conn.id()</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">        activeRegistry.getPingPongManager(sessionId)?.stop()</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">        val sessionCtx = activeRegistry.getContext(sessionId) ?: return</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">        if (activeRegistry.isConnected(sessionId)) {</span>
+<span class="fc" id="L230">            activeRegistry.unregister(sessionId)</span>
+<span class="fc" id="L231">            sessionCtx.responseAwaiter.rejectAll(&quot;WebSocket connection closed: $sessionId&quot;)</span>
+<span class="fc" id="L232">            try {</span>
+<span class="fc" id="L233">                activePersistence.setChargePointOfflineByChargePointId(sessionCtx.chargePointId)</span>
+<span class="fc" id="L234">            } catch (_: Exception) {</span>
+            }
+<span class="fc" id="L236">            Log.info(&quot;WebSocket connection closed: session=$sessionId, chargePoint=${sessionCtx.chargePointId}&quot;)</span>
+        }
+<span class="fc" id="L238">    }</span>
+
+    fun onClose() {
+<span class="fc" id="L241">        val connectionId = activeConnection.id()</span>
+<span class="fc" id="L242">        val pingPongMgr = activePingPongManager</span>
+<span class="fc" id="L243">        val id = sessionId</span>
+<span class="fc" id="L244">        val cpId = chargePointId</span>
+<span class="fc" id="L245">        val awaiter = responseAwaiter</span>
+<span class="fc bfc" id="L246" title="All 2 branches covered.">        pingPongMgr?.stop()</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        if (activeRegistry.isConnected(id)) {</span>
+<span class="fc" id="L248">            activeRegistry.unregister(id)</span>
+<span class="fc" id="L249">            awaiter.rejectAll(&quot;WebSocket connection closed: $connectionId&quot;)</span>
+<span class="fc" id="L250">            try {</span>
+<span class="fc" id="L251">                activePersistence.setChargePointOfflineByChargePointId(cpId)</span>
+<span class="fc" id="L252">            } catch (_: Exception) {</span>
+            }
+<span class="fc" id="L254">            Log.info(&quot;WebSocket connection closed: session=$connectionId, chargePoint=$cpId&quot;)</span>
+        }
+<span class="fc" id="L256">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChargePointRegistry.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.websocket</a> &gt; <span class="el_source">ChargePointRegistry.kt</span></div><h1>ChargePointRegistry.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.websocket
+
+import io.quarkus.logging.Log
+import io.quarkus.websockets.next.CloseReason
+import io.quarkus.websockets.next.OpenConnections
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
+import org.tekeli.borisp.ocpp16.metrics.MetricsService
+import org.tekeli.borisp.ocpp16.outbound.OutboundCallDispatcher
+import org.tekeli.borisp.ocpp16.outbound.TextSender
+import org.tekeli.borisp.ocpp16.outbound.WsSender
+import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
+import java.util.Collections
+import java.util.concurrent.ConcurrentHashMap
+
+interface ChargePointConnection : TextSender {
+    val responseAwaiter: ResponseAwaiter
+}
+
+<span class="fc" id="L23">@ApplicationScoped</span>
+class ChargePointRegistry {
+
+    @Inject
+<span class="fc" id="L27">    lateinit var openConnections: OpenConnections</span>
+
+    @Inject
+<span class="fc" id="L30">    var metricsService: MetricsService? = null</span>
+
+    @Inject
+<span class="fc" id="L33">    var messageCaptureService: MessageCaptureService? = null</span>
+
+    @Inject
+<span class="fc" id="L36">    var persistenceService: PersistenceService? = null</span>
+
+<span class="fc" id="L38">    private val sessionInfos = ConcurrentHashMap&lt;String, ChargePointInfo&gt;()</span>
+<span class="fc" id="L39">    private val sessionContexts = ConcurrentHashMap&lt;String, SessionContext&gt;()</span>
+<span class="fc" id="L40">    private val chargePointIdIndex = ConcurrentHashMap&lt;String, String&gt;()</span>
+<span class="fc" id="L41">    private val testSenders = ConcurrentHashMap&lt;String, TextSender&gt;()</span>
+
+<span class="fc" id="L43">    val connectionCount: Int get() = sessionInfos.size</span>
+<span class="fc" id="L44">    val connectedSessionIds: Set&lt;String&gt; get() = Collections.unmodifiableSet(sessionInfos.keys)</span>
+<span class="fc" id="L45">    val connectedChargePointIds: Set&lt;String&gt; get() = Collections.unmodifiableSet(chargePointIdIndex.keys)</span>
+
+    fun register(sessionId: String, connectionId: String, chargePointId: String?, responseAwaiter: ResponseAwaiter) {
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        val oldInfo = chargePointId?.let { getByChargePointId(it) }</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">        if (oldInfo != null &amp;&amp; oldInfo.sessionId != sessionId) {</span>
+<span class="fc" id="L50">            disconnectSession(oldInfo.sessionId, oldInfo.connectionId)</span>
+        }
+<span class="fc" id="L52">        sessionInfos[sessionId] = ChargePointInfo(</span>
+<span class="fc" id="L53">            sessionId = sessionId,</span>
+<span class="fc" id="L54">            connectionId = connectionId</span>
+        )
+<span class="fc" id="L56">        sessionContexts[sessionId] = SessionContext(</span>
+<span class="fc" id="L57">            sessionId = sessionId,</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            chargePointId = chargePointId ?: &quot;&quot;,</span>
+<span class="fc" id="L59">            responseAwaiter = responseAwaiter</span>
+        )
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (chargePointId != null) {</span>
+<span class="fc" id="L62">            chargePointIdIndex[chargePointId] = sessionId</span>
+        }
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        metricsService?.onChargePointConnected()</span>
+<span class="fc" id="L65">    }</span>
+
+<span class="fc" id="L67">    fun register(sessionId: String, connectionId: String, connection: ChargePointConnection, chargePointId: String? = null) {</span>
+<span class="fc" id="L68">        register(sessionId, connectionId, chargePointId, connection.responseAwaiter)</span>
+<span class="fc" id="L69">    }</span>
+
+    fun setTestSender(sessionId: String, sender: TextSender) {
+<span class="fc" id="L72">        testSenders[sessionId] = sender</span>
+<span class="fc" id="L73">    }</span>
+
+    fun unregister(sessionId: String) {
+<span class="fc" id="L76">        sessionInfos.remove(sessionId)</span>
+<span class="fc" id="L77">        sessionContexts.remove(sessionId)</span>
+<span class="fc" id="L78">        testSenders.remove(sessionId)</span>
+<span class="fc" id="L79">        chargePointIdIndex.entries.removeAll { it.value == sessionId }</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        metricsService?.onChargePointDisconnected()</span>
+<span class="fc" id="L81">    }</span>
+
+    fun disconnect(chargePointId: String) {
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        val info = getByChargePointId(chargePointId)</span>
+<span class="fc" id="L85">            ?: throw IllegalStateException(&quot;ChargePoint not connected: $chargePointId&quot;)</span>
+<span class="fc" id="L86">        disconnectSession(info.sessionId, info.connectionId)</span>
+<span class="fc" id="L87">    }</span>
+
+    fun disconnectAll(): Int {
+<span class="fc" id="L90">        val sessionInfosCopy = sessionInfos.values.toSet()</span>
+<span class="fc" id="L91">        var count = 0</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        for (info in sessionInfosCopy) {</span>
+<span class="fc" id="L93">            disconnectSession(info.sessionId, info.connectionId)</span>
+<span class="fc" id="L94">            count++</span>
+        }
+<span class="fc" id="L96">        return count</span>
+    }
+
+    private fun disconnectSession(sessionId: String, connectionId: String) {
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        val context = sessionContexts[sessionId] ?: return</span>
+<span class="fc" id="L101">        val pingPongMgr = getPingPongManager(sessionId)</span>
+<span class="fc" id="L102">        val chargePointId = context.chargePointId</span>
+
+<span class="fc" id="L104">        Log.info(&quot;Disconnecting session=$sessionId, chargePoint=$chargePointId&quot;)</span>
+
+<span class="fc" id="L106">        try {</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            pingPongMgr?.stop()</span>
+<span class="fc" id="L108">        } catch (_: Exception) {</span>
+        }
+
+<span class="fc" id="L111">        try {</span>
+<span class="fc" id="L112">            unregister(sessionId)</span>
+<span class="fc" id="L113">        } catch (_: Exception) {</span>
+        }
+
+<span class="fc" id="L116">        context.responseAwaiter.rejectAll(&quot;Disconnected via REST API&quot;)</span>
+
+<span class="fc" id="L118">        try {</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">            persistenceService?.setChargePointOfflineByChargePointId(chargePointId)</span>
+<span class="fc" id="L120">        } catch (_: Exception) {</span>
+        }
+
+<span class="fc" id="L123">        try {</span>
+<span class="fc" id="L124">            val conn = openConnections.findByConnectionId(connectionId).orElse(null)</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            if (conn != null) {</span>
+<span class="fc" id="L126">                conn.closeAndAwait(CloseReason(1001, &quot;Disconnected via REST API&quot;))</span>
+<span class="fc" id="L127">                Log.info(&quot;WebSocket connection closed by REST API: session=$sessionId, chargePoint=$chargePointId&quot;)</span>
+            }
+<span class="fc" id="L129">        } catch (_: Exception) {</span>
+        }
+<span class="fc" id="L131">    }</span>
+
+<span class="fc" id="L133">    fun getContext(sessionId: String): SessionContext? = sessionContexts[sessionId]</span>
+
+    fun setPingPongManager(sessionId: String, manager: PingPongManager) {
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        sessionContexts[sessionId]?.pingPongManager = manager</span>
+<span class="fc" id="L137">    }</span>
+
+    fun getPingPongManager(sessionId: String): PingPongManager? =
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        sessionContexts[sessionId]?.pingPongManager</span>
+
+    fun getResponseAwaiter(sessionId: String): ResponseAwaiter? =
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        sessionContexts[sessionId]?.responseAwaiter</span>
+
+    fun getChargePointId(sessionId: String): String? =
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        sessionContexts[sessionId]?.chargePointId</span>
+
+    fun updateChargePointInfo(sessionId: String, chargePointId: String, vendor: String, model: String) {
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        val existing = sessionInfos[sessionId]</span>
+<span class="fc" id="L150">            ?: throw IllegalStateException(&quot;Session not found: $sessionId&quot;)</span>
+<span class="fc" id="L151">        sessionInfos[sessionId] = existing.copy(</span>
+<span class="fc" id="L152">            chargePointId = chargePointId,</span>
+<span class="fc" id="L153">            vendor = vendor,</span>
+<span class="fc" id="L154">            model = model</span>
+        )
+<span class="fc" id="L156">        chargePointIdIndex[chargePointId] = sessionId</span>
+<span class="fc" id="L157">    }</span>
+
+<span class="fc" id="L159">    fun getInfo(sessionId: String): ChargePointInfo? = sessionInfos[sessionId]</span>
+
+    fun getByChargePointId(chargePointId: String): ChargePointInfo? {
+<span class="fc" id="L162">        val sessionId = chargePointIdIndex[chargePointId]</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        if (sessionId == null) return null</span>
+<span class="fc" id="L164">        return sessionInfos[sessionId]</span>
+    }
+
+<span class="fc" id="L167">    fun isConnected(sessionId: String): Boolean = sessionInfos.containsKey(sessionId)</span>
+
+    fun getConnection(sessionId: String): ChargePointConnection? {
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        val context = sessionContexts[sessionId] ?: return null</span>
+<span class="fc" id="L171">        return object : ChargePointConnection {</span>
+<span class="fc" id="L172">            override val responseAwaiter = context.responseAwaiter</span>
+<span class="fc" id="L173">            override fun sendText(text: String) = io.smallrye.mutiny.Uni.createFrom().voidItem()</span>
+        }
+    }
+
+    fun sendCall(chargePointId: String, action: String, payload: Map&lt;String, Any&gt;?): java.util.concurrent.CompletableFuture&lt;OcppMessage&gt; {
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        val info = getByChargePointId(chargePointId)</span>
+<span class="fc" id="L179">            ?: throw IllegalStateException(&quot;ChargePoint not connected: $chargePointId&quot;)</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">        val context = sessionContexts[info.sessionId]</span>
+<span class="fc" id="L181">            ?: throw IllegalStateException(&quot;ChargePoint context not available for session: ${info.sessionId}&quot;)</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">        val sender = testSenders[info.sessionId] ?: WsSender(openConnections, info.connectionId)</span>
+<span class="fc" id="L183">        val dispatcher = OutboundCallDispatcher(sender, context.responseAwaiter, messageCaptureService)</span>
+<span class="fc bfc" id="L184" title="All 4 branches covered.">        metricsService?.messagesSent?.increment()</span>
+<span class="fc" id="L185">        return dispatcher.sendCall(chargePointId, action, payload)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

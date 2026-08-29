@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>SignedUpdateFirmwareCommand.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.command</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.Response</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.OcppConstants</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.persistence.PersistenceService</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.time.Instant</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''> @jakarta.enterprise.context.ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class SignedUpdateFirmwareCommand @Inject constructor(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val gateway: ChargePointGateway,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val persistenceService: PersistenceService? = null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>) : OcppCommand {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_16'/>
+16
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_16'>1</a>
+<span>
+1. getName : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::getName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    override val name = &#34;signed-update-firmware&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun validate(payload: Map&#60;String, Any&#62;): Response? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_19'/>
+19
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_19'>7</a>
+<span>
+1. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. validate : negated conditional &rarr; KILLED<br/>
+5. validate : removed call to java/util/Map::get &rarr; KILLED<br/>
+6. validate : negated conditional &rarr; KILLED<br/>
+7. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (payload[&#34;requestId&#34;] as? Number == null) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_20'/>
+20
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_20'>1</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::badRequest &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return badRequest(&#34;requestId is required&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_22'>7</a>
+<span>
+1. validate : negated conditional &rarr; KILLED<br/>
+2. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. validate : negated conditional &rarr; KILLED<br/>
+6. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. validate : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val firmware = payload[&#34;firmware&#34;] as? Map&#60;*, *&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_23'>1</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::badRequest &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            ?: return badRequest(&#34;firmware is required&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_24'/>
+24
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_24'>1</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::validateFirmwareFields &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return validateFirmwareFields(firmware)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun validateFirmwareFields(firmware: Map&#60;*, *&#62;): Response? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val error = try {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            checkField(firmware, &#34;location&#34;, OcppConstants.MAX_FIRMWARE_LOCATION_LENGTH, &#34;firmware.location&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            checkField(firmware, &#34;retrieveDateTime&#34;, Int.MAX_VALUE, &#34;firmware.retrieveDateTime&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            checkField(firmware, &#34;signingCertificate&#34;, OcppConstants.MAX_SIGNING_CERTIFICATE_LENGTH, &#34;firmware.signingCertificate&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            checkField(firmware, &#34;signature&#34;, OcppConstants.MAX_SIGNATURE_LENGTH, &#34;firmware.signature&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            null</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        } catch (e: Throwable) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_35'/>
+35
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_35'>1</a>
+<span>
+1. validateFirmwareFields : removed call to java/lang/Throwable::getMessage &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            e.message</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_37'/>
+37
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_37'>4</a>
+<span>
+1. validateFirmwareFields : negated conditional &rarr; KILLED<br/>
+2. validateFirmwareFields : removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::badRequest &rarr; KILLED<br/>
+3. validateFirmwareFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. validateFirmwareFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return error?.let { badRequest(it) }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun checkField(map: Map&#60;*, *&#62;, key: String, maxLen: Int, name: String) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_41'/>
+41
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_41'>1</a>
+<span>
+1. checkField : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val value = map[key] as String</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_42'/>
+42
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_42'>12</a>
+<span>
+1. checkField : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+2. checkField : removed call to java/lang/String::length &rarr; KILLED<br/>
+3. checkField : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. checkField : removed call to java/lang/CharSequence::length &rarr; KILLED<br/>
+5. checkField : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. checkField : negated conditional &rarr; KILLED<br/>
+7. checkField : negated conditional &rarr; KILLED<br/>
+8. checkField : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+9. checkField : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+10. checkField : changed conditional boundary &rarr; KILLED<br/>
+11. checkField : negated conditional &rarr; KILLED<br/>
+12. checkField : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (value.isEmpty() || value.length &#62; maxLen) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw IllegalArgumentException(&#34;$name validation failed&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_47'/>
+47
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_47'>1</a>
+<span>
+1. badRequest : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    private fun badRequest(error: String) = Response.status(Response.Status.BAD_REQUEST)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_48'/>
+48
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_48'>4</a>
+<span>
+1. badRequest : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+2. badRequest : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+3. badRequest : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+4. badRequest : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        .entity(mapOf&#60;String, Any&#62;(&#34;error&#34; to error)).build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun execute(chargePointId: String, payload: Map&#60;String, Any&#62;): Response {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_51'>2</a>
+<span>
+1. execute : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+2. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val requestId = (payload[&#34;requestId&#34;] as Number).toInt()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_52'/>
+52
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_52'>2</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::safeMap &rarr; KILLED<br/>
+2. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val firmware = PayloadValidators.safeMap(payload[&#34;firmware&#34;])</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_53'/>
+53
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_53'>9</a>
+<span>
+1. execute : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+2. execute : negated conditional &rarr; KILLED<br/>
+3. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+4. execute : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+5. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+6. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. execute : negated conditional &rarr; KILLED<br/>
+8. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+9. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val retries = (payload[&#34;retries&#34;] as? Number)?.toInt()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_54'>9</a>
+<span>
+1. execute : negated conditional &rarr; KILLED<br/>
+2. execute : removed call to java/lang/Integer::valueOf &rarr; KILLED<br/>
+3. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. execute : removed call to java/lang/Number::intValue &rarr; KILLED<br/>
+6. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+7. execute : negated conditional &rarr; KILLED<br/>
+8. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+9. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val retryInterval = (payload[&#34;retryInterval&#34;] as? Number)?.toInt()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_55'/>
+55
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_55'>1</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::sendFirmwareCommand &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return sendFirmwareCommand(chargePointId, requestId, firmware, retries, retryInterval)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun sendFirmwareCommand(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        chargePointId: String, requestId: Int,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        firmware: Map&#60;String, Any&#62;, retries: Int?, retryInterval: Int?</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    ): Response {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_62'/>
+62
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_62'>6</a>
+<span>
+1. sendFirmwareCommand : removed call to java/lang/Object::toString &rarr; KILLED<br/>
+2. sendFirmwareCommand : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. sendFirmwareCommand : removed call to java/time/Instant::parse &rarr; KILLED<br/>
+4. sendFirmwareCommand : removed call to java/util/Map::get &rarr; KILLED<br/>
+5. sendFirmwareCommand : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+6. sendFirmwareCommand : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val installDateTime = firmware[&#34;installDateTime&#34;]?.let { Instant.parse(it.toString()) }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_63'/>
+63
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_63'>4</a>
+<span>
+1. sendFirmwareCommand : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. sendFirmwareCommand : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. sendFirmwareCommand : negated conditional &rarr; KILLED<br/>
+4. sendFirmwareCommand : removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::createSignedFirmware &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        persistenceService?.createSignedFirmware(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            chargePointId = chargePointId,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            requestId = requestId,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_66'/>
+66
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_66'>1</a>
+<span>
+1. sendFirmwareCommand : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            location = firmware[&#34;location&#34;] as String,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_67'/>
+67
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_67'>2</a>
+<span>
+1. sendFirmwareCommand : removed call to java/time/Instant::parse &rarr; KILLED<br/>
+2. sendFirmwareCommand : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            retrieveDateTime = Instant.parse(firmware[&#34;retrieveDateTime&#34;] as String),</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            installDateTime = installDateTime,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_69'/>
+69
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_69'>1</a>
+<span>
+1. sendFirmwareCommand : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            signingCertificate = firmware[&#34;signingCertificate&#34;] as String,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_70'/>
+70
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_70'>1</a>
+<span>
+1. sendFirmwareCommand : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            signature = firmware[&#34;signature&#34;] as String</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_72'/>
+72
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_72'>1</a>
+<span>
+1. sendFirmwareCommand : removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendSignedUpdateFirmware &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val result = gateway.sendSignedUpdateFirmware(chargePointId, requestId, firmware, retries, retryInterval)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_73'/>
+73
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_73'>2</a>
+<span>
+1. sendFirmwareCommand : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED<br/>
+2. sendFirmwareCommand : removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::getName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return PayloadValidators.awaitAndBuildResponse(result, name)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@68c3d784_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_16'>16</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_16'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:name property equals signed-update-firmware()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::getName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_19'>19</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_19'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_20'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::badRequest &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - firmware as List returns 400()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing firmware returns 400()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing firmware returns 400()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::badRequest &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_24'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signingCertificate 5501 chars()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::validateFirmwareFields &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateFirmwareFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject location 513 chars()]</span></span> removed call to java/lang/Throwable::getMessage &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_37'>37</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_37'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validateFirmwareFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validateFirmwareFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject location 513 chars()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::badRequest &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validateFirmwareFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signingCertificate 5501 chars()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validateFirmwareFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_41'>41</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_41'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_42'>42</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_42'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signingCertificate 5501 chars()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signingCertificate 5501 chars()]</span></span> removed call to java/lang/String::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed call to java/lang/CharSequence::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject empty signingCertificate()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - signature exactly 800 chars is accepted()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>12.<span><b>12</b><br/><b>Location : </b>checkField<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject empty signingCertificate()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_47'>47</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_47'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_48'>48</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_48'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing firmware returns 400()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_52'>52</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_52'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::safeMap &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct firmware payload()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_53'>53</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_53'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - retries as String still executes and returns accepted()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - retries as String still executes and returns accepted()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - retryInterval as String still executes and returns accepted()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed call to java/lang/Integer::valueOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed call to java/lang/Number::intValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - retryInterval as String still executes and returns accepted()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_55'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::sendFirmwareCommand &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_62'>62</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_62'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute with installDateTime returns accepted()]</span></span> removed call to java/lang/Object::toString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed call to java/time/Instant::parse &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_63'>63</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_63'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed call to org/tekeli/borisp/ocpp16/persistence/PersistenceService::createSignedFirmware &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_66'>66</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_66'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_67'>67</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_67'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed call to java/time/Instant::parse &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_69'>69</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_69'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_70'>70</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_70'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_72'>72</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_72'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendSignedUpdateFirmware &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@68c3d784_73'>73</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@68c3d784_73'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute returns ACCEPTED on CallResult()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>sendFirmwareCommand<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/SignedUpdateFirmwareCommand::getName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct requestId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct chargePointId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives correct firmware payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute should handle rejected response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute with installDateTime returns accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute should return accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success with firmware containing installDateTime()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - execute should accept with retries and retryInterval()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives null retries when not provided()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success returns 202 with status sent and correct command()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - retries as String still executes and returns accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - retryInterval as String still executes and returns accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - rejected response returns 502 with status rejected and error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success with requestId as Long()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success without retries and retryInterval()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - success with retries and retryInterval()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - gateway receives retries when provided()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - without installDateTime and persistenceService captures null installDateTime()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - with installDateTime and persistenceService captures correct parsed instant()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:execute - rejected response with retries still returns 502()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute signedUpdateFirmware command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject non-Number requestId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as String returns 400 bad request()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signingCertificate 5501 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing firmware returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing requestId()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject empty signingCertificate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - firmware as List returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing requestId returns 400 with error()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing firmware()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject location 513 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - firmware as non-Map returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject empty location()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing location returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing location()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signature 801 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing signature()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing retrieveDateTime()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing retrieveDateTime returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing signature returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - missing signingCertificate returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - empty location returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject missing signingCertificate()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signingCertificate exceeding 5500 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject location exceeding 512 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - empty signature returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - signature 801 chars returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - empty retrieveDateTime returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - location 513 chars returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - signingCertificate 5501 chars returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - empty signingCertificate returns 400()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should reject signature exceeding 800 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Long is accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - all fields valid returns null (no error)()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - validate should accept valid request()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - signature exactly 800 chars is accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - signingCertificate exactly 5500 chars is accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Double Number is accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should accept with optional installDateTime()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should accept location exactly 512 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - requestId as Int is accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should accept signingCertificate 5500 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - valid firmware does not produce error response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - all fields valid with full certificate returns null()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - location exactly 512 chars is accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:SignedUpdateFirmware - should accept signature 800 chars()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:validate - with installDateTime is accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SignedUpdateFirmwareCommandMutationTest]/[method:name property equals signed-update-firmware()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

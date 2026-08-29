@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>DeleteCertificateCommand.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.command</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.Response</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@jakarta.enterprise.context.ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class DeleteCertificateCommand @Inject constructor(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val gateway: ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>) : OcppCommand {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_12'/>
+12
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_12'>1</a>
+<span>
+1. getName : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::getName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    override val name = &#34;delete-certificate&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_14'/>
+14
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_14'>1</a>
+<span>
+1. &#60;init&#62; : removed call to kotlin/collections/SetsKt::setOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    private val validHashAlgorithms = setOf(&#34;SHA256&#34;, &#34;SHA384&#34;, &#34;SHA512&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> override fun validate(payload: Map&#60;String, Any&#62;): Response? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_17'/>
+17
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_17'>7</a>
+<span>
+1. validate : removed conditional - replaced equality check with true &rarr; TIMED_OUT<br/>
+2. validate : negated conditional &rarr; KILLED<br/>
+3. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. validate : removed call to java/util/Map::get &rarr; KILLED<br/>
+5. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. validate : negated conditional &rarr; KILLED<br/>
+7. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        val certData = payload[&#34;certificateHashData&#34;] as? Map&#60;*, *&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_18'/>
+18
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_18'>1</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::badRequest &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            ?: return badRequest(&#34;certificateHashData is required&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_19'/>
+19
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_19'>1</a>
+<span>
+1. validate : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val hashAlgorithm = certData[&#34;hashAlgorithm&#34;] as String?</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_20'/>
+20
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_20'>7</a>
+<span>
+1. validate : removed conditional - replaced equality check with true &rarr; TIMED_OUT<br/>
+2. validate : removed call to java/util/Set::contains &rarr; KILLED<br/>
+3. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. validate : negated conditional &rarr; KILLED<br/>
+6. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+7. validate : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        if (hashAlgorithm == null || hashAlgorithm !in validHashAlgorithms) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_21'/>
+21
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_21'>1</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::badRequest &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return badRequest(&#34;hashAlgorithm must be one of: SHA256, SHA384, SHA512&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_23'>1</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::checkRequiredStringFields &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return checkRequiredStringFields(certData, &#34;issuerNameHash&#34;, &#34;issuerKeyHash&#34;, &#34;serialNumber&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_24'/>
+24
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_24'>4</a>
+<span>
+1. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validate : negated conditional &rarr; KILLED<br/>
+3. validate : removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::badRequest &rarr; KILLED<br/>
+4. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            ?.let { badRequest(&#34;$it is required&#34;) }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun checkRequiredStringFields(map: Map&#60;*, *&#62;, vararg fields: String): String? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_28'/>
+28
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_28'>6</a>
+<span>
+1. checkRequiredStringFields : Removed increment 1 &rarr; TIMED_OUT<br/>
+2. checkRequiredStringFields : changed conditional boundary &rarr; KILLED<br/>
+3. checkRequiredStringFields : Changed increment from 1 to -1 &rarr; KILLED<br/>
+4. checkRequiredStringFields : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+5. checkRequiredStringFields : negated conditional &rarr; KILLED<br/>
+6. checkRequiredStringFields : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        for (field in fields) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_29'/>
+29
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_29'>1</a>
+<span>
+1. checkRequiredStringFields : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            val value = map[field] as String?</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_30'/>
+30
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_30'>11</a>
+<span>
+1. checkRequiredStringFields : removed call to java/lang/CharSequence::length &rarr; KILLED<br/>
+2. checkRequiredStringFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. checkRequiredStringFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+4. checkRequiredStringFields : negated conditional &rarr; KILLED<br/>
+5. checkRequiredStringFields : negated conditional &rarr; KILLED<br/>
+6. checkRequiredStringFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. checkRequiredStringFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+8. checkRequiredStringFields : negated conditional &rarr; KILLED<br/>
+9. checkRequiredStringFields : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+10. checkRequiredStringFields : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+11. checkRequiredStringFields : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::checkRequiredStringFields &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            if (value.isNullOrEmpty()) return field</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_32'/>
+32
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_32'>1</a>
+<span>
+1. checkRequiredStringFields : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::checkRequiredStringFields &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_35'/>
+35
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_35'>1</a>
+<span>
+1. badRequest : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    private fun badRequest(error: String) = Response.status(Response.Status.BAD_REQUEST)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_36'>4</a>
+<span>
+1. badRequest : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. badRequest : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+3. badRequest : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+4. badRequest : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        .entity(mapOf&#60;String, Any&#62;(&#34;error&#34; to error)).build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun execute(chargePointId: String, payload: Map&#60;String, Any&#62;): Response {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_39'/>
+39
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_39'>2</a>
+<span>
+1. execute : removed call to java/util/Map::get &rarr; TIMED_OUT<br/>
+2. execute : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::safeMap &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        val certificateHashData = PayloadValidators.safeMap(payload[&#34;certificateHashData&#34;])</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_41'/>
+41
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_41'>1</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendDeleteCertificate &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val result = gateway.sendDeleteCertificate(chargePointId, certificateHashData)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_42'/>
+42
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_42'>2</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::getName &rarr; KILLED<br/>
+2. execute : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return PayloadValidators.awaitAndBuildResponse(result, name)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1e3cf262_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_12'>12</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_12'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept valid request()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::getName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_14'>14</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_14'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()]</span></span> removed call to kotlin/collections/SetsKt::setOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_17'>17</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_17'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null certificateHashData()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null certificateHashData()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>none</span></span> removed conditional - replaced equality check with true &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_18'>18</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_18'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null certificateHashData()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::badRequest &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_19'>19</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_19'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_20'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed call to java/util/Set::contains &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>none</span></span> removed conditional - replaced equality check with true &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject invalid hashAlgorithm()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_21'>21</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_21'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject invalid hashAlgorithm()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::badRequest &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::checkRequiredStringFields &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_24'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::badRequest &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_28'>28</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_28'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> Changed increment from 1 to -1 &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>none</span></span> Removed increment 1 &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_29'>29</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_29'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_30'>30</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_30'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed call to java/lang/CharSequence::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null issuerKeyHash()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>11.<span><b>11</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject missing issuerNameHash()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::checkRequiredStringFields &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_32'>32</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_32'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>checkRequiredStringFields<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::checkRequiredStringFields &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null certificateHashData()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null certificateHashData()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null certificateHashData()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null certificateHashData()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>badRequest<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject invalid hashAlgorithm()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_39'>39</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_39'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute should handle rejected response()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::safeMap &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>none</span></span> removed call to java/util/Map::get &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_41'>41</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_41'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute should handle rejected response()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendDeleteCertificate &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1e3cf262_42'>42</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1e3cf262_42'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute should handle rejected response()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/DeleteCertificateCommand::getName &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute should handle rejected response()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null certificateHashData()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject empty issuerNameHash()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept all hash algorithms()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept valid data()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject invalid hashAlgorithm()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject missing hashAlgorithm()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject null issuerKeyHash()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject missing certificateHashData()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should reject missing issuerNameHash()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute returns ACCEPTED on CallResult()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute should handle rejected response()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - should accept valid request()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.SecurityCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.SecurityCommandTest]/[method:DeleteCertificate - execute should return accepted()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1344 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute deleteCertificate command round trip()] (73 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>
