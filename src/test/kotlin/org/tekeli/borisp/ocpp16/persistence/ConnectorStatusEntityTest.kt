@@ -48,4 +48,29 @@ class ConnectorStatusEntityTest {
 
         assertNull(cs.info)
     }
+
+    @Test
+    fun `id is null before persist`() {
+        assertNull(ConnectorStatus().id)
+    }
+
+    @Test
+    fun `setters update all fields`() {
+        val cs = ConnectorStatus()
+        val ts = Instant.parse("2024-04-04T04:04:04Z")
+
+        cs.chargePointId = "CP-002"
+        cs.connectorId = 3
+        cs.status = "Faulted"
+        cs.errorCode = "OtherError"
+        cs.info = "Broken"
+        cs.timestamp = ts
+
+        assertEquals("CP-002", cs.chargePointId)
+        assertEquals(3, cs.connectorId)
+        assertEquals("Faulted", cs.status)
+        assertEquals("OtherError", cs.errorCode)
+        assertEquals("Broken", cs.info)
+        assertEquals(ts, cs.timestamp)
+    }
 }

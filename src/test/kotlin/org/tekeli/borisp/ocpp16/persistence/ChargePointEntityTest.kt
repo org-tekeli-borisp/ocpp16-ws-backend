@@ -90,4 +90,42 @@ class ChargePointEntityTest {
 
         assertEquals(now, cp.lastConnectedAt)
     }
+
+    @Test
+    fun `no-arg constructor applies all defaults`() {
+        val cp = ChargePoint()
+
+        assertEquals("", cp.chargePointId)
+        assertNull(cp.vendor)
+        assertNull(cp.model)
+        assertNull(cp.firmwareVersion)
+        assertEquals(ChargePointStatus.OFFLINE, cp.status)
+        assertEquals("", cp.sessionId)
+    }
+
+    @Test
+    fun `setters update all fields`() {
+        val cp = ChargePoint(chargePointId = "CP-001")
+        val now = Instant.parse("2024-06-01T12:00:00Z")
+
+        cp.chargePointId = "CP-002"
+        cp.vendor = "Acme"
+        cp.model = "X1"
+        cp.firmwareVersion = "2.0"
+        cp.status = ChargePointStatus.ONLINE
+        cp.sessionId = "session-2"
+        cp.lastSeenAt = now
+        cp.lastConnectedAt = now
+        cp.createdAt = now
+
+        assertEquals("CP-002", cp.chargePointId)
+        assertEquals("Acme", cp.vendor)
+        assertEquals("X1", cp.model)
+        assertEquals("2.0", cp.firmwareVersion)
+        assertEquals(ChargePointStatus.ONLINE, cp.status)
+        assertEquals("session-2", cp.sessionId)
+        assertEquals(now, cp.lastSeenAt)
+        assertEquals(now, cp.lastConnectedAt)
+        assertEquals(now, cp.createdAt)
+    }
 }

@@ -242,6 +242,15 @@ class PersistenceServiceTest {
     }
 
     @Test
+    fun `em property is settable`() {
+        val original = persistenceService.em
+
+        persistenceService.em = original
+
+        assertSame(original, persistenceService.em)
+    }
+
+    @Test
     fun `charge_points unique constraint prevents duplicate chargePointId`() {
         persistenceService.upsertChargePoint("s1", "CP-001", "V", "M", null)
         em.flush()

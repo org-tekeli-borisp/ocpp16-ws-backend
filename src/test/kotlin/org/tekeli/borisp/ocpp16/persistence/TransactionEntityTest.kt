@@ -118,4 +118,22 @@ class TransactionEntityTest {
         assertNull(txn.stopTime)
         assertNull(txn.meterStop)
     }
+
+    @Test
+    fun `setters update all fields`() {
+        val txn = Transaction()
+        val start = Instant.parse("2024-03-01T08:00:00Z")
+
+        txn.chargePointId = "CP-002"
+        txn.connectorId = 2
+        txn.idTag = "CARD2"
+        txn.meterStart = 250
+        txn.startTime = start
+
+        assertEquals("CP-002", txn.chargePointId)
+        assertEquals(2, txn.connectorId)
+        assertEquals("CARD2", txn.idTag)
+        assertEquals(250, txn.meterStart)
+        assertEquals(start, txn.startTime)
+    }
 }

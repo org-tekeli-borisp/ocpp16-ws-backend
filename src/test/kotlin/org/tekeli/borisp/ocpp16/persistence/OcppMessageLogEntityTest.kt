@@ -49,4 +49,31 @@ class OcppMessageLogEntityTest {
 
         assertNull(log.payload)
     }
+
+    @Test
+    fun `id is null before persist`() {
+        assertNull(OcppMessageLog().id)
+    }
+
+    @Test
+    fun `setters update all fields`() {
+        val log = OcppMessageLog()
+        val ts = Instant.parse("2024-05-05T05:05:05Z")
+
+        log.chargePointId = "CP-002"
+        log.direction = "OUTBOUND"
+        log.messageType = "CALLERROR"
+        log.action = "BootNotification"
+        log.messageId = "msg-456"
+        log.payload = """{"code":"NotSupported"}"""
+        log.timestamp = ts
+
+        assertEquals("CP-002", log.chargePointId)
+        assertEquals("OUTBOUND", log.direction)
+        assertEquals("CALLERROR", log.messageType)
+        assertEquals("BootNotification", log.action)
+        assertEquals("msg-456", log.messageId)
+        assertEquals("""{"code":"NotSupported"}""", log.payload)
+        assertEquals(ts, log.timestamp)
+    }
 }

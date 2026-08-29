@@ -30,6 +30,32 @@ class SecurityLogEntityTest {
         assertEquals(timestamp, log.timestamp)
         assertEquals("details", log.techInfo)
     }
+
+    @Test
+    fun `id is null and createdAt is set before persist`() {
+        val log = SecurityLog()
+
+        assertNull(log.id)
+        assertNotNull(log.createdAt)
+    }
+
+    @Test
+    fun `setters update all fields`() {
+        val log = SecurityLog()
+        val ts = Instant.parse("2024-07-07T07:07:07Z")
+
+        log.chargePointId = "CP-002"
+        log.type = "CertificateSigned"
+        log.timestamp = ts
+        log.techInfo = "updated"
+        log.createdAt = ts
+
+        assertEquals("CP-002", log.chargePointId)
+        assertEquals("CertificateSigned", log.type)
+        assertEquals(ts, log.timestamp)
+        assertEquals("updated", log.techInfo)
+        assertEquals(ts, log.createdAt)
+    }
 }
 
 class SignedFirmwareEntityTest {
@@ -64,5 +90,40 @@ class SignedFirmwareEntityTest {
         assertEquals("CP-001", fw.chargePointId)
         assertEquals(123, fw.requestId)
         assertEquals("Accepted", fw.status)
+    }
+
+    @Test
+    fun `id is null and createdAt is set before persist`() {
+        val fw = SignedFirmware()
+
+        assertNull(fw.id)
+        assertNotNull(fw.createdAt)
+    }
+
+    @Test
+    fun `setters update all fields`() {
+        val fw = SignedFirmware()
+        val retrieve = Instant.parse("2024-08-08T08:08:08Z")
+        val install = Instant.parse("2024-08-09T09:09:09Z")
+
+        fw.chargePointId = "CP-002"
+        fw.requestId = 456
+        fw.location = "https://example.com/fw2"
+        fw.retrieveDateTime = retrieve
+        fw.installDateTime = install
+        fw.signingCertificate = "cert2"
+        fw.signature = "sig2"
+        fw.status = "Downloaded"
+        fw.createdAt = install
+
+        assertEquals("CP-002", fw.chargePointId)
+        assertEquals(456, fw.requestId)
+        assertEquals("https://example.com/fw2", fw.location)
+        assertEquals(retrieve, fw.retrieveDateTime)
+        assertEquals(install, fw.installDateTime)
+        assertEquals("cert2", fw.signingCertificate)
+        assertEquals("sig2", fw.signature)
+        assertEquals("Downloaded", fw.status)
+        assertEquals(install, fw.createdAt)
     }
 }
