@@ -1250,6 +1250,18 @@ class OcppCommandTest {
         assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
     }
 
+    @Test
+    fun `GetConfigurationCommand execute passes null for empty key list`() {
+        val service = TestOutboundService(callResult = true)
+        val cmd = GetConfigurationCommand(service)
+        val payload = mapOf<String, Any>("key" to emptyList<String>())
+
+        val result = cmd.execute("CP-001", payload)
+
+        assertEquals(Response.Status.ACCEPTED.statusCode, result.status)
+        assertNull(service.lastGetConfigurationKeys)
+    }
+
     // ---- GetDiagnosticsCommand ----
 
     @Test

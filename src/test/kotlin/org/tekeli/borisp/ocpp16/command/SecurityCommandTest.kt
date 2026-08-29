@@ -109,6 +109,28 @@ class SecurityCommandTest {
     }
 
     @Test
+    fun `InstallCertificate - should reject missing certificateType`() {
+        val cmd = InstallCertificateCommand(gateway)
+        val response = cmd.validate(mapOf("certificate" to "cert"))
+
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+        val entity = PayloadValidators.safeMap(response.entity)
+        assertTrue(entity["error"].toString().contains("certificateType"))
+    }
+
+    @Test
+    fun `InstallCertificate - should reject empty certificate`() {
+        val cmd = InstallCertificateCommand(gateway)
+        val response = cmd.validate(mapOf("certificateType" to "CentralSystemRootCertificate", "certificate" to ""))
+
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+        val entity = PayloadValidators.safeMap(response.entity)
+        assertTrue(entity["error"].toString().contains("certificate"))
+    }
+
+    @Test
     fun `InstallCertificate - should reject missing certificate`() {
         val cmd = InstallCertificateCommand(gateway)
         val response = cmd.validate(mapOf("certificateType" to "CentralSystemRootCertificate"))
@@ -212,6 +234,23 @@ class SecurityCommandTest {
         assertEquals(400, response!!.status)
         val entity = PayloadValidators.safeMap(response.entity)
         assertTrue(entity["error"].toString().contains("certificateHashData"))
+    }
+
+    @Test
+    fun `DeleteCertificate - should reject missing hashAlgorithm`() {
+        val cmd = DeleteCertificateCommand(gateway)
+        val response = cmd.validate(mapOf(
+            "certificateHashData" to mapOf(
+                "issuerNameHash" to "h1",
+                "issuerKeyHash" to "h2",
+                "serialNumber" to "s1"
+            )
+        ))
+
+        assertNotNull(response)
+        assertEquals(400, response!!.status)
+        val entity = PayloadValidators.safeMap(response.entity)
+        assertTrue(entity["error"].toString().contains("hashAlgorithm"))
     }
 
     @Test

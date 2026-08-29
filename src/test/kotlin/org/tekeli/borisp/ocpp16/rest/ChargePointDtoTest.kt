@@ -67,4 +67,21 @@ class ChargePointDtoTest {
     fun `instance with one different field is not equal`() {
         assertNotEquals(dto(), dto().copy(vendor = "OtherVendor"))
     }
+
+    @Test
+    fun `connectors defaults to empty list when omitted`() {
+        val d = ChargePointDto(
+            id = 7L,
+            chargePointId = "CP-002",
+            vendor = null,
+            model = null,
+            firmwareVersion = null,
+            status = "OFFLINE",
+            sessionId = "session-2",
+            lastSeenAt = "2024-01-01T00:00:00Z",
+            lastConnectedAt = "2024-01-01T00:00:00Z",
+            createdAt = "2024-01-01T00:00:00Z"
+        )
+        assertTrue(d.connectors.isEmpty())
+    }
 }

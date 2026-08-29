@@ -64,4 +64,28 @@ class DiagnosticsInitializerTest {
         val initializer = initializer(30)
         assertDoesNotThrow { initializer.stop() }
     }
+
+    @Test
+    fun `scheduled cleanup deletes expired files on startup`() {
+        val cpDir = tempDir.resolve("CP-001")
+        java.nio.file.Files.createDirectories(cpDir)
+        val expired = cpDir.resolve("123_old.log")
+        java.nio.file.Files.write(expired, "old".toByteArray())
+        java.nio.file.Files.setLastModifiedTime(
+            expired,
+            java.nio.file.attribute.FileTime.fromMillis(System.currentTimeMillis() - 2L * 24 * 60 * 60 * 1000)
+        )
+
+        val initializer = initializer(1)
+        initializer.onStart(StartupEvent())
+        try {
+            val deadline = System.currentTimeMillis() + 10000
+            while (java.nio.file.Files.exists(expired) && System.currentTimeMillis() < deadline) {
+                Thread.sleep(100)
+            }
+            assertFalse(java.nio.file.Files.exists(expired))
+        } finally {
+            initializer.stop()
+        }
+    }
 }

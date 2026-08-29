@@ -89,6 +89,23 @@ class SftpServerServiceTest {
     }
 
     @Test
+    fun `should reject shell channel because no shell is provided`() {
+        val channel = session.openChannel("shell")
+        var connectFailed = false
+        try {
+            channel.connect(3000)
+        } catch (_: Exception) {
+            connectFailed = true
+        }
+        val deadline = System.currentTimeMillis() + 5000
+        while (!channel.isClosed && System.currentTimeMillis() < deadline) {
+            Thread.sleep(50)
+        }
+        assertTrue(connectFailed || channel.isClosed, "shell channel should be rejected")
+        channel.disconnect()
+    }
+
+    @Test
     fun `should upload file and verify via storage API`() {
         storage.ensureDirectory("CP-001")
         val channel = session.openChannel("sftp") as ChannelSftp
