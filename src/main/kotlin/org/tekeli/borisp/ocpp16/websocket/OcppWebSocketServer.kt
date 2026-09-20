@@ -8,8 +8,10 @@ import io.vertx.core.buffer.Buffer
 import jakarta.enterprise.context.Dependent
 import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
+import org.tekeli.borisp.ocpp16.OcppConstants
 import org.tekeli.borisp.ocpp16.handler.*
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
+import org.tekeli.borisp.ocpp16.protocol.AwaiterTimeoutScheduler
 import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.ResponseAwaiter
@@ -52,6 +54,9 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @Inject
     var vertx: Vertx? = null
+
+    @Inject
+    var awaiterTimeoutScheduler: AwaiterTimeoutScheduler? = null
 
     open var currentConnection: WebSocketConnection? = null
 
@@ -155,7 +160,12 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     open fun initializeConnection(conn: WebSocketConnection) {
         val chargePointId = conn.pathParam("chargePointId")
         val sessionId = conn.id() ?: throw IllegalStateException("Connection id not available")
-        val responseAwaiter = ResponseAwaiter()
+        val scheduler = awaiterTimeoutScheduler?.executor
+        val responseAwaiter = if (scheduler != null) {
+            ResponseAwaiter(scheduler, OcppConstants.COMMAND_TIMEOUT_SECONDS * 1000L)
+        } else {
+            ResponseAwaiter()
+        }
         registerAndOnline(sessionId, chargePointId, responseAwaiter)
         val remoteAddress = conn.handshakeRequest().remoteAddress()
         Log.info("WebSocket connection opened: session=$sessionId, chargePoint=$chargePointId, remote=$remoteAddress")

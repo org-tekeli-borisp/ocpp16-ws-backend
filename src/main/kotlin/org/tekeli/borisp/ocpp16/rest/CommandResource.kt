@@ -94,6 +94,8 @@ class CommandResource {
 
         return try {
             cmd.execute(chargePointId, validatedPayload)
+        } catch (e: java.util.concurrent.TimeoutException) {
+            buildGatewayTimeoutResponse()
         } catch (e: java.util.concurrent.ExecutionException) {
             handleExecutionException(e)
         } catch (e: IllegalStateException) {
@@ -104,8 +106,15 @@ class CommandResource {
     private fun handleExecutionException(e: java.util.concurrent.ExecutionException): Response {
         return when (val cause = e.cause) {
             is IllegalStateException -> buildUnavailableResponse(cause.message)
+            is java.util.concurrent.TimeoutException -> buildGatewayTimeoutResponse()
             else -> throw e
         }
+    }
+
+    private fun buildGatewayTimeoutResponse(): Response {
+        return Response.status(Response.Status.GATEWAY_TIMEOUT)
+            .entity(mapOf<String, Any>("error" to "Command timed out: ChargePoint did not respond"))
+            .build()
     }
 
     private fun buildUnavailableResponse(message: String?): Response {

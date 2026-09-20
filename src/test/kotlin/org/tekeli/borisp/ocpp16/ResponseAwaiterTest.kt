@@ -635,4 +635,45 @@ class ResponseAwaiterTest {
 
         executor.shutdown()
     }
+
+    @Test
+    fun `should complete pending future exceptionally with TimeoutException after deadline and remove entry`() {
+        val executor = Executors.newSingleThreadScheduledExecutor()
+        val awaiter = ResponseAwaiter(executor, 100)
+        val latch = CountDownLatch(1)
+
+        val future = awaiter.pending("msg-1")
+        future.whenComplete { _, ex -> if (ex != null) latch.countDown() }
+
+        assertFalse(future.isDone, "Future should not be done immediately")
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Future should have timed out")
+        val ex = assertThrows(ExecutionException::class.java) { future.get() }
+        assertTrue(ex.cause is TimeoutException)
+
+        assertThrows(IllegalStateException::class.java) {
+            awaiter.resolve("msg-1", OcppMessage.CallResult("msg-1", null))
+        }
+
+        executor.shutdown()
+    }
+
+    @Test
+    fun `should not timeout young future created just before a cleanup tick`() {
+        val executor = Executors.newSingleThreadScheduledExecutor()
+        val awaiter = ResponseAwaiter(executor, 200)
+        val latch = CountDownLatch(1)
+
+        Thread.sleep(150)
+        val future = awaiter.pending("msg-1")
+        future.whenComplete { _, ex -> if (ex != null) latch.countDown() }
+
+        Thread.sleep(100)
+        assertFalse(future.isDone, "Young future must survive cleanup tick before its own deadline")
+
+        assertTrue(latch.await(2, TimeUnit.SECONDS), "Future should time out after its own deadline")
+        val ex = assertThrows(ExecutionException::class.java) { future.get() }
+        assertTrue(ex.cause is TimeoutException)
+
+        executor.shutdown()
+    }
 }
