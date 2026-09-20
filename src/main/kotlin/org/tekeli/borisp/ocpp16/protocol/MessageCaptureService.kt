@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.protocol
 
+import io.quarkus.logging.Log
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
 import jakarta.enterprise.context.ApplicationScoped
@@ -57,6 +58,11 @@ class MessageCaptureService {
         return buffers[chargePointId]?.toList().orEmpty()
     }
 
+    fun evict(chargePointId: String) {
+        buffers.remove(chargePointId)
+        perCpSubscribers.remove(chargePointId)
+    }
+
     fun getMessagesFromDb(chargePointId: String, direction: String?, action: String?, limit: Int = 200): List<OcppMessageDto> {
         val logs = persistenceService.findMessageLogs(chargePointId, direction, action, limit)
         val dtos = mutableListOf<OcppMessageDto>()
@@ -88,16 +94,11 @@ class MessageCaptureService {
         val list = perCpSubscribers[chargePointId] ?: return
         val snapshot: List<(OcppMessageDto) -> Unit>
         synchronized(list) { snapshot = ArrayList(list) }
-        notifyCallbacks(snapshot, 0, dto)
-    }
-
-    private fun notifyCallbacks(callbacks: List<(OcppMessageDto) -> Unit>, index: Int, dto: OcppMessageDto) {
-        if (index >= callbacks.size) return
-        val cb = callbacks[index]
-        try {
-            cb(dto)
-        } catch (_: Throwable) { }
-        notifyCallbacks(callbacks, index + 1, dto)
+        for (callback in snapshot) {
+            try {
+                callback(dto)
+            } catch (_: Throwable) { }
+        }
     }
 
     private fun persistAsync(dto: OcppMessageDto) {
@@ -111,7 +112,9 @@ class MessageCaptureService {
                     messageId = dto.messageId,
                     payload = dto.payload
                 )
-            } catch (_: Throwable) { }
+            } catch (e: Throwable) {
+                Log.warn("Failed to persist message log for chargePoint=${dto.chargePointId}, messageId=${dto.messageId}: ${e.message}")
+            }
         }
     }
 
@@ -122,7 +125,9 @@ class MessageCaptureService {
                 purgeOnce()
             } catch (_: InterruptedException) {
                 break
-            } catch (_: Throwable) { }
+            } catch (e: Throwable) {
+                Log.warn("Message log purge failed: ${e.message}")
+            }
         }
     }
 

@@ -73,10 +73,14 @@ class ChargePointRegistry {
     }
 
     fun unregister(sessionId: String) {
+        val chargePointId = sessionContexts[sessionId]?.chargePointId
         sessionInfos.remove(sessionId)
         sessionContexts.remove(sessionId)
         testSenders.remove(sessionId)
         chargePointIdIndex.entries.removeAll { it.value == sessionId }
+        if (!chargePointId.isNullOrBlank()) {
+            messageCaptureService?.evict(chargePointId)
+        }
         metricsService?.onChargePointDisconnected()
     }
 
