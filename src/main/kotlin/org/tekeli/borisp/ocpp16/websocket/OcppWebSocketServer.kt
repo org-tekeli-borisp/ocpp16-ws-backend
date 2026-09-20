@@ -5,7 +5,7 @@ import io.quarkus.websockets.next.*
 import io.smallrye.mutiny.Uni
 import io.vertx.core.Vertx
 import io.vertx.core.buffer.Buffer
-import jakarta.enterprise.context.ApplicationScoped
+import jakarta.enterprise.context.Dependent
 import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.tekeli.borisp.ocpp16.handler.*
@@ -17,7 +17,7 @@ import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
 import java.util.*
 
 @WebSocket(path = "/ocpp/{chargePointId}")
-@ApplicationScoped
+@Dependent
 open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     companion object {

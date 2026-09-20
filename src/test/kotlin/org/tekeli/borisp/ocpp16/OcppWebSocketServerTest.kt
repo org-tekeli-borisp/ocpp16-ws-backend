@@ -10,6 +10,7 @@ import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServer
+import java.lang.reflect.Proxy
 import java.net.URI
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -99,6 +100,11 @@ class OcppWebSocketServerTest {
 
     @Test
     fun `should access connection property`() {
+        val proxy = Proxy.newProxyInstance(
+            WebSocketConnection::class.java.classLoader,
+            arrayOf(WebSocketConnection::class.java)
+        ) { _, _, _ -> null } as WebSocketConnection
+        server.currentConnection = proxy
         assertDoesNotThrow {
             val conn = server.activeConnection
             assertNotNull(conn)
