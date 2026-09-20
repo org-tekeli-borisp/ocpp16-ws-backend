@@ -73,6 +73,8 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     private var _sessionId: String = ""
     private var _responseAwaiter: ResponseAwaiter = ResponseAwaiter()
 
+    private val lastSeenThrottle = LastSeenThrottle()
+
     private val activeSessionContext: SessionContext?
         get() {
             val connId = currentConnection?.id() ?: return null
@@ -196,10 +198,12 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
         val sessionCtx = activeRegistry.getContext(conn.id()) ?: return "[4,\"${UUID.randomUUID()}\",\"ProtocolError\",\"No session context\"]"
         val pingPongMgr = activeRegistry.getPingPongManager(sessionCtx.sessionId)
         pingPongMgr?.messageReceived()
-        try {
-            activePersistence.touchLastSeenAt(sessionCtx.chargePointId)
-        } catch (e: Exception) {
-            Log.warn("touchLastSeenAt failed: ${e.message}")
+        if (lastSeenThrottle.shouldTouch()) {
+            try {
+                activePersistence.touchLastSeenAt(sessionCtx.chargePointId)
+            } catch (e: Exception) {
+                Log.warn("touchLastSeenAt failed: ${e.message}")
+            }
         }
         val context = SessionContextWrapper(sessionCtx)
         return dispatcher.dispatch(
