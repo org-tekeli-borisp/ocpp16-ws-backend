@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.websocket
 
+import io.quarkus.logging.Log
 import org.tekeli.borisp.ocpp16.handler.OcppActionHandler
 import org.tekeli.borisp.ocpp16.handler.OcppHandlerContext
 import org.tekeli.borisp.ocpp16.metrics.MetricsService
@@ -116,30 +117,22 @@ class MessageDispatcher(
     }
 
     private fun handleCallResult(callResult: OcppMessage.CallResult, responseAwaiter: ResponseAwaiter): String {
-        try {
+        return try {
             responseAwaiter.resolve(callResult.messageId, callResult)
-            return ""
+            ""
         } catch (e: IllegalStateException) {
-            return OcppMessage.CallError(
-                messageId = callResult.messageId,
-                errorCode = OcppErrorCode.PROTOCOL_ERROR,
-                errorDescription = "CALLRESULT not expected from ChargePoint",
-                errorDetails = null
-            ).toJson()
+            Log.warn("Ignoring unexpected CALLRESULT from ChargePoint: ${callResult.messageId}")
+            ""
         }
     }
 
     private fun handleCallError(callError: OcppMessage.CallError, responseAwaiter: ResponseAwaiter): String {
-        try {
+        return try {
             responseAwaiter.reject(callError.messageId, callError)
-            return ""
+            ""
         } catch (e: IllegalStateException) {
-            return OcppMessage.CallError(
-                messageId = callError.messageId,
-                errorCode = OcppErrorCode.PROTOCOL_ERROR,
-                errorDescription = "CALLERROR not expected from ChargePoint",
-                errorDetails = null
-            ).toJson()
+            Log.warn("Ignoring unexpected CALLERROR from ChargePoint: ${callError.messageId}")
+            ""
         }
     }
 

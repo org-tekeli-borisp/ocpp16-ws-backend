@@ -118,7 +118,7 @@ class OcppWebSocketServerHandlersTest {
 
         val result = server.onTextMessage("""[2,"1","Heartbeat",{}]""", conn)
 
-        assertTrue(result.startsWith("[4,"))
+        assertTrue(result!!.startsWith("[4,"))
         assertTrue(result.contains("ProtocolError"))
         assertTrue(result.contains("No session context"))
     }
@@ -133,7 +133,7 @@ class OcppWebSocketServerHandlersTest {
 
         val result = server.onTextMessage("""[2,"1","Heartbeat",{}]""", conn)
 
-        assertTrue(result.startsWith("[3,"))
+        assertTrue(result!!.startsWith("[3,"))
     }
 
     @Test
@@ -156,7 +156,7 @@ class OcppWebSocketServerHandlersTest {
 
         val result = server.onTextMessage("""[2,"1","Heartbeat",{}]""", conn)
 
-        assertTrue(result.startsWith("[3,"))
+        assertTrue(result!!.startsWith("[3,"))
     }
 
     @Test

@@ -198,7 +198,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     }
 
     @OnTextMessage
-    fun onTextMessage(message: String, conn: WebSocketConnection): String {
+    fun onTextMessage(message: String, conn: WebSocketConnection): String? {
         val sessionCtx = activeRegistry.getContext(conn.id()) ?: return "[4,\"${UUID.randomUUID()}\",\"ProtocolError\",\"No session context\"]"
         val pingPongMgr = activeRegistry.getPingPongManager(sessionCtx.sessionId)
         pingPongMgr?.messageReceived()
@@ -216,11 +216,11 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
             sessionCtx.responseAwaiter,
             metricsService,
             sessionCtx.chargePointId
-        )
+        )?.takeIf { it.isNotEmpty() }
     }
 
     fun onTextMessage(message: String): String {
-        return dispatcher.dispatch(message, this, responseAwaiter, metricsService)
+        return dispatcher.dispatch(message, this, responseAwaiter, metricsService) ?: ""
     }
 
     @OnPingMessage

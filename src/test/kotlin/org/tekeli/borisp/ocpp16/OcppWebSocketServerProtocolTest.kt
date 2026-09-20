@@ -18,33 +18,27 @@ class OcppWebSocketServerProtocolTest {
     }
 
     @Test
-    fun `should return ProtocolError for CALLRESULT from client`() {
+    fun `should ignore unexpected CALLRESULT from client`() {
         val response = server.onTextMessage("""[3,"123",{}]""")
-        assertTrue(response.startsWith("[4,"))
-        assertTrue(response.contains("ProtocolError"))
-        assertTrue(response.contains("CALLRESULT not expected"))
+        assertEquals("", response)
     }
 
     @Test
-    fun `should return ProtocolError for CALLRESULT from client with payload`() {
+    fun `should ignore unexpected CALLRESULT from client with payload`() {
         val response = server.onTextMessage("""[3,"123",{"status":"Accepted"}]""")
-        assertTrue(response.startsWith("[4,"))
-        assertTrue(response.contains("ProtocolError"))
+        assertEquals("", response)
     }
 
     @Test
-    fun `should return ProtocolError for CALLERROR from client`() {
+    fun `should ignore unexpected CALLERROR from client`() {
         val response = server.onTextMessage("""[4,"123","GenericError","Error",{}]""")
-        assertTrue(response.startsWith("[4,"))
-        assertTrue(response.contains("ProtocolError"))
-        assertTrue(response.contains("CALLERROR not expected from ChargePoint"))
+        assertEquals("", response)
     }
 
     @Test
-    fun `should return ProtocolError for CALLERROR from client with valid error code`() {
+    fun `should ignore unexpected CALLERROR from client with valid error code`() {
         val response = server.onTextMessage("""[4,"123","NotImplemented","Error",{}]""")
-        assertTrue(response.startsWith("[4,"))
-        assertTrue(response.contains("ProtocolError"))
+        assertEquals("", response)
     }
 
     @Test

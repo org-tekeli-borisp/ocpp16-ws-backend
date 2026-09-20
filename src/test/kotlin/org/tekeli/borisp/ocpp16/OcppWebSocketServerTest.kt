@@ -67,7 +67,7 @@ private const val BOOT_NOTIFICATION_WITH_EMPTY_MODEL = """[2,"44444","BootNotifi
 
 private const val CALLRESULT_FROM_CHARGEPOINT = """[3,"55555",{}]"""
 
-private const val CALLERROR_FROM_CHARGEPOINT = """[4,"66666","GenericError","Error",""]"""
+private const val CALLERROR_FROM_CHARGEPOINT = """[4,"66666","GenericError","Error",{}]"""
 
 private const val BOOT_NOTIFICATION_WITH_NULL_PAYLOAD = """[2,"77777","BootNotification",null]"""
 
@@ -380,10 +380,10 @@ class OcppWebSocketServerTest {
     }
 
     @Test
-    fun shouldReturnCallErrorForCallResultFromChargePoint() {
+    fun shouldIgnoreUnexpectedCallResultFromChargePoint() {
         val connectLatch = CountDownLatch(1)
-        val responseLatch = CountDownLatch(1)
-        val responses = mutableListOf<String>()
+        val frameLatch = CountDownLatch(1)
+        val frames = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
         val options = createWsOptions("/ocpp/SNH764")
@@ -393,11 +393,9 @@ class OcppWebSocketServerTest {
                 val ws = ar.result()
                 connectLatch.countDown()
 
-                ws.handler { buffer: Buffer ->
-                    responses.add(buffer.toString())
-                    if (responses.size >= 1) {
-                        responseLatch.countDown()
-                    }
+                ws.textMessageHandler { message ->
+                    frames.add(message)
+                    frameLatch.countDown()
                 }
 
                 ws.writeTextMessage(CALLRESULT_FROM_CHARGEPOINT)
@@ -407,17 +405,15 @@ class OcppWebSocketServerTest {
         }
 
         assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
-        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
-        val callError = responses[0]
-        assertTrue(callError.contains("[4"), "Should be CALLERROR message")
-        assertTrue(callError.contains("ProtocolError"), "Should return ProtocolError for unexpected CALLRESULT")
+        assertFalse(frameLatch.await(1, TimeUnit.SECONDS), "Unexpected CALLRESULT should be ignored without sending any frame")
+        assertTrue(frames.isEmpty(), "No frame should be sent for unexpected CALLRESULT, got: $frames")
     }
 
     @Test
-    fun shouldReturnCallErrorForCallErrorFromChargePoint() {
+    fun shouldIgnoreUnexpectedCallErrorFromChargePoint() {
         val connectLatch = CountDownLatch(1)
-        val responseLatch = CountDownLatch(1)
-        val responses = mutableListOf<String>()
+        val frameLatch = CountDownLatch(1)
+        val frames = mutableListOf<String>()
 
         val client = vertx.createWebSocketClient()
         val options = createWsOptions("/ocpp/SNH764")
@@ -427,11 +423,9 @@ class OcppWebSocketServerTest {
                 val ws = ar.result()
                 connectLatch.countDown()
 
-                ws.handler { buffer: Buffer ->
-                    responses.add(buffer.toString())
-                    if (responses.size >= 1) {
-                        responseLatch.countDown()
-                    }
+                ws.textMessageHandler { message ->
+                    frames.add(message)
+                    frameLatch.countDown()
                 }
 
                 ws.writeTextMessage(CALLERROR_FROM_CHARGEPOINT)
@@ -441,10 +435,8 @@ class OcppWebSocketServerTest {
         }
 
         assertTrue(connectLatch.await(5, TimeUnit.SECONDS), "Should connect")
-        assertTrue(responseLatch.await(5, TimeUnit.SECONDS), "Should receive response")
-        val callError = responses[0]
-        assertTrue(callError.contains("[4"), "Should be CALLERROR message")
-        assertTrue(callError.contains("ProtocolError"), "Should return ProtocolError for unexpected CALLERROR")
+        assertFalse(frameLatch.await(1, TimeUnit.SECONDS), "Unexpected CALLERROR should be ignored without sending any frame")
+        assertTrue(frames.isEmpty(), "No frame should be sent for unexpected CALLERROR, got: $frames")
     }
 
     @Test

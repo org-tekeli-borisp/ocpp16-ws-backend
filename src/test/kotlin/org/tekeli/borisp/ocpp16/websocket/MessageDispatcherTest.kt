@@ -59,7 +59,7 @@ class MessageDispatcherTest {
     }
 
     @Test
-    fun `dispatch CALLRESULT for unknown messageId returns protocol error`() {
+    fun `dispatch CALLRESULT for unknown messageId is ignored`() {
         val dispatcher = MessageDispatcher(emptyMap())
         val context = createTestContext()
         val awaiter = ResponseAwaiter()
@@ -67,9 +67,7 @@ class MessageDispatcherTest {
 
         val response = dispatcher.dispatch(message, context, awaiter, null)
 
-        val parsed = OcppMessage.parse(response) as OcppMessage.CallError
-        assertEquals(OcppErrorCode.PROTOCOL_ERROR, parsed.errorCode)
-        assertTrue(parsed.errorDescription.contains("CALLRESULT"))
+        assertEquals("", response)
     }
 
     @Test
@@ -87,7 +85,7 @@ class MessageDispatcherTest {
     }
 
     @Test
-    fun `dispatch CALLERROR for unknown messageId returns protocol error`() {
+    fun `dispatch CALLERROR for unknown messageId is ignored`() {
         val dispatcher = MessageDispatcher(emptyMap())
         val context = createTestContext()
         val awaiter = ResponseAwaiter()
@@ -95,9 +93,7 @@ class MessageDispatcherTest {
 
         val response = dispatcher.dispatch(message, context, awaiter, null)
 
-        val parsed = OcppMessage.parse(response) as OcppMessage.CallError
-        assertEquals(OcppErrorCode.PROTOCOL_ERROR, parsed.errorCode)
-        assertTrue(parsed.errorDescription.contains("CALLERROR"))
+        assertEquals("", response)
     }
 
     @Test

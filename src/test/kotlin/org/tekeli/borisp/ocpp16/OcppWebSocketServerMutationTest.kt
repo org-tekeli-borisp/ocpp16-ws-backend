@@ -155,7 +155,7 @@ class OcppWebSocketServerMutationTest {
 
         val result = server.onTextMessage("""[2,"1","Heartbeat",{}]""", conn)
 
-        val messageId = result.substringAfter("[4,\"").substringBefore("\"")
+        val messageId = result!!.substringAfter("[4,\"").substringBefore("\"")
         assertDoesNotThrow({ UUID.fromString(messageId) }, "Message id must be a valid UUID, got: $result")
     }
 
@@ -182,7 +182,7 @@ class OcppWebSocketServerMutationTest {
         rootLogger.addHandler(handler)
         try {
             val result = server.onTextMessage("""[2,"1","Heartbeat",{}]""", conn)
-            assertTrue(result.startsWith("[3,"))
+            assertTrue(result!!.startsWith("[3,"))
         } finally {
             rootLogger.removeHandler(handler)
         }
