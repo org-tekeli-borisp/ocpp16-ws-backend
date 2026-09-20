@@ -295,12 +295,12 @@ open class PersistenceService {
             conditions += "m.action = :action"
         }
 
-        val queryStr = buildQueryBase(chargePointId, conditions)
+        val queryStr = buildQueryBase(conditions)
         val allParams = params + directionParam(direction) + actionParam(action)
         return queryStr to allParams
     }
 
-    private fun buildQueryBase(chargePointId: String, conditions: List<String>): String {
+    private fun buildQueryBase(conditions: List<String>): String {
         var qp = "SELECT m FROM OcppMessageLog m WHERE m.chargePointId = :cpId"
         if (conditions.isNotEmpty()) {
             qp += " AND " + conditions.joinToString(" AND ")

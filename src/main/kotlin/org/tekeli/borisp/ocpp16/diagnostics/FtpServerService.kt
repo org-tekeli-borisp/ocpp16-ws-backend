@@ -10,7 +10,7 @@ import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory
 import org.apache.ftpserver.usermanager.ClearTextPasswordEncryptor
 import org.apache.ftpserver.usermanager.impl.BaseUser
 import org.apache.ftpserver.usermanager.impl.WritePermission
-import java.io.File
+import java.nio.file.Files
 
 class FtpServerService(
     private val config: FtpServerConfig,
@@ -38,14 +38,12 @@ class FtpServerService(
         listenerFactory.dataConnectionConfiguration = dataConnFactory.createDataConnectionConfiguration()
 
         // Create user manager programmatically
-        val tempDir = File.createTempFile("ftpserver-", "dir")
-        tempDir.delete()
-        tempDir.mkdirs()
-        tempDir.deleteOnExit()
+        val tempDir = Files.createTempDirectory("ftpserver-")
+        tempDir.toFile().deleteOnExit()
 
-        val usersFile = File(tempDir, "users.properties")
+        val usersFile = tempDir.resolve("users.properties").toFile()
         usersFile.createNewFile()
-        File(tempDir, "pass.properties").createNewFile()
+        tempDir.resolve("pass.properties").toFile().createNewFile()
 
         val userManagerFactory = PropertiesUserManagerFactory()
         userManagerFactory.file = usersFile

@@ -22,28 +22,39 @@ class VertxScheduler(
         delay: Long,
         unit: TimeUnit
     ): java.util.concurrent.ScheduledFuture<V> {
-        val timerId = vertx.setTimer(unit.toMillis(delay)) { runnable.run() }
-        return VertxScheduledFuture<V>(timerId, vertx)
+        val future = VertxScheduledFuture<V>(vertx)
+        val timerId = vertx.setTimer(unit.toMillis(delay)) {
+            future.markDone()
+            runnable.run()
+        }
+        future.timerId = timerId
+        return future
     }
 }
 
 class VertxScheduledFuture<V : Any?>(
-    private val timerId: Long,
     private val vertx: io.vertx.core.Vertx
 ) : java.util.concurrent.ScheduledFuture<V> {
     private var cancelled = false
+    private var done = false
+    var timerId: Long = -1
 
     fun timerId(): Long = timerId
+
+    fun markDone() {
+        done = true
+    }
 
     override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
         if (cancelled) return false
         cancelled = true
+        done = true
         vertx.cancelTimer(timerId)
         return true
     }
 
     override fun isCancelled(): Boolean = cancelled
-    override fun isDone(): Boolean = cancelled
+    override fun isDone(): Boolean = done || cancelled
     override fun get(): V = throw java.util.concurrent.CancellationException("VertxScheduledFuture.get() not supported")
     override fun get(timeout: Long, unit: TimeUnit?): V = throw java.util.concurrent.CancellationException("VertxScheduledFuture.get() not supported")
     override fun getDelay(unit: TimeUnit?): Long = 0

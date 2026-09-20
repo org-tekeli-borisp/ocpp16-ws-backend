@@ -117,6 +117,26 @@ class VertxSchedulerTest {
     }
 
     @Test
+    fun `isDone becomes true once the scheduled task has fired`() {
+        val executed = AtomicBoolean(false)
+        val future = scheduler.schedule<Unit>({ executed.set(true) }, 50, TimeUnit.MILLISECONDS)
+
+        assertFalse(future.isDone, "future should not be done right after scheduling")
+        assertFalse(executed.get(), "task should not have run yet")
+
+        val deadline = System.currentTimeMillis() + 5000
+        while (!executed.get() && System.currentTimeMillis() < deadline) {
+            Thread.sleep(10)
+        }
+        assertTrue(executed.get(), "task should have executed")
+        assertTrue(future.isDone, "future should be done after the task fired")
+
+        val cancelledFuture = scheduler.schedule<Unit>({ }, 1000, TimeUnit.MILLISECONDS)
+        cancelledFuture.cancel(false)
+        assertTrue(cancelledFuture.isCancelled, "cancelled future should report isCancelled")
+    }
+
+    @Test
     fun `future get methods throw CancellationException and delay and compare return zero`() {
         val future = scheduler.schedule<Unit>({ }, 1000, TimeUnit.MILLISECONDS)
 

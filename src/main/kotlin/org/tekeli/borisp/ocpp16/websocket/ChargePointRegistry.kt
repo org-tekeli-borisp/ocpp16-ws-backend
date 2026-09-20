@@ -109,19 +109,22 @@ class ChargePointRegistry {
 
         try {
             pingPongMgr?.stop()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.warn("Failed to stop ping pong manager for session $sessionId: ${e.message}")
         }
 
         try {
             unregister(sessionId)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.warn("Failed to unregister session $sessionId: ${e.message}")
         }
 
         context.responseAwaiter.rejectAll("Disconnected via REST API")
 
         try {
             persistenceService?.setChargePointOfflineByChargePointId(chargePointId)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.warn("Failed to mark charge point offline: ${e.message}")
         }
 
         try {
@@ -130,7 +133,8 @@ class ChargePointRegistry {
                 conn.closeAndAwait(CloseReason(1001, "Disconnected via REST API"))
                 Log.info("WebSocket connection closed by REST API: session=$sessionId, chargePoint=$chargePointId")
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.warn("Failed to close WebSocket connection for session $sessionId: ${e.message}")
         }
     }
 

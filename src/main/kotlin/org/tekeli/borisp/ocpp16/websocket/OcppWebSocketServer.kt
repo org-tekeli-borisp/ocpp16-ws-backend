@@ -249,7 +249,8 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
             sessionCtx.responseAwaiter.rejectAll("WebSocket connection closed: $sessionId")
             try {
                 activePersistence.setChargePointOfflineByChargePointId(sessionCtx.chargePointId)
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                Log.warn("Failed to mark charge point offline: ${e.message}")
             }
             Log.info("WebSocket connection closed: session=$sessionId, chargePoint=${sessionCtx.chargePointId}")
         }
@@ -267,7 +268,8 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
             awaiter.rejectAll("WebSocket connection closed: $connectionId")
             try {
                 activePersistence.setChargePointOfflineByChargePointId(cpId)
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                Log.warn("Failed to mark charge point offline: ${e.message}")
             }
             Log.info("WebSocket connection closed: session=$connectionId, chargePoint=$cpId")
         }
