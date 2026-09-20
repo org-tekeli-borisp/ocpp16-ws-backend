@@ -80,19 +80,57 @@ class PingPongManagerTest {
     }
 
     @Test
+    fun `messageReceived during idle countdown does not reschedule ping`() {
+        manager.start()
+        val scheduleCount = scheduler.scheduleCount()
+
+        manager.messageReceived()
+
+        assertEquals(scheduleCount, scheduler.scheduleCount(), "no schedule call expected while idle countdown is running")
+        assertFalse(scheduler.hasCancelledTasks(), "no task should be cancelled while idle countdown is running")
+    }
+
+    @Test
+    fun `messageReceived while ping in flight cancels pong timeout and reschedules ping`() {
+        manager.start()
+        scheduler.executeNext() // Execute ping, pong timeout now pending
+        val pongTimeoutTask = scheduler.firstPendingTask()
+        val scheduleCount = scheduler.scheduleCount()
+
+        manager.messageReceived()
+
+        assertTrue(pongTimeoutTask.isCancelled, "pong timeout should be cancelled")
+        assertEquals(scheduleCount + 1, scheduler.scheduleCount(), "next ping should be scheduled")
+        assertFalse(manager.isPinging, "isPinging should be false after message")
+    }
+
+    @Test
+    fun `pongReceived still cancels pong timeout and reschedules ping`() {
+        manager.start()
+        scheduler.executeNext() // Execute ping, pong timeout now pending
+        val pongTimeoutTask = scheduler.firstPendingTask()
+        val scheduleCount = scheduler.scheduleCount()
+
+        manager.pongReceived()
+
+        assertTrue(pongTimeoutTask.isCancelled, "pong timeout should be cancelled")
+        assertEquals(scheduleCount + 1, scheduler.scheduleCount(), "next ping should be scheduled")
+        assertFalse(manager.isPinging, "isPinging should be false after pong")
+    }
+
+    @Test
     fun `does not send duplicate ping when already pinging`() {
         manager.start()
         scheduler.executeNext() // Execute ping
         assertEquals(1, target.pingSendCount)
 
         scheduler.executeNext() // This is the pong timeout
-        // After pong timeout, isPinging is false but no new ping is scheduled automatically
-        // A new ping is only scheduled when messageReceived() or pongReceived() is called
+        // After pong timeout, isPinging is false and no new ping is scheduled automatically
 
-        // Simulate receiving a message to trigger reschedule
+        // A message without a ping in flight does not reschedule a ping
         manager.messageReceived()
-        scheduler.executeNext() // Next ping
-        assertEquals(2, target.pingSendCount, "Should only have sent expected pings")
+        scheduler.executeNext()
+        assertEquals(1, target.pingSendCount, "no ping should be sent without a ping in flight")
     }
 
     @Test
@@ -358,6 +396,7 @@ class TestingScheduler : Scheduler {
 
     fun hasScheduledTasks(): Boolean = pendingTasks.isNotEmpty()
     fun hasCancelledTasks(): Boolean = allTasks.any { it.isCancelled }
+    fun scheduleCount(): Int = allTasks.size
     fun firstTask(): ScheduledTask<*> = allTasks.first()
     fun firstPendingTask(): ScheduledTask<*> = pendingTasks.first()
 

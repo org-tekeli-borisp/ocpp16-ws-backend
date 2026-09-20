@@ -112,6 +112,7 @@ class PingPongManager(
     }
 
     fun messageReceived() {
+        if (!isPingingFlag.get()) return
         cancelPongTimeout()
         isPingingFlag.set(false)
         schedulePing()
