@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StopTransactionHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.handler</a> &gt; <span class="el_source">StopTransactionHandler.kt</span></div><h1>StopTransactionHandler.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.handler
+
+import org.tekeli.borisp.ocpp16.OcppConstants
+import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.callResult
+import java.time.Instant
+
+<span class="fc" id="L9">class StopTransactionHandler : OcppActionHandler {</span>
+    override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
+<span class="fc bfc" id="L11" title="All 2 branches covered.">        val payload = call.payload ?: throw FormationViolationException(&quot;Payload is null&quot;)</span>
+<span class="fc" id="L12">        val parsed = validatePayload(payload)</span>
+<span class="fc" id="L13">        processStopTransaction(context, parsed)</span>
+<span class="fc" id="L14">        return call.callResult(</span>
+<span class="fc" id="L15">            mapOf(&quot;idTagInfo&quot; to mapOf(&quot;status&quot; to &quot;Accepted&quot;))</span>
+        )
+    }
+
+    internal fun processStopTransaction(context: OcppHandlerContext, parsed: ParsedStopTransaction) {
+<span class="fc" id="L20">        val ps = context.persistenceService</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        val transaction = ps?.findTransaction(parsed.transactionId)</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        val energyWh = (parsed.meterStop - (transaction?.meterStart ?: 0)).toDouble()</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        val durationSeconds = transaction?.let { parsed.stopTime.epochSecond - it.startTime.epochSecond } ?: 0</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        ps?.stopTransaction(parsed.transactionId, parsed.meterStop, parsed.stopTime, parsed.reason, parsed.idTagEnd)</span>
+<span class="fc" id="L25">        recordMetrics(context, energyWh, durationSeconds)</span>
+<span class="fc" id="L26">    }</span>
+
+    internal fun recordMetrics(context: OcppHandlerContext, energyWh: Double, durationSeconds: Long) {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        context.metricsService?.onTransactionStopped()</span>
+<span class="fc bfc" id="L30" title="All 4 branches covered.">        context.metricsService?.energyDeliveredWh?.increment(energyWh)</span>
+<span class="fc bfc" id="L31" title="All 4 branches covered.">        context.metricsService?.transactionDuration?.record(durationSeconds, java.util.concurrent.TimeUnit.SECONDS)</span>
+<span class="fc" id="L32">    }</span>
+
+<span class="fc" id="L34">    internal data class ParsedStopTransaction(</span>
+<span class="fc" id="L35">        val transactionId: Long,</span>
+<span class="fc" id="L36">        val meterStop: Int,</span>
+<span class="fc" id="L37">        val stopTime: Instant,</span>
+<span class="fc" id="L38">        val reason: String?,</span>
+<span class="fc" id="L39">        val idTagEnd: String?</span>
+    )
+
+    internal fun validatePayload(payload: Map&lt;String, Any&gt;): ParsedStopTransaction {
+<span class="fc" id="L43">        val transactionId = payload.requiredLong(&quot;transactionId&quot;)</span>
+<span class="fc" id="L44">        val meterStop = payload.requiredInt(&quot;meterStop&quot;)</span>
+<span class="fc" id="L45">        val stopTime = payload.requiredInstant(&quot;timestamp&quot;)</span>
+<span class="fc" id="L46">        val reason = extractReason(payload)</span>
+<span class="fc" id="L47">        val idTagEnd = payload.optionalString(&quot;idTag&quot;, OcppConstants.MAX_ID_TAG_LENGTH)</span>
+<span class="fc" id="L48">        return ParsedStopTransaction(transactionId, meterStop, stopTime, reason, idTagEnd)</span>
+    }
+
+    private fun extractReason(payload: Map&lt;String, Any&gt;): String? {
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        val reason = payload[&quot;reason&quot;] ?: return null</span>
+<span class="fc" id="L53">        val reasonStr = reason.toString().trim()</span>
+<span class="fc bfc" id="L54" title="All 4 branches covered.">        if (reasonStr.isEmpty()) return null</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (reasonStr !in OcppConstants.STOP_REASONS) {</span>
+<span class="fc" id="L56">            throw FormationViolationException(&quot;Invalid reason: ${reason}&quot;)</span>
+        }
+<span class="fc" id="L58">        return reasonStr</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

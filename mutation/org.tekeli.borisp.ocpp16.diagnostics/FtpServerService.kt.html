@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>FtpServerService.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.diagnostics</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import io.quarkus.logging.Log</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.ftpserver.DataConnectionConfigurationFactory</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.ftpserver.FtpServer</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.ftpserver.FtpServerFactory</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.ftpserver.ConnectionConfigFactory</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.ftpserver.listener.ListenerFactory</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.ftpserver.usermanager.ClearTextPasswordEncryptor</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.ftpserver.usermanager.impl.BaseUser</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.apache.ftpserver.usermanager.impl.WritePermission</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.nio.file.Files</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class FtpServerService(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val config: FtpServerConfig,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val storage: FileSystemStorage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>) {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private var server: FtpServer? = null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun start() {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_23'/>
+23
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_23'>4</a>
+<span>
+1. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::enabled &rarr; TIMED_OUT<br/>
+2. start : removed conditional - replaced equality check with true &rarr; TIMED_OUT<br/>
+3. start : negated conditional &rarr; TIMED_OUT<br/>
+4. start : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        if (!config.enabled()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            Log.info(&#34;FTP server is disabled&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            return</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // Create listener</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val listenerFactory = ListenerFactory()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_30'/>
+30
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_30'>1</a>
+<span>
+1. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::port &rarr; TIMED_OUT<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        listenerFactory.port = config.port()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_31'/>
+31
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_31'>1</a>
+<span>
+1. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::host &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        listenerFactory.serverAddress = config.host()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val dataConnFactory = DataConnectionConfigurationFactory()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_34'>1</a>
+<span>
+1. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::passivePorts &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        dataConnFactory.passivePorts = config.passivePorts()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_35'/>
+35
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_35'>9</a>
+<span>
+1. start : removed conditional - replaced equality check with true &rarr; TIMED_OUT<br/>
+2. start : removed call to java/lang/CharSequence::length &rarr; KILLED<br/>
+3. start : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+4. start : changed conditional boundary &rarr; KILLED<br/>
+5. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::externalAddress &rarr; KILLED<br/>
+6. start : negated conditional &rarr; KILLED<br/>
+7. start : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+8. start : negated conditional &rarr; KILLED<br/>
+9. start : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        if (config.externalAddress().isNotEmpty()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_36'>1</a>
+<span>
+1. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::externalAddress &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            dataConnFactory.setPassiveExternalAddress(config.externalAddress())</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_38'/>
+38
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_38'>1</a>
+<span>
+1. start : removed call to org/apache/ftpserver/DataConnectionConfigurationFactory::createDataConnectionConfiguration &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        listenerFactory.dataConnectionConfiguration = dataConnFactory.createDataConnectionConfiguration()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // Create user manager programmatically</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_41'/>
+41
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_41'>1</a>
+<span>
+1. start : removed call to java/nio/file/Files::createTempDirectory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val tempDir = Files.createTempDirectory(&#34;ftpserver-&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_42'/>
+42
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_42'>1</a>
+<span>
+1. start : removed call to java/nio/file/Path::toFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        tempDir.toFile().deleteOnExit()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_44'/>
+44
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_44'>2</a>
+<span>
+1. start : removed call to java/nio/file/Path::toFile &rarr; KILLED<br/>
+2. start : removed call to java/nio/file/Path::resolve &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val usersFile = tempDir.resolve(&#34;users.properties&#34;).toFile()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_45'>1</a>
+<span>
+1. start : removed call to java/io/File::createNewFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        usersFile.createNewFile()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_46'/>
+46
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_46'>3</a>
+<span>
+1. start : removed call to java/io/File::createNewFile &rarr; TIMED_OUT<br/>
+2. start : removed call to java/nio/file/Path::toFile &rarr; KILLED<br/>
+3. start : removed call to java/nio/file/Path::resolve &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        tempDir.resolve(&#34;pass.properties&#34;).toFile().createNewFile()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val userManagerFactory = PropertiesUserManagerFactory()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        userManagerFactory.file = usersFile</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        userManagerFactory.passwordEncryptor = ClearTextPasswordEncryptor()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_51'>1</a>
+<span>
+1. start : removed call to org/apache/ftpserver/usermanager/PropertiesUserManagerFactory::createUserManager &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val userManager = userManagerFactory.createUserManager()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val user = BaseUser().apply {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_54'>1</a>
+<span>
+1. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::username &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            name = config.username()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_55'/>
+55
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_55'>1</a>
+<span>
+1. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::password &rarr; TIMED_OUT<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>            password = config.password()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_56'/>
+56
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_56'>1</a>
+<span>
+1. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::baseDir &rarr; TIMED_OUT<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>            homeDirectory = storage.baseDir()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            enabled = true</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            maxIdleTime = 0</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_59'/>
+59
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_59'>1</a>
+<span>
+1. start : removed call to kotlin/collections/CollectionsKt::listOf &rarr; TIMED_OUT<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>            authorities = listOf(WritePermission())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        userManager.save(user)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // Create connection config</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val connectionConfigFactory = ConnectionConfigFactory()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        connectionConfigFactory.setAnonymousLoginEnabled(false)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        // Create server</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val serverFactory = FtpServerFactory()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_69'/>
+69
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_69'>1</a>
+<span>
+1. start : removed call to org/apache/ftpserver/listener/ListenerFactory::createListener &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        serverFactory.addListener(&#34;default&#34;, listenerFactory.createListener())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_70'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        serverFactory.userManager = userManager</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_71'/>
+71
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_71'>1</a>
+<span>
+1. start : removed call to org/apache/ftpserver/ConnectionConfigFactory::createConnectionConfig &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        serverFactory.connectionConfig = connectionConfigFactory.createConnectionConfig()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_73'/>
+73
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_73'>1</a>
+<span>
+1. start : removed call to org/apache/ftpserver/FtpServerFactory::createServer &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        server = serverFactory.createServer()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        server!!.start()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_75'/>
+75
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_75'>2</a>
+<span>
+1. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::port &rarr; TIMED_OUT<br/>
+2. start : removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::host &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>        Log.info(&#34;FTP server started on ${config.host()}:${config.port()}&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_77'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_78'/>
+78
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_78'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun stop() {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_79'/>
+79
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_79'>3</a>
+<span>
+1. stop : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. stop : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. stop : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        server?.run {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_80'/>
+80
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_80'>1</a>
+<span>
+1. stop : removed call to java/lang/Exception::getMessage &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            try { stop() } catch (e: Exception) { Log.warn(&#34;FTP server stop error: ${e.message}&#34;) }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_81'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_82'/>
+82
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_82'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        server = null</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        Log.info(&#34;FTP server stopped&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_84'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@62489875_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@62489875_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_23'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::enabled &rarr; TIMED_OUT</span>
+</div> <p class='TIMED_OUT'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> removed conditional - replaced equality check with true &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest]/[method:bean scope is not application scoped or singleton()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> negated conditional &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_30'>30</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_30'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::port &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_31'>31</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_31'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::host &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::passivePorts &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to java/lang/CharSequence::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::externalAddress &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest]/[method:bean scope is not application scoped or singleton()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest]/[method:bean scope is not application scoped or singleton()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> removed conditional - replaced equality check with true &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest]/[method:bean scope is not application scoped or singleton()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest]/[method:bean scope is not application scoped or singleton()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::externalAddress &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_38'>38</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_38'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/apache/ftpserver/DataConnectionConfigurationFactory::createDataConnectionConfiguration &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_41'>41</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_41'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to java/nio/file/Files::createTempDirectory &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_42'>42</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_42'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to java/nio/file/Path::toFile &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_44'>44</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_44'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to java/nio/file/Path::toFile &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to java/nio/file/Path::resolve &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to java/io/File::createNewFile &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_46'>46</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_46'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to java/nio/file/Path::toFile &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> removed call to java/io/File::createNewFile &rarr; TIMED_OUT</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to java/nio/file/Path::resolve &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/apache/ftpserver/usermanager/PropertiesUserManagerFactory::createUserManager &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::username &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_55'>55</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_55'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::password &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_56'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::baseDir &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_59'>59</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_59'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> removed call to kotlin/collections/CollectionsKt::listOf &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_69'>69</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_69'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/apache/ftpserver/listener/ListenerFactory::createListener &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_71'>71</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_71'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/apache/ftpserver/ConnectionConfigFactory::createConnectionConfig &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_73'>73</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_73'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/apache/ftpserver/FtpServerFactory::createServer &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_75'>75</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_75'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>start<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::host &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>start<br/><b>Killed by : </b>none</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FtpServerConfig::port &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_79'>79</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_79'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>stop<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>stop<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>stop<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should reject wrong password()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@62489875_80'>80</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@62489875_80'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>stop<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceSurvivingMutantsTest]/[method:stop swallows FtpServer stop failures and logs the exception message()]</span></span> removed call to java/lang/Exception::getMessage &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should start and accept FTP connections()] (8 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should reject wrong password()] (558 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceTest]/[method:should upload file via FTP()] (554 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerSurvivingMutantsTest]/[method:onStart logs FTP start failure with exception message()] (36 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest]/[method:bean scope is not application scoped or singleton()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfigTest]/[method:should have default username()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfigTest]/[method:should have default username()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfigTest]/[method:should have default upload dir not null()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest]/[method:should reject connection with wrong subprotocol()] (7 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.ChargePointRepositoryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.ChargePointRepositoryTest]/[method:should find all online chargePoints()] (9 ms)</li><li>org.tekeli.borisp.ocpp16.health.ReadinessHealthCheckTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.health.ReadinessHealthCheckTest]/[method:call returns UP when database is reachable()] (18 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.TransactionRepositoryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.TransactionRepositoryTest]/[method:should find running transactions by chargePointId()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceTest]/[method:should return 404 when deleting non-existent file()] (19 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.SignedFirmwareRepositoryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.SignedFirmwareRepositoryTest]/[method:should return false when updating non-existent firmware()] (6 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.PersistenceServiceSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.PersistenceServiceSurvivingMutantsTest]/[method:findMessageLogs filters by action()] (28 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.PersistenceServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.PersistenceServiceTest]/[method:findAllTransactions returns transactions for chargePointId()] (26 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.ConnectorStatusUpsertConcurrencyTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.ConnectorStatusUpsertConcurrencyTest]/[method:sequential updateConnectorStatus keeps one row with second call values and refreshed timestamp()] (46 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.PersistenceServiceUpsertConcurrencyTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.PersistenceServiceUpsertConcurrencyTest]/[method:sequential upsertChargePoint for same new charge point keeps one row with second call values()] (50 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceOnlineCheckTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceOnlineCheckTest]/[method:getAll must not report stale ONLINE charge points as online()] (76 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.SecurityLogRepositoryTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.SecurityLogRepositoryTest]/[method:should handle type with max length()] (92 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceTest]/[method:getMessages respects limit()] (79 ms)</li><li>org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.ChargePointResourceTest]/[method:should report online when chargePointId is registered even with different sessionId()] (78 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (43 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StatusNotification with null payload()] (80 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerConfigTest]/[method:pong timeout default is 720 seconds()] (193 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StopTransaction for non-existent transaction()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.rest.TransactionResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.TransactionResourceTest]/[method:should return transaction details with correct fields()] (235 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for LogStatusNotification with null payload()] (562 ms)</li><li>org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest]/[method:should not send any frame for unexpected CALLERROR()] (1005 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1060 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest]/[method:should close connection when client does not respond to ping()] (5008 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandTimeoutTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandTimeoutTest]/[method:should return 504 when connected chargePoint never responds to command()] (10112 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.ConnectorStatusEntityTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.ConnectorStatusEntityTest]/[method:constructor with defaults()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.SecurityLogEntityTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.SecurityLogEntityTest]/[method:constructor defaults()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.SignedFirmwareEntityTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.SignedFirmwareEntityTest]/[method:constructor defaults()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.OcppMessageLogEntityTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.OcppMessageLogEntityTest]/[method:constructor with defaults()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.persistence.TransactionEntityTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.persistence.TransactionEntityTest]/[method:constructor defaults()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.TransactionResourceSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.TransactionResourceSurvivingMutantsTest]/[method:toDto maps stopTime for stopped transactions()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.DiagnosticsResourceMutationTest]/[method:download returns 200 with file bytes and headers for an existing file()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerTest]/[method:onStart initializes storage with configured base dir()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.MessageCaptureServiceEvictTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.MessageCaptureServiceEvictTest]/[method:capture after evict starts a fresh buffer()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.TransactionResourceUnitTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.TransactionResourceUnitTest]/[method:getTransactions with default argument returns all transactions as dtos()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.PingPongManagerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.PingPongManagerTest]/[method:executing pong timeout closes connection when no pong received()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerDataTransferTest]/[method:should accept DataTransfer with optional messageId and data()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.metrics.MetricsServiceTest]/[method:should decrement below zero for transaction count()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMutationTest]/[method:onClose no-arg with unknown connection does not throw()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTextMessageCancelsPongTimeoutTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTextMessageCancelsPongTimeoutTest]/[method:incoming text message must cancel pong timeout so connection is not closed()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerSurvivingMutantsTest]/[method:cleanup task failure logs exception message()] (29 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerPongTimeoutTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerPongTimeoutTest]/[method:pong timeout must close connection and set charge point offline when no pong received()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerTest]/[method:scheduled cleanup deletes expired files on startup()] (104 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.FtpServerServiceSurvivingMutantsTest]/[method:stop swallows FtpServer stop failures and logs the exception message()] (118 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializerSurvivingMutantsTest]/[method:onStart logs SFTP start failure with exception message()] (121 ms)</li><li>org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.MessageResourceMutationTest]/[method:getHistory returns 404 for an unknown charge point()] (161 ms)</li><li>org.tekeli.borisp.ocpp16.diagnostics.SftpServerServiceSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.diagnostics.SftpServerServiceSurvivingMutantsTest]/[method:should reject wrong username with correct password()] (163 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceErrorPathsTest]/[method:executeCommand returns 503 with default message when IllegalStateException has null message()] (746 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

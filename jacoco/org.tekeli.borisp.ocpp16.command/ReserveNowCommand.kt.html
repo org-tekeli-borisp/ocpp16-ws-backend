@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReserveNowCommand.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.command</a> &gt; <span class="el_source">ReserveNowCommand.kt</span></div><h1>ReserveNowCommand.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.command
+
+import jakarta.inject.Inject
+import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
+
+<span class="fc" id="L7">@jakarta.enterprise.context.ApplicationScoped</span>
+<span class="fc" id="L8">class ReserveNowCommand @Inject constructor(</span>
+<span class="fc" id="L9">    private val gateway: ChargePointGateway</span>
+) : OcppCommand {
+
+<span class="fc" id="L12">    override val name = &quot;reserve-now&quot;</span>
+
+    override fun validate(payload: Map&lt;String, Any&gt;): Response? {
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        val error = validateRequiredIds(payload)</span>
+<span class="fc" id="L16">            ?: validateStringFields(payload)</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        return error?.let { badRequest(it) }</span>
+    }
+
+    private fun validateRequiredIds(payload: Map&lt;String, Any&gt;): String? {
+<span class="fc" id="L21">        val connectorIdRaw = payload[&quot;connectorId&quot;]</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (connectorIdRaw is Number) {</span>
+<span class="fc" id="L23">            val reservationIdRaw = payload[&quot;reservationId&quot;]</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">            if (reservationIdRaw is Number) {</span>
+<span class="fc" id="L25">                return null</span>
+            } else {
+<span class="fc" id="L27">                return &quot;reservationId is required&quot;</span>
+            }
+        } else {
+<span class="fc" id="L30">            return &quot;connectorId is required&quot;</span>
+        }
+    }
+
+    private fun validateStringFields(payload: Map&lt;String, Any&gt;): String? {
+<span class="fc bfc" id="L35" title="All 6 branches covered.">        if ((payload[&quot;expiryDate&quot;] as String?).isNullOrEmpty()) {</span>
+<span class="fc" id="L36">            return &quot;expiryDate is required&quot;</span>
+        }
+<span class="fc bfc" id="L38" title="All 6 branches covered.">        return if ((payload[&quot;idTag&quot;] as String?).isNullOrEmpty()) &quot;idTag is required&quot; else null</span>
+    }
+
+<span class="fc" id="L41">    private fun badRequest(error: String) = Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L42">        .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to error)).build()</span>
+
+    override fun execute(chargePointId: String, payload: Map&lt;String, Any&gt;): Response {
+<span class="fc" id="L45">        val connectorId = (payload[&quot;connectorId&quot;] as Number).toInt()</span>
+<span class="fc" id="L46">        val expiryDate = payload[&quot;expiryDate&quot;] as String</span>
+<span class="fc" id="L47">        val idTag = payload[&quot;idTag&quot;] as String</span>
+<span class="fc" id="L48">        val reservationId = (payload[&quot;reservationId&quot;] as Number).toInt()</span>
+
+<span class="fc" id="L50">        val result = gateway.sendReserveNow(chargePointId, connectorId, expiryDate, idTag, reservationId)</span>
+<span class="fc" id="L51">        return PayloadValidators.awaitAndBuildResponse(result, name)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

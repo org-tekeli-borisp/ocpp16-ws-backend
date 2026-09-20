@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResponseAwaiter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.protocol</a> &gt; <span class="el_source">ResponseAwaiter.kt</span></div><h1>ResponseAwaiter.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.protocol
+
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.ScheduledFuture
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
+import java.util.concurrent.atomic.AtomicBoolean
+
+<span class="fc" id="L11">class ResponseAwaiter(</span>
+<span class="fc" id="L12">    executor: ScheduledExecutorService? = null,</span>
+<span class="fc" id="L13">    private val timeoutMillis: Long = 0</span>
+<span class="fc" id="L14">) {</span>
+<span class="fc" id="L15">    private class PendingEntry(val future: CompletableFuture&lt;OcppMessage&gt;, val deadline: Long)</span>
+
+<span class="fc" id="L17">    private val pendingResponses = ConcurrentHashMap&lt;String, PendingEntry&gt;()</span>
+<span class="fc" id="L18">    private val isRejected = AtomicBoolean(false)</span>
+<span class="fc bfc" id="L19" title="All 4 branches covered.">    private val timeoutHandle: ScheduledFuture&lt;*&gt;? = if (executor != null &amp;&amp; timeoutMillis &gt; 0) {</span>
+<span class="fc" id="L20">        executor.scheduleAtFixedRate(</span>
+<span class="fc" id="L21">            { cleanupTimedOut() },</span>
+<span class="fc" id="L22">            timeoutMillis,</span>
+<span class="fc" id="L23">            timeoutMillis,</span>
+<span class="fc" id="L24">            TimeUnit.MILLISECONDS</span>
+        )
+    } else {
+<span class="fc" id="L27">        null</span>
+    }
+
+    fun pending(messageId: String): CompletableFuture&lt;OcppMessage&gt; {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (isRejected.get()) {</span>
+<span class="fc" id="L32">            val f = CompletableFuture&lt;OcppMessage&gt;()</span>
+<span class="fc" id="L33">            f.completeExceptionally(IllegalStateException(&quot;ResponseAwaiter has been rejected&quot;))</span>
+<span class="fc" id="L34">            return f</span>
+        }
+<span class="fc" id="L36">        val future = CompletableFuture&lt;OcppMessage&gt;()</span>
+<span class="fc" id="L37">        pendingResponses[messageId] = PendingEntry(future, System.currentTimeMillis() + timeoutMillis)</span>
+<span class="fc" id="L38">        return future</span>
+    }
+
+    fun resolve(messageId: String, response: OcppMessage.CallResult) {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        val entry = pendingResponses.remove(messageId)</span>
+<span class="fc" id="L43">            ?: throw IllegalStateException(&quot;No pending response for messageId: $messageId&quot;)</span>
+<span class="fc" id="L44">        entry.future.complete(response)</span>
+<span class="fc" id="L45">    }</span>
+
+    fun reject(messageId: String, error: OcppMessage.CallError) {
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        val entry = pendingResponses.remove(messageId)</span>
+<span class="fc" id="L49">            ?: throw IllegalStateException(&quot;No pending response for messageId: $messageId&quot;)</span>
+<span class="fc" id="L50">        entry.future.complete(error)</span>
+<span class="fc" id="L51">    }</span>
+
+    fun timeout(messageId: String, cause: TimeoutException) {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        val entry = pendingResponses.remove(messageId)</span>
+<span class="fc" id="L55">            ?: throw IllegalStateException(&quot;No pending response for messageId: $messageId&quot;)</span>
+<span class="fc" id="L56">        entry.future.completeExceptionally(cause)</span>
+<span class="fc" id="L57">    }</span>
+
+    fun rejectAll(reason: String) {
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (!isRejected.compareAndSet(false, true)) return</span>
+<span class="fc" id="L61">        val exception = IllegalStateException(reason)</span>
+<span class="fc" id="L62">        val entries = pendingResponses.entries.toList()</span>
+<span class="fc" id="L63">        pendingResponses.clear()</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        timeoutHandle?.cancel(false)</span>
+<span class="fc" id="L65">        entries.forEach { (_, entry) -&gt;</span>
+<span class="fc" id="L66">            entry.future.completeExceptionally(exception)</span>
+<span class="fc" id="L67">        }</span>
+<span class="fc" id="L68">    }</span>
+
+    private fun cleanupTimedOut() {
+<span class="fc" id="L71">        val now = System.currentTimeMillis()</span>
+<span class="fc bfc" id="L72" title="All 4 branches covered.">        val expired = pendingResponses.entries.filter { (_, entry) -&gt; !entry.future.isDone &amp;&amp; entry.deadline &lt;= now }</span>
+<span class="fc" id="L73">        expired.forEach { (messageId, _) -&gt;</span>
+<span class="fc" id="L74">            try {</span>
+<span class="fc" id="L75">                timeout(messageId, TimeoutException(&quot;Command timed out&quot;))</span>
+<span class="nc" id="L76">            } catch (_: IllegalStateException) {</span>
+            }
+<span class="fc" id="L78">        }</span>
+<span class="fc" id="L79">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

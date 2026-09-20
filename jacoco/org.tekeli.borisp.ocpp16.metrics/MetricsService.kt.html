@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MetricsService.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.metrics</a> &gt; <span class="el_source">MetricsService.kt</span></div><h1>MetricsService.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.metrics
+
+import io.micrometer.core.instrument.Counter
+import io.micrometer.core.instrument.Gauge
+import io.micrometer.core.instrument.MeterRegistry
+import io.micrometer.core.instrument.Timer
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry
+import jakarta.annotation.PostConstruct
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
+import java.util.concurrent.atomic.AtomicInteger
+
+<span class="fc" id="L13">@ApplicationScoped</span>
+open class MetricsService {
+
+    @Inject
+<span class="fc" id="L17">    var injectedMeterRegistry: MeterRegistry? = null</span>
+
+    private val meterRegistry: MeterRegistry
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        get() = injectedMeterRegistry ?: SimpleMeterRegistry()</span>
+
+<span class="fc" id="L22">    private val connectionCount = AtomicInteger(0)</span>
+<span class="fc" id="L23">    private val activeTransactionCount = AtomicInteger(0)</span>
+
+<span class="fc" id="L25">    val transactionsStarted: Counter by lazy {</span>
+<span class="fc" id="L26">        Counter.builder(&quot;ocpp.transactions.started&quot;)</span>
+<span class="fc" id="L27">            .description(&quot;Total number of charging transactions started&quot;)</span>
+<span class="fc" id="L28">            .tag(&quot;version&quot;, &quot;1.6&quot;)</span>
+<span class="fc" id="L29">            .register(meterRegistry)</span>
+    }
+
+<span class="fc" id="L32">    val transactionsStopped: Counter by lazy {</span>
+<span class="fc" id="L33">        Counter.builder(&quot;ocpp.transactions.stopped&quot;)</span>
+<span class="fc" id="L34">            .description(&quot;Total number of charging transactions stopped&quot;)</span>
+<span class="fc" id="L35">            .tag(&quot;version&quot;, &quot;1.6&quot;)</span>
+<span class="fc" id="L36">            .register(meterRegistry)</span>
+    }
+
+<span class="fc" id="L39">    open val energyDeliveredWh: Counter? by lazy {</span>
+<span class="fc" id="L40">        Counter.builder(&quot;ocpp.energy.delivered.wh&quot;)</span>
+<span class="fc" id="L41">            .description(&quot;Total energy delivered in watt-hours&quot;)</span>
+<span class="fc" id="L42">            .tag(&quot;version&quot;, &quot;1.6&quot;)</span>
+<span class="fc" id="L43">            .register(meterRegistry)</span>
+    }
+
+<span class="fc" id="L46">    val messagesReceived: Counter by lazy {</span>
+<span class="fc" id="L47">        Counter.builder(&quot;ocpp.messages.received&quot;)</span>
+<span class="fc" id="L48">            .description(&quot;Total OCPP messages received from charge points&quot;)</span>
+<span class="fc" id="L49">            .tag(&quot;version&quot;, &quot;1.6&quot;)</span>
+<span class="fc" id="L50">            .register(meterRegistry)</span>
+    }
+
+<span class="fc" id="L53">    val messagesSent: Counter by lazy {</span>
+<span class="fc" id="L54">        Counter.builder(&quot;ocpp.messages.sent&quot;)</span>
+<span class="fc" id="L55">            .description(&quot;Total OCPP messages sent to charge points&quot;)</span>
+<span class="fc" id="L56">            .tag(&quot;version&quot;, &quot;1.6&quot;)</span>
+<span class="fc" id="L57">            .register(meterRegistry)</span>
+    }
+
+<span class="fc" id="L60">    val securityEventsReceived: Counter by lazy {</span>
+<span class="fc" id="L61">        Counter.builder(&quot;ocpp.security.events.received&quot;)</span>
+<span class="fc" id="L62">            .description(&quot;Total security events received from charge points&quot;)</span>
+<span class="fc" id="L63">            .tag(&quot;version&quot;, &quot;1.6&quot;)</span>
+<span class="fc" id="L64">            .register(meterRegistry)</span>
+    }
+
+<span class="fc" id="L67">    open val transactionDuration: Timer? by lazy {</span>
+<span class="fc" id="L68">        Timer.builder(&quot;ocpp.transaction.duration.seconds&quot;)</span>
+<span class="fc" id="L69">            .description(&quot;Duration of charging transactions&quot;)</span>
+<span class="fc" id="L70">            .tag(&quot;version&quot;, &quot;1.6&quot;)</span>
+<span class="fc" id="L71">            .register(meterRegistry)</span>
+    }
+
+    @PostConstruct
+    fun initGauges() {
+<span class="fc" id="L76">        Gauge.builder(&quot;ocpp.charge.points.connected&quot;, ::getConnectionCount)</span>
+<span class="fc" id="L77">            .description(&quot;Number of currently connected charge points&quot;)</span>
+<span class="fc" id="L78">            .register(meterRegistry)</span>
+
+<span class="fc" id="L80">        Gauge.builder(&quot;ocpp.transactions.active&quot;, ::getActiveTransactionCount)</span>
+<span class="fc" id="L81">            .description(&quot;Number of currently active charging transactions&quot;)</span>
+<span class="fc" id="L82">            .register(meterRegistry)</span>
+<span class="fc" id="L83">    }</span>
+
+    fun onChargePointConnected() {
+<span class="fc" id="L86">        connectionCount.incrementAndGet()</span>
+<span class="fc" id="L87">    }</span>
+
+    fun onChargePointDisconnected() {
+<span class="fc" id="L90">        connectionCount.decrementAndGet()</span>
+<span class="fc" id="L91">    }</span>
+
+    fun onTransactionStarted() {
+<span class="fc" id="L94">        activeTransactionCount.incrementAndGet()</span>
+<span class="fc" id="L95">        transactionsStarted.increment()</span>
+<span class="fc" id="L96">    }</span>
+
+    fun onTransactionStopped() {
+<span class="fc" id="L99">        activeTransactionCount.decrementAndGet()</span>
+<span class="fc" id="L100">        transactionsStopped.increment()</span>
+<span class="fc" id="L101">    }</span>
+
+<span class="fc" id="L103">    internal fun getConnectionCount(): Long = connectionCount.get().toLong()</span>
+<span class="fc" id="L104">    internal fun getActiveTransactionCount(): Long = activeTransactionCount.get().toLong()</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>GetDiagnosticsCommand.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.command</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.enterprise.inject.Instance</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.ws.rs.core.Response</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsUrlGenerator</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.diagnostics.FileSystemStorage</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@jakarta.enterprise.context.ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class GetDiagnosticsCommand @Inject constructor(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val gateway: ChargePointGateway,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val urlGeneratorInstance: Instance&#60;DiagnosticsUrlGenerator&#62;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val storageInstance: Instance&#60;FileSystemStorage&#62;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>) : OcppCommand {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_17'/>
+17
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_17'>1</a>
+<span>
+1. getName : replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/GetDiagnosticsCommand::getName &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    override val name = &#34;get-diagnostics&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun validate(payload: Map&#60;String, Any&#62;): Response? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_20'/>
+20
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_20'>1</a>
+<span>
+1. validate : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val location = payload[&#34;location&#34;] as String?</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_22'/>
+22
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_22'>10</a>
+<span>
+1. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. validate : negated conditional &rarr; KILLED<br/>
+3. validate : removed call to java/lang/CharSequence::length &rarr; KILLED<br/>
+4. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+5. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+6. validate : negated conditional &rarr; KILLED<br/>
+7. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+8. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+9. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+10. validate : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (location.isNullOrEmpty()) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_23'/>
+23
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_23'>1</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/command/GetDiagnosticsCommand::resolveGenerator &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            val gen = resolveGenerator()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_24'/>
+24
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_24'>3</a>
+<span>
+1. validate : negated conditional &rarr; KILLED<br/>
+2. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            if (gen != null) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                try {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_26'/>
+26
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_26'>1</a>
+<span>
+1. validate : removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsUrlGenerator::generate &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                    gen.generate(&#34;test&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                } catch (e: IllegalStateException) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_28'/>
+28
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_28'>1</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                    return Response.status(Response.Status.BAD_REQUEST)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_29'/>
+29
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_29'>4</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+2. validate : removed call to java/lang/IllegalStateException::getMessage &rarr; KILLED<br/>
+3. validate : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+4. validate : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        .entity(mapOf&#60;String, Any&#62;(&#34;error&#34; to &#34;location is required and no auto-generation available: ${e.message}&#34;))</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_30'/>
+30
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_30'>1</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                        .build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>                }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                return null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_34'>1</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Response.status(Response.Status.BAD_REQUEST)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_35'/>
+35
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_35'>3</a>
+<span>
+1. validate : removed call to kotlin/TuplesKt::to &rarr; KILLED<br/>
+2. validate : removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED<br/>
+3. validate : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .entity(mapOf&#60;String, Any&#62;(&#34;error&#34; to &#34;location is required&#34;))</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_36'/>
+36
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_36'>1</a>
+<span>
+1. validate : removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                .build()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        return null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    override fun execute(chargePointId: String, payload: Map&#60;String, Any&#62;): Response {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_42'/>
+42
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_42'>5</a>
+<span>
+1. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+3. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. execute : removed call to java/lang/String::toLowerCase &rarr; KILLED<br/>
+5. execute : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val protocol = (payload[&#34;protocol&#34;] as String?)?.lowercase()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_43'/>
+43
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_43'>7</a>
+<span>
+1. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+3. execute : negated conditional &rarr; KILLED<br/>
+4. execute : negated conditional &rarr; KILLED<br/>
+5. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val location = (payload[&#34;location&#34;] as String?)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_44'/>
+44
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_44'>4</a>
+<span>
+1. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. execute : removed call to org/tekeli/borisp/ocpp16/command/GetDiagnosticsCommand::resolveGenerator &rarr; KILLED<br/>
+4. execute : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            ?: resolveGenerator()?.let { gen -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_45'>5</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsUrlGenerator::generate &rarr; KILLED<br/>
+2. execute : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. execute : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. execute : removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsUrlGenerator::generate &rarr; KILLED<br/>
+5. execute : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>                if (protocol != null) gen.generate(chargePointId, protocol) else gen.generate(chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            ?: throw IllegalStateException(&#34;location is required and no auto-generation available&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        ensureDirectory(chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_51'/>
+51
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_51'>1</a>
+<span>
+1. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val retries = payload[&#34;retries&#34;] as Int?</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_52'/>
+52
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_52'>1</a>
+<span>
+1. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val retryInterval = payload[&#34;retryInterval&#34;] as Int?</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_53'/>
+53
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_53'>1</a>
+<span>
+1. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val startTime = payload[&#34;startTime&#34;] as String?</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_54'>1</a>
+<span>
+1. execute : removed call to java/util/Map::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val stopTime = payload[&#34;stopTime&#34;] as String?</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_56'/>
+56
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_56'>1</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendGetDiagnostics &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val result = gateway.sendGetDiagnostics(chargePointId, location, retries, retryInterval, startTime, stopTime)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_57'/>
+57
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_57'>2</a>
+<span>
+1. execute : removed call to org/tekeli/borisp/ocpp16/command/GetDiagnosticsCommand::getName &rarr; KILLED<br/>
+2. execute : removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return PayloadValidators.awaitAndBuildResponse(result, name)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun ensureDirectory(chargePointId: String) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_61'/>
+61
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_61'>8</a>
+<span>
+1. ensureDirectory : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. ensureDirectory : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. ensureDirectory : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. ensureDirectory : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. ensureDirectory : removed call to jakarta/enterprise/inject/Instance::isAmbiguous &rarr; KILLED<br/>
+6. ensureDirectory : removed call to jakarta/enterprise/inject/Instance::isUnsatisfied &rarr; KILLED<br/>
+7. ensureDirectory : negated conditional &rarr; KILLED<br/>
+8. ensureDirectory : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (storageInstance.isUnsatisfied || storageInstance.isAmbiguous) return</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        try {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_63'/>
+63
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_63'>2</a>
+<span>
+1. ensureDirectory : removed call to jakarta/enterprise/inject/Instance::get &rarr; KILLED<br/>
+2. ensureDirectory : removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::ensureDirectory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            storageInstance.get().ensureDirectory(chargePointId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        } catch (e: Exception) {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun resolveGenerator(): DiagnosticsUrlGenerator? {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_69'/>
+69
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_69'>8</a>
+<span>
+1. resolveGenerator : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. resolveGenerator : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+3. resolveGenerator : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. resolveGenerator : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+5. resolveGenerator : removed call to jakarta/enterprise/inject/Instance::isAmbiguous &rarr; KILLED<br/>
+6. resolveGenerator : removed call to jakarta/enterprise/inject/Instance::isUnsatisfied &rarr; KILLED<br/>
+7. resolveGenerator : negated conditional &rarr; KILLED<br/>
+8. resolveGenerator : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (urlGeneratorInstance.isUnsatisfied || urlGeneratorInstance.isAmbiguous) return null</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_70'/>
+70
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_70'>1</a>
+<span>
+1. resolveGenerator : removed call to jakarta/enterprise/inject/Instance::get &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return try { urlGeneratorInstance.get() } catch (e: Exception) { null }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_71'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@4a515537_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_17'>17</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_17'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getName<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand has correct name()]</span></span> replaced return value with &#34;&#34; for org/tekeli/borisp/ocpp16/command/GetDiagnosticsCommand::getName &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_20'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts valid payload()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_22'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects empty payload when no urlGenerator()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts valid payload()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts valid payload()]</span></span> removed call to java/lang/CharSequence::length &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts valid payload()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand validate rejects empty location()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts valid payload()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects empty payload when no urlGenerator()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>10.<span><b>10</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts valid payload()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts empty payload when urlGenerator is provided()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/GetDiagnosticsCommand::resolveGenerator &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_24'>24</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_24'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects empty payload when no urlGenerator()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects empty payload when no urlGenerator()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts empty payload when urlGenerator is provided()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_26'>26</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_26'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects when generator throws()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsUrlGenerator::generate &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_28'>28</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_28'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects when generator throws()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_29'>29</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_29'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects when generator throws()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - error message includes generator exception message()]</span></span> removed call to java/lang/IllegalStateException::getMessage &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects when generator throws()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - error message includes generator exception message()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_30'>30</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_30'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects when generator throws()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects empty payload when no urlGenerator()]</span></span> removed call to jakarta/ws/rs/core/Response::status &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_35'>35</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_35'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects empty payload when no urlGenerator()]</span></span> removed call to kotlin/TuplesKt::to &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects missing location()]</span></span> removed call to kotlin/collections/MapsKt::mapOf &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects empty payload when no urlGenerator()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::entity &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_36'>36</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_36'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects empty payload when no urlGenerator()]</span></span> removed call to jakarta/ws/rs/core/Response$ResponseBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_42'>42</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_42'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - lowercases protocol before generating URL()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - lowercases protocol before generating URL()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - lowercases protocol before generating URL()]</span></span> removed call to java/lang/String::toLowerCase &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_43'>43</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_43'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - throws IllegalStateException when location missing and no generator()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - throws IllegalStateException when location missing and no generator()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - throws IllegalStateException when location missing and no generator()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - generates default URL when protocol missing()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_44'>44</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_44'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - generates default URL when protocol missing()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - throws IllegalStateException when location missing and no generator()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - generates default URL when protocol missing()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/GetDiagnosticsCommand::resolveGenerator &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - throws IllegalStateException when location missing and no generator()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - lowercases protocol before generating URL()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsUrlGenerator::generate &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - lowercases protocol before generating URL()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - generates default URL when protocol missing()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - generates default URL when protocol missing()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/DiagnosticsUrlGenerator::generate &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - generates default URL when protocol missing()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_51'>51</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_51'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - passes retries and retryInterval to gateway()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_52'>52</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_52'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - passes retries and retryInterval to gateway()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_53'>53</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_53'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand uses startTime and stopTime when provided()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand uses startTime and stopTime when provided()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_56'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed call to org/tekeli/borisp/ocpp16/outbound/ChargePointGateway::sendGetDiagnostics &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_57'>57</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_57'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/GetDiagnosticsCommand::getName &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>execute<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()]</span></span> removed call to org/tekeli/borisp/ocpp16/command/PayloadValidators::awaitAndBuildResponse$default &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_61'>61</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_61'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - calls storage ensureDirectory when storage available()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - skips storage when instance ambiguous()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - skips storage when instance unsatisfied()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - calls storage ensureDirectory when storage available()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - skips storage when instance ambiguous()]</span></span> removed call to jakarta/enterprise/inject/Instance::isAmbiguous &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - skips storage when instance unsatisfied()]</span></span> removed call to jakarta/enterprise/inject/Instance::isUnsatisfied &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - calls storage ensureDirectory when storage available()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - calls storage ensureDirectory when storage available()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_63'>63</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_63'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - calls storage ensureDirectory when storage available()]</span></span> removed call to jakarta/enterprise/inject/Instance::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>ensureDirectory<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - calls storage ensureDirectory when storage available()]</span></span> removed call to org/tekeli/borisp/ocpp16/diagnostics/FileSystemStorage::ensureDirectory &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_69'>69</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_69'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resolveGenerator<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts empty payload when urlGenerator is provided()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>resolveGenerator<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - returns 400 when generator instance ambiguous()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>resolveGenerator<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts empty payload when urlGenerator is provided()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>resolveGenerator<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - returns 400 when generator instance unsatisfied()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>resolveGenerator<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - returns 400 when generator instance ambiguous()]</span></span> removed call to jakarta/enterprise/inject/Instance::isAmbiguous &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>resolveGenerator<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - returns 400 when generator instance unsatisfied()]</span></span> removed call to jakarta/enterprise/inject/Instance::isUnsatisfied &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>resolveGenerator<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - returns 400 when generator instance ambiguous()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>resolveGenerator<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - returns 400 when generator instance unsatisfied()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@4a515537_70'>70</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@4a515537_70'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resolveGenerator<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts empty payload when urlGenerator is provided()]</span></span> removed call to jakarta/enterprise/inject/Instance::get &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on CallError()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute with all params returns ACCEPTED()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - calls storage ensureDirectory when storage available()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - skips storage when instance ambiguous()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute uses correct location()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns ACCEPTED on success()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - swallows storage ensureDirectory failure()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand execute returns BAD_GATEWAY on error()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - generates default URL when protocol missing()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - lowercases protocol before generating URL()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand uses startTime and stopTime when provided()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand generates URL when location is missing()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - explicit location takes precedence over generated URL()] (92 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - skips storage when instance unsatisfied()] (101 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - passes retries and retryInterval to gateway()] (120 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should auto-generate diagnostics location when empty payload()] (41 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should auto-generate diagnostics location when empty payload()] (208 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getDiagnostics command round trip()] (150 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects empty payload when no urlGenerator()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand validate rejects empty location()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - returns 400 when generator instance get throws()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects missing location()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - returns 400 when generator instance ambiguous()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - returns 400 when generator instance unsatisfied()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts empty payload when urlGenerator is provided()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:execute - throws IllegalStateException when location missing and no generator()] (4 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand rejects when generator throws()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.GetDiagnosticsCommandMutationTest]/[method:validate - error message includes generator exception message()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand accepts valid payload()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.command.OcppCommandTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.command.OcppCommandTest]/[method:GetDiagnosticsCommand has correct name()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (43 ms)</li><li>org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest]/[method:should not send empty frame after charge point replies to outbound command()] (1069 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1060 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandTimeoutTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandTimeoutTest]/[method:should return 504 when connected chargePoint never responds to command()] (10112 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>LastSeenThrottle.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.websocket</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>class LastSeenThrottle(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private val intervalMillis: Long = 30_000,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_5'/>
+5
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_5'>2</a>
+<span>
+1. _init_$lambda$0 : removed call to java/lang/System::currentTimeMillis &rarr; TIMED_OUT<br/>
+2. _init_$lambda$0 : replaced long return with 0 for org/tekeli/borisp/ocpp16/websocket/LastSeenThrottle::_init_$lambda$0 &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>    private val clock: () -&#62; Long = { System.currentTimeMillis() }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>) {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private var lastTouchMillis: Long? = null</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Synchronized</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun shouldTouch(): Boolean {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_11'/>
+11
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_11'>2</a>
+<span>
+1. shouldTouch : removed call to kotlin/jvm/functions/Function0::invoke &rarr; KILLED<br/>
+2. shouldTouch : removed call to java/lang/Number::longValue &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val now = clock()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val last = lastTouchMillis</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_13'/>
+13
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_13'>9</a>
+<span>
+1. shouldTouch : negated conditional &rarr; KILLED<br/>
+2. shouldTouch : removed conditional - replaced comparison check with false &rarr; KILLED<br/>
+3. shouldTouch : changed conditional boundary &rarr; KILLED<br/>
+4. shouldTouch : removed call to java/lang/Long::longValue &rarr; KILLED<br/>
+5. shouldTouch : negated conditional &rarr; KILLED<br/>
+6. shouldTouch : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+7. shouldTouch : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+8. shouldTouch : removed conditional - replaced comparison check with true &rarr; KILLED<br/>
+9. shouldTouch : Replaced long subtraction with addition &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (last == null || now - last &#62;= intervalMillis) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_14'/>
+14
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_14'>1</a>
+<span>
+1. shouldTouch : removed call to java/lang/Long::valueOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            lastTouchMillis = now</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_15'/>
+15
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_15'>1</a>
+<span>
+1. shouldTouch : replaced boolean return with false for org/tekeli/borisp/ocpp16/websocket/LastSeenThrottle::shouldTouch &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return true</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_17'/>
+17
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_17'>1</a>
+<span>
+1. shouldTouch : replaced boolean return with true for org/tekeli/borisp/ocpp16/websocket/LastSeenThrottle::shouldTouch &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return false</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@200bae2b_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@200bae2b_5'>5</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_5'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>_init_$lambda$0<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForInvalidJsonFormat()]</span></span> replaced long return with 0 for org/tekeli/borisp/ocpp16/websocket/LastSeenThrottle::_init_$lambda$0 &rarr; KILLED</span>
+</div> <p class='TIMED_OUT'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>_init_$lambda$0<br/><b>Killed by : </b>none</span></span> removed call to java/lang/System::currentTimeMillis &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@200bae2b_11'>11</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_11'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:first call returns true()]</span></span> removed call to kotlin/jvm/functions/Function0::invoke &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call after interval elapsed returns true again()]</span></span> removed call to java/lang/Number::longValue &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@200bae2b_13'>13</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_13'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:first call returns true()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call after interval elapsed returns true again()]</span></span> removed conditional - replaced comparison check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call after interval elapsed returns true again()]</span></span> changed conditional boundary &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call just before interval returns false()]</span></span> removed call to java/lang/Long::longValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call after interval elapsed returns true again()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call just before interval returns false()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:first call returns true()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>8.<span><b>8</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call just before interval returns false()]</span></span> removed conditional - replaced comparison check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>9.<span><b>9</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call just before interval returns false()]</span></span> Replaced long subtraction with addition &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@200bae2b_14'>14</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_14'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call just before interval returns false()]</span></span> removed call to java/lang/Long::valueOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@200bae2b_15'>15</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_15'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:first call returns true()]</span></span> replaced boolean return with false for org/tekeli/borisp/ocpp16/websocket/LastSeenThrottle::shouldTouch &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@200bae2b_17'>17</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@200bae2b_17'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>shouldTouch<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call just before interval returns false()]</span></span> replaced boolean return with true for org/tekeli/borisp/ocpp16/websocket/LastSeenThrottle::shouldTouch &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:first call returns true()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call after interval elapsed returns true again()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:call just before interval returns false()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:default interval is 30 seconds()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:immediate second call returns false()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.LastSeenThrottleTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.LastSeenThrottleTest]/[method:touch after interval resets the window()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest]/[method:onTextMessage logs failure when persistence is not initialized()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest]/[method:onTextMessage updates last seen on successful persistence()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest]/[method:onTextMessage touches last seen at most once for back-to-back messages()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest]/[method:onTextMessage notifies ping pong manager when session has one()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onTextMessage handles touchLastSeenAt failure gracefully()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerHandlersTest]/[method:onTextMessage with valid session returns handler response()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMutationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMutationTest]/[method:onTextMessage logs exception message when touchLastSeenAt fails()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForInvalidJsonFormat()] (10 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForInvalidMessageTypeNegative()] (9 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForInvalidMessageTypeZero()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignCertificate with empty CSR()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid Authorize request()] (9 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for Authorize with missing idTag()] (9 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for DataTransfer with null payload()] (10 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForUnknownAction()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithNullPayload()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StopTransaction with null payload()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid DiagnosticsStatusNotification()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid FirmwareStatusNotification()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StatusNotification with invalid errorCode()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StartTransaction with null payload()] (14 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithMissingRequiredFields()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid DataTransfer()] (18 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithEmptyVendor()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for Authorize with null payload()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithEmptyModel()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallResultForValidHeartbeat()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StartTransaction with missing idTag()] (21 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for MeterValues missing connectorId()] (23 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for MeterValues with null payload()] (23 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for CertificateSigned with null payload()] (23 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid LogStatusNotification()] (25 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignCertificate with null payload()] (25 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignedFirmwareStatusNotification with null payload()] (26 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SignCertificate()] (27 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SecurityEventNotification missing type()] (27 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SignedFirmwareStatusNotification()] (29 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SecurityEventNotification with null payload()] (29 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid CertificateSigned()] (30 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for StopTransaction with missing reason (optional per spec)()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid MeterValues()] (36 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid StopTransaction()] (22 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid StatusNotification()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SecurityEventNotification()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallResultForValidBootNotification()] (34 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StartTransaction with invalid connectorId()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted with transactionId for valid StartTransaction()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute setChargingProfile command round trip()] (42 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute extendedTriggerMessage command round trip()] (36 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute cancelReservation command round trip()] (50 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getConfiguration command round trip()] (40 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reserveNow command round trip()] (49 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute installCertificate command round trip()] (51 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should auto-generate diagnostics location when empty payload()] (41 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLocalListVersion command round trip()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute signedUpdateFirmware command round trip()] (44 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStartTransaction command round trip()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute triggerMessage command round trip()] (58 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getCompositeSchedule command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should full flow boot heartbeat start stop transaction()] (82 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeAvailability command round trip()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute unlockConnector command round trip()] (77 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getInstalledCertificateIds command round trip()] (77 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute deleteCertificate command round trip()] (82 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reset command round trip()] (91 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStopTransaction command round trip()] (98 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearCache command round trip()] (105 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should return rejected status when chargePoint rejects command()] (103 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute updateFirmware command round trip()] (124 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeConfiguration command round trip()] (135 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getDiagnostics command round trip()] (150 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute sendLocalList command round trip()] (161 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StatusNotification with null payload()] (80 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearChargingProfile command round trip()] (210 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StopTransaction for non-existent transaction()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for LogStatusNotification with null payload()] (562 ms)</li><li>org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest]/[method:should not send any frame for unexpected CALLRESULT()] (1004 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldIgnoreUnexpectedCallResultFromChargePoint()] (1005 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldIgnoreUnexpectedCallErrorFromChargePoint()] (1004 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should persist chargePoint on BootNotification()] (1020 ms)</li><li>org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest]/[method:should not send any frame for unexpected CALLERROR()] (1005 ms)</li><li>org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest]/[method:should not send empty frame after charge point replies to outbound command()] (1069 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1060 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandTimeoutTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandTimeoutTest]/[method:should return 504 when connected chargePoint never responds to command()] (10112 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

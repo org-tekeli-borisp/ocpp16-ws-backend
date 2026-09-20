@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FtpServerService.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.diagnostics</a> &gt; <span class="el_source">FtpServerService.kt</span></div><h1>FtpServerService.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.diagnostics
+
+import io.quarkus.logging.Log
+import org.apache.ftpserver.DataConnectionConfigurationFactory
+import org.apache.ftpserver.FtpServer
+import org.apache.ftpserver.FtpServerFactory
+import org.apache.ftpserver.ConnectionConfigFactory
+import org.apache.ftpserver.listener.ListenerFactory
+import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory
+import org.apache.ftpserver.usermanager.ClearTextPasswordEncryptor
+import org.apache.ftpserver.usermanager.impl.BaseUser
+import org.apache.ftpserver.usermanager.impl.WritePermission
+import java.nio.file.Files
+
+<span class="fc" id="L15">class FtpServerService(</span>
+<span class="fc" id="L16">    private val config: FtpServerConfig,</span>
+<span class="fc" id="L17">    private val storage: FileSystemStorage</span>
+) {
+
+    private var server: FtpServer? = null
+
+    fun start() {
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (!config.enabled()) {</span>
+<span class="fc" id="L24">            Log.info(&quot;FTP server is disabled&quot;)</span>
+<span class="fc" id="L25">            return</span>
+        }
+
+        // Create listener
+<span class="fc" id="L29">        val listenerFactory = ListenerFactory()</span>
+<span class="fc" id="L30">        listenerFactory.port = config.port()</span>
+<span class="fc" id="L31">        listenerFactory.serverAddress = config.host()</span>
+
+<span class="fc" id="L33">        val dataConnFactory = DataConnectionConfigurationFactory()</span>
+<span class="fc" id="L34">        dataConnFactory.passivePorts = config.passivePorts()</span>
+<span class="fc bfc" id="L35" title="All 4 branches covered.">        if (config.externalAddress().isNotEmpty()) {</span>
+<span class="fc" id="L36">            dataConnFactory.setPassiveExternalAddress(config.externalAddress())</span>
+        }
+<span class="fc" id="L38">        listenerFactory.dataConnectionConfiguration = dataConnFactory.createDataConnectionConfiguration()</span>
+
+        // Create user manager programmatically
+<span class="fc" id="L41">        val tempDir = Files.createTempDirectory(&quot;ftpserver-&quot;)</span>
+<span class="fc" id="L42">        tempDir.toFile().deleteOnExit()</span>
+
+<span class="fc" id="L44">        val usersFile = tempDir.resolve(&quot;users.properties&quot;).toFile()</span>
+<span class="fc" id="L45">        usersFile.createNewFile()</span>
+<span class="fc" id="L46">        tempDir.resolve(&quot;pass.properties&quot;).toFile().createNewFile()</span>
+
+<span class="fc" id="L48">        val userManagerFactory = PropertiesUserManagerFactory()</span>
+<span class="fc" id="L49">        userManagerFactory.file = usersFile</span>
+<span class="fc" id="L50">        userManagerFactory.passwordEncryptor = ClearTextPasswordEncryptor()</span>
+<span class="fc" id="L51">        val userManager = userManagerFactory.createUserManager()</span>
+
+<span class="fc" id="L53">        val user = BaseUser().apply {</span>
+<span class="fc" id="L54">            name = config.username()</span>
+<span class="fc" id="L55">            password = config.password()</span>
+<span class="fc" id="L56">            homeDirectory = storage.baseDir()</span>
+<span class="fc" id="L57">            enabled = true</span>
+<span class="fc" id="L58">            maxIdleTime = 0</span>
+<span class="fc" id="L59">            authorities = listOf(WritePermission())</span>
+<span class="fc" id="L60">        }</span>
+<span class="fc" id="L61">        userManager.save(user)</span>
+
+        // Create connection config
+<span class="fc" id="L64">        val connectionConfigFactory = ConnectionConfigFactory()</span>
+<span class="fc" id="L65">        connectionConfigFactory.setAnonymousLoginEnabled(false)</span>
+
+        // Create server
+<span class="fc" id="L68">        val serverFactory = FtpServerFactory()</span>
+<span class="fc" id="L69">        serverFactory.addListener(&quot;default&quot;, listenerFactory.createListener())</span>
+<span class="fc" id="L70">        serverFactory.userManager = userManager</span>
+<span class="fc" id="L71">        serverFactory.connectionConfig = connectionConfigFactory.createConnectionConfig()</span>
+
+<span class="fc" id="L73">        server = serverFactory.createServer()</span>
+<span class="fc" id="L74">        server!!.start()</span>
+<span class="fc" id="L75">        Log.info(&quot;FTP server started on ${config.host()}:${config.port()}&quot;)</span>
+<span class="fc" id="L76">    }</span>
+
+    fun stop() {
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        server?.run {</span>
+<span class="fc" id="L80">            try { stop() } catch (e: Exception) { Log.warn(&quot;FTP server stop error: ${e.message}&quot;) }</span>
+<span class="fc" id="L81">        }</span>
+<span class="fc" id="L82">        server = null</span>
+<span class="fc" id="L83">        Log.info(&quot;FTP server stopped&quot;)</span>
+<span class="fc" id="L84">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

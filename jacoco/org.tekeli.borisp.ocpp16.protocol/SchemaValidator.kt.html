@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SchemaValidator.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.protocol</a> &gt; <span class="el_source">SchemaValidator.kt</span></div><h1>SchemaValidator.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.protocol
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.networknt.schema.InputFormat
+import com.networknt.schema.Schema
+import com.networknt.schema.SchemaContext
+import com.networknt.schema.SchemaLocation
+import com.networknt.schema.SchemaRegistry
+import com.networknt.schema.Specification
+import com.networknt.schema.SpecificationVersion
+import jakarta.annotation.PostConstruct
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
+import java.io.InputStream
+
+<span class="fc" id="L16">@ApplicationScoped</span>
+class SchemaValidator {
+
+    @Inject
+<span class="fc" id="L20">    lateinit var objectMapper: ObjectMapper</span>
+
+<span class="fc" id="L22">    private var schemas: Map&lt;String, Schema&gt; = emptyMap()</span>
+
+    @PostConstruct
+    fun initSchemas() {
+<span class="fc" id="L26">        schemas = loadSchemas()</span>
+<span class="fc" id="L27">    }</span>
+
+    fun validate(actionName: String, payloadJson: String): List&lt;String&gt; {
+<span class="fc" id="L30">        val errors = mutableListOf&lt;String&gt;()</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        schemas[actionName]?.let { schema -&gt;</span>
+<span class="fc" id="L32">            schema.validate(payloadJson, InputFormat.JSON).mapTo(errors) { it.toString() }</span>
+        }
+<span class="fc" id="L34">        return errors</span>
+    }
+
+    private fun loadSchemas(): Map&lt;String, Schema&gt; {
+<span class="fc" id="L38">        val v4 = schemaContext(SpecificationVersion.DRAFT_4)</span>
+<span class="fc" id="L39">        val v6 = schemaContext(SpecificationVersion.DRAFT_6)</span>
+<span class="fc" id="L40">        val schemas = mutableMapOf&lt;String, Schema&gt;()</span>
+
+<span class="fc" id="L42">        loadStandardSchemas(v4, schemas)</span>
+<span class="fc" id="L43">        loadSecuritySchemas(v6, schemas)</span>
+
+<span class="fc" id="L45">        return schemas</span>
+    }
+
+    private fun schemaContext(version: SpecificationVersion): SchemaContext {
+<span class="fc" id="L49">        val dialect = Specification.getDialect(version)</span>
+<span class="fc" id="L50">        return SchemaContext(dialect, SchemaRegistry.withDefaultDialect(dialect))</span>
+    }
+
+    private fun loadStandardSchemas(context: SchemaContext, schemas: MutableMap&lt;String, Schema&gt;) {
+<span class="fc" id="L54">        val actions = listOf(</span>
+<span class="fc" id="L55">            &quot;Authorize&quot;, &quot;BootNotification&quot;, &quot;Heartbeat&quot;, &quot;StatusNotification&quot;,</span>
+<span class="fc" id="L56">            &quot;StartTransaction&quot;, &quot;StopTransaction&quot;, &quot;MeterValues&quot;,</span>
+<span class="fc" id="L57">            &quot;DiagnosticsStatusNotification&quot;, &quot;FirmwareStatusNotification&quot;,</span>
+<span class="fc" id="L58">            &quot;DataTransfer&quot;, &quot;Reset&quot;, &quot;ChangeAvailability&quot;, &quot;ChangeConfiguration&quot;,</span>
+<span class="fc" id="L59">            &quot;ClearCache&quot;, &quot;RemoteStartTransaction&quot;, &quot;RemoteStopTransaction&quot;,</span>
+<span class="fc" id="L60">            &quot;CancelReservation&quot;, &quot;UnlockConnector&quot;, &quot;SetChargingProfile&quot;,</span>
+<span class="fc" id="L61">            &quot;ClearChargingProfile&quot;, &quot;UpdateFirmware&quot;, &quot;SendLocalList&quot;,</span>
+<span class="fc" id="L62">            &quot;ReserveNow&quot;, &quot;TriggerMessage&quot;, &quot;GetDiagnostics&quot;,</span>
+<span class="fc" id="L63">            &quot;GetConfiguration&quot;, &quot;GetLocalListVersion&quot;, &quot;GetCompositeSchedule&quot;</span>
+        )
+<span class="fc" id="L65">        actions.forEach { action -&gt;</span>
+<span class="fc" id="L66">            loadSchema(context, &quot;schemas/json/$action.json&quot;, action, schemas)</span>
+<span class="fc" id="L67">        }</span>
+<span class="fc" id="L68">    }</span>
+
+    private fun loadSecuritySchemas(context: SchemaContext, schemas: MutableMap&lt;String, Schema&gt;) {
+<span class="fc" id="L71">        val actions = listOf(</span>
+<span class="fc" id="L72">            &quot;SecurityEventNotification&quot;, &quot;SignedFirmwareStatusNotification&quot;,</span>
+<span class="fc" id="L73">            &quot;LogStatusNotification&quot;, &quot;SignCertificate&quot;, &quot;CertificateSigned&quot;,</span>
+<span class="fc" id="L74">            &quot;ExtendedTriggerMessage&quot;, &quot;InstallCertificate&quot;,</span>
+<span class="fc" id="L75">            &quot;GetInstalledCertificateIds&quot;, &quot;DeleteCertificate&quot;, &quot;GetLog&quot;,</span>
+<span class="fc" id="L76">            &quot;SignedUpdateFirmware&quot;</span>
+        )
+<span class="fc" id="L78">        actions.forEach { action -&gt;</span>
+<span class="fc" id="L79">            loadSchema(context, &quot;schemas/security/$action.json&quot;, action, schemas)</span>
+<span class="fc" id="L80">        }</span>
+<span class="fc" id="L81">    }</span>
+
+    internal fun loadSchema(
+        context: SchemaContext,
+        resourcePath: String,
+        actionName: String,
+        schemas: MutableMap&lt;String, Schema&gt;
+    ) {
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        val inputStream: InputStream? = javaClass.classLoader.getResourceAsStream(resourcePath)</span>
+<span class="fc" id="L90">            ?: throw RuntimeException(&quot;Schema resource not found for action $actionName: $resourcePath&quot;)</span>
+<span class="fc" id="L91">        try {</span>
+<span class="fc" id="L92">            val schemaNode = objectMapper.readTree(inputStream)</span>
+<span class="fc" id="L93">            schemas[actionName] = context.newSchema(SchemaLocation.DOCUMENT, schemaNode, null)</span>
+<span class="fc" id="L94">        } catch (e: Exception) {</span>
+<span class="fc" id="L95">            throw RuntimeException(&quot;Failed to load schema $actionName from $resourcePath&quot;, e)</span>
+        }
+<span class="fc" id="L97">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

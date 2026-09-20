@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MessageResource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.rest</a> &gt; <span class="el_source">MessageResource.kt</span></div><h1>MessageResource.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.rest
+
+import jakarta.inject.Inject
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.NotFoundException
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.PathParam
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.core.MediaType
+import org.tekeli.borisp.ocpp16.persistence.OcppMessageLog
+import org.tekeli.borisp.ocpp16.protocol.MessageCaptureService
+import org.tekeli.borisp.ocpp16.protocol.OcppMessageDto
+
+<span class="fc" id="L15">@Path(&quot;/api/chargepoints/{chargePointId}/messages&quot;)</span>
+@Produces(MediaType.APPLICATION_JSON)
+class MessageResource {
+
+    @Inject
+<span class="fc" id="L20">    lateinit var messageCaptureService: MessageCaptureService</span>
+
+    @Inject
+<span class="fc" id="L23">    lateinit var persistenceService: org.tekeli.borisp.ocpp16.persistence.PersistenceService</span>
+
+    @GET
+<span class="fc" id="L26">    fun getMessages(</span>
+        @PathParam(&quot;chargePointId&quot;) chargePointId: String,
+<span class="fc" id="L28">        @QueryParam(&quot;direction&quot;) direction: String? = null,</span>
+<span class="fc" id="L29">        @QueryParam(&quot;action&quot;) action: String? = null,</span>
+<span class="fc" id="L30">        @QueryParam(&quot;limit&quot;) limit: Int = 200,</span>
+<span class="fc" id="L31">        @QueryParam(&quot;since&quot;) since: String? = null</span>
+    ): List&lt;OcppMessageDto&gt; {
+<span class="fc" id="L33">        validateChargePoint(chargePointId)</span>
+
+<span class="fc" id="L35">        val buffered = messageCaptureService.getMessages(chargePointId)</span>
+<span class="fc" id="L36">        val filtered = buffered.filter { it.matches(direction, action, since) }</span>
+<span class="fc" id="L37">        return filtered.applyLimit(limit)</span>
+    }
+
+    @GET
+    @Path(&quot;/history&quot;)
+<span class="fc" id="L42">    fun getHistory(</span>
+        @PathParam(&quot;chargePointId&quot;) chargePointId: String,
+<span class="fc" id="L44">        @QueryParam(&quot;direction&quot;) direction: String? = null,</span>
+<span class="fc" id="L45">        @QueryParam(&quot;action&quot;) action: String? = null,</span>
+<span class="fc" id="L46">        @QueryParam(&quot;limit&quot;) limit: Int = 200,</span>
+<span class="fc" id="L47">        @QueryParam(&quot;offset&quot;) offset: Int = 0</span>
+    ): Map&lt;String, Any&gt; {
+<span class="fc" id="L49">        validateChargePoint(chargePointId)</span>
+
+<span class="fc" id="L51">        val allLogs = persistenceService.findMessageLogs(chargePointId, direction, action, (offset + limit) * 2)</span>
+<span class="fc" id="L52">        val page = allLogs.drop(offset).take(limit)</span>
+<span class="fc" id="L53">        val dtos = buildList {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            for (entry in page) {</span>
+<span class="fc" id="L55">                add(toDto(entry))</span>
+            }
+<span class="fc" id="L57">        }</span>
+
+<span class="fc" id="L59">        return mapOf(</span>
+<span class="fc" id="L60">            &quot;total&quot; to allLogs.size,</span>
+<span class="fc" id="L61">            &quot;offset&quot; to offset,</span>
+<span class="fc" id="L62">            &quot;limit&quot; to limit,</span>
+<span class="fc" id="L63">            &quot;messages&quot; to dtos</span>
+        )
+    }
+
+    private fun validateChargePoint(chargePointId: String) {
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (persistenceService.findChargePointById(chargePointId) == null) {</span>
+<span class="fc" id="L69">            throw NotFoundException(&quot;ChargePoint not found: $chargePointId&quot;)</span>
+        }
+<span class="fc" id="L71">    }</span>
+
+<span class="fc" id="L73">    private fun toDto(log: OcppMessageLog): OcppMessageDto = OcppMessageDto(</span>
+<span class="fc" id="L74">        chargePointId = log.chargePointId,</span>
+<span class="fc" id="L75">        direction = log.direction,</span>
+<span class="fc" id="L76">        messageType = log.messageType,</span>
+<span class="fc bfc" id="L77" title="All 4 branches covered.">        action = log.action.takeIf { it.isNotBlank() },</span>
+<span class="fc" id="L78">        messageId = log.messageId,</span>
+<span class="fc" id="L79">        payload = log.payload,</span>
+<span class="fc" id="L80">        timestamp = log.timestamp.toString()</span>
+<span class="fc" id="L81">    )</span>
+
+    private fun OcppMessageDto.matches(direction: String?, action: String?, since: String?): Boolean =
+<span class="fc bfc" id="L84" title="All 6 branches covered.">        matchesDirection(direction) &amp;&amp; matchesAction(action) &amp;&amp; matchesSince(since)</span>
+
+<span class="fc bfc" id="L86" title="All 8 branches covered.">    private fun OcppMessageDto.matchesDirection(d: String?) = d.isNullOrBlank() || this.direction == d</span>
+<span class="fc bfc" id="L87" title="All 8 branches covered.">    private fun OcppMessageDto.matchesAction(a: String?) = a.isNullOrBlank() || this.action == a</span>
+<span class="fc bfc" id="L88" title="All 4 branches covered.">    private fun OcppMessageDto.matchesSince(s: String?) = s == null || this.timestamp &gt;= s</span>
+
+    private fun List&lt;OcppMessageDto&gt;.applyLimit(limit: Int) =
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (limit &gt; 0) takeLast(limit) else this</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

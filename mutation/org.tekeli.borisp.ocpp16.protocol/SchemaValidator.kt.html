@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>SchemaValidator.kt</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package org.tekeli.borisp.ocpp16.protocol</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.fasterxml.jackson.databind.ObjectMapper</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.networknt.schema.InputFormat</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.networknt.schema.Schema</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.networknt.schema.SchemaContext</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.networknt.schema.SchemaLocation</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.networknt.schema.SchemaRegistry</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.networknt.schema.Specification</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.networknt.schema.SpecificationVersion</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.annotation.PostConstruct</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.enterprise.context.ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.inject.Inject</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.io.InputStream</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@ApplicationScoped</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>class SchemaValidator {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Inject</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_20'/>
+20
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_20'>3</a>
+<span>
+1. getObjectMapper : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. getObjectMapper : negated conditional &rarr; KILLED<br/>
+3. getObjectMapper : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    lateinit var objectMapper: ObjectMapper</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_22'/>
+22
+</td>
+<td class='uncertain'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_22'>1</a>
+<span>
+1. &#60;init&#62; : removed call to kotlin/collections/MapsKt::emptyMap &rarr; TIMED_OUT<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='uncertain'>    private var schemas: Map&#60;String, Schema&#62; = emptyMap()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @PostConstruct</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun initSchemas() {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_26'/>
+26
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_26'>1</a>
+<span>
+1. initSchemas : removed call to org/tekeli/borisp/ocpp16/protocol/SchemaValidator::loadSchemas &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        schemas = loadSchemas()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    fun validate(actionName: String, payloadJson: String): List&#60;String&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val errors = mutableListOf&#60;String&#62;()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_31'/>
+31
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_31'>4</a>
+<span>
+1. validate : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. validate : removed call to java/util/Map::get &rarr; KILLED<br/>
+3. validate : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+4. validate : negated conditional &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        schemas[actionName]?.let { schema -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_32'/>
+32
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_32'>2</a>
+<span>
+1. validate : removed call to com/networknt/schema/Error::toString &rarr; KILLED<br/>
+2. validate : removed call to com/networknt/schema/Schema::validate &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            schema.validate(payloadJson, InputFormat.JSON).mapTo(errors) { it.toString() }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_34'>1</a>
+<span>
+1. validate : replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/protocol/SchemaValidator::validate &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return errors</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun loadSchemas(): Map&#60;String, Schema&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_38'/>
+38
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_38'>1</a>
+<span>
+1. loadSchemas : removed call to org/tekeli/borisp/ocpp16/protocol/SchemaValidator::schemaContext &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val v4 = schemaContext(SpecificationVersion.DRAFT_4)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_39'/>
+39
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_39'>1</a>
+<span>
+1. loadSchemas : removed call to org/tekeli/borisp/ocpp16/protocol/SchemaValidator::schemaContext &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val v6 = schemaContext(SpecificationVersion.DRAFT_6)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        val schemas = mutableMapOf&#60;String, Schema&#62;()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        loadStandardSchemas(v4, schemas)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        loadSecuritySchemas(v6, schemas)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_45'/>
+45
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_45'>1</a>
+<span>
+1. loadSchemas : replaced return value with Collections.emptyMap for org/tekeli/borisp/ocpp16/protocol/SchemaValidator::loadSchemas &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return schemas</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun schemaContext(version: SpecificationVersion): SchemaContext {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_49'/>
+49
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_49'>1</a>
+<span>
+1. schemaContext : removed call to com/networknt/schema/Specification::getDialect &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val dialect = Specification.getDialect(version)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_50'/>
+50
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_50'>1</a>
+<span>
+1. schemaContext : removed call to com/networknt/schema/SchemaRegistry::withDefaultDialect &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return SchemaContext(dialect, SchemaRegistry.withDefaultDialect(dialect))</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun loadStandardSchemas(context: SchemaContext, schemas: MutableMap&#60;String, Schema&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_54'>1</a>
+<span>
+1. loadStandardSchemas : removed call to kotlin/collections/CollectionsKt::listOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val actions = listOf(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;Authorize&#34;, &#34;BootNotification&#34;, &#34;Heartbeat&#34;, &#34;StatusNotification&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;StartTransaction&#34;, &#34;StopTransaction&#34;, &#34;MeterValues&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;DiagnosticsStatusNotification&#34;, &#34;FirmwareStatusNotification&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;DataTransfer&#34;, &#34;Reset&#34;, &#34;ChangeAvailability&#34;, &#34;ChangeConfiguration&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;ClearCache&#34;, &#34;RemoteStartTransaction&#34;, &#34;RemoteStopTransaction&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;CancelReservation&#34;, &#34;UnlockConnector&#34;, &#34;SetChargingProfile&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;ClearChargingProfile&#34;, &#34;UpdateFirmware&#34;, &#34;SendLocalList&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;ReserveNow&#34;, &#34;TriggerMessage&#34;, &#34;GetDiagnostics&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;GetConfiguration&#34;, &#34;GetLocalListVersion&#34;, &#34;GetCompositeSchedule&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        actions.forEach { action -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            loadSchema(context, &#34;schemas/json/$action.json&#34;, action, schemas)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_70'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private fun loadSecuritySchemas(context: SchemaContext, schemas: MutableMap&#60;String, Schema&#62;) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_71'/>
+71
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_71'>1</a>
+<span>
+1. loadSecuritySchemas : removed call to kotlin/collections/CollectionsKt::listOf &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val actions = listOf(</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;SecurityEventNotification&#34;, &#34;SignedFirmwareStatusNotification&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_73'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;LogStatusNotification&#34;, &#34;SignCertificate&#34;, &#34;CertificateSigned&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;ExtendedTriggerMessage&#34;, &#34;InstallCertificate&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;GetInstalledCertificateIds&#34;, &#34;DeleteCertificate&#34;, &#34;GetLog&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            &#34;SignedUpdateFirmware&#34;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_77'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        )</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_78'/>
+78
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_78'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        actions.forEach { action -&#62;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_79'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            loadSchema(context, &#34;schemas/security/$action.json&#34;, action, schemas)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_80'/>
+80
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_80'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_81'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_82'/>
+82
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_82'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    internal fun loadSchema(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_84'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        context: SchemaContext,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        resourcePath: String,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_86'/>
+86
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_86'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        actionName: String,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_87'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        schemas: MutableMap&#60;String, Schema&#62;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    ) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_89'/>
+89
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_89'>6</a>
+<span>
+1. loadSchema$ocpp16_ws_backend : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. loadSchema$ocpp16_ws_backend : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+3. loadSchema$ocpp16_ws_backend : removed call to java/lang/Object::getClass &rarr; KILLED<br/>
+4. loadSchema$ocpp16_ws_backend : negated conditional &rarr; KILLED<br/>
+5. loadSchema$ocpp16_ws_backend : removed call to java/lang/ClassLoader::getResourceAsStream &rarr; KILLED<br/>
+6. loadSchema$ocpp16_ws_backend : removed call to java/lang/Class::getClassLoader &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        val inputStream: InputStream? = javaClass.classLoader.getResourceAsStream(resourcePath)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            ?: throw RuntimeException(&#34;Schema resource not found for action $actionName: $resourcePath&#34;)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_91'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        try {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_92'/>
+92
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_92'>2</a>
+<span>
+1. loadSchema$ocpp16_ws_backend : removed call to org/tekeli/borisp/ocpp16/protocol/SchemaValidator::getObjectMapper &rarr; KILLED<br/>
+2. loadSchema$ocpp16_ws_backend : removed call to com/fasterxml/jackson/databind/ObjectMapper::readTree &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            val schemaNode = objectMapper.readTree(inputStream)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_93'/>
+93
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_93'>2</a>
+<span>
+1. loadSchema$ocpp16_ws_backend : removed call to java/util/Map::put &rarr; KILLED<br/>
+2. loadSchema$ocpp16_ws_backend : removed call to com/networknt/schema/SchemaContext::newSchema &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            schemas[actionName] = context.newSchema(SchemaLocation.DOCUMENT, schemaNode, null)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_94'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        } catch (e: Exception) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_95'/>
+95
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_95'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            throw RuntimeException(&#34;Failed to load schema $actionName from $resourcePath&#34;, e)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_96'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a2575b7_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_98'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_20'>20</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_20'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getObjectMapper<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getObjectMapper<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getObjectMapper<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_22'>22</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_22'/> 
+
+<p class='TIMED_OUT'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> removed call to kotlin/collections/MapsKt::emptyMap &rarr; TIMED_OUT</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_26'>26</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_26'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>initSchemas<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/SchemaValidator::loadSchemas &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_31'>31</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_31'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates security SecurityEventNotification missing required fails()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates security SecurityEventNotification missing required fails()]</span></span> removed call to java/util/Map::get &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> negated conditional &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_32'>32</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_32'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates BootNotification missing field error message contains field name()]</span></span> removed call to com/networknt/schema/Error::toString &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates Reset payload passes()]</span></span> removed call to com/networknt/schema/Schema::validate &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates security SecurityEventNotification missing required fails()]</span></span> replaced return value with Collections.emptyList for org/tekeli/borisp/ocpp16/protocol/SchemaValidator::validate &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_38'>38</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_38'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>loadSchemas<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/SchemaValidator::schemaContext &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_39'>39</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_39'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>loadSchemas<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/SchemaValidator::schemaContext &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_45'>45</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_45'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>loadSchemas<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates Reset invalid enum value fails()]</span></span> replaced return value with Collections.emptyMap for org/tekeli/borisp/ocpp16/protocol/SchemaValidator::loadSchemas &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_49'>49</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_49'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>schemaContext<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to com/networknt/schema/Specification::getDialect &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_50'>50</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_50'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>schemaContext<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to com/networknt/schema/SchemaRegistry::withDefaultDialect &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>loadStandardSchemas<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to kotlin/collections/CollectionsKt::listOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_71'>71</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_71'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>loadSecuritySchemas<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to kotlin/collections/CollectionsKt::listOf &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_89'>89</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_89'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to java/lang/Object::getClass &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to java/lang/ClassLoader::getResourceAsStream &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to java/lang/Class::getClassLoader &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_92'>92</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_92'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to org/tekeli/borisp/ocpp16/protocol/SchemaValidator::getObjectMapper &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()]</span></span> removed call to com/fasterxml/jackson/databind/ObjectMapper::readTree &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_93'>93</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_93'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates Reset invalid enum value fails()]</span></span> removed call to java/util/Map::put &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>loadSchema$ocpp16_ws_backend<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates Reset invalid enum value fails()]</span></span> removed call to com/networknt/schema/SchemaContext::newSchema &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a2575b7_101'>101</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a2575b7_101'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>validate<br/><b>Killed by : </b>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates Reset invalid enum value fails()]</span></span> removed call to java/util/Collection::add &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates unknown action returns no errors()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates Reset invalid enum value fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates Reset payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates security SecurityEventNotification payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates StartTransaction payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates InstallCertificate missing certificate fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates StopTransaction payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates BootNotification additionalProperties fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates InstallCertificate payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates StopTransaction missing transactionId fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates security SecurityEventNotification missing required fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates SignedUpdateFirmware payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates SignedUpdateFirmware missing firmware fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates StatusNotification missing required fields fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates BootNotification payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates BootNotification wrong type fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates Heartbeat empty payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates ChangeConfiguration payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates BootNotification missing required field fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates StatusNotification payload passes()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates ChangeConfiguration missing key fails()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates BootNotification maxLength violation fails()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:loadSchema with missing resource throws RuntimeException containing resource path()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates BootNotification missing field error message contains field name()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:production SchemaValidator loads all configured schemas without throwing()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorTest]/[method:validates SecurityEventNotification additionalProperties fails()] (9 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest]/[method:validate unknown action returns empty list without throwing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest]/[method:validate unknown action returns exactly empty list()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest]/[method:loadSchema with missing resource throws RuntimeException and adds nothing()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest]/[method:loadSchema with malformed json throws RuntimeException with action and path()] (0 ms)</li><li>org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.protocol.SchemaValidatorSurvivingMutantsTest]/[method:validate known action with invalid payload returns non-empty errors()] (7 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher with schema validator rejects unknown action silently()] (3 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSurvivingMutantsTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSurvivingMutantsTest]/[method:dispatch schema validation error joins multiple errors with separator()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher with schema validator rejects maxLength violation()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher with schema validator rejects additional properties()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher with schema validator rejects missing required field()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher with schema validator still delegates handler errors()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherSchemaValidationTest]/[method:dispatcher with schema validator accepts valid payload()] (2 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-start-transaction when chargePoint not connected()] (43 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StatusNotification with null payload()] (80 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StopTransaction for non-existent transaction()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for LogStatusNotification with null payload()] (562 ms)</li><li>org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest]/[method:should not send empty frame after charge point replies to outbound command()] (1069 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLog command round trip()] (1060 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandTimeoutTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandTimeoutTest]/[method:should return 504 when connected chargePoint never responds to command()] (10112 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should reject command with missing required fields()] (14 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should reject reset with invalid type()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for Authorize with missing idTag()] (9 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for DataTransfer with null payload()] (10 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithNullPayload()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StopTransaction with null payload()] (11 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StatusNotification with invalid errorCode()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StartTransaction with null payload()] (14 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithMissingRequiredFields()] (16 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for Authorize with null payload()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return FormationViolation for StartTransaction with missing idTag()] (21 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for MeterValues missing connectorId()] (23 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for MeterValues with null payload()] (23 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for CertificateSigned with null payload()] (23 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignCertificate with null payload()] (25 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignedFirmwareStatusNotification with null payload()] (26 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SecurityEventNotification missing type()] (27 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SecurityEventNotification with null payload()] (29 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for unlock-connector when chargePoint not connected()] (19 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for remote-stop-transaction when chargePoint not connected()] (24 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should return 503 for reset when chargePoint not connected()] (30 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return FormationViolation for SignCertificate with empty CSR()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid Authorize request()] (9 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid DiagnosticsStatusNotification()] (13 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid FirmwareStatusNotification()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithEmptyVendor()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid DataTransfer()] (18 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallErrorForBootNotificationWithEmptyModel()] (15 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallResultForValidHeartbeat()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid LogStatusNotification()] (25 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SignCertificate()] (27 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SignedFirmwareStatusNotification()] (29 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid CertificateSigned()] (30 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for StopTransaction with missing reason (optional per spec)()] (17 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid MeterValues()] (36 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted for valid StopTransaction()] (22 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return empty CallResult for valid StatusNotification()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerMissingHandlersTest]/[method:should return empty CallResult for valid SecurityEventNotification()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:shouldReturnCallResultForValidBootNotification()] (34 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should reject StartTransaction with invalid connectorId()] (33 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerTest]/[method:should return Accepted with transactionId for valid StartTransaction()] (57 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute setChargingProfile command round trip()] (42 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute extendedTriggerMessage command round trip()] (36 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute cancelReservation command round trip()] (50 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getConfiguration command round trip()] (40 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reserveNow command round trip()] (49 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute installCertificate command round trip()] (51 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should auto-generate diagnostics location when empty payload()] (41 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getLocalListVersion command round trip()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute signedUpdateFirmware command round trip()] (44 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStartTransaction command round trip()] (55 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute triggerMessage command round trip()] (58 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getCompositeSchedule command round trip()] (64 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should full flow boot heartbeat start stop transaction()] (82 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeAvailability command round trip()] (70 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute unlockConnector command round trip()] (77 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getInstalledCertificateIds command round trip()] (77 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute deleteCertificate command round trip()] (82 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute reset command round trip()] (91 ms)</li><li>org.tekeli.borisp.ocpp16.rest.CommandResourceTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.rest.CommandResourceTest]/[method:should auto-generate diagnostics location when empty payload()] (208 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute remoteStopTransaction command round trip()] (98 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearCache command round trip()] (105 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should return rejected status when chargePoint rejects command()] (103 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute updateFirmware command round trip()] (124 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute changeConfiguration command round trip()] (135 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute getDiagnostics command round trip()] (150 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute sendLocalList command round trip()] (161 ms)</li><li>org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.CommandRoundTripTest]/[method:should successfully execute clearChargingProfile command round trip()] (210 ms)</li><li>org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.FullFlowIntegrationTest]/[method:should persist chargePoint on BootNotification()] (1020 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.MessageDispatcherCoverageTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.MessageDispatcherCoverageTest]/[method:handleCall with schema validator returning empty errors delegates to handler()] (1 ms)</li><li>org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.websocket.OcppWebSocketServerScopeTest]/[method:two lookups return distinct instances()] (4 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerSubProtocolTest]/[method:should negotiate correct subprotocol()] (6 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerOnOpenTest]/[method:property accessors round trip values()] (49 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerConfigTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerConfigTest]/[method:pong timeout default is 720 seconds()] (193 ms)</li><li>org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.integration.UnexpectedResponseNoFrameTest]/[method:should not send any frame for unexpected CALLERROR()] (1005 ms)</li><li>org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest.[engine:junit-jupiter]/[class:org.tekeli.borisp.ocpp16.OcppWebSocketServerPingPongTest]/[method:should close connection when client does not respond to ping()] (5008 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.25.9 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

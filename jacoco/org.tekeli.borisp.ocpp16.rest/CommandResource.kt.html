@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommandResource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.rest</a> &gt; <span class="el_source">CommandResource.kt</span></div><h1>CommandResource.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.rest
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import io.quarkus.logging.Log
+import jakarta.enterprise.inject.Instance
+import jakarta.inject.Inject
+import jakarta.ws.rs.*
+import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.command.OcppCommand
+import org.tekeli.borisp.ocpp16.command.PayloadValidators
+import org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsConfig
+import org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsUrlGenerator
+import org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfig
+import org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfig
+import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
+import java.util.Locale
+
+<span class="fc" id="L20">@Path(&quot;/api/chargepoints/{chargePointId}/commands&quot;)</span>
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+class CommandResource {
+
+    @Inject
+<span class="fc" id="L26">    lateinit var persistenceService: PersistenceService</span>
+
+    @Inject
+<span class="fc" id="L29">    lateinit var objectMapper: ObjectMapper</span>
+
+    @Inject
+<span class="fc" id="L32">    lateinit var commands: jakarta.enterprise.inject.Instance&lt;OcppCommand&gt;</span>
+
+    @Inject
+<span class="fc" id="L35">    lateinit var schemaValidator: SchemaValidator</span>
+
+    @Inject
+<span class="fc" id="L38">    lateinit var diagnosticsConfig: DiagnosticsConfig</span>
+
+    @Inject
+<span class="fc" id="L41">    lateinit var sftpServerConfig: SftpServerConfig</span>
+
+    @Inject
+<span class="fc" id="L44">    lateinit var ftpServerConfig: FtpServerConfig</span>
+
+    @Inject
+<span class="fc" id="L47">    lateinit var diagnosticsInitializer: org.tekeli.borisp.ocpp16.diagnostics.DiagnosticsInitializer</span>
+
+<span class="fc" id="L49">    private val commandMap: Map&lt;String, OcppCommand&gt; by lazy {</span>
+<span class="fc" id="L50">        commands.iterator().asSequence().associateBy { it.name }</span>
+    }
+
+<span class="fc" id="L53">    private val urlGenerator: DiagnosticsUrlGenerator by lazy {</span>
+<span class="fc" id="L54">        DiagnosticsUrlGenerator(sftpServerConfig, ftpServerConfig, diagnosticsConfig)</span>
+    }
+
+    private fun toActionName(commandName: String): String {
+<span class="fc" id="L58">        return commandName.split(&quot;-&quot;).joinToString(&quot;&quot;) {</span>
+<span class="pc bpc" id="L59" title="3 of 6 branches missed.">            it.replaceFirstChar { c -&gt; if (c.isLowerCase()) c.titlecase(Locale.ROOT) else c.toString() }</span>
+        }
+    }
+
+    @GET
+    fun listCommands(): List&lt;String&gt; {
+<span class="nc" id="L65">        return commandMap.keys.sorted()</span>
+    }
+
+    @POST
+    @Path(&quot;/{command}&quot;)
+    fun executeCommand(
+        @PathParam(&quot;chargePointId&quot;) chargePointId: String,
+        @PathParam(&quot;command&quot;) command: String,
+        body: String
+    ): Response {
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        val cp = persistenceService.findChargePointById(chargePointId)</span>
+<span class="nc" id="L76">            ?: return Response.status(Response.Status.NOT_FOUND)</span>
+<span class="nc" id="L77">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;ChargePoint not found: $chargePointId&quot;))</span>
+<span class="nc" id="L78">                .build()</span>
+
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        val cmd = commandMap[command]</span>
+<span class="nc" id="L81">            ?: return Response.status(Response.Status.NOT_FOUND)</span>
+<span class="nc" id="L82">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;Unknown command: $command&quot;))</span>
+<span class="nc" id="L83">                .build()</span>
+
+<span class="fc" id="L85">        val payload = try {</span>
+<span class="fc" id="L86">            PayloadValidators.safeMap(objectMapper.readValue(body, Map::class.java))</span>
+<span class="fc" id="L87">        } catch (e: com.fasterxml.jackson.core.JsonProcessingException) {</span>
+<span class="fc" id="L88">            return Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L89">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;Invalid JSON body: ${e.message}&quot;))</span>
+<span class="fc" id="L90">                .build()</span>
+        }
+<span class="fc" id="L92">        val (validatedPayload, validatedBody) = resolveDiagnosticsUrl(chargePointId, command, payload, body)</span>
+
+<span class="fc" id="L94">        val actionName = toActionName(command)</span>
+<span class="fc" id="L95">        val schemaErrors = schemaValidator.validate(actionName, validatedBody)</span>
+<span class="pc bpc" id="L96" title="2 of 4 branches missed.">        if (schemaErrors.isNotEmpty()) {</span>
+<span class="nc" id="L97">            return Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="nc" id="L98">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;Schema validation failed&quot;, &quot;details&quot; to schemaErrors))</span>
+<span class="nc" id="L99">                .build()</span>
+        }
+
+<span class="fc" id="L102">        val validationError = cmd.validate(validatedPayload)</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (validationError != null) return validationError</span>
+
+<span class="fc" id="L105">        return try {</span>
+<span class="fc" id="L106">            cmd.execute(chargePointId, validatedPayload)</span>
+<span class="nc" id="L107">        } catch (e: java.util.concurrent.TimeoutException) {</span>
+<span class="nc" id="L108">            buildGatewayTimeoutResponse()</span>
+<span class="fc" id="L109">        } catch (e: java.util.concurrent.ExecutionException) {</span>
+<span class="fc" id="L110">            handleExecutionException(e)</span>
+<span class="fc" id="L111">        } catch (e: IllegalStateException) {</span>
+<span class="fc" id="L112">            buildUnavailableResponse(e.message)</span>
+        }
+    }
+
+    private fun handleExecutionException(e: java.util.concurrent.ExecutionException): Response {
+<span class="fc" id="L117">        return when (val cause = e.cause) {</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            is IllegalStateException -&gt; buildUnavailableResponse(cause.message)</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            is java.util.concurrent.TimeoutException -&gt; buildGatewayTimeoutResponse()</span>
+<span class="fc" id="L120">            else -&gt; buildBadGatewayResponse()</span>
+        }
+    }
+
+    private fun buildBadGatewayResponse(): Response {
+<span class="fc" id="L125">        return Response.status(Response.Status.BAD_GATEWAY)</span>
+<span class="fc" id="L126">            .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;Command execution failed: ChargePoint request could not be completed&quot;))</span>
+<span class="fc" id="L127">            .build()</span>
+    }
+
+    private fun buildGatewayTimeoutResponse(): Response {
+<span class="nc" id="L131">        return Response.status(Response.Status.GATEWAY_TIMEOUT)</span>
+<span class="nc" id="L132">            .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;Command timed out: ChargePoint did not respond&quot;))</span>
+<span class="nc" id="L133">            .build()</span>
+    }
+
+    private fun buildUnavailableResponse(message: String?): Response {
+<span class="fc" id="L137">        return Response.status(Response.Status.SERVICE_UNAVAILABLE)</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">            .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to (message ?: &quot;ChargePoint not connected&quot;)))</span>
+<span class="fc" id="L139">            .build()</span>
+    }
+
+    private fun resolveDiagnosticsUrl(
+        chargePointId: String,
+        command: String,
+        payload: Map&lt;String, Any&gt;,
+        body: String
+    ): Pair&lt;Map&lt;String, Any&gt;, String&gt; {
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        if (command != &quot;get-diagnostics&quot;) return payload to body</span>
+<span class="fc" id="L149">        val existingLocation = payload[&quot;location&quot;] as String?</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        val protocol = (payload[&quot;protocol&quot;] as String?)?.lowercase()</span>
+<span class="fc" id="L151">        val updatedPayload = payload.toMutableMap()</span>
+<span class="fc" id="L152">        updatedPayload.remove(&quot;protocol&quot;)</span>
+<span class="fc bfc" id="L153" title="All 6 branches covered.">        if (existingLocation != null &amp;&amp; existingLocation.isNotBlank()) return updatedPayload to objectMapper.writeValueAsString(updatedPayload)</span>
+
+<span class="fc" id="L155">        return try {</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">            val generatedUrl = if (protocol != null) urlGenerator.generate(chargePointId, protocol) else urlGenerator.generate(chargePointId)</span>
+<span class="fc" id="L157">            updatedPayload[&quot;location&quot;] = generatedUrl</span>
+<span class="fc" id="L158">            val updatedBody = objectMapper.writeValueAsString(updatedPayload)</span>
+<span class="fc" id="L159">            updatedPayload to updatedBody</span>
+<span class="fc" id="L160">        } catch (e: Exception) {</span>
+<span class="fc" id="L161">            Log.warn(&quot;Diagnostics URL generation failed for chargePoint=$chargePointId: ${e.message}&quot;)</span>
+<span class="fc" id="L162">            payload to body</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

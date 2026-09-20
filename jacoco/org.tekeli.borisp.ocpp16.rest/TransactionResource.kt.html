@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransactionResource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.rest</a> &gt; <span class="el_source">TransactionResource.kt</span></div><h1>TransactionResource.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.rest
+
+import jakarta.inject.Inject
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.PathParam
+import jakarta.ws.rs.QueryParam
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.core.MediaType
+import org.tekeli.borisp.ocpp16.persistence.Transaction
+
+<span class="fc" id="L12">@Path(&quot;/api/chargepoints/{chargePointId}/transactions&quot;)</span>
+@Produces(MediaType.APPLICATION_JSON)
+class TransactionResource {
+
+    @Inject
+<span class="fc" id="L17">    lateinit var persistenceService: org.tekeli.borisp.ocpp16.persistence.PersistenceService</span>
+
+    @GET
+<span class="fc" id="L20">    fun getTransactions(</span>
+        @PathParam(&quot;chargePointId&quot;) chargePointId: String,
+<span class="fc" id="L22">        @QueryParam(&quot;running&quot;) running: Boolean? = null</span>
+    ): List&lt;TransactionDto&gt; {
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        return if (running == true) {</span>
+<span class="fc" id="L25">            persistenceService.findRunningTransactions(chargePointId)</span>
+        } else {
+<span class="fc" id="L27">            persistenceService.findAllTransactions(chargePointId)</span>
+<span class="fc" id="L28">        }.map { toDto(it) }</span>
+    }
+
+<span class="fc" id="L31">    private fun toDto(txn: Transaction): TransactionDto = TransactionDto(</span>
+<span class="fc" id="L32">        id = txn.id,</span>
+<span class="fc" id="L33">        chargePointId = txn.chargePointId,</span>
+<span class="fc" id="L34">        connectorId = txn.connectorId,</span>
+<span class="fc" id="L35">        idTag = txn.idTag,</span>
+<span class="fc" id="L36">        meterStart = txn.meterStart,</span>
+<span class="fc" id="L37">        startTime = txn.startTime.toString(),</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        stopTime = txn.stopTime?.toString(),</span>
+<span class="fc" id="L39">        meterStop = txn.meterStop,</span>
+<span class="fc" id="L40">        stopReason = txn.stopReason,</span>
+<span class="fc" id="L41">        durationSeconds = txn.durationSeconds,</span>
+<span class="fc" id="L42">        energyWh = txn.energyWh</span>
+<span class="fc" id="L43">    )</span>
+}
+
+<span class="fc" id="L46">data class TransactionDto(</span>
+<span class="fc" id="L47">    val id: Long?,</span>
+<span class="fc" id="L48">    val chargePointId: String,</span>
+<span class="fc" id="L49">    val connectorId: Int,</span>
+<span class="fc" id="L50">    val idTag: String,</span>
+<span class="fc" id="L51">    val meterStart: Int,</span>
+<span class="fc" id="L52">    val startTime: String,</span>
+<span class="fc" id="L53">    val stopTime: String?,</span>
+<span class="fc" id="L54">    val meterStop: Int?,</span>
+<span class="fc" id="L55">    val stopReason: String?,</span>
+<span class="fc" id="L56">    val durationSeconds: Long?,</span>
+<span class="fc" id="L57">    val energyWh: Int?</span>
+)
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

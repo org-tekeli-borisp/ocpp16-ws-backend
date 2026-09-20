@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileSystemStorage.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.diagnostics</a> &gt; <span class="el_source">FileSystemStorage.kt</span></div><h1>FileSystemStorage.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.diagnostics
+
+import io.quarkus.logging.Log
+import java.io.ByteArrayOutputStream
+import java.nio.file.Files
+import java.nio.file.Path
+import java.time.Instant
+import java.util.concurrent.TimeUnit
+
+<span class="fc" id="L10">data class DiagnosticsFileInfo(</span>
+<span class="fc" id="L11">    val storedName: String,</span>
+<span class="fc" id="L12">    val originalName: String,</span>
+<span class="fc" id="L13">    val sizeBytes: Long,</span>
+<span class="fc" id="L14">    val uploadedAt: Instant</span>
+)
+
+<span class="fc" id="L17">class FileSystemStorage(</span>
+<span class="fc" id="L18">    private val baseDir: String,</span>
+<span class="fc" id="L19">    private val maxFileSizeBytes: Long</span>
+) {
+
+<span class="fc" id="L22">    fun baseDir(): String = baseDir</span>
+
+    fun ensureDirectory(chargePointId: String): Path {
+<span class="fc" id="L25">        val dir = Path.of(baseDir, chargePointId)</span>
+<span class="fc" id="L26">        Files.createDirectories(dir)</span>
+<span class="fc" id="L27">        return dir</span>
+    }
+
+    fun uploadFile(chargePointId: String, originalFileName: String, inputStream: java.io.InputStream): String {
+<span class="fc" id="L31">        val dir = ensureDirectory(chargePointId)</span>
+<span class="fc" id="L32">        val bytes = ByteArrayOutputStream().use { inputStream.copyTo(it); it.toByteArray() }</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (bytes.size &gt; maxFileSizeBytes) {</span>
+<span class="fc" id="L34">            throw IllegalArgumentException(&quot;File size ${bytes.size} exceeds maximum $maxFileSizeBytes bytes&quot;)</span>
+        }
+<span class="fc" id="L36">        val timestamp = Instant.now().epochSecond</span>
+<span class="fc" id="L37">        val storedName = &quot;${timestamp}_${originalFileName}&quot;</span>
+<span class="fc" id="L38">        val targetPath = dir.resolve(storedName)</span>
+<span class="fc" id="L39">        Files.write(targetPath, bytes)</span>
+<span class="fc" id="L40">        return storedName</span>
+    }
+
+    fun getFile(chargePointId: String, storedFileName: String): Path? {
+<span class="fc" id="L44">        val dir = Path.of(baseDir, chargePointId)</span>
+<span class="fc" id="L45">        val file = dir.resolve(storedFileName)</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        return if (Files.exists(file)) file else null</span>
+    }
+
+    fun listFiles(chargePointId: String): List&lt;DiagnosticsFileInfo&gt; {
+<span class="fc" id="L50">        val dir = Path.of(baseDir, chargePointId)</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        return if (!Files.exists(dir)) {</span>
+<span class="fc" id="L52">            emptyList()</span>
+        } else {
+<span class="fc" id="L54">            Files.list(dir).use { stream -&gt;</span>
+<span class="fc" id="L55">                stream.filter { Files.isRegularFile(it) }</span>
+<span class="fc" id="L56">                    .map { file -&gt;</span>
+<span class="fc" id="L57">                        val storedName = file.fileName.toString()</span>
+<span class="fc" id="L58">                        DiagnosticsFileInfo(</span>
+<span class="fc" id="L59">                            storedName = storedName,</span>
+<span class="fc" id="L60">                            originalName = extractOriginalName(storedName),</span>
+<span class="fc" id="L61">                            sizeBytes = Files.size(file),</span>
+<span class="fc" id="L62">                            uploadedAt = Instant.ofEpochMilli(file.toFile().lastModified())</span>
+<span class="fc" id="L63">                        )</span>
+                    }
+<span class="fc" id="L65">                    .toList().sortedByDescending { it.uploadedAt }</span>
+            }
+        }
+    }
+
+    fun deleteFile(chargePointId: String, storedFileName: String): Boolean {
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        val file = getFile(chargePointId, storedFileName)</span>
+<span class="fc" id="L72">            ?: return false</span>
+<span class="fc" id="L73">        return Files.deleteIfExists(file)</span>
+    }
+
+    fun cleanupExpired(retentionDays: Int): Int {
+<span class="fc" id="L77">        val cutoff = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(retentionDays.toLong())</span>
+<span class="fc" id="L78">        var count = 0</span>
+<span class="fc" id="L79">        val base = Path.of(baseDir)</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (!Files.exists(base)) return 0</span>
+<span class="fc" id="L81">        Files.walk(base).use { stream -&gt;</span>
+<span class="fc" id="L82">            stream.filter { Files.isRegularFile(it) }</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">                .filter { it.toFile().lastModified() &lt;= cutoff }</span>
+<span class="fc" id="L84">                .forEach { file -&gt;</span>
+<span class="fc" id="L85">                    try {</span>
+<span class="fc" id="L86">                        Files.deleteIfExists(file)</span>
+<span class="fc" id="L87">                        count++</span>
+<span class="fc" id="L88">                    } catch (e: Exception) {</span>
+<span class="fc" id="L89">                        Log.warn(&quot;Failed to delete expired file ${file}: ${e.message}&quot;)</span>
+                    }
+<span class="fc" id="L91">                }</span>
+<span class="fc" id="L92">        }</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (count &gt; 0) {</span>
+<span class="fc" id="L94">            Files.list(base).use { dirStream -&gt;</span>
+<span class="fc" id="L95">                dirStream.filter { dir -&gt;</span>
+<span class="fc bfc" id="L96" title="All 6 branches covered.">                    dir.toFile().listFiles()?.isEmpty() == true</span>
+<span class="fc" id="L97">                }.forEach { dir -&gt;</span>
+<span class="fc" id="L98">                    try {</span>
+<span class="fc" id="L99">                        Files.deleteIfExists(dir)</span>
+<span class="fc" id="L100">                    } catch (e: Exception) {</span>
+<span class="fc" id="L101">                        Log.warn(&quot;Failed to delete empty directory ${dir}: ${e.message}&quot;)</span>
+                    }
+<span class="fc" id="L103">                }</span>
+<span class="fc" id="L104">            }</span>
+        }
+<span class="fc" id="L106">        return count</span>
+    }
+
+    fun getDirectorySize(chargePointId: String): Long {
+<span class="fc" id="L110">        val dir = Path.of(baseDir, chargePointId)</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (!Files.exists(dir)) return 0L</span>
+<span class="fc" id="L112">        return Files.list(dir).use { stream -&gt;</span>
+<span class="fc" id="L113">            stream.filter { Files.isRegularFile(it) }</span>
+<span class="fc" id="L114">                .mapToLong { Files.size(it) }</span>
+<span class="fc" id="L115">                .sum()</span>
+        }
+    }
+
+    private fun extractOriginalName(storedName: String): String {
+<span class="fc" id="L120">        val idx = storedName.indexOf('_')</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        return if (idx &gt; 0) storedName.substring(idx + 1) else storedName</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SignedUpdateFirmwareCommand.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.command</a> &gt; <span class="el_source">SignedUpdateFirmwareCommand.kt</span></div><h1>SignedUpdateFirmwareCommand.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.command
+
+import jakarta.inject.Inject
+import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.OcppConstants
+import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
+import org.tekeli.borisp.ocpp16.persistence.PersistenceService
+import java.time.Instant
+
+<span class="fc" id="L10"> @jakarta.enterprise.context.ApplicationScoped</span>
+<span class="fc" id="L11">class SignedUpdateFirmwareCommand @Inject constructor(</span>
+<span class="fc" id="L12">    private val gateway: ChargePointGateway,</span>
+<span class="fc" id="L13">    private val persistenceService: PersistenceService? = null</span>
+<span class="fc" id="L14">) : OcppCommand {</span>
+
+<span class="fc" id="L16">    override val name = &quot;signed-update-firmware&quot;</span>
+
+    override fun validate(payload: Map&lt;String, Any&gt;): Response? {
+<span class="fc bfc" id="L19" title="All 4 branches covered.">        if (payload[&quot;requestId&quot;] as? Number == null) {</span>
+<span class="fc" id="L20">            return badRequest(&quot;requestId is required&quot;)</span>
+        }
+<span class="fc bfc" id="L22" title="All 4 branches covered.">        val firmware = payload[&quot;firmware&quot;] as? Map&lt;*, *&gt;</span>
+<span class="fc" id="L23">            ?: return badRequest(&quot;firmware is required&quot;)</span>
+<span class="fc" id="L24">        return validateFirmwareFields(firmware)</span>
+    }
+
+    private fun validateFirmwareFields(firmware: Map&lt;*, *&gt;): Response? {
+<span class="fc" id="L28">        val error = try {</span>
+<span class="fc" id="L29">            checkField(firmware, &quot;location&quot;, OcppConstants.MAX_FIRMWARE_LOCATION_LENGTH, &quot;firmware.location&quot;)</span>
+<span class="fc" id="L30">            checkField(firmware, &quot;retrieveDateTime&quot;, Int.MAX_VALUE, &quot;firmware.retrieveDateTime&quot;)</span>
+<span class="fc" id="L31">            checkField(firmware, &quot;signingCertificate&quot;, OcppConstants.MAX_SIGNING_CERTIFICATE_LENGTH, &quot;firmware.signingCertificate&quot;)</span>
+<span class="fc" id="L32">            checkField(firmware, &quot;signature&quot;, OcppConstants.MAX_SIGNATURE_LENGTH, &quot;firmware.signature&quot;)</span>
+<span class="fc" id="L33">            null</span>
+<span class="fc" id="L34">        } catch (e: Throwable) {</span>
+<span class="fc" id="L35">            e.message</span>
+        }
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        return error?.let { badRequest(it) }</span>
+    }
+
+    private fun checkField(map: Map&lt;*, *&gt;, key: String, maxLen: Int, name: String) {
+<span class="fc" id="L41">        val value = map[key] as String</span>
+<span class="fc bfc" id="L42" title="All 6 branches covered.">        if (value.isEmpty() || value.length &gt; maxLen) {</span>
+<span class="fc" id="L43">            throw IllegalArgumentException(&quot;$name validation failed&quot;)</span>
+        }
+<span class="fc" id="L45">    }</span>
+
+<span class="fc" id="L47">    private fun badRequest(error: String) = Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L48">        .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to error)).build()</span>
+
+    override fun execute(chargePointId: String, payload: Map&lt;String, Any&gt;): Response {
+<span class="fc" id="L51">        val requestId = (payload[&quot;requestId&quot;] as Number).toInt()</span>
+<span class="fc" id="L52">        val firmware = PayloadValidators.safeMap(payload[&quot;firmware&quot;])</span>
+<span class="fc bfc" id="L53" title="All 4 branches covered.">        val retries = (payload[&quot;retries&quot;] as? Number)?.toInt()</span>
+<span class="fc bfc" id="L54" title="All 4 branches covered.">        val retryInterval = (payload[&quot;retryInterval&quot;] as? Number)?.toInt()</span>
+<span class="fc" id="L55">        return sendFirmwareCommand(chargePointId, requestId, firmware, retries, retryInterval)</span>
+    }
+
+    private fun sendFirmwareCommand(
+        chargePointId: String, requestId: Int,
+        firmware: Map&lt;String, Any&gt;, retries: Int?, retryInterval: Int?
+    ): Response {
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        val installDateTime = firmware[&quot;installDateTime&quot;]?.let { Instant.parse(it.toString()) }</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        persistenceService?.createSignedFirmware(</span>
+<span class="fc" id="L64">            chargePointId = chargePointId,</span>
+<span class="fc" id="L65">            requestId = requestId,</span>
+<span class="fc" id="L66">            location = firmware[&quot;location&quot;] as String,</span>
+<span class="fc" id="L67">            retrieveDateTime = Instant.parse(firmware[&quot;retrieveDateTime&quot;] as String),</span>
+<span class="fc" id="L68">            installDateTime = installDateTime,</span>
+<span class="fc" id="L69">            signingCertificate = firmware[&quot;signingCertificate&quot;] as String,</span>
+<span class="fc" id="L70">            signature = firmware[&quot;signature&quot;] as String</span>
+        )
+<span class="fc" id="L72">        val result = gateway.sendSignedUpdateFirmware(chargePointId, requestId, firmware, retries, retryInterval)</span>
+<span class="fc" id="L73">        return PayloadValidators.awaitAndBuildResponse(result, name)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

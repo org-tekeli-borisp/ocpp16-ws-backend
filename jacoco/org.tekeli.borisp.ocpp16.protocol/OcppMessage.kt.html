@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OcppMessage.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.protocol</a> &gt; <span class="el_source">OcppMessage.kt</span></div><h1>OcppMessage.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.protocol
+
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.tekeli.borisp.ocpp16.OcppConstants
+
+<span class="fc" id="L7">enum class OcppMessageType(val value: Int) {</span>
+<span class="fc" id="L8">    CALL(2),</span>
+<span class="fc" id="L9">    CALLRESULT(3),</span>
+<span class="fc" id="L10">    CALLERROR(4);</span>
+
+    companion object {
+<span class="fc bfc" id="L13" title="All 6 branches covered.">        fun fromValue(value: Int): OcppMessageType? = entries.find { it.value == value }</span>
+    }
+}
+
+<span class="fc" id="L17">enum class OcppErrorCode(val value: String) {</span>
+<span class="fc" id="L18">    NOT_IMPLEMENTED(&quot;NotImplemented&quot;),</span>
+<span class="fc" id="L19">    NOT_SUPPORTED(&quot;NotSupported&quot;),</span>
+<span class="fc" id="L20">    INTERNAL_ERROR(&quot;InternalError&quot;),</span>
+<span class="fc" id="L21">    PROTOCOL_ERROR(&quot;ProtocolError&quot;),</span>
+<span class="fc" id="L22">    SECURITY_ERROR(&quot;SecurityError&quot;),</span>
+<span class="fc" id="L23">    FORMATION_VIOLATION(&quot;FormationViolation&quot;),</span>
+<span class="fc" id="L24">    PROPERTY_CONSTRAINT_VIOLATION(&quot;PropertyConstraintViolation&quot;),</span>
+<span class="fc" id="L25">    OCCURENCE_CONSTRAINT_VIOLATION(&quot;OccurenceConstraintViolation&quot;),</span>
+<span class="fc" id="L26">    TYPE_CONSTRAINT_VIOLATION(&quot;TypeConstraintViolation&quot;),</span>
+<span class="fc" id="L27">    GENERIC_ERROR(&quot;GenericError&quot;);</span>
+
+    companion object {
+<span class="fc bfc" id="L30" title="All 4 branches covered.">        fun fromValue(value: String): OcppErrorCode? = entries.find { it.value == value }</span>
+    }
+}
+
+<span class="fc" id="L34">class OcppParseException(message: String, cause: Throwable? = null) : RuntimeException(message, cause)</span>
+
+sealed class OcppMessage {
+    abstract val type: OcppMessageType
+    abstract val messageId: String
+    abstract fun toJson(): String
+
+    companion object {
+<span class="fc" id="L42">        private val objectMapper = ObjectMapper()</span>
+
+        fun parse(json: String): OcppMessage {
+<span class="fc" id="L45">            return try {</span>
+<span class="fc" id="L46">                parseMessageInternal(json)</span>
+<span class="fc" id="L47">            } catch (e: OcppParseException) {</span>
+<span class="fc" id="L48">                throw e</span>
+<span class="fc" id="L49">            } catch (e: Exception) {</span>
+<span class="fc" id="L50">                throw OcppParseException(&quot;Failed to parse OCPP message: ${e.message}&quot;, e)</span>
+            }
+        }
+
+        private fun parseMessageInternal(json: String): OcppMessage {
+<span class="fc" id="L55">            val nodes = objectMapper.readValue(json, Array&lt;JsonNode&gt;::class.java)</span>
+<span class="fc" id="L56">                .also {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                    if (it.size &lt; 2) {</span>
+<span class="fc" id="L58">                        throw OcppParseException(&quot;Invalid OCPP message: must have at least 2 elements&quot;)</span>
+                    }
+<span class="fc" id="L60">                }</span>
+
+<span class="fc" id="L62">            val messageTypeId = nodes[0].asInt()</span>
+<span class="fc" id="L63">            val messageId = nodes[1].asText()</span>
+<span class="fc" id="L64">                .also {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">                    if (it.length &gt; OcppConstants.MAX_MESSAGE_ID_LENGTH) {</span>
+<span class="fc" id="L66">                        throw OcppParseException(&quot;messageId exceeds ${OcppConstants.MAX_MESSAGE_ID_LENGTH} characters&quot;)</span>
+                    }
+<span class="fc" id="L68">                }</span>
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            val messageType = OcppMessageType.fromValue(messageTypeId)</span>
+<span class="fc" id="L71">                ?: throw OcppParseException(&quot;Invalid message type: $messageTypeId&quot;)</span>
+
+<span class="fc" id="L73">            return messageType.parseMessage(nodes, messageId)</span>
+        }
+
+        @Suppress(&quot;UNCHECKED_CAST&quot;)
+        private fun parseJsonNode(node: JsonNode): Map&lt;String, Any&gt;? {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">            return objectMapper.convertValue(node, Map::class.java) as? Map&lt;String, Any&gt;</span>
+        }
+
+        private fun OcppMessageType.parseMessage(
+            nodes: Array&lt;JsonNode&gt;,
+            messageId: String
+<span class="fc bfc" id="L84" title="All 3 branches covered.">        ): OcppMessage = when (this) {</span>
+<span class="fc" id="L85">            OcppMessageType.CALL -&gt; parseCall(nodes, messageId)</span>
+<span class="fc" id="L86">            OcppMessageType.CALLRESULT -&gt; parseCallResult(nodes, messageId)</span>
+<span class="fc" id="L87">            OcppMessageType.CALLERROR -&gt; parseCallError(nodes, messageId)</span>
+<span class="fc" id="L88">        }</span>
+
+        private fun parseCall(nodes: Array&lt;JsonNode&gt;, messageId: String): Call {
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            if (nodes.size != 4) {</span>
+<span class="fc" id="L92">                throw OcppParseException(&quot;CALL message must have exactly 4 elements&quot;)</span>
+            }
+<span class="fc" id="L94">            return Call(</span>
+<span class="fc" id="L95">                messageId = messageId,</span>
+<span class="fc" id="L96">                action = nodes[2].asText(),</span>
+<span class="fc" id="L97">                payload = parseJsonNode(nodes[3])</span>
+            )
+        }
+
+        private fun parseCallResult(nodes: Array&lt;JsonNode&gt;, messageId: String): CallResult {
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (nodes.size != 3) {</span>
+<span class="fc" id="L103">                throw OcppParseException(&quot;CALLRESULT message must have exactly 3 elements&quot;)</span>
+            }
+<span class="fc" id="L105">            return CallResult(</span>
+<span class="fc" id="L106">                messageId = messageId,</span>
+<span class="fc" id="L107">                payload = parseJsonNode(nodes[2])</span>
+            )
+        }
+
+        private fun parseCallError(nodes: Array&lt;JsonNode&gt;, messageId: String): CallError {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">            if (nodes.size != 5) {</span>
+<span class="fc" id="L113">                throw OcppParseException(&quot;CALLERROR message must have exactly 5 elements&quot;)</span>
+            }
+<span class="fc" id="L115">            val errorCodeStr = nodes[2].asText()</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            val errorCode = OcppErrorCode.fromValue(errorCodeStr)</span>
+<span class="fc" id="L117">                ?: throw OcppParseException(&quot;Invalid error code: $errorCodeStr&quot;)</span>
+<span class="fc" id="L118">            return CallError(</span>
+<span class="fc" id="L119">                messageId = messageId,</span>
+<span class="fc" id="L120">                errorCode = errorCode,</span>
+<span class="fc" id="L121">                errorDescription = nodes[3].asText(),</span>
+<span class="fc" id="L122">                errorDetails = parseJsonNode(nodes[4])</span>
+            )
+        }
+    }
+
+<span class="fc" id="L127">    data class Call(</span>
+<span class="fc" id="L128">        override val messageId: String,</span>
+<span class="fc" id="L129">        val action: String,</span>
+<span class="fc" id="L130">        val payload: Map&lt;String, Any&gt;?</span>
+    ) : OcppMessage() {
+<span class="fc" id="L132">        override val type: OcppMessageType = OcppMessageType.CALL</span>
+
+        override fun toJson(): String {
+<span class="fc bfc" id="L135" title="All 2 branches covered.">            val payloadValue: Any = payload ?: emptyMap&lt;String, Any&gt;()</span>
+<span class="fc" id="L136">            return objectMapper.writeValueAsString(arrayOf&lt;Any?&gt;(type.value, messageId, action, payloadValue))</span>
+        }
+    }
+
+<span class="fc" id="L140">    data class CallResult(</span>
+<span class="fc" id="L141">        override val messageId: String,</span>
+<span class="fc" id="L142">        val payload: Map&lt;String, Any&gt;?</span>
+    ) : OcppMessage() {
+<span class="fc" id="L144">        override val type: OcppMessageType = OcppMessageType.CALLRESULT</span>
+
+        override fun toJson(): String {
+<span class="fc bfc" id="L147" title="All 2 branches covered.">            val payloadValue: Any = payload ?: emptyMap&lt;String, Any&gt;()</span>
+<span class="fc" id="L148">            return objectMapper.writeValueAsString(arrayOf&lt;Any?&gt;(type.value, messageId, payloadValue))</span>
+        }
+    }
+
+<span class="fc" id="L152">    data class CallError(</span>
+<span class="fc" id="L153">        override val messageId: String,</span>
+<span class="fc" id="L154">        val errorCode: OcppErrorCode,</span>
+<span class="fc" id="L155">        val errorDescription: String,</span>
+<span class="fc" id="L156">        val errorDetails: Map&lt;String, Any&gt;?</span>
+    ) : OcppMessage() {
+<span class="fc" id="L158">        override val type: OcppMessageType = OcppMessageType.CALLERROR</span>
+
+        override fun toJson(): String {
+<span class="fc bfc" id="L161" title="All 2 branches covered.">            val detailsValue: Any = errorDetails ?: emptyMap&lt;String, Any&gt;()</span>
+<span class="fc" id="L162">            return objectMapper.writeValueAsString(</span>
+<span class="fc" id="L163">                arrayOf&lt;Any?&gt;(type.value, messageId, errorCode.value, errorDescription, detailsValue)</span>
+            )
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

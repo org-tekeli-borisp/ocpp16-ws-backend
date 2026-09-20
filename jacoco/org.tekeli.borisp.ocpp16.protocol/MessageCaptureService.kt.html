@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MessageCaptureService.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.protocol</a> &gt; <span class="el_source">MessageCaptureService.kt</span></div><h1>MessageCaptureService.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.protocol
+
+import io.quarkus.logging.Log
+import jakarta.annotation.PostConstruct
+import jakarta.annotation.PreDestroy
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
+import org.tekeli.borisp.ocpp16.persistence.OcppMessageLog
+import java.time.Duration
+import java.time.Instant
+import java.util.ArrayList
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.Executors
+import java.util.concurrent.LinkedBlockingDeque
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
+
+<span class="fc" id="L19">@ApplicationScoped</span>
+class MessageCaptureService {
+
+    @Inject
+<span class="fc" id="L23">    lateinit var persistenceService: org.tekeli.borisp.ocpp16.persistence.PersistenceService</span>
+
+<span class="fc" id="L25">    var bufferSize: Int = 200</span>
+<span class="fc" id="L26">        set(value) { field = value.coerceAtLeast(1) }</span>
+
+<span class="fc" id="L28">    var purgeHours: Long = 24</span>
+<span class="fc" id="L29">        set(value) { field = value.coerceAtLeast(1) }</span>
+
+<span class="fc" id="L31">    var purgeIntervalMillis: Long = 1_800_000</span>
+<span class="fc" id="L32">        set(value) { field = value.coerceAtLeast(1) }</span>
+
+<span class="fc" id="L34">    private val buffers: ConcurrentHashMap&lt;String, LinkedBlockingDeque&lt;OcppMessageDto&gt;&gt; = ConcurrentHashMap()</span>
+<span class="fc" id="L35">    private val perCpSubscribers: ConcurrentHashMap&lt;String, MutableList&lt;(OcppMessageDto) -&gt; Unit&gt;&gt; = ConcurrentHashMap()</span>
+<span class="fc" id="L36">    private val stopPurger = AtomicBoolean(false)</span>
+<span class="fc" id="L37">    private val persistExecutor = Executors.newVirtualThreadPerTaskExecutor()</span>
+
+    @PostConstruct
+    fun startPurgeLoop() {
+<span class="fc" id="L41">        persistExecutor.submit { purgeLoop() }</span>
+<span class="fc" id="L42">    }</span>
+
+    @PreDestroy
+    fun close() {
+<span class="fc" id="L46">        stopPurger.set(true)</span>
+<span class="fc" id="L47">        persistExecutor.shutdown()</span>
+<span class="fc" id="L48">    }</span>
+
+    fun capture(chargePointId: String, direction: OcppMessageDirection, ocppMessage: OcppMessage) {
+<span class="fc" id="L51">        val dto = toDto(chargePointId, direction, ocppMessage)</span>
+<span class="fc" id="L52">        addToBuffer(chargePointId, dto)</span>
+<span class="fc" id="L53">        notifySubscribers(chargePointId, dto)</span>
+<span class="fc" id="L54">        persistAsync(dto)</span>
+<span class="fc" id="L55">    }</span>
+
+    fun getMessages(chargePointId: String): List&lt;OcppMessageDto&gt; {
+<span class="fc bfc" id="L58" title="All 4 branches covered.">        return buffers[chargePointId]?.toList().orEmpty()</span>
+    }
+
+    fun evict(chargePointId: String) {
+<span class="fc" id="L62">        buffers.remove(chargePointId)</span>
+<span class="fc" id="L63">        perCpSubscribers.remove(chargePointId)</span>
+<span class="fc" id="L64">    }</span>
+
+<span class="fc" id="L66">    fun getMessagesFromDb(chargePointId: String, direction: String?, action: String?, limit: Int = 200): List&lt;OcppMessageDto&gt; {</span>
+<span class="fc" id="L67">        val logs = persistenceService.findMessageLogs(chargePointId, direction, action, limit)</span>
+<span class="fc" id="L68">        val dtos = mutableListOf&lt;OcppMessageDto&gt;()</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        for (log in logs) {</span>
+<span class="fc" id="L70">            dtos.add(toDto(log))</span>
+        }
+<span class="fc" id="L72">        return dtos</span>
+    }
+
+    fun subscribe(chargePointId: String, callback: (OcppMessageDto) -&gt; Unit) {
+<span class="fc" id="L76">        val list = perCpSubscribers.computeIfAbsent(chargePointId) { ArrayList() }</span>
+<span class="fc" id="L77">        synchronized(list) { list.add(callback) }</span>
+<span class="fc" id="L78">    }</span>
+
+    fun unsubscribe(chargePointId: String, callback: (OcppMessageDto) -&gt; Unit) {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        val list = perCpSubscribers[chargePointId] ?: return</span>
+<span class="fc" id="L82">        synchronized(list) { list.remove(callback) }</span>
+<span class="fc" id="L83">    }</span>
+
+    private fun addToBuffer(chargePointId: String, dto: OcppMessageDto) {
+<span class="fc" id="L86">        val deque = buffers.computeIfAbsent(chargePointId) { LinkedBlockingDeque(bufferSize) }</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (deque.size &gt;= bufferSize) {</span>
+<span class="fc" id="L88">            deque.pollFirst()</span>
+        }
+<span class="fc" id="L90">        deque.addLast(dto)</span>
+<span class="fc" id="L91">    }</span>
+
+    private fun notifySubscribers(chargePointId: String, dto: OcppMessageDto) {
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        val list = perCpSubscribers[chargePointId] ?: return</span>
+<span class="fc" id="L95">        val snapshot: List&lt;(OcppMessageDto) -&gt; Unit&gt;</span>
+<span class="fc" id="L96">        synchronized(list) { snapshot = ArrayList(list) }</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        for (callback in snapshot) {</span>
+<span class="fc" id="L98">            try {</span>
+<span class="fc" id="L99">                callback(dto)</span>
+<span class="fc" id="L100">            } catch (_: Throwable) { }</span>
+        }
+<span class="fc" id="L102">    }</span>
+
+    private fun persistAsync(dto: OcppMessageDto) {
+<span class="fc" id="L105">        persistExecutor.submit {</span>
+<span class="fc" id="L106">            try {</span>
+<span class="fc" id="L107">                persistenceService.createMessageLog(</span>
+<span class="fc" id="L108">                    chargePointId = dto.chargePointId,</span>
+<span class="fc" id="L109">                    direction = dto.direction,</span>
+<span class="fc" id="L110">                    messageType = dto.messageType,</span>
+<span class="fc" id="L111">                    action = dto.action,</span>
+<span class="fc" id="L112">                    messageId = dto.messageId,</span>
+<span class="fc" id="L113">                    payload = dto.payload</span>
+                )
+<span class="fc" id="L115">            } catch (e: Throwable) {</span>
+<span class="fc" id="L116">                Log.warn(&quot;Failed to persist message log for chargePoint=${dto.chargePointId}, messageId=${dto.messageId}: ${e.message}&quot;)</span>
+            }
+<span class="fc" id="L118">        }</span>
+<span class="fc" id="L119">    }</span>
+
+    private fun purgeLoop() {
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        while (!stopPurger.get()) {</span>
+<span class="fc" id="L123">            try {</span>
+<span class="fc" id="L124">                TimeUnit.MILLISECONDS.sleep(purgeIntervalMillis)</span>
+<span class="fc" id="L125">                purgeOnce()</span>
+<span class="fc" id="L126">            } catch (_: InterruptedException) {</span>
+<span class="fc" id="L127">                break</span>
+<span class="fc" id="L128">            } catch (e: Throwable) {</span>
+<span class="fc" id="L129">                Log.warn(&quot;Message log purge failed: ${e.message}&quot;)</span>
+            }
+        }
+<span class="fc" id="L132">    }</span>
+
+    private fun purgeOnce() {
+<span class="fc" id="L135">        val cutoff = Instant.now().minus(Duration.ofHours(purgeHours))</span>
+<span class="fc" id="L136">        persistenceService.purgeMessageLogsBefore(cutoff)</span>
+<span class="fc" id="L137">    }</span>
+
+    private fun toDto(chargePointId: String, direction: OcppMessageDirection, msg: OcppMessage): OcppMessageDto {
+<span class="fc" id="L140">        val payloadJson = try { msg.toJson() } catch (_: Throwable) { null }</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        val action = if (msg is OcppMessage.Call) msg.action else null</span>
+<span class="fc" id="L142">        return OcppMessageDto(</span>
+<span class="fc" id="L143">            chargePointId = chargePointId,</span>
+<span class="fc" id="L144">            direction = direction.value,</span>
+<span class="fc" id="L145">            messageType = msg.type.name,</span>
+<span class="fc" id="L146">            action = action,</span>
+<span class="fc" id="L147">            messageId = msg.messageId,</span>
+<span class="fc" id="L148">            payload = payloadJson,</span>
+<span class="fc" id="L149">            timestamp = Instant.now().toString()</span>
+        )
+    }
+
+<span class="fc" id="L153">    private fun toDto(log: OcppMessageLog): OcppMessageDto = OcppMessageDto(</span>
+<span class="fc" id="L154">        chargePointId = log.chargePointId,</span>
+<span class="fc" id="L155">        direction = log.direction,</span>
+<span class="fc" id="L156">        messageType = log.messageType,</span>
+<span class="fc bfc" id="L157" title="All 4 branches covered.">        action = log.action.takeIf { it.isNotBlank() },</span>
+<span class="fc" id="L158">        messageId = log.messageId,</span>
+<span class="fc" id="L159">        payload = log.payload,</span>
+<span class="fc" id="L160">        timestamp = log.timestamp.toString()</span>
+<span class="fc" id="L161">    )</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PayloadParser.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.handler</a> &gt; <span class="el_source">PayloadParser.kt</span></div><h1>PayloadParser.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.handler
+
+import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import java.time.Instant
+
+/**
+ * Shared validation extension functions for OCPP payload maps.
+ */
+
+fun Map&lt;String, Any&gt;.requiredString(key: String, maxLength: Int): String {
+<span class="fc" id="L11">    val value = get(key)</span>
+<span class="fc bfc" id="L12" title="All 4 branches covered.">    if (value == null || value.toString().isBlank()) {</span>
+<span class="fc" id="L13">        throw FormationViolationException(&quot;$key is required&quot;)</span>
+    }
+<span class="fc bfc" id="L15" title="All 2 branches covered.">    if (value.toString().length &gt; maxLength) {</span>
+<span class="fc" id="L16">        throw FormationViolationException(&quot;$key must not exceed $maxLength characters&quot;)</span>
+    }
+<span class="fc" id="L18">    return value.toString()</span>
+}
+
+fun Map&lt;String, Any&gt;.optionalString(key: String, maxLength: Int): String? {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">    val value = get(key) ?: return null</span>
+<span class="fc" id="L23">    val str = value.toString().trim()</span>
+<span class="fc bfc" id="L24" title="All 4 branches covered.">    if (str.isEmpty()) return null</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">    if (str.length &gt; maxLength) {</span>
+<span class="fc" id="L26">        throw FormationViolationException(&quot;$key must not exceed $maxLength characters&quot;)</span>
+    }
+<span class="fc" id="L28">    return str</span>
+}
+
+<span class="fc" id="L31">fun Map&lt;String, Any&gt;.requiredInt(key: String, min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE): Int {</span>
+<span class="fc" id="L32">    val value = get(key)</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">    if (value == null) throw FormationViolationException(&quot;$key is required&quot;)</span>
+<span class="fc bfc" id="L34" title="All 4 branches covered.">    val intValue = (value as? Number)?.toInt()</span>
+<span class="fc" id="L35">        ?: throw FormationViolationException(&quot;$key must be an integer&quot;)</span>
+<span class="fc bfc" id="L36" title="All 4 branches covered.">    if (intValue &lt; min || intValue &gt; max) {</span>
+<span class="fc" id="L37">        throw FormationViolationException(&quot;$key is out of range&quot;)</span>
+    }
+<span class="fc" id="L39">    return intValue</span>
+}
+
+fun Map&lt;String, Any&gt;.requiredLong(key: String): Long {
+<span class="fc" id="L43">    val value = get(key)</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">    if (value == null) throw FormationViolationException(&quot;$key is required&quot;)</span>
+<span class="fc bfc" id="L45" title="All 4 branches covered.">    return (value as? Number)?.toLong()</span>
+<span class="fc" id="L46">        ?: throw FormationViolationException(&quot;$key must be an integer&quot;)</span>
+}
+
+fun Map&lt;String, Any&gt;.requiredInstant(key: String): Instant {
+<span class="fc" id="L50">    val timestamp = get(key)</span>
+<span class="fc bfc" id="L51" title="All 4 branches covered.">    if (timestamp == null || timestamp.toString().isBlank()) {</span>
+<span class="fc" id="L52">        throw FormationViolationException(&quot;$key is required&quot;)</span>
+    }
+<span class="fc" id="L54">    return try {</span>
+<span class="fc" id="L55">        Instant.parse(timestamp.toString())</span>
+<span class="fc" id="L56">    } catch (e: Exception) {</span>
+<span class="fc" id="L57">        throw FormationViolationException(&quot;Invalid $key format&quot;)</span>
+    }
+}
+
+fun Map&lt;String, Any&gt;.requiredStringIn(key: String, validValues: Set&lt;String&gt;): String {
+<span class="fc" id="L62">    val value = get(key)</span>
+<span class="fc bfc" id="L63" title="All 4 branches covered.">    if (value == null || value.toString().isBlank()) {</span>
+<span class="fc" id="L64">        throw FormationViolationException(&quot;$key is required&quot;)</span>
+    }
+<span class="fc" id="L66">    val str = value.toString()</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">    if (str !in validValues) {</span>
+<span class="fc" id="L68">        throw FormationViolationException(&quot;Invalid $key: $str&quot;)</span>
+    }
+<span class="fc" id="L70">    return str</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

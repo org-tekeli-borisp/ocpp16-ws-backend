@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChangeAvailabilityCommand.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.command</a> &gt; <span class="el_source">ChangeAvailabilityCommand.kt</span></div><h1>ChangeAvailabilityCommand.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.command
+
+import jakarta.inject.Inject
+import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
+
+<span class="fc" id="L7">@jakarta.enterprise.context.ApplicationScoped</span>
+<span class="fc" id="L8">class ChangeAvailabilityCommand @Inject constructor(</span>
+<span class="fc" id="L9">    private val gateway: ChargePointGateway</span>
+) : OcppCommand {
+
+<span class="fc" id="L12">    override val name = &quot;change-availability&quot;</span>
+<span class="fc" id="L13">    private val validTypes = setOf(&quot;Inoperative&quot;, &quot;Operative&quot;)</span>
+
+    override fun validate(payload: Map&lt;String, Any&gt;): Response? {
+<span class="fc" id="L16">        val connectorIdRaw = payload[&quot;connectorId&quot;]</span>
+<span class="fc" id="L17">        val type = payload[&quot;type&quot;]</span>
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (!PayloadValidators.isNumber(connectorIdRaw)) {</span>
+<span class="fc" id="L20">            return Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L21">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;connectorId is required&quot;))</span>
+<span class="fc" id="L22">                .build()</span>
+        }
+<span class="fc bfc" id="L24" title="All 4 branches covered.">        if (type !is String || !PayloadValidators.isValidOneOf(type, validTypes)) {</span>
+<span class="fc" id="L25">            return Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L26">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;type must be 'Inoperative' or 'Operative'&quot;))</span>
+<span class="fc" id="L27">                .build()</span>
+        }
+<span class="fc" id="L29">        return null</span>
+    }
+
+    override fun execute(chargePointId: String, payload: Map&lt;String, Any&gt;): Response {
+<span class="fc" id="L33">        val connectorId = (payload[&quot;connectorId&quot;] as Number).toInt()</span>
+<span class="fc" id="L34">        val type = payload[&quot;type&quot;] as String</span>
+
+<span class="fc" id="L36">        val result = gateway.sendChangeAvailability(chargePointId, connectorId, type)</span>
+<span class="fc" id="L37">        return PayloadValidators.awaitAndBuildResponse(result, name)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

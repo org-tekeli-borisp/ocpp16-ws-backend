@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BootNotificationHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.handler</a> &gt; <span class="el_source">BootNotificationHandler.kt</span></div><h1>BootNotificationHandler.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.handler
+
+import org.tekeli.borisp.ocpp16.OcppConstants
+import org.tekeli.borisp.ocpp16.protocol.FormationViolationException
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import org.tekeli.borisp.ocpp16.protocol.callResult
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+
+<span class="fc" id="L10">class BootNotificationHandler : OcppActionHandler {</span>
+    override fun handle(call: OcppMessage.Call, context: OcppHandlerContext): String {
+<span class="fc bfc" id="L12" title="All 2 branches covered.">        val payload = call.payload ?: throw FormationViolationException(&quot;Payload is null&quot;)</span>
+<span class="fc" id="L13">        val (vendor, model, firmwareVersion) = validatePayload(payload)</span>
+<span class="fc bfc" id="L14" title="All 2 branches covered.">        val chargePointId = context.chargePointId</span>
+<span class="fc bfc" id="L15" title="All 4 branches covered.">            .takeIf { it.isNotBlank() }</span>
+<span class="fc" id="L16">            ?: throw FormationViolationException(&quot;No chargePointId from connection&quot;)</span>
+
+<span class="fc" id="L18">        processBootNotification(context, chargePointId, vendor, model, firmwareVersion)</span>
+
+<span class="fc" id="L20">        return call.callResult(</span>
+<span class="fc" id="L21">            mapOf(</span>
+<span class="fc" id="L22">                &quot;currentTime&quot; to ZonedDateTime.now(ZoneOffset.UTC).toString(),</span>
+<span class="fc" id="L23">                &quot;interval&quot; to context.heartbeatIntervalSeconds,</span>
+<span class="fc" id="L24">                &quot;status&quot; to &quot;Accepted&quot;</span>
+            )
+        )
+    }
+
+    internal fun processBootNotification(
+        context: OcppHandlerContext,
+        chargePointId: String,
+        vendor: String,
+        model: String,
+        firmwareVersion: String?
+    ) {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        context.chargePointRegistry?.updateChargePointInfo(</span>
+<span class="fc" id="L37">            context.sessionId, chargePointId, vendor, model</span>
+        )
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        context.persistenceService?.upsertChargePoint(</span>
+<span class="fc" id="L40">            sessionId = context.sessionId,</span>
+<span class="fc" id="L41">            chargePointId = chargePointId,</span>
+<span class="fc" id="L42">            vendor = vendor,</span>
+<span class="fc" id="L43">            model = model,</span>
+<span class="fc" id="L44">            firmwareVersion = firmwareVersion</span>
+        )
+<span class="fc" id="L46">    }</span>
+
+<span class="fc" id="L48">    internal data class ParsedBootNotification(</span>
+<span class="fc" id="L49">        val vendor: String,</span>
+<span class="fc" id="L50">        val model: String,</span>
+<span class="fc" id="L51">        val firmwareVersion: String?</span>
+    )
+
+    internal fun validatePayload(payload: Map&lt;String, Any&gt;): ParsedBootNotification {
+<span class="fc" id="L55">        val vendor = payload.requiredString(&quot;chargePointVendor&quot;, OcppConstants.MAX_VENDOR_LENGTH)</span>
+<span class="fc" id="L56">        val model = payload.requiredString(&quot;chargePointModel&quot;, OcppConstants.MAX_MODEL_LENGTH)</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        val firmwareVersion = payload[&quot;firmwareVersion&quot;]?.toString()</span>
+<span class="fc" id="L58">        return ParsedBootNotification(vendor, model, firmwareVersion)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

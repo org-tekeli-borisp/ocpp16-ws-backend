@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResetCommand.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.command</a> &gt; <span class="el_source">ResetCommand.kt</span></div><h1>ResetCommand.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.command
+
+import jakarta.inject.Inject
+import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
+
+<span class="fc" id="L7">@jakarta.enterprise.context.ApplicationScoped</span>
+<span class="fc" id="L8">class ResetCommand @Inject constructor(</span>
+<span class="fc" id="L9">    private val gateway: ChargePointGateway</span>
+) : OcppCommand {
+
+<span class="fc" id="L12">    override val name = &quot;reset&quot;</span>
+<span class="fc" id="L13">    private val validTypes = setOf(&quot;Hard&quot;, &quot;Soft&quot;)</span>
+
+    override fun validate(payload: Map&lt;String, Any&gt;): Response? {
+<span class="fc" id="L16">        val type = payload[&quot;type&quot;]</span>
+
+<span class="fc bfc" id="L18" title="All 4 branches covered.">        if (type !is String || !PayloadValidators.isValidOneOf(type, validTypes)) {</span>
+<span class="fc" id="L19">            return Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L20">                .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to &quot;type must be 'Hard' or 'Soft'&quot;))</span>
+<span class="fc" id="L21">                .build()</span>
+        }
+<span class="fc" id="L23">        return null</span>
+    }
+
+    override fun execute(chargePointId: String, payload: Map&lt;String, Any&gt;): Response {
+<span class="fc" id="L27">        val type = payload[&quot;type&quot;] as String</span>
+
+<span class="fc" id="L29">        val result = gateway.sendReset(chargePointId, type)</span>
+<span class="fc" id="L30">        return PayloadValidators.awaitAndBuildResponse(result, name, mapOf(&quot;type&quot; to type))</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

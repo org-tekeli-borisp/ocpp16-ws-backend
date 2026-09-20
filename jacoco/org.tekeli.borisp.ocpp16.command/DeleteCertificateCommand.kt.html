@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeleteCertificateCommand.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.command</a> &gt; <span class="el_source">DeleteCertificateCommand.kt</span></div><h1>DeleteCertificateCommand.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.command
+
+import jakarta.inject.Inject
+import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.outbound.ChargePointGateway
+
+<span class="fc" id="L7">@jakarta.enterprise.context.ApplicationScoped</span>
+<span class="fc" id="L8">class DeleteCertificateCommand @Inject constructor(</span>
+<span class="fc" id="L9">    private val gateway: ChargePointGateway</span>
+) : OcppCommand {
+
+<span class="fc" id="L12">    override val name = &quot;delete-certificate&quot;</span>
+
+<span class="fc" id="L14">    private val validHashAlgorithms = setOf(&quot;SHA256&quot;, &quot;SHA384&quot;, &quot;SHA512&quot;)</span>
+
+ override fun validate(payload: Map&lt;String, Any&gt;): Response? {
+<span class="fc bfc" id="L17" title="All 4 branches covered.">        val certData = payload[&quot;certificateHashData&quot;] as? Map&lt;*, *&gt;</span>
+<span class="fc" id="L18">            ?: return badRequest(&quot;certificateHashData is required&quot;)</span>
+<span class="fc" id="L19">        val hashAlgorithm = certData[&quot;hashAlgorithm&quot;] as String?</span>
+<span class="fc bfc" id="L20" title="All 4 branches covered.">        if (hashAlgorithm == null || hashAlgorithm !in validHashAlgorithms) {</span>
+<span class="fc" id="L21">            return badRequest(&quot;hashAlgorithm must be one of: SHA256, SHA384, SHA512&quot;)</span>
+        }
+<span class="fc" id="L23">        return checkRequiredStringFields(certData, &quot;issuerNameHash&quot;, &quot;issuerKeyHash&quot;, &quot;serialNumber&quot;)</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">            ?.let { badRequest(&quot;$it is required&quot;) }</span>
+    }
+
+    private fun checkRequiredStringFields(map: Map&lt;*, *&gt;, vararg fields: String): String? {
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        for (field in fields) {</span>
+<span class="fc" id="L29">            val value = map[field] as String?</span>
+<span class="fc bfc" id="L30" title="All 6 branches covered.">            if (value.isNullOrEmpty()) return field</span>
+        }
+<span class="fc" id="L32">        return null</span>
+    }
+
+<span class="fc" id="L35">    private fun badRequest(error: String) = Response.status(Response.Status.BAD_REQUEST)</span>
+<span class="fc" id="L36">        .entity(mapOf&lt;String, Any&gt;(&quot;error&quot; to error)).build()</span>
+
+    override fun execute(chargePointId: String, payload: Map&lt;String, Any&gt;): Response {
+<span class="fc" id="L39">        val certificateHashData = PayloadValidators.safeMap(payload[&quot;certificateHashData&quot;])</span>
+
+<span class="fc" id="L41">        val result = gateway.sendDeleteCertificate(chargePointId, certificateHashData)</span>
+<span class="fc" id="L42">        return PayloadValidators.awaitAndBuildResponse(result, name)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PayloadValidators.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ocpp16-ws-backend</a> &gt; <a href="index.source.html" class="el_package">org.tekeli.borisp.ocpp16.command</a> &gt; <span class="el_source">PayloadValidators.kt</span></div><h1>PayloadValidators.kt</h1><pre class="source lang-java linenums">package org.tekeli.borisp.ocpp16.command
+
+import jakarta.ws.rs.core.Response
+import org.tekeli.borisp.ocpp16.OcppConstants
+import org.tekeli.borisp.ocpp16.protocol.OcppMessage
+import java.util.concurrent.CompletableFuture
+
+object PayloadValidators {
+<span class="fc" id="L9">    fun isNumber(value: Any?): Boolean = value is Number</span>
+
+<span class="fc" id="L11">    fun isString(value: Any?): Boolean = value is String</span>
+
+    fun isNonEmptyString(value: Any?): Boolean =
+<span class="fc bfc" id="L14" title="All 6 branches covered.">        value is String &amp;&amp; value.isNotEmpty()</span>
+
+    fun isValidOneOf(value: String, validValues: Set&lt;String&gt;): Boolean =
+<span class="fc" id="L17">        validValues.contains(value)</span>
+
+<span class="fc" id="L19">    fun isMap(value: Any?): Boolean = value is Map&lt;*, *&gt;</span>
+
+    fun safeMap(value: Any?): Map&lt;String, Any&gt; {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        val source = value as? Map&lt;*, *&gt;</span>
+<span class="fc" id="L23">        val result = HashMap&lt;String, Any&gt;()</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (source != null) {</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">            for ((k, v) in source) result[k as String] = v as Any</span>
+        }
+<span class="fc" id="L27">        return result</span>
+    }
+
+    fun safeList(value: Any?): List&lt;String&gt; =
+<span class="fc bfc" id="L31" title="All 6 branches covered.">        (value as? List&lt;*&gt;)?.mapNotNull { it as? String } ?: emptyList()</span>
+
+    fun isCallResult(response: OcppMessage): Boolean =
+<span class="fc" id="L34">        response is OcppMessage.CallResult</span>
+
+<span class="fc" id="L36">    fun buildAcceptedResponse(command: String, extra: Map&lt;String, Any&gt; = emptyMap()): Response =</span>
+<span class="fc" id="L37">        Response.status(Response.Status.ACCEPTED)</span>
+<span class="fc" id="L38">            .entity(mapOf&lt;String, Any&gt;(&quot;status&quot; to &quot;sent&quot;, &quot;command&quot; to command) + extra)</span>
+<span class="fc" id="L39">            .build()</span>
+
+    fun buildRejectedResponse(): Response =
+<span class="fc" id="L42">        Response.status(Response.Status.BAD_GATEWAY)</span>
+<span class="fc" id="L43">            .entity(mapOf&lt;String, Any&gt;(&quot;status&quot; to &quot;rejected&quot;, &quot;error&quot; to &quot;ChargePoint rejected command&quot;))</span>
+<span class="fc" id="L44">            .build()</span>
+
+<span class="fc" id="L46">    fun buildCommandResponse(response: OcppMessage, command: String, extra: Map&lt;String, Any&gt; = emptyMap()): Response =</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (isCallResult(response)) buildAcceptedResponse(command, extra)</span>
+<span class="fc" id="L48">        else buildRejectedResponse()</span>
+
+<span class="fc" id="L50">    fun awaitAndBuildResponse(</span>
+        future: CompletableFuture&lt;OcppMessage&gt;,
+        command: String,
+<span class="fc" id="L53">        extra: Map&lt;String, Any&gt; = emptyMap()</span>
+    ): Response =
+<span class="fc" id="L55">        buildCommandResponse(</span>
+<span class="fc" id="L56">            future.get(OcppConstants.COMMAND_TIMEOUT_SECONDS.toLong(), java.util.concurrent.TimeUnit.SECONDS),</span>
+<span class="fc" id="L57">            command,</span>
+<span class="fc" id="L58">            extra</span>
+<span class="fc" id="L59">        )</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>
