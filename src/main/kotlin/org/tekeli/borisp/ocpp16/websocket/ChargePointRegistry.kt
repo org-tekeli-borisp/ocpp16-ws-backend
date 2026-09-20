@@ -166,14 +166,6 @@ class ChargePointRegistry {
 
     fun isConnected(sessionId: String): Boolean = sessionInfos.containsKey(sessionId)
 
-    fun getConnection(sessionId: String): ChargePointConnection? {
-        val context = sessionContexts[sessionId] ?: return null
-        return object : ChargePointConnection {
-            override val responseAwaiter = context.responseAwaiter
-            override fun sendText(text: String) = io.smallrye.mutiny.Uni.createFrom().voidItem()
-        }
-    }
-
     fun sendCall(chargePointId: String, action: String, payload: Map<String, Any>?): java.util.concurrent.CompletableFuture<OcppMessage> {
         val info = getByChargePointId(chargePointId)
             ?: throw IllegalStateException("ChargePoint not connected: $chargePointId")

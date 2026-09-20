@@ -235,9 +235,9 @@ class ChargePointRegistryTest {
         assertNull(info.vendor)
         assertNull(info.model)
 
-        val conn = registry.getConnection("session-1")
-        assertNotNull(conn)
-        assertSame(connection.responseAwaiter, conn!!.responseAwaiter)
+        val awaiter = registry.getResponseAwaiter("session-1")
+        assertNotNull(awaiter)
+        assertSame(connection.responseAwaiter, awaiter)
     }
 
     @Test
@@ -249,7 +249,7 @@ class ChargePointRegistryTest {
         registry.updateChargePointInfo("session-1", "CP-001", "Tesla", "Model3")
         registry.unregister("session-1")
 
-        assertNull(registry.getConnection("session-1"))
+        assertNull(registry.getResponseAwaiter("session-1"))
         assertNull(registry.getInfo("session-1"))
         assertNull(registry.getByChargePointId("CP-001"))
         assertFalse(registry.isConnected("session-1"))
@@ -351,9 +351,9 @@ class ChargePointRegistryTest {
         assertEquals("session-1", info!!.sessionId)
         assertEquals("conn-2", info.connectionId)
 
-        val conn = registry.getConnection("session-1")
-        assertNotNull(conn)
-        assertSame(connection2.responseAwaiter, conn!!.responseAwaiter)
+        val awaiter = registry.getResponseAwaiter("session-1")
+        assertNotNull(awaiter)
+        assertSame(connection2.responseAwaiter, awaiter)
 
         val cpInfo = registry.getByChargePointId("CP-001")
         assertNotNull(cpInfo)
@@ -381,7 +381,7 @@ class ChargePointRegistryTest {
         assertEquals("M2", info2.model)
 
         assertTrue(registry.isConnected("s2"))
-        assertNotNull(registry.getConnection("s2"))
+        assertNotNull(registry.getResponseAwaiter("s2"))
         assertNotNull(registry.getInfo("s2"))
         assertEquals(1, registry.connectionCount)
         assertEquals(setOf("s2"), registry.connectedSessionIds)
@@ -743,38 +743,33 @@ class ChargePointRegistryTest {
     }
 
     @Test
-    fun `getConnection returns connection with correct responseAwaiter`() {
+    fun `registry does not declare a getConnection method`() {
+        val declared = ChargePointRegistry::class.java.declaredMethods
+        assertTrue(
+            declared.none { it.name == "getConnection" },
+            "ChargePointRegistry must not declare getConnection: ${declared.filter { it.name == "getConnection" }}"
+        )
+    }
+
+    @Test
+    fun `getResponseAwaiter returns the registered awaiter`() {
         val registry = ChargePointRegistry()
         val awaiter = ResponseAwaiter()
         registry.register("session-1", "conn-1", null, awaiter)
 
-        val result = registry.getConnection("session-1")
+        val result = registry.getResponseAwaiter("session-1")
 
         assertNotNull(result)
-        assertSame(awaiter, result!!.responseAwaiter)
+        assertSame(awaiter, result)
     }
 
     @Test
-    fun `getConnection returns null for unknown session`() {
+    fun `getResponseAwaiter is null for unregistered session`() {
         val registry = ChargePointRegistry()
 
-        val result = registry.getConnection("unknown")
+        val result = registry.getResponseAwaiter("unknown")
 
         assertNull(result)
-    }
-
-    @Test
-    fun `getConnection sendText returns void Uni`() {
-        val registry = ChargePointRegistry()
-        val connection = mockChargePointConnection()
-        registry.register("session-1", "conn-1", connection)
-
-        val conn = registry.getConnection("session-1")
-
-        assertNotNull(conn)
-        val result = conn!!.sendText("test")
-        assertNotNull(result)
-        assertTrue(result is io.smallrye.mutiny.Uni<*>)
     }
 
     @Test
