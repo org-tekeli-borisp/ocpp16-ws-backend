@@ -110,6 +110,29 @@ class CommandResourceErrorPathsTest {
     }
 
     @Test
+    fun `executeCommand returns 400 with error for malformed JSON body`() {
+        wireCommand("reset")
+
+        val response = resource.executeCommand("CP-001", "reset", "{ not valid json")
+
+        assertEquals(400, response.status)
+        assertNotNull((response.entity as Map<*, *>)["error"])
+        verify(command, never()).execute(anyString(), anyMap())
+    }
+
+    @Test
+    fun `executeCommand returns 502 with error when execute fails with unexpected ExecutionException cause`() {
+        wireCommand("reset")
+        `when`(command.execute("CP-001", emptyMap<String, Any>()))
+            .thenAnswer { throw java.util.concurrent.ExecutionException(RuntimeException("boom")) }
+
+        val response = resource.executeCommand("CP-001", "reset", "{}")
+
+        assertEquals(502, response.status)
+        assertNotNull((response.entity as Map<*, *>)["error"])
+    }
+
+    @Test
     fun `getDiagnostics with blank location generates new location`() {
         wireCommand("get-diagnostics")
         `when`(sftpConfig.enabled()).thenReturn(true)

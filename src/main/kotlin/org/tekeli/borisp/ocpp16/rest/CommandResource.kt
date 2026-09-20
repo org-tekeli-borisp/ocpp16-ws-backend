@@ -1,6 +1,7 @@
 package org.tekeli.borisp.ocpp16.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.quarkus.logging.Log
 import jakarta.enterprise.inject.Instance
 import jakarta.inject.Inject
 import jakarta.ws.rs.*
@@ -14,6 +15,7 @@ import org.tekeli.borisp.ocpp16.diagnostics.FtpServerConfig
 import org.tekeli.borisp.ocpp16.diagnostics.SftpServerConfig
 import org.tekeli.borisp.ocpp16.persistence.PersistenceService
 import org.tekeli.borisp.ocpp16.protocol.SchemaValidator
+import java.util.Locale
 
 @Path("/api/chargepoints/{chargePointId}/commands")
 @Produces(MediaType.APPLICATION_JSON)
@@ -53,7 +55,9 @@ class CommandResource {
     }
 
     private fun toActionName(commandName: String): String {
-        return commandName.split("-").joinToString("") { it.capitalize() }
+        return commandName.split("-").joinToString("") {
+            it.replaceFirstChar { c -> if (c.isLowerCase()) c.titlecase(Locale.ROOT) else c.toString() }
+        }
     }
 
     @GET
@@ -78,7 +82,13 @@ class CommandResource {
                 .entity(mapOf<String, Any>("error" to "Unknown command: $command"))
                 .build()
 
-        val payload = PayloadValidators.safeMap(objectMapper.readValue(body, Map::class.java))
+        val payload = try {
+            PayloadValidators.safeMap(objectMapper.readValue(body, Map::class.java))
+        } catch (e: com.fasterxml.jackson.core.JsonProcessingException) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                .entity(mapOf<String, Any>("error" to "Invalid JSON body: ${e.message}"))
+                .build()
+        }
         val (validatedPayload, validatedBody) = resolveDiagnosticsUrl(chargePointId, command, payload, body)
 
         val actionName = toActionName(command)
@@ -107,8 +117,14 @@ class CommandResource {
         return when (val cause = e.cause) {
             is IllegalStateException -> buildUnavailableResponse(cause.message)
             is java.util.concurrent.TimeoutException -> buildGatewayTimeoutResponse()
-            else -> throw e
+            else -> buildBadGatewayResponse()
         }
+    }
+
+    private fun buildBadGatewayResponse(): Response {
+        return Response.status(Response.Status.BAD_GATEWAY)
+            .entity(mapOf<String, Any>("error" to "Command execution failed: ChargePoint request could not be completed"))
+            .build()
     }
 
     private fun buildGatewayTimeoutResponse(): Response {
@@ -142,6 +158,7 @@ class CommandResource {
             val updatedBody = objectMapper.writeValueAsString(updatedPayload)
             updatedPayload to updatedBody
         } catch (e: Exception) {
+            Log.warn("Diagnostics URL generation failed for chargePoint=$chargePointId: ${e.message}")
             payload to body
         }
     }

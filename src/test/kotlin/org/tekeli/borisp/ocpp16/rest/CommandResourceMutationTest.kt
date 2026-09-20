@@ -104,14 +104,15 @@ class CommandResourceMutationTest {
     }
 
     @Test
-    fun `executeCommand rethrows ExecutionException when cause is not IllegalStateException`() {
+    fun `executeCommand returns 502 when ExecutionException cause is not IllegalStateException`() {
         wireCommand("reset")
         `when`(command.execute("CP-001", emptyMap<String, Any>()))
             .thenAnswer { throw ExecutionException(RuntimeException("boom")) }
 
-        assertThrows(ExecutionException::class.java) {
-            resource.executeCommand("CP-001", "reset", EMPTY_BODY)
-        }
+        val response = resource.executeCommand("CP-001", "reset", EMPTY_BODY)
+
+        assertEquals(502, response.status)
+        assertNotNull((response.entity as Map<*, *>)["error"])
     }
 
     @Test
