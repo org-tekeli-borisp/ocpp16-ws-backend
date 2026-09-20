@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.websocket
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.handler.BootNotificationHandler
@@ -30,6 +31,11 @@ class MessageDispatcherSchemaValidationTest {
         return MessageDispatcher(handlers, null, schemaValidator)
     }
 
+    private fun createValidator(): SchemaValidator = SchemaValidator().apply {
+        objectMapper = ObjectMapper()
+        initSchemas()
+    }
+
     @Test
     fun `dispatcher without schema validator delegates to handler`() {
         val dispatcher = createDispatcher(null)
@@ -44,7 +50,7 @@ class MessageDispatcherSchemaValidationTest {
 
     @Test
     fun `dispatcher with schema validator rejects additional properties`() {
-        val dispatcher = createDispatcher(SchemaValidator())
+        val dispatcher = createDispatcher(createValidator())
         val response = dispatcher.dispatch(
             """[2,"1","BootNotification",{"chargePointVendor":"V","chargePointModel":"M","extraField":true}]""",
             mockContext,
@@ -57,7 +63,7 @@ class MessageDispatcherSchemaValidationTest {
 
     @Test
     fun `dispatcher with schema validator rejects missing required field`() {
-        val dispatcher = createDispatcher(SchemaValidator())
+        val dispatcher = createDispatcher(createValidator())
         val response = dispatcher.dispatch(
             """[2,"1","BootNotification",{"chargePointVendor":"V"}]""",
             mockContext,
@@ -70,7 +76,7 @@ class MessageDispatcherSchemaValidationTest {
 
     @Test
     fun `dispatcher with schema validator accepts valid payload`() {
-        val dispatcher = createDispatcher(SchemaValidator())
+        val dispatcher = createDispatcher(createValidator())
         val response = dispatcher.dispatch(
             """[2,"1","BootNotification",{"chargePointVendor":"V","chargePointModel":"M"}]""",
             mockContext,
@@ -82,7 +88,7 @@ class MessageDispatcherSchemaValidationTest {
 
     @Test
     fun `dispatcher with schema validator rejects maxLength violation`() {
-        val dispatcher = createDispatcher(SchemaValidator())
+        val dispatcher = createDispatcher(createValidator())
         val longVendor = "A".repeat(21)
         val response = dispatcher.dispatch(
             """[2,"1","BootNotification",{"chargePointVendor":"$longVendor","chargePointModel":"M"}]""",
@@ -108,7 +114,7 @@ class MessageDispatcherSchemaValidationTest {
 
     @Test
     fun `dispatcher with schema validator rejects unknown action silently`() {
-        val dispatcher = createDispatcher(SchemaValidator())
+        val dispatcher = createDispatcher(createValidator())
         val response = dispatcher.dispatch(
             """[2,"1","UnknownAction",{"extra":"value"}]""",
             mockContext,
@@ -120,7 +126,7 @@ class MessageDispatcherSchemaValidationTest {
 
     @Test
     fun `dispatcher with schema validator still delegates handler errors`() {
-        val dispatcher = createDispatcher(SchemaValidator())
+        val dispatcher = createDispatcher(createValidator())
         val response = dispatcher.dispatch(
             """[2,"1","BootNotification",{"chargePointVendor":"","chargePointModel":"M"}]""",
             mockContext,

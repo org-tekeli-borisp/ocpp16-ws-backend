@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.websocket
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.quarkus.logging.Log
 import io.quarkus.websockets.next.*
 import io.smallrye.mutiny.Uni
@@ -51,6 +52,9 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
 
     @Inject
     open var schemaValidator: SchemaValidator? = null
+
+    @Inject
+    var objectMapper: ObjectMapper? = null
 
     @Inject
     var vertx: Vertx? = null
@@ -123,7 +127,7 @@ open class OcppWebSocketServer : ChargePointConnection, OcppHandlerContext {
     }
 
     private val dispatcher: MessageDispatcher by lazy {
-        MessageDispatcher(createHandlers(), messageCaptureService, schemaValidator)
+        MessageDispatcher(createHandlers(), messageCaptureService, schemaValidator, objectMapper ?: ObjectMapper())
     }
 
     private val scheduler: Scheduler

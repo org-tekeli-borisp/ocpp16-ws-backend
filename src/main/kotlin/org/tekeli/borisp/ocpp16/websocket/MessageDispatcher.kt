@@ -23,8 +23,8 @@ class MessageDispatcher(
     private val handlers: Map<String, OcppActionHandler>,
     private val messageCaptureService: MessageCaptureService? = null,
     private val schemaValidator: SchemaValidator? = null,
+    private val objectMapper: ObjectMapper = ObjectMapper(),
 ) {
-    private val objectMapper = ObjectMapper()
     fun dispatch(
         message: String,
         context: OcppHandlerContext,

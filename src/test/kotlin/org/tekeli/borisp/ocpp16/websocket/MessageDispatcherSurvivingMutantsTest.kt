@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.websocket
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.tekeli.borisp.ocpp16.handler.BootNotificationHandler
@@ -42,7 +43,11 @@ class MessageDispatcherSurvivingMutantsTest {
 
     @Test
     fun `dispatch schema validation error joins multiple errors with separator`() {
-        val dispatcher = MessageDispatcher(handlers, null, SchemaValidator())
+        val validator = SchemaValidator().apply {
+            objectMapper = ObjectMapper()
+            initSchemas()
+        }
+        val dispatcher = MessageDispatcher(handlers, null, validator)
 
         val response = dispatcher.dispatch(BOOT_NOTIFICATION_MISSING_REQUIRED, context, ResponseAwaiter(), null)
 

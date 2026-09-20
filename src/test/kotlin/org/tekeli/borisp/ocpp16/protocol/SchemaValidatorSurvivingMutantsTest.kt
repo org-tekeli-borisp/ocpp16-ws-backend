@@ -1,5 +1,6 @@
 package org.tekeli.borisp.ocpp16.protocol
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.networknt.schema.Schema
 import com.networknt.schema.SchemaContext
 import com.networknt.schema.SchemaRegistry
@@ -13,7 +14,10 @@ import org.junit.jupiter.api.assertThrows
 
 class SchemaValidatorSurvivingMutantsTest {
 
-    private val validator = SchemaValidator()
+    private val validator = SchemaValidator().apply {
+        objectMapper = ObjectMapper()
+        initSchemas()
+    }
 
     @Test
     fun `validate unknown action returns empty list without throwing`() {
@@ -36,14 +40,16 @@ class SchemaValidatorSurvivingMutantsTest {
     }
 
     @Test
-    fun `loadSchema with missing resource does not throw and adds nothing`() {
+    fun `loadSchema with missing resource throws RuntimeException and adds nothing`() {
         val dialect = Specification.getDialect(SpecificationVersion.DRAFT_4)
         val context = SchemaContext(dialect, SchemaRegistry.withDefaultDialect(dialect))
         val schemas = mutableMapOf<String, Schema>()
 
-        assertDoesNotThrow {
+        val ex = assertThrows<RuntimeException> {
             validator.loadSchema(context, "schemas/json/DoesNotExist.json", "DoesNotExist", schemas)
         }
+        assertTrue(ex.message!!.contains("schemas/json/DoesNotExist.json"))
+        assertTrue(ex.message!!.contains("DoesNotExist"))
         assertTrue(schemas.isEmpty())
     }
 

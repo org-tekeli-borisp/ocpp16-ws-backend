@@ -1,11 +1,36 @@
 package org.tekeli.borisp.ocpp16.protocol
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.networknt.schema.Schema
+import com.networknt.schema.SchemaContext
+import com.networknt.schema.SchemaRegistry
+import com.networknt.schema.Specification
+import com.networknt.schema.SpecificationVersion
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 
 class SchemaValidatorTest {
 
-    private val validator = SchemaValidator()
+    private val validator = SchemaValidator().apply {
+        objectMapper = ObjectMapper()
+        initSchemas()
+    }
+
+    @Test
+    fun `loadSchema with missing resource throws RuntimeException containing resource path`() {
+        val dialect = Specification.getDialect(SpecificationVersion.DRAFT_4)
+        val context = SchemaContext(dialect, SchemaRegistry.withDefaultDialect(dialect))
+        val schemas = mutableMapOf<String, Schema>()
+
+        val ex = assertThrows<RuntimeException> {
+            validator.loadSchema(context, "schemas/json/DoesNotExist.json", "DoesNotExist", schemas)
+        }
+        assertTrue(ex.message!!.contains("schemas/json/DoesNotExist.json"))
+        assertTrue(ex.message!!.contains("DoesNotExist"))
+        assertTrue(schemas.isEmpty())
+    }
 
     @Test
     fun `validates BootNotification payload passes`() {
@@ -215,5 +240,13 @@ class SchemaValidatorTest {
 
         val errors = validator.validate("InstallCertificate", payload)
         assertFalse(errors.isEmpty())
+    }
+
+    @Test
+    fun `production SchemaValidator loads all configured schemas without throwing`() {
+        val fresh = SchemaValidator().apply { objectMapper = ObjectMapper() }
+        assertDoesNotThrow { fresh.initSchemas() }
+        assertTrue(fresh.validate("BootNotification", "{}").isNotEmpty())
+        assertTrue(fresh.validate("SecurityEventNotification", "{}").isNotEmpty())
     }
 }
