@@ -222,18 +222,19 @@ open class PersistenceService {
         errorCode: String,
         info: String?
     ) {
-        em.createQuery("DELETE FROM ConnectorStatus cs WHERE cs.chargePointId = :cpId AND cs.connectorId = :connId")
-            .setParameter("cpId", chargePointId)
+        val now = Instant.now()
+        em.createNativeQuery(
+            "INSERT INTO connector_status (id, charge_point_id, connector_id, status, error_code, info, timestamp) " +
+                "VALUES (nextval('connector_status_seq'), :cpId, :connId, :status, :errorCode, :info, :now) " +
+                "ON CONFLICT (charge_point_id, connector_id) DO UPDATE SET " +
+                "status = EXCLUDED.status, error_code = EXCLUDED.error_code, info = EXCLUDED.info, timestamp = EXCLUDED.timestamp"
+        ).setParameter("cpId", chargePointId)
             .setParameter("connId", connectorId)
+            .setParameter("status", status)
+            .setParameter("errorCode", errorCode)
+            .setParameter("info", info)
+            .setParameter("now", now)
             .executeUpdate()
-        em.persist(ConnectorStatus(
-            chargePointId = chargePointId,
-            connectorId = connectorId,
-            status = status,
-            errorCode = errorCode,
-            info = info
-        ))
-        em.flush()
     }
 
     fun findConnectorStatusesByChargePointId(chargePointId: String): List<ConnectorStatusDto> {
