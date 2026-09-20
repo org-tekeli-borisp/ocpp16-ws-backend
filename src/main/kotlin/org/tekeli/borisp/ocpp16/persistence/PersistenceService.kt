@@ -22,28 +22,18 @@ open class PersistenceService {
 
     @Transactional
     fun upsertChargePoint(sessionId: String, chargePointId: String, vendor: String, model: String, firmwareVersion: String?) {
-        val existing = em.createQuery(
-            "SELECT c FROM ChargePoint c WHERE c.chargePointId = :cpId", ChargePoint::class.java
-        ).setParameter("cpId", chargePointId).resultList
-
-        if (existing.isNotEmpty()) {
-            val cp = existing[0] as ChargePoint
-            cp.status = ChargePointStatus.ONLINE
-            cp.sessionId = sessionId
-            cp.lastConnectedAt = Instant.now()
-            cp.touch()
-        } else {
-            em.persist(ChargePoint(
-                chargePointId = chargePointId,
-                vendor = vendor,
-                model = model,
-                firmwareVersion = firmwareVersion,
-                status = ChargePointStatus.ONLINE,
-                sessionId = sessionId,
-                lastConnectedAt = Instant.now()
-            ))
-        }
-        em.flush()
+        val now = Instant.now()
+        em.createNativeQuery(
+            "INSERT INTO charge_points (id, charge_point_id, vendor, model, firmware_version, status, session_id, last_seen_at, last_connected_at, created_at) " +
+                "VALUES (nextval('charge_points_seq'), :cpId, :vendor, :model, :fw, 'ONLINE', :sid, :now, :now, :now) " +
+                "ON CONFLICT (charge_point_id) DO UPDATE SET status = 'ONLINE', session_id = :sid, last_seen_at = :now, last_connected_at = :now, vendor = :vendor, model = :model, firmware_version = :fw"
+        ).setParameter("cpId", chargePointId)
+            .setParameter("vendor", vendor)
+            .setParameter("model", model)
+            .setParameter("fw", firmwareVersion)
+            .setParameter("sid", sessionId)
+            .setParameter("now", now)
+            .executeUpdate()
     }
 
     @Transactional
